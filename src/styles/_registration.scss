@@ -1,0 +1,428 @@
+@import '@coreui/coreui-pro/scss/functions';
+@import '@coreui/coreui-pro/scss/variables';
+@import '@coreui/coreui-pro/scss/mixins';
+
+.registration-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/images/login-bg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.step-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color:transparent;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.step-container .card {
+  height: 600px;
+  width: 900px;
+  background-color: #fff;
+  position: relative;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+}
+
+.step-container .card .form {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+}
+
+.step-container .card .left-side {
+  width: 32%;
+  background-color: $red;
+  height: 100%;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-left: 2px dashed #fff;
+  padding: 20px 30px;
+  box-sizing: border-box;
+}
+
+/* .radial-gradient {
+  background-image: radial-gradient(
+    farthest-corner at 40px 40px,
+    var(--eganow-red) 95%,
+    #fff 5%
+  );
+} */
+
+/*left-side-start*/
+.left-heading {
+  color: #fff;
+}
+.steps-content {
+  margin-top: 30px;
+  color: #fff;
+}
+.steps-content p {
+  font-size: 12px;
+  margin-top: 15px;
+}
+.step-progress-bar {
+  list-style: none;
+  font-size: 13px;
+  font-weight: 700;
+  counter-reset: section 0;
+  text-align: left;
+}
+.step-progress-bar li {
+  line-height: 20px;
+  position: relative;
+  margin-left: 40px;
+  margin-top: 10px;
+  counter-increment: section 1;
+  color: var(--eganow-red-dark);
+  vertical-align: middle;
+}
+
+.step-progress-bar li:not(:first-child) {
+  margin-top: 35px;
+}
+/* Step circle and the count */
+.step-progress-bar li::before {
+  content: counter(section);
+  line-height: 25px;
+  text-align: center;
+  position: absolute;
+  height: 27px;
+  width: 27px;
+  border: 2px solid var(--eganow-red-dark);
+  border-radius: 50%;
+  left: -40px;
+  top: -3px;
+  z-index: 2;
+  background-color: var(--eganow-red);
+}
+/* Step line */
+.step-progress-bar li::after {
+  content: '';
+  position: absolute;
+  height: 50px;
+  width: 2px;
+  background-color: var(--eganow-red-dark);
+  z-index: 1;
+  left: -27px;
+  top: -50px;
+}
+
+.step-progress-bar li.active::after {
+  background-color: #fff;
+}
+
+.step-progress-bar li:first-child:after {
+  display: none;
+}
+
+/*step-.progress-bar li:last-child:after{*/
+/*  display:none;  */
+/*}*/
+.step-progress-bar li.active::before {
+  color: #fff;
+  border: 1px solid #fff;
+}
+.step-progress-bar li.active {
+  color: #fff;
+}
+.d-none {
+  display: none;
+}
+
+/*left-side-end*/
+.right-side {
+  border-right: 2px dashed var(--eganow-red);
+}
+.step-container .card .right-side {
+  width: 68%;
+  background-color: #fff;
+  height: 100%;
+  border-radius: 20px;
+}
+/*right-side-start*/
+.main {
+  display: block;
+  padding: 30px;
+}
+.main small {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2px;
+  height: 30px;
+  width: 30px;
+  background-color: #ccc;
+  border-radius: 50%;
+  font-size: 50px;
+  color: var(--eganow-red);
+}
+
+/* .hero-background {
+	position: absolute;
+	right: -232px;
+	bottom: 0px;
+	max-width: 1000px;
+  height: 100px;
+  z-index: 0;
+} */
+.text {
+  margin-top: 10px;
+}
+.text p {
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #cbced4;
+}
+.text p span {
+  color: var(--eganow-red);
+}
+.input-text {
+  margin: 30px 0;
+  display: flex;
+  gap: 20px;
+}
+
+.input-text .input-div {
+  width: 100%;
+  position: relative;
+}
+
+.input-text .input-div span {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 14px;
+  transition: all 0.5s;
+}
+
+.input-div input:focus ~ span,
+.input-div input:valid ~ span {
+  top: -15px;
+  left: 6px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.input-div span {
+  top: -15px;
+  left: 6px;
+  font-size: 10px;
+}
+
+.buttons button {
+  height: 40px;
+  width: 120px;
+  cursor: pointer;
+}
+
+.button_space {
+  display: flex;
+  gap: 20px;
+}
+
+.button_space button:nth-child(1) {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid#000;
+}
+
+.user_card {
+  margin-top: 20px;
+  margin-bottom: 40px;
+  height: 200px;
+  width: 100%;
+  border: 1px solid #c7d3d9;
+  border-radius: 10px;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.user_card span {
+  height: 80px;
+  width: 100%;
+  background-color: #dfeeff;
+}
+
+.circle {
+  position: absolute;
+  top: 40px;
+  left: 60px;
+}
+
+.circle span {
+  height: 70px;
+  width: 70px;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #fff;
+  border-radius: 50%;
+}
+
+.circle span img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.social {
+  display: flex;
+  position: absolute;
+  top: 100px;
+  right: 10px;
+}
+
+.social span {
+  height: 30px;
+  width: 30px;
+  border-radius: 7px;
+  background-color: #fff;
+  border: 1px solid #cbd6dc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+  color: #cbd6dc;
+}
+
+.social span i {
+  cursor: pointer;
+}
+
+.heart {
+  color: red !important;
+}
+
+.share {
+  color: red !important;
+}
+
+.user_name {
+  position: absolute;
+  top: 110px;
+  margin: 10px;
+  padding: 0 30px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.user_name h3 {
+  color: #4c5b68;
+}
+
+.detail {
+  /*margin-top:10px;*/
+  display: flex;
+  justify-content: space-between;
+  margin-right: 50px;
+}
+
+.detail p {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.detail p a {
+  text-decoration: none;
+  color: blue;
+}
+
+.checkmark__circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+  stroke: #7ac142;
+  fill: none;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 2;
+  stroke: #fff;
+  stroke-miterlimit: 10;
+  margin: 10% auto;
+  box-shadow: inset 0px 0px 0px #7ac142;
+  animation: fill 0.4s ease-in-out 0.4s forwards, scale 0.3s ease-in-out 0.9s both;
+}
+
+.checkmark__check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes scale {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+@keyframes fill {
+  100% {
+    box-shadow: inset 0px 0px 0px 30px #7ac142;
+  }
+}
+
+.warning {
+  border: 1px solid red !important;
+}
+
+/*right-side-end*/
+@media (max-width: 750px) {
+  .step-container {
+    height: scroll;
+  }
+  .step-container .card {
+    max-width: 350px;
+    height: auto !important;
+    margin: 30px 0;
+  }
+  .step-container .card .right-side {
+    width: 100%;
+  }
+  .input-text {
+    display: block;
+  }
+
+  .input-text .input-div {
+    margin-top: 20px;
+  }
+
+  .step-container .card .left-side {
+    display: none;
+  }
+
+  .right-side {
+    border-left: 2px dashed var(--eganow-red);
+  }
+}

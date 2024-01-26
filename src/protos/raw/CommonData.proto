@@ -1,0 +1,242 @@
+syntax = "proto3";
+
+option csharp_namespace = "EganowGrpcCustomerMTGlobalApi.Protos";
+
+package Commondata;
+
+// The greeting service definition.
+service CommonDataSvc {
+  // Sends a greeting
+  rpc GetReceivingOperatingCountries (EmptyCommonDataMessage) returns (CountryListResponseMessage);
+
+  rpc GetSenderAllCountries (EmptyCommonDataMessage) returns (CountryListResponseMessage);
+
+  rpc GetPaymentTypeForSourceAccountsForSelectedCountry (CountryRequestMessage) returns (PaymentAcctTypesAndServicesListResponseMessage);
+
+  rpc GetPaymentTypeForBeneficiaryAccountsForSelectedCountry (CountryRequestMessage) returns (PaymentAcctTypesAndServicesListResponseMessage);
+
+  rpc GetCurrenciesForSendingAmount (SendingAmountRequestMessage) returns (CurrenciesListRequestMessage);
+
+  rpc GetCurrenciesExchangeRate (CurrenExchRateRequestMessage) returns (CurrenExchRateRequestMessage);
+
+  rpc DeleteCustomerPaymentAndBeneficiaryAccount (DeleteAccountMessage) returns (SuccessCommonMessage);
+
+  //////
+  rpc GenerateTransOTPNow (LanguageRequestMessage) returns (SuccessCommonMessage);
+
+  rpc CreateOTPForAddingSourceAccountNo (OTPTransRequestMessage) returns (SuccessCommonMessage);
+
+
+
+  ////-----cloudinary images
+
+  ////rpc GetProfilePictureUploadCredentials (EmptyCommonDataMessage) returns (ImageRepoCred);
+
+  rpc SaveProfilePicture (CustProfilePicInfo) returns (CustomerProfileInfoResponseMessage);
+
+  ///////-------Customer Profile
+  rpc GetTransLimitPerCountry (CountryRequestMessage) returns (TransLimitResponseMessage);
+
+  rpc GetCustomerIdCardData (LanguageRequestMessage) returns (IdCardDataMessage);
+
+}
+
+// The messages
+message EmptyCommonDataMessage {
+
+}
+
+message LanguageRequestMessage {
+  string languageId = 51;
+}
+
+message SuccessCommonMessage{
+  bool isSuccess = 1;
+  string messageSuccessfulOrFailed = 2;
+  string message = 3;
+  string registrationErrorCode = 4;
+}
+
+message CountryRequestMessage {
+  string countryCode = 1;
+  string languageId = 51;
+}
+
+message SendingAmountRequestMessage {
+  string beneficiaryCountryCode = 1;
+  string languageId = 51;
+}
+
+
+message CountryResponseMessage {
+  string countryCode = 1;
+  string countryName = 2;
+  string currencyIso = 3;
+  string countryFlagUrl = 4;
+  int32 mobileNoMinLen = 5;
+  int32 mobileNoMaxLen = 6;
+  string countryDialCode =7;
+}
+
+
+message CountryListResponseMessage {
+  repeated CountryResponseMessage countryList = 1;
+}
+
+
+message PaymentAcctTypesMessage {
+  int32 payPartnerTypeId = 1;
+  int32 payPartnerGroupId = 2;
+  string appName = 3;
+  string countryCode = 6;
+  string countryName = 7;
+  string payPartnerGroupUrl =10;
+}
+
+message PaymentAcctTypesListResponseMessage {
+  repeated PaymentAcctTypesMessage paymentTypeList = 1;
+}
+
+
+message PaymentAcctTypesAndServicesMessage {
+  int32 payPartnerTypeId = 1;
+  string payPartnerTypeDesc = 2;
+  string appName = 3;
+  string PayPartnerServiceId = 4;
+  string payPartnerServiceName = 5;
+  string countryCode = 6;
+  string countryName = 7;
+  int32 payPartnerGroupId = 8;
+  string partnerGatewayCode = 9;
+  string logoUrl = 20;
+}
+
+
+
+message PaymentAcctTypesAndServicesListResponseMessage {
+  repeated PaymentAcctTypesMessage paymentTypesList = 1;
+  repeated PaymentAcctTypesAndServicesMessage paymentTypesAndSvcList = 2;
+}
+
+
+
+message OtherFinServiceCategoryResponseMessage {
+  string serviceCategoryId = 1;
+  string serviceCategoryName = 2;
+  int32 eganowModuleId = 3;
+  string eganowModuleDesc = 4;
+}
+
+message OtherFinServiceCategoryListResponseMessage {
+  repeated OtherFinServiceCategoryResponseMessage serviceCategoryList = 1;
+}
+
+
+message CurrenciesRequestMessage {
+  string currencyIso = 1;
+  string countryCode = 51;
+  string countryFlagUrl = 52;
+}
+
+
+message CurrenciesListRequestMessage {
+  repeated CurrenciesRequestMessage currencyList = 1;
+}
+
+message CurrenExchRateRequestMessage {
+  string senderCurrencyIso = 2;
+  string beneficiaryCurrencyIso = 3;
+  double exchangeRate = 4;
+  bool isSuccess =5;
+  string message = 6;
+  string languageId = 51;
+}
+
+
+
+message OTPTransRequestMessage {
+  string mobileNoOrBankOrMerchantAccountNo = 1;
+  string payPartnerServiceId = 2;
+  int32 paypartnerGroupCode =3;
+  string countryCode = 50;
+  string languageId = 51;
+}
+
+
+message CustomerPasswordResetInAppRequestMessage {
+  string passwordCurrent = 1;
+  string passwordNew = 2;
+  string languageId = 3;
+}
+
+
+
+
+message DeleteAccountMessage {
+  int32 Source1OrBeneficiary2 = 1;
+  string AccountNumber = 2;
+  string languageId = 50;
+}
+
+
+
+
+message ImageRepoCred {
+  string apiName = 1;
+  string apiKey = 2;
+  string apiSecret = 3;
+  string publicIdAndFileName = 4 ;
+  string fileName = 5 ;
+  string uploadPreset = 6;
+}
+
+message CustomerProfileInfoResponseMessage {
+  bool isSuccess = 1;
+  string messageSuccessfulOrFailed = 2;
+  string message = 3;
+  string customerId = 4;
+  string mobileNumber = 5;
+  string emailAddress = 6;
+  string personalBusinessGroup = 7;
+  int32  personalBusinessGroupValue = 8;
+  string firstName = 9;
+  string lastName = 10;
+  string businessName = 12;
+  string countryCode = 13;
+  string languageId = 14;
+  string OperatingCountryYesNo = 15;
+  string customerProfilePicImageUrl = 16;
+  string loginErrorCode = 51;
+  string kycDataEnc= 52;
+
+}
+
+
+message CustProfilePicInfo {
+  string profileImageInBase64 = 1;
+}
+
+
+
+
+message TransLimitResponseMessage {
+  string countryCode = 1;
+  string currencyIso = 2;
+  double dailyCrCashInLimitAmountForBasic = 5;
+  double dailyCrCashInLimitAmountForStandard = 6;
+  double dailyCrCashInLimitAmountForEnhanced = 7;
+  double dailyDrCashInLimitAmountForBasic = 8;
+  double dailyDrCashInLimitAmountForStandard = 9;
+  double dailyDrCashInLimitAmountForEnhanced = 10;
+}
+
+message IdCardDataMessage {
+  int32 KycTypeId = 1;
+  string KycVerifyStatus = 2;
+  string KycTypeName = 5;
+  string IDCardNo = 6;
+  string DateOfBirth = 7;
+  string iDCardExpiryDate = 8;
+  string iDCardType = 9;
+  string iDRemarksNote = 10;
+}

@@ -1,0 +1,488 @@
+syntax = "proto3";
+
+option csharp_namespace = "EganowGrpcCustomerMTGlobalApi.Protos";
+
+
+package EganowMoneyTransfer;
+
+
+//// The CustomerAccount service definition.
+service EganowMoneyTransferSvc {
+      ////------ money transfer service
+  rpc PostMobileMoneyTransferTrans (MoneyTransferRequestMessage) returns (MoneyTransferSuccessMessage);
+
+      ////------ customer existsing accounts list
+  rpc GetCustomerExistingSourceAccountListForView (CustomerExistingSourceAccountsRequestMessage) returns (CustomerExistingSourceAccountsListMessage);
+
+
+        ////------  customer payment accounts list
+  rpc GetCustomerPaymentSourceAccountListForTransaction (CustomerPaymentSourceAccountsRequestMessage) returns (CustomerExistingSourceAccountsListMessage);
+
+
+      ////------ calculate transfer charges 
+  rpc CalculateMoneyTransferCharges (CalculateTransChargeRequestMessage) returns (CalculateTransChargeResponseMessage);
+
+
+    ////------ Get beneficiary list
+  rpc GetCustomerBeficiaryListByPayPartnerId (BeneficiaryListByPayPartnerRequestMessage) returns (BeneficiaryListByPayPartnerResponseMessage);
+  
+  rpc GetCustomerBeficiaryListForSelectedProvider (BeneficiaryListByProviderRequestMessage) returns (BeneficiaryListByPayPartnerResponseMessage);
+
+     
+
+      ////------ add customer source account 
+  rpc AddCustomerMomoBankAndMerchantSourceAccount (CustomerSourceAcctRequestMessage) returns (MoneyTransferSuccessMessage);
+
+  rpc AddCustomerCardSourceAccount (CustomerSourceAcctCardRequestMessage) returns (CustomerSourceAcctCardResponseMessage);
+
+      ////------ add customer beneficiary account 
+  rpc AddCustomerBeneficiaryAccount (CustomerBeneficiaryAcctRequestMessage) returns (MoneyTransferSuccessMessage);
+
+     //
+  rpc IsCustomerPinValid (VerifyCustomerPinMessage) returns (IsCustomerPinValidResponseMessage);
+
+      //
+  rpc ChangeCustomerPin (VerifyCustomerPinMessage) returns (MoneyTransferSuccessMessage);
+
+ 
+
+      ////------Get EganowCustomer BeneficiaryByMobile  
+  rpc GetEganowCustomerBeneficiaryByMobileNo (EganowBeneficiaryMobileNoRequestMessage) returns (EganowBeneficiaryResponseMessage);
+
+       ////------Get EganowCustomer BeneficiaryByMobile  
+  rpc ResetUserPin (CustomerRequestMessage) returns (MoneyTransferSuccessMessage);
+
+  rpc GetMerchantCustomerKyc (MerchantCustomerAccountNoRequestMessage) returns (MerchantCustomerAccountNoResponseMessage);
+
+   
+ 
+  ///////----------Mobile & Web Statement and balances
+  
+  rpc GetCustomerEganowBalances(MoneyTransferEmptyMessage) returns(CustomerEganowWalletBalanceListResponse);
+
+  rpc GetCustomerEganowTransactions(CustTransRequestMessage) returns(CustTransListResponseMessage);
+
+  rpc GetCustomerEganowStatement(CustTransRequestMessage) returns(CustStatementListResponseMessage);
+
+ 
+      
+}
+
+
+
+
+/////messages
+message MoneyTransferEmptyMessage {
+
+}
+
+
+message MoneyTransferCountryMessage {
+  string countryCode = 1;
+  string languageId = 2;
+}
+ 
+
+/////Eganow beneficiary acct
+message EganowBeneficiaryResponseMessage {
+  string CustomerId = 1;
+  string AccountNo = 2;
+  string AccountName = 3;
+  string CurrencyISO = 4;
+}
+
+message MoneyTransferRequestMessage {
+  string senderPayPartnerServiceId = 1;
+  string beneficiaryPayPartnerServiceId = 2;
+  string senderTransCurrecyIso = 3;
+  string beneficiaryCurrecyIso = 4;
+  string beneficiaryAccountNo = 5;
+  string beneficiaryAccountName = 6;
+  double transAmount = 7;
+  string senderAccountNo = 8;
+  string senderAccountName = 9;
+  string mobileOrWebOrUSSD = 11;
+  string customerId = 12;
+  string transNarration = 13;
+  int32 senderPaypartnerGroupId = 14;
+  int32 beneficiaryPaypartnerGroupId = 15;
+  string rememberMySourcePaymentAccountYesNo = 16;
+  string purposeOfTransferOrPayment =17;
+  string senderCountryCode = 40;
+  string beneficiaryCountryCode = 41;
+  string languageId = 51;
+}
+
+
+
+
+
+   //////
+message MoneyTransferSuccessMessage {
+	bool isSuccess = 1;
+	string messageSuccessfulOrFailed = 2;
+	string message = 3;
+	string registrationErrorCode = 4;
+    string otpIframe = 5;
+}
+
+
+    /////customer existing account request message
+message CustomerExistingSourceAccountsRequestMessage {
+  string customerId = 1;
+}
+
+
+    /////customer existing account request message
+message CustomerPaymentSourceAccountsRequestMessage {
+  string beneficiaryCountryCode = 1;
+  string sendingCurrencyCode = 2;
+  string beneficiaryCurrencyCode = 3;
+}
+
+    /////customer existing account model
+message CustomerExistingSourceAccountsMessage {
+  string sourceAccountName = 1;
+  string sourceAccountNo = 2;
+  string PayPartnerId = 3;
+  int32  payPartnerTypeId = 4;
+  string paypartnerServiceName = 5;
+  string paypartnerGroupName =6;
+  string payPartnerServiceId = 7;
+  string CurrencyIso = 8;
+  string displaySourceAccountNo = 9;
+  string sourceAccountStatus = 10;
+  int32 paypartnerGroupCode =11;
+  string logoUrl = 30;
+}
+
+
+    /////customer existing account List
+message CustomerExistingSourceAccountsListMessage {
+  repeated CustomerExistingSourceAccountsMessage custExistingAccounts = 1;
+}
+
+
+
+message MoneyTransferVerifyDestinationAccountNoRequestMessage {
+  string destinationPayPartnerTypeId = 1;
+  string destinationPayPartnerId = 2;
+  string destinationAccountNo = 3;
+}
+
+ 
+ 
+  /////Calc Charges Request
+message CalculateTransChargeRequestMessage {
+  string sourcePayPartnerServiceId = 1;
+  string destinationPayPartnerServiceId = 2;
+  double transAmount = 3;
+  string SenderAccountNo = 4;
+  string beneficiaryAccountNo = 7;
+  string SenderCountryCode = 40;
+  string beneficiaryCountryCode = 41;
+  int32 senderPaypartnerGroupCode =42;
+  int32 beneficiaryPaypartnerGroupCode =43;
+  string senderTransCurrecyIso = 5;
+  string beneficiaryCurrecyIso = 6;
+  string languageId = 51;
+}
+
+
+  /////Calc Charges Request
+message CalculateTransChargeResponseMessage {
+  bool isSuccess = 1;
+  string messageSuccessfulOrFailed = 2;
+  string message = 3;
+  double transAmount = 4;
+  double chargeAmount = 5;
+  double taxAmountcharged = 6;
+  double totaltransPlusChargeAmountPlusTax = 10;
+  string countryCode = 50;
+  string languageId = 51;
+}
+
+
+
+
+    /////Paypartners
+message PayPartnerListRequestMessage {
+  int32 payPartnerTypeId = 1 ;
+}
+
+
+ 
+
+
+message PayPartnerIdRequestMessage{
+	int32 payPartnerId = 1;
+}
+
+    /////Paypartners
+message PayPartnerRequestMessage {
+  string payPartnerId = 1;
+  string payPartnerName = 2;
+  int32 payPartnerTypeId = 3;
+  string payPartnerTypeDesc = 4;
+  string InternalOrExternal = 5;
+  string payPartnerLogoUrl = 6;
+  string payPartnerServiceId = 7;
+  string payPartnerServiceName = 8;
+  string countryCode = 50;
+  string languageId = 51;
+}
+
+/////Paypartners
+message PayPartnerListResponseMessage {
+  repeated PayPartnerRequestMessage payPartnersMomo = 1;
+}
+
+
+    /////Customer PIN verify
+message VerifyCustomerPinMessage {
+  string customerId = 1;
+  string customerPIN = 2;
+  string countryCode = 3;
+}
+
+
+message IsCustomerPinValidResponseMessage {
+	bool isSuccess = 1;
+    string message = 2; 
+}
+
+
+message BeneficiaryListByPayPartnerRequestMessage{
+  string countryCode = 1;
+  int32 paypartnerGroupCode = 2;
+  string languageId = 51;
+}
+
+message BeneficiaryListByProviderRequestMessage{
+  string countryCode = 1;
+  string payPartnerServiceId = 2;
+  string languageId = 51;
+}
+
+   /////Eganow beneficiary acct
+message EganowBeneficiaryMobileNoRequestMessage {
+  string beneficiaryMobileNumber = 1;
+  string countryCode = 50;
+  string languageId = 51;
+}
+
+ 
+message BeneficiaryByPayPartnerResponseMessage{
+  string beneficiaryAccountName = 1;
+  string beneficiaryAccountNo = 2;
+  string displayAccountNo = 3;
+  string payPartnerId = 4;
+  int32  payPartnerTypeId = 5;
+  string payPartnerName = 6;
+  string payPartnerSymbol = 7;
+  string CurrencyIso = 8;
+  string CountryCode =9;
+  string BankInstitutionName = 10;
+  string BankInstitutionCode = 11;
+  string BankBranchName =12;
+  string BankBranchCode =13;
+  string displayBeneficiaryAccountNo = 14;
+  int32 paypartnerGroupCode =15;
+  string paypartnerServiceName = 16;
+  string paypartnerGroupName = 17;
+  string countryName = 18;
+  string logoUrl =30;
+}
+
+ 
+
+    ///
+message BeneficiaryListByPayPartnerResponseMessage{
+  repeated BeneficiaryByPayPartnerResponseMessage beneficiaryList = 1;
+}
+
+
+
+
+
+    /////
+message CustomerSourceAcctRequestMessage{
+  string sourceAccountNo = 2;
+  string sourceAccountName = 3;
+  string payPartnerServiceId = 5;
+  int32 paypartnerGroupCode = 6;
+  string currencyIso = 7;
+  string otpValue = 8;
+  string countryCode = 50;
+  string languageId = 51;
+}
+
+
+message CustomerSourceAcctCardRequestMessage{
+  string cardNumber = 2;
+  string nameOnCard = 3;
+  int32 expiryDateMonth = 5;
+  int32 expiryDateYear = 6;
+  string cvv = 7;
+  string mobileOrWeb = 8;
+  string countryCode = 50;
+  string languageId = 51;
+}
+
+ message CustomerSourceAcctCardResponseMessage {
+	bool isSuccess = 1;
+	string messageSuccessfulOrFailed = 2;
+	string message = 3;
+	string redirectOTPUrl = 4;
+}
+ 
+
+
+message CustomerBeneficiaryAcctRequestMessage{
+  string customerId = 1;
+  string beneficiaryAccountNo = 2;
+  string beneficiaryAccountName = 3;
+  string payPartnerServiceId = 4;
+  int32 paypartnerGroupCode = 5;
+  string countryCode = 50;
+  string languageId = 51;
+}
+
+
+
+
+  /////change Customer PIN 
+message CustomerRequestMessage {
+  string customerId = 1;
+  string countryCode = 50;
+}
+
+
+  /////change Customer PIN 
+message CustomerBalanceRequestMessage {
+  string customerId = 1;
+  string mobileOrWebOrUSSD = 2;
+}
+
+
+
+  /////customer eganow wallet balance enquiry
+message CustomerEganowWalletBalanceResponse {
+  string accountNo = 1;
+  string AccountName = 2;
+  double AvailableBalance = 3;
+  string LastLoginDateString = 4;
+  string LastLoginLocation = 5;
+  string LastLoginChannel = 6;
+  string currencyISO = 7;
+  string countryFlagUrl = 8;
+  string countryCode = 9;
+  string displayAccountNo = 10;
+}
+
+message MerchantCustomerAccountNoRequestMessage {
+  string customerAcctNo = 1;
+  string merchantServiceId = 2;
+  string countryCode = 50;
+  string languageId = 51; 
+}
+
+message MerchantCustomerAccountNoResponseMessage {
+  bool isSuccess = 1;
+  string message = 2;
+  string customerName = 3;
+}
+
+ 
+
+///////----------Mobile & Web Statement and balances
+ 
+message CustomerEganowWalletBalanceListResponse{
+  repeated CustomerEganowWalletBalanceResponse balList = 1;
+}
+
+ 
+
+message CustomerLastNTransRequestMessage{
+  string accountNo = 1;
+  int32 recentNoOfTrans = 2;
+}
+
+message CustomerLastNTransResponseMessage{
+  string accountNo = 1;
+  string accountName = 2;
+  double transAmount = 3;
+  string dRCR = 4;
+  string valueDateString = 5;
+  string transStatus = 6;
+  string transactionReference = 7;
+  string transChannel = 8;
+  string currencyISO = 9;
+}
+
+message CustomerLastNTransListResponseMessage{
+  repeated CustomerLastNTransResponseMessage transList = 1;
+}
+ 
+
+message CustTransRequestMessage {
+  string countryCode = 1;
+  int32 topN = 3;
+  string languageId = 50;
+}
+
+message CustTransResponseMessage{
+  string ValueDate = 1;
+  double transAmount = 2;
+  double feeAmount = 3;
+  double totalAmount = 4;
+  string transCurrencyIso = 5;
+  string cashInOut = 6;
+  string accountName = 7;
+  string transStatus = 8;
+  string transactionNarration = 9;
+  string senderAccountNo = 11;
+  string senderAccountName = 12;
+  string beneficiaryAccountNo = 13;
+  string beneficiaryAccountName = 14;
+  string senderAcctProvider = 15;
+  string beneficiaryAcctProvider = 16; 
+  string senderLogoUrl = 20;
+  string beneficiaryLogoUrl = 21;
+  string mobileOrWebOrUSSD = 22;
+  string makeDateTime = 23;
+  string journalRefNo = 24;
+
+} 
+
+
+message CustTransListResponseMessage{
+  repeated CustTransResponseMessage transList = 1;
+}
+
+
+
+message CustStatementResponseMessage{
+  string valueDateStr = 1;
+  double transAmount = 2;
+  double balance = 4;
+  string DebitOrCredit = 5;
+  string currencyIso = 6;
+  string transNarration = 7;
+  string mainOrFeeOrTransfer = 8;
+  string initiatedByBackOfficeOrMobileOrWebOrUssd = 9;
+  string personSentToOrRecivedFrom = 14;
+  string serviceSentToOrRecivedLogoUrl = 16; 
+  string serviceSentToOrRecivedFrom = 17;
+  string sentToOrReceivedFromLable = 18;
+  string journalRefNo = 20;
+  string makeDateTime = 21;
+} 
+
+
+message CustStatementListResponseMessage{
+  repeated CustStatementResponseMessage transList = 1;
+}
+
+
+ 

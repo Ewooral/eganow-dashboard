@@ -1,0 +1,296 @@
+syntax = "proto3";
+
+option csharp_namespace = "EganowCustomerMTService.Groups.Protos";
+
+//import "google/protobuf/timestamp.proto";
+
+package GroupCon;
+
+
+service GroupConSvc {
+  
+  
+  rpc GetEganowGroupCountryList (EmptyGroupMessage) returns (GroupCountryListMessage);
+
+  rpc GetGroupCategoryList (GroupCountryCodeRequestMessage) returns (GroupCategoryListMessage);
+
+  rpc GetProjectTemplateList (GroupCountryCodeRequestMessage) returns (ProjectTemplateListMessage);
+
+  rpc CreateNewGroup (NewGroupRequestMessage) returns (SuccessGroupMessage);
+
+  rpc SendAnInvite (InviteRequestMessage) returns (SuccessGroupMessage);
+
+  rpc GetInviteReceived (EmptyGroupMessage) returns (stream InviteListResponseMessage);
+
+  rpc AcceptInvite (AcceptInviteRequestMessage) returns (SuccessGroupMessage);
+
+  rpc RejectInvite (RejectInviteRequestMessage) returns (SuccessGroupMessage);
+
+  //rpc JoinPublicGroup (NewGroupRequestMessage) returns (SuccessGroupMessage);
+
+  rpc GetAllActiveGroupsForACustomerInAllCountriesStream (LanguageGroupRequestMessage) returns (stream CustomerGroupListResponseMessage);
+
+  rpc GetAllActiveProjectsForASelectedGroupInAllCountriesStream (ProjectOrGroupMembersRequestMessage) returns (stream ProjectListResponseMessage);
+
+  rpc GetGroupMembersStream (ProjectOrGroupMembersRequestMessage) returns (stream GroupMembersListResponseMessage);
+
+
+
+}
+
+ 
+
+ 
+//////---------------------------
+/////  Messages
+//////---------------------------
+
+
+// The messages
+message EmptyGroupMessage {
+ 
+}
+
+message LanguageGroupRequestMessage {
+  string languageId = 51;
+}
+
+message SuccessGroupMessage{
+	bool isSuccess = 1;
+	string messageSuccessfulOrFailed = 2;
+	string message = 3;
+	string registrationErrorCode = 4;
+}
+
+message CountryGroupRequestMessage {
+  string countryCode = 1;
+  string languageId = 51;
+}
+
+message GroupCountryCodeRequestMessage {
+  string groupType = 1;
+  string countryCode = 2;
+}
+
+
+/////------------------------
+//// Group messages
+/////------------------------
+
+message GroupCategoryResponseMessage {
+  string categoryId = 1;
+  string categoryName = 2;
+  string groupType = 3;
+}
+
+message GroupCategoryListMessage {
+    repeated GroupCategoryResponseMessage  categorylist  = 1;
+}
+
+
+
+/////------------------------
+//// project messages
+/////------------------------
+
+message ProjectTemplateResponseMessage {
+  string TemplateId = 1;
+  string TemplateName = 2;
+  string groupType = 3;
+  string Remarks = 5;
+  string TemplateIconUrl =10;
+}
+ 
+message ProjectTemplateListMessage {
+    repeated ProjectTemplateResponseMessage  templatelist  = 1;
+}
+
+
+
+
+
+
+
+
+message GroupCountryMessage {
+    string countryCode  = 1;
+    string countryDialCode  = 2;
+    string countryName  = 3;
+    string currencyIso  = 4;
+    int32 mobileNoMinLen = 5;
+    int32 mobileNoMaxLen = 6;
+    string countryFlagUrl  = 30;
+}
+
+message GroupCountryListMessage {
+    repeated GroupCountryMessage  countrylist  = 1;
+}
+
+
+message NewGroupRequestMessage {
+  string groupName = 2;
+  string AboutTheGroup = 3;
+  string groupType = 4;
+  string countryCode = 9;
+  string categoryId = 11;
+   ////----project fields
+  string templateId = 30;
+  string projectName = 31;
+  string aboutTheProject = 32;
+  int32 projectDurationInMonths = 35;
+  string insurancePackageId = 36;
+  string contributionTypeWeeklyOrMonthly =37;
+  int32 contributionFrequencyInWeeksOrMonths = 38;
+  double contributionAmountPerMember =39;
+  double targetAmountToRaise = 40;
+  /////-----images
+  string groupIconImageInBaseSixtyFour = 59;
+  string languageId = 50;
+}
+
+
+
+message CustomerGroupResponseMessage {
+  string groupId = 1;
+  string groupName = 2;
+  string aboutTheGroup = 3;
+  string countryCode = 4;
+  string countryName = 5;
+  string groupType = 11;
+  string categoryName = 12;
+  string categoryId =13;
+  string groupStatus = 30;
+  int32 totalGroupMembers = 35;
+  string groupDescription = 36;
+  string verifiedStatus =37;
+  string groupIconUrl = 38;
+  string languageId = 50;
+}
+ 
+
+message CustomerGroupListResponseMessage {
+    repeated CustomerGroupResponseMessage  groupList  = 1;
+}
+
+
+
+
+message ProjectOrGroupMembersRequestMessage {
+  string groupId = 1;
+  string groupCountryCode = 2;
+  string languageId = 51;
+}
+
+
+
+message ProjectResponseMessage {
+  string projectId = 1;
+  string projectName = 2;
+  string aboutTheProject = 3;
+  string projectDescription = 4;
+  double targetAmountToRaise = 5;
+  double amountRaised = 6;
+  double balanceToRaise = 7;
+  double cashedOutAmount = 8;
+  double cashBalance = 9;
+  double platformFeeAmount = 10;
+  double taxAmount = 11;
+  double contributionAmountPerMember = 12;
+  string startDate = 13;
+  string endDate = 14;
+  string contributionTypeWeeklyOrMonthly = 15;
+  int32 noOfMembersInProject = 16;
+  string countryCode = 17;
+  string countryName = 18;
+  string groupId = 19;
+  string projectIconUrl = 20;
+  string projectVideoUrl = 21;
+  string languageId = 50;
+}
+ 
+
+message ProjectListResponseMessage {
+    repeated ProjectResponseMessage  groupList  = 1;
+}
+
+
+message InviteRequestMessage {
+  string inviteeMobileNo = 1;
+  string inviteeEmail = 2;
+  string inviteeMobileCountryCode = 3;
+  string groupId = 5;
+  string groupCountryCode = 6;
+  string languageId = 51;
+}
+
+
+
+message InviteResponseMessage {
+  string inviteeMobileNo = 1;
+  string inviteeEmail = 2;
+  string inviteeMobileCountryCode = 3;
+  string groupId = 5;
+  string groupCountryCode = 6;
+  string groupName = 7;
+  string aboutTheGroup = 8;
+  string countryName = 9;
+  string groupType = 11;
+  string categoryName = 12;
+  string categoryId =13;
+  string inviteByName = 14;
+  string groupStatus = 30;
+  int32 totalGroupMembers = 35;
+  string groupDescription = 36;
+  string verifiedStatus =37;
+  string groupIconUrl = 38;
+  string languageId = 50;
+}
+ 
+ 
+
+message InviteListResponseMessage {
+    repeated InviteResponseMessage  inviteList  = 1;
+}
+
+
+message AcceptInviteRequestMessage {
+  string inviteId = 1;
+  string inviteeMobileNo = 2;
+  string inviteeEmail = 3;
+  string inviteeMobileCountryCode = 4;
+  string groupId = 5;
+  string groupCountryCode = 6;
+  string languageId = 51;
+}
+
+
+message RejectInviteRequestMessage {
+  string inviteId = 1;
+  string groupCountryCode = 6;
+  string languageId = 51;
+}
+
+
+message GroupMembersRequestMessage {
+  string inviteId = 1;
+  string groupCountryCode = 6;
+  string languageId = 51;
+}
+
+
+
+message GroupMembersResponseMessage {
+  string MemberId = 1;
+  string MemberName = 2;
+  string GroupId = 3;
+  string GroupCountryCode = 4;
+  string GroupType = 13;
+  string MemberStatus = 14;
+  string AdminOrMember = 15;
+  string CustomerProfilePicImageUrl = 17;
+}
+ 
+
+message GroupMembersListResponseMessage {
+    repeated GroupMembersResponseMessage  groupList  = 1;
+}

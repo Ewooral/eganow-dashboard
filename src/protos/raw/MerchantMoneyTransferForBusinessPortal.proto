@@ -1,0 +1,528 @@
+syntax = "proto3";
+
+option csharp_namespace = "EganowGrpcCustomerMTGlobalApi.Protos";
+
+package MerchantMoneyTransferForBusinessPortal;
+
+
+////   MerchantMoneyTransferSvc service definition.
+service MerchantMoneyTransferForBusinessPortalSvc {
+   
+   rpc PostCollectionMerchantTransactionThroughPaymentLinkInitialData (MechantPaymentByLinkInitailTransDataRequestMessage) returns (MechantPaymentByLinkInitailTransDataResponseMessage);
+   
+   rpc PostCollectionMerchantTransactionThroughPaymentLink (MechantPaymentByLinkTransRequestMessage) returns (MechantPaymentByLinkTransResponseMessage);
+
+   rpc PostCollectionMerchantTransaction (BillPaymentTransRequestMessage) returns (SuccessMessageMerchantTrans);
+   
+   rpc PostPayoutMerchantTransaction (BillPaymentTransRequestMessage) returns (SuccessMessageMerchantTrans);
+
+   rpc GetTransactionStatus (TransStatusRequestMessage) returns (TransStatusResponseMessage);
+   
+   rpc GetMerchantServiceAccountBalance (BillPaymentCountryMessage) returns (MerchantServiceAccountBalListMessage);
+
+   rpc GetMerchantServiceAccountBalanceByServiceId (MerchantServicesRequestMessage) returns (MerchantServiceAccountBalListMessage);
+
+   rpc GetMerchantServiceAccountTrans (MerchantServiceTransRequestMessage) returns (MerchantServiceTransListMessage);
+
+   rpc GetMerchantServiceAccountStatement (MerchantServiceTransRequestMessage) returns (MerchantServiceStatementListResponseMessage);
+
+   rpc GetMerchantServiceAccountToAccountTrans (MerchantServiceTransRequestMessage) returns (MerchantServiceTransListMessage);
+
+   rpc MerchantServiceInternalFundTransfer (MerchantInternalFundTransferInitRequestMessage) returns (SuccessMessageMerchantTrans);
+
+   rpc GetMerchantServiceFundTransferPendingTransactions (MerchantFundTransferPendingRequestMessage) returns (MerchantFundTransferTransListResponseMessage);
+
+   rpc MerchantServiceInternalFundTransferApproval (MerchantFundTransferApprovalRequestMessage) returns (SuccessMessageMerchantTrans);
+
+   rpc MerchantTranRetryOnBusinessPortal (MerchantTransRetryRequestMessage) returns (SuccessMessageMerchantTrans);
+
+   rpc MerchantServiceInternalFundHistory (MerchantFundTransferHistoryRequestMessage) returns (MerchantFundTransferTransHistoryListResponseMessage);
+
+   rpc GetMerchantServicesByCustomerGuidList (BillPaymentCountryMessage) returns (MerchantServicesListResponseMessage);
+
+
+    ////////--payment link
+   rpc GetMerchantPaymentLinkInitialTransData (MechantPaymentInitialTransDataRequestMessage) returns (MechantPaymentInitialTransDataResponseMessage);
+
+        ////------  customer payment accounts list
+   rpc GetCustomerPaymentSourceAccountListForMerchantTransaction (MerchantCustomerPaymentSourceAccountsRequestMessage) returns (MerchantCustomerExistingSourceAccountsListMessage);
+
+   rpc GetPaymentTypeForSourceAccountsForSelectedCountryForPayLinkTrans (PayLinkCountryRequestMessage) returns (PayLinkPaymentAcctTypesAndServicesListResponseMessage);
+
+   rpc GetMerchantCustomerKycForPaylinkTrans (PaylinkCustomerAccountNoRequestMessage) returns (PaylinkCustomerAccountNoResponseMessage);
+
+   /////----------
+
+   rpc CreateMerchantBizCollecRequest (MerchantBizCollecRequestMessage) returns (SuccessMessageMerchantTrans);
+
+   rpc GetBizCollectrequestForMerchant (BillPaymentEmptyMessage) returns (MerchantBizCollecListResponseMessage);
+
+    /////----------payment link
+
+    rpc GetPaymentLinkListForMerchant (PaymentLinkListRequestMessage) returns (PaymentLinksForAMerchantRspenseDataListMessage);
+
+    rpc DeactivatePaymentLink (PaymentLinkRefNoDataRequestMessage) returns (SuccessMessageMerchantTrans);
+
+}
+
+
+
+
+/////messages
+message BillPaymentEmptyMessage {
+
+}
+
+message BillPaymentCountryMessage {
+  string countryCode = 1;
+  string languageId = 51;
+}
+
+message MerchantServicesRequestMessage {
+  string countryCode = 1;
+  string PayPartnerServiceId = 2;
+  string languageId = 51;
+}
+
+
+message SuccessMessageMerchantTrans {
+  bool isSuccess = 1;
+  string messageSuccessfulOrFailed = 2;
+  string message = 3;
+  string registrationErrorCode = 4;
+}  
+
+
+message BillPaymentTransRequestMessage {
+  string destinationPayPartnerServiceId = 1;
+  string destinationAccountNo = 2;
+  string destinationAccountName = 3;
+  double transAmount = 100;
+  string sourcePayPartnerServiceId = 4;
+  string sourceAccountNo = 5;
+  string sourceAccountName = 6;
+  string mobileOrWebOrUSSD = 7;
+  string originatingPayPartnerServiceId = 8;
+  string transReference = 9;
+  string merchantTransRefNoInMerchantSystem = 10;
+  string merchantUniqueIdInMerchantSystem = 11;
+  string merchantColumnOneValue = 12;
+  string merchantColumnTwoValue = 13;
+  string merchantColumnThreeValue = 14;
+  string isColumnOneRequiredYesNoNa = 15;
+  string isColumnTwoRequiredYesNoNa = 16;
+  string isColumnThreeRequiredYesNoNa = 17;
+  string senderCountryCode = 40;
+  string beneficiaryCountryCode = 41;
+
+  string languageId = 50;
+}
+
+
+ message TransStatusRequestMessage {
+  string merchantTransRefNo = 1;
+  string PartnerServiceId = 2;
+}  
+
+
+message TransStatusResponseMessage {
+  bool isSuccess = 1;
+  string transactionStatus = 2;
+  string message = 3;
+} 
+
+
+message MerchantServiceAccountBalMessage {
+  string accountNo = 1;
+  string dashboardName = 2;
+  double availableBalance = 3;
+  string payPartnerServiceName = 4;
+  string currencyISO = 5;
+} 
+
+message MerchantServiceAccountBalListMessage {
+  repeated MerchantServiceAccountBalMessage balanceList = 1;
+} 
+
+
+message MerchantServiceTransRequestMessage {
+  string partnerServiceId = 1;
+  string collectionOrPayout = 2;
+  ///////string sourceTransStatus = 3;
+  string fromDate = 4;
+  string toDate = 5;
+  string countryCode = 50;
+} 
+
+
+message MerchantServicesResponseMessage {
+  string payPartnerServiceId = 1;
+  string payPartnerServiceName = 2;
+  string payPartnerId = 4;
+  string currencyIso = 5;
+  string countryCode = 6;
+} 
+
+message MerchantServicesListResponseMessage {
+  repeated MerchantServicesResponseMessage payPartnerServicesList = 1;
+  
+} 
+
+
+
+
+message MerchantServiceTransMessage {
+  string valueDate = 1;
+  string currencyISO = 2;
+  double transAmount = 3;
+  double commissionAmt = 4;
+  string merchantCollectionOrPayout = 5;
+  string payPartnerServiceName = 6;
+  string merchantTransRefNoInMerchantSystem = 7;
+  string sourceAccountNo = 8;
+  string sourceAccountName = 9;
+  string recipientAccountNo = 10;
+  string recipientName = 11;
+  string gatewayTranStatus = 12;
+  string eganowTranStatus = 13;
+  string transStatusSentToMerchantPendingConfirmed = 14;
+  string eganowTransRefNo = 15;
+  string transTimes = 20;
+} 
+
+
+message MerchantServiceTransListMessage {
+  repeated MerchantServiceTransMessage transList = 1;
+} 
+
+
+message MerchantServiceStatementResponseMessage {
+  string valueDate = 1;
+  string AccountName = 2;
+  double TransAmount = 4;
+  double balance = 5;
+  string drCr = 6;
+  string CurrencyIso = 7;
+  string MainOrFeeOrTransfer = 8;
+  string EganowTransRefNo = 9;
+  string Main_Or_Reversal = 10;
+  string MerchantTransRefNoInMerchantSystem = 11;
+  double tid = 20; 
+  string transNarration = 21;
+}
+
+message MerchantServiceStatementListResponseMessage {
+  repeated MerchantServiceStatementResponseMessage statementList = 1;
+} 
+
+
+
+
+message MerchantInternalFundTransferInitRequestMessage {
+  string payPartnerServiceId = 1;
+  string cashOrTransferType = 2;
+  double transAmount = 3;
+  string transNarration = 4;
+  string mobileOrWebOrUSSD = 5;
+  string payPartnerServicecountryCode = 50;
+  string languageId = 51;
+} 
+
+
+message MerchantFundTransferPendingRequestMessage {
+  string payPartnerServiceId = 1;
+  string payPartnerServicecountryCode = 50;
+  string languageId = 51;
+} 
+
+message MerchantFundTransferTransResponseMessage {
+  string payPartnerServiceId = 1;
+  string currencyIso = 2;
+  double transAmount = 3;
+  string makeDate = 4;
+  string cashOrTransferType = 5;
+  string transStatus = 6;
+  string makerId = 7;
+  string countryCode = 8;
+  string journalRefNo = 9;
+} 
+
+message MerchantFundTransferTransListResponseMessage {
+  repeated MerchantFundTransferTransResponseMessage transList = 1;
+} 
+ 
+
+message MerchantFundTransferApprovalRequestMessage {
+  string payPartnerServiceId = 1;
+  string payPartnerServicecountryCode = 2;
+  string JournalReferrenceNo = 3;
+  string languageId = 51;
+} 
+
+
+message MerchantTransRetryRequestMessage {
+  string payPartnerServiceId = 1;
+  string payPartnerServicecountryCode = 2;
+  string JournalReferrenceNo = 3;
+  int32 collection1_payout2 = 4;
+  string languageId = 51;
+} 
+ 
+
+
+message MechantPaymentByLinkInitailTransDataRequestMessage {
+  string beneficiaryPayPartnerServiceId = 1;
+  string beneficiaryTransCurrecyIso = 4;
+  double transAmount = 5;
+  string canUserChangeAmountYesNo = 6;
+  string beneficiaryCountryCode = 7;
+  string transNarration = 8;
+  string paymenlinkType = 9;
+  int32 noOfdaysToExpire = 10;
+  string LanguageId = 50;
+  
+} 
+
+message MechantPaymentByLinkInitailTransDataResponseMessage {
+  bool isSuccess = 1;
+  string messageSuccessfulOrFailed = 2;
+  string message = 3;
+  string paymentByLinkTransRefNo = 5;
+} 
+
+
+
+message MechantPaymentByLinkTransRequestMessage {
+  string beneficiaryPayPartnerServiceId = 1;
+  string beneficiaryAccountNo = 2;
+  string beneficiaryAccountName = 3;
+  double transAmount = 4;
+  string senderPayPartnerServiceId = 5;
+  string senderAccountNoOrCardNumber = 6;
+  string senderAccountName = 7;
+  string MerchantTransRefNo = 8;
+  string TransNarration = 9;
+  string senderCountryCode =10;
+  string beneficiaryCountryCode =11;
+  string senderTransCurrecyIso = 12;
+  string beneficiaryTransCurrecyIso = 13;
+  string merchantCustomerGuid = 15;
+  string paymentByLinkTransRefNo = 16;
+  string customerMobileNumber = 20;
+  string customerEmailAddress = 21;
+  int32 expiryDateMonth = 30;
+  int32 expiryDateYear = 31;
+  string cvv = 32;
+  string languageId = 50;
+}
+
+message MechantPaymentByLinkTransResponseMessage {
+  bool isSuccess = 1;
+  string messageSuccessfulOrFailed = 2;
+  string message = 3;
+  string registrationErrorCode = 4;
+  string eganowTransRefNo = 5;
+  string cardRedirectThreeDsUrl = 6;
+} 
+
+
+message MechantPaymentInitialTransDataRequestMessage {
+  string paymentByLinkTransRefNo = 1;
+  string beneficiaryCountryCode = 2;
+  string languageId = 50;
+}
+
+message MechantPaymentInitialTransDataResponseMessage {
+  bool isSuccess = 1;
+  string message = 2;
+  string paymentByLinkTransRefNo = 10;
+  string beneficiaryPayPartnerServiceId = 11;
+  string beneficiaryPayPartnerServiceName = 12;
+  string beneficiaryTransCurrecyIso = 15;
+  double transAmount = 16;
+  string canUserChangeAmountYesNo = 17;
+  string beneficiaryCountryCode = 18;
+  string transNarration = 20;
+  string merchantCustomerGuid = 21;
+  string languageId = 50;
+}
+
+    /////customer existing account request message
+message MerchantCustomerPaymentSourceAccountsRequestMessage {
+  string beneficiaryCountryCode = 1;
+  string sendingCurrencyCode = 2;
+  string beneficiaryCurrencyCode = 3;
+  string merchantCustomerGuid = 4;
+}
+
+    /////customer existing account model
+message MerchantCustomerExistingSourceAccountsMessage {
+  string sourceAccountName = 1;
+  string sourceAccountNo = 2;
+  string PayPartnerId = 3;
+  int32  payPartnerTypeId = 4;
+  string paypartnerServiceName = 5;
+  string paypartnerGroupName =6;
+  string payPartnerServiceId = 7;
+  string CurrencyIso = 8;
+  string displaySourceAccountNo = 9;
+  string sourceAccountStatus = 10;
+  int32 paypartnerGroupCode =11;
+  string logoUrl = 30;
+}
+
+
+    /////customer existing account List
+message MerchantCustomerExistingSourceAccountsListMessage {
+  repeated MerchantCustomerExistingSourceAccountsMessage custExistingAccounts = 1;
+}
+
+message PayLinkCountryRequestMessage {
+  string countryCode = 1;
+  string merchantServiceId = 2;
+  string languageId = 51;
+}
+
+
+
+message PayLinkPaymentAcctTypesMessage {
+  int32 payPartnerTypeId = 1;
+  int32 payPartnerGroupId = 2;
+  string appName = 3; 
+  string countryCode = 6; 
+  string countryName = 7; 
+  string payPartnerGroupUrl =10;
+}
+
+
+message PayLinkPaymentAcctTypesAndServicesMessage {
+  int32 payPartnerTypeId = 1;
+  string payPartnerTypeDesc = 2; 
+  string appName = 3; 
+  string PayPartnerServiceId = 4;
+  string payPartnerServiceName = 5; 
+  string countryCode = 6; 
+  string countryName = 7; 
+  int32 payPartnerGroupId = 8;
+  string logoUrl = 20; 
+}
+
+
+
+message PayLinkPaymentAcctTypesAndServicesListResponseMessage {
+  repeated PayLinkPaymentAcctTypesMessage payLinkpaymentTypesList = 1;
+  repeated PayLinkPaymentAcctTypesAndServicesMessage payLinkPaymentTypesAndSvcList = 2;
+}
+
+message PaylinkCustomerAccountNoRequestMessage {
+  string customerAcctNo = 1;
+  string merchantServiceId = 2;
+  string merchantCustomerGuid = 3;
+  string countryCode = 50;
+  string languageId = 51; 
+}
+
+message PaylinkCustomerAccountNoResponseMessage {
+  bool isSuccess = 1;
+  string message = 2;
+  string customerName = 3;
+}
+
+
+message MerchantBizCollecRequestMessage {
+  string NatureofBusiness = 1;
+  string CollectionServiceYesNo = 2;
+  string PayoutServiceYesNo = 3;
+  string ApiRequiredYesNo = 5;
+  string RequestStatus = 6;
+  string languageId = 51; 
+}
+
+message MerchantBizCollecResponseMessage {
+  string NatureofBusiness = 1;
+  string CollectionServiceYesNo = 2;
+  string PayoutServiceYesNo = 3;
+  string ApiRequiredYesNo = 5;
+  string RequestStatus = 6; 
+  string MakeDate = 7;
+}
+
+message MerchantBizCollecListResponseMessage {
+  repeated MerchantBizCollecResponseMessage reqlist = 1;
+  
+}
+
+
+
+
+message PaymentLinkListRequestMessage {
+  string BeneficiaryPayPartnerServiceId = 1;
+  string BeneficiaryCountryCode = 2;
+  string languageId = 50;
+}
+
+message PaymentLinksForAMerchantRspenseDataMessage {
+  string paymentByLinkTransRefNo = 1;
+  string BeneficiaryPayPartnerServiceId = 2;
+  string BeneficiaryTransCurrecyIso = 3;
+  double TransAmount = 4;
+  string CanUserChangeAmountYesNo = 5;
+  string BeneficiaryCountryCode = 6;
+  string RequestStatus = 7;
+  string TransNarration = 8;
+  string MakeTimeStr = 9;
+  string PaymenlinkType = 10;
+  int32 NoOfdaysToExpire = 11;
+  string LinkExpirydate = 12;
+  string PaymentLinkEndpoint = 40;
+  string languageId = 50;
+}
+
+message PaymentLinksForAMerchantRspenseDataListMessage {
+  repeated  PaymentLinksForAMerchantRspenseDataMessage linkList = 1;
+  string languageId = 50;
+}
+
+
+message PaymentLinkRefNoDataRequestMessage {
+  string BeneficiaryPayPartnerServiceId = 1;
+  string BeneficiaryCountryCode = 2;
+  string paymentByLinkTransRefNo = 3;
+  string languageId = 50;
+}
+
+
+message MerchantFundTransferHistoryRequestMessage {
+  string MerchantServiceId = 1;
+  string payPartnerServicecountryCode = 3;
+  string fromDate = 4;
+  string toDate = 5;
+  string countryCode = 50;
+}
+
+
+
+message MerchantFundTransferTransHistoryResponseMessage {
+  string ValueDateStr = 1;
+  string CurrencyIso = 4;
+  string TransAmount = 5;
+  string TransNarration = 6;
+  string TransStatus = 7;
+  string AuthStatus = 8;
+  string CashOrTransferType = 9;
+  string TransInitiatedBy = 10;
+  string MakerId = 11;
+  string AuthId = 12;
+  string MakeTimeStr = 13;
+  string AuthTimeStr = 14;
+}
+
+
+message MerchantFundTransferTransHistoryListResponseMessage {
+  repeated MerchantFundTransferTransHistoryResponseMessage fundtransList = 1;
+}
+
+
+ 
+ 
+ 

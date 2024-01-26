@@ -1,0 +1,400 @@
+syntax = "proto3";
+
+option csharp_namespace = "EganowGrpcCustomerMTGlobalApi.Protos";
+
+
+package Customer;
+
+//// The CustomerAccount service definition.
+service CustomerAccount {
+    //// Generate customer OTP for new user account creation
+  rpc CreateCustomerGenerateOTP (CustomerTempOTRequestMessage) returns (SuccessMessage);
+
+    //// Verify new customer OTP for user account creation
+  rpc CreateCustomerVerifyOTP (CustomerTempVerifyOTRequestMessage) returns (SuccessMessage);
+
+    //// create new customer account
+  rpc CreateCustomerAccount (CustomerAccountMessage) returns (LoginResponseMessage);
+
+    ////  Login  service
+  rpc LoginUser (LoginRequestMessage) returns (LoginResponseMessage);
+
+  rpc LoginUserBusiness (LoginRequestMessage) returns (LoginResponseMessage);
+
+   ////------Reset password
+  rpc ResetUserPassword (CustomerResetPasswordRequestMessage) returns (SuccessMessage);
+
+  rpc ResetUserPassword_ForgotPassword (CustomerPasswordResetRequestMessage) returns (SuccessMessage);
+
+     ////------Reset PIN
+  rpc ResetUserPIN (CustomerPINResetRequestMessage) returns (SuccessMessage);
+
+  rpc ResetUserPIN_ForgotPIN (CustomerPINResetRequestMessageOld) returns (SuccessMessage);
+
+    ////
+  rpc GenerateOTPBeforeLogin (OTRequestMessage) returns (SuccessMessage);
+
+    //// Verify new customer OTP for user account creation
+  rpc VerifyTransOTPNow (VerifyOTPRequestMessage) returns (SuccessMessage);
+
+  //////
+  rpc GenerateOTPSendToBothEmailandSms (CustomerOTForEmailRequestMessage) returns (SuccessMessage);
+
+   //// update customer profile 
+  rpc CustomerProfileUpdate (VerifyOTPRequestMessage) returns (SuccessMessage);
+
+  rpc GetEganowSignupCountryList (EmptyMessage) returns (CountryListMessage);
+
+  //////--Other Business Users
+
+  rpc CreateOtherBusinessUser (BusinessUserMessage) returns (SuccessMessage);
+
+  rpc GetAllOtherBusinessUserByCustomer (BizUserSearchRequestMessage) returns (BusinessUserResponseListMessage);
+
+  rpc ApproveNewOtherBusinessUser (BizUserToApproveMessage) returns (SuccessMessage);
+
+  rpc DisapproveApproveOtherBusinessUser (BizUserToApproveMessage) returns (SuccessMessage);
+
+
+  /////SecurityQuestions
+  rpc GetAllSecurityQuestions (LanguageOnlyMessage) returns (CustomerSecurityQuestionsList);
+
+  rpc UpdateCustomerSecurityQuestions (CustomerSecurityQuestionsForUpdateMessage) returns (SuccessMessage);
+
+  rpc GetCustomerSecurityQuestionForVerification (CustomerToGetSecurityQuestionForVerificationRequestMessage) returns (CustomerToGetSecurityQuestionForVerificationResponseMessage);
+
+  rpc VerifyCustomerSecurityAnswer (CustomerSecurityQuestionToVerifyRequestMessage) returns (SuccessMessage);
+
+  rpc ValidateCustomerSecurityAnswerAndSixDigitPin (ValidateAnswerAndPinRequestMessage) returns (SuccessMessage);
+
+  rpc ValidateCustomerSecurityAnswerAndPassword (ValidateAnswerAndPasswordRequestMessage) returns (SuccessMessage);
+
+  /////---Api Version
+
+  rpc VerifyApiVersionAndAppVersionNoumbers (ApiAndAppversionRequestMessage) returns (ApiAndAppversionResponseMessage);
+
+
+}
+
+
+
+
+
+
+
+
+
+//////================Customer Messages ================================
+
+
+//// Empty message
+message EmptyMessage {
+  
+}
+
+
+message LanguageOnlyMessage {
+  string languageId = 4;
+}
+
+//// CustomerGenerateOTP  message containing the user' mobile. This is to verify user's MobileNumber'
+message CustomerTempOTRequestMessage {
+  string mobileNumber = 1;
+  string emailAddress = 2;
+  int32 personalBusinessGroupValue = 3;
+  string countryCode = 5;
+  string languageId = 51;
+}
+
+
+/////verify new Customer OTP for account creation
+message CustomerTempVerifyOTRequestMessage {
+  string mobileNumber = 1;
+  string emailAddress = 2;
+  string otpvalue = 3;
+  int32 personalBusinessGroupValue = 4;
+  string countryCode = 5;
+  string languageId = 51;
+}
+
+
+
+
+message SuccessMessage{
+	bool isSuccess = 1;
+	string messageSuccessfulOrFailed = 2;
+	string message = 3;
+	string registrationErrorCode = 4;
+}
+
+
+message CustomerOTForEmailRequestMessage {
+  string mobileNumberOrEmail = 1;
+  string countryCode = 5;
+  string languageId = 51;
+}
+
+//// CustomerAccount message containing the user's field.
+message CustomerAccountMessage {
+  string mobileNumber = 1;
+  string emailAddress = 2;
+  string firstName = 3;
+  string lastName = 4;
+  string password = 5;
+  int32 PersonalBusinessGroupValue = 6;
+  string BusinessName = 7;
+  string countryCode = 8;
+  string mobileOrWeb = 9;
+  string languageId = 10;
+  string customerSixDigitPIN = 22;
+  string countryCodeForFirstEganowWallet = 23;
+  string otpvalue = 24;
+  string businessContactPersonMobileNumber = 25;
+  string mobileNoDialCode = 26;
+}
+
+
+
+
+//// -----Login Reques tMessage .
+message LoginRequestMessage {
+  string customerId = 1;
+  string passwordOrPin = 2;
+  int32 personalBusinessGroupValue = 3;
+  string mobileOrWeb = 4;
+  string countryCode = 5;
+  int32 password1OrPin2OrHPin3Option = 6;
+  int32 apiVersionNo = 20;
+  string apiVersionNoForApp = 21;
+  string languageId = 51;
+  
+}
+
+
+message LoginResponseMessage {
+  bool isSuccess = 1;
+  string messageSuccessfulOrFailed = 2;
+  string message = 3;
+  string customerId = 4;
+  string mobileNumber = 5;
+  string emailAddress = 6;
+  string personalBusinessGroup = 7;
+  int32  personalBusinessGroupValue = 8;
+  string firstName = 9;
+  string lastName = 10;
+  string businessName = 12;
+  string countryCode = 13;
+  string languageId = 14;
+  string OperatingCountryYesNo = 15;
+  string customerProfilePicImageUrl = 16;
+  string userJwtToken = 50;
+  string loginErrorCode = 51;
+  string kycDataEnc= 52;
+  string appUpdateRequirementStatus = 53;
+}
+
+ 
+
+message CustomerPasswordResetRequestMessage {
+  string customerId = 1;
+  string password = 2;
+  string languageId = 3;
+  int32  personalBusinessGroupValue = 4;
+  string otpvalue = 5;
+  string countryCode = 6;
+}
+
+
+message CustomerResetPasswordRequestMessage {
+  string customerId = 1;
+  int32 securityQuestionNumber = 2;
+  string securityAnswer = 3;
+  int32  userSixDigitPin = 4;
+  string newPassword = 5;
+  string countryCode = 6;
+  string languageId = 50;
+}
+
+
+
+message CustomerPINResetRequestMessageOld {
+  string customerId = 1;
+  int32 pin = 2;
+  string languageId = 3;
+  int32  personalBusinessGroupValue = 4; 
+  string otpvalue = 5;
+  string countryCode = 6;
+}
+
+message CustomerPINResetRequestMessage {
+  string customerId = 1;
+  int32 securityQuestionNumber = 2;
+  string securityAnswer = 3;
+  int32  newUserSixDigitPin = 4;
+  string password = 5;
+  string countryCode = 6;
+  string languageId = 50;
+}
+
+
+
+message OTRequestMessage {
+  string customerMobileNoOrEmail = 1;
+  int32 personalBusinessValue = 2;
+  string countryCode = 3;
+  string languageId = 51;
+}
+
+
+/////verify new Customer OTP for account creation
+message VerifyOTPRequestMessage {
+  string customerId = 1;
+  string otpvalue = 2;
+  int32 personalBusinessValue = 3;
+   string countryCode = 4;
+  string languageId = 51;
+}
+
+
+message CountryModel {
+    string countryCode  = 1;
+    int32 countryDialCode  = 2;
+    string countryName  = 3;
+    string currencyISO  = 4;
+    string countryFlagUrl  = 5;
+}
+
+message CountryListMessage {
+    repeated CountryModel  countrylist  = 1;
+}
+
+
+message BusinessUserMessage {
+    string customerId  = 1;
+    string mobileNumber  = 2;
+    string surnameLastname  = 3;
+    string firstName  = 4;
+    double postingLimitAmount  = 6;
+    double authLimitAmount  = 7;
+    string canInitiateTransYesNo  = 8;
+    string canAuthorizeTransYesNo  = 9;
+    string canInitiateCustomerService  = 10;
+    string canAuthorizeCustomerService  = 11;
+    string languageId = 50;
+}
+
+ 
+
+message BusinessUserResponseMessage {
+    string customerId  = 1;
+    string mobileNumber  = 2;
+    string surnameLastname  = 3;
+    string firstName  = 4;
+    double postingLimitAmount  = 6;
+    double authLimitAmount  = 7;
+    string canInitiateTransYesNo  = 8;
+    string canAuthorizeTransYesNo  = 9;
+    string UserStatus  = 11;
+    string MakeId  = 12;
+    string AuthId  = 13;
+    string MakeDate  = 14;
+    string AuthDate  = 15;
+    string canInitiateCustomerService  = 16;
+    string canAuthorizeCustomerService  = 17;
+    string languageId = 50;
+}
+
+
+message BusinessUserResponseListMessage {
+    repeated BusinessUserResponseMessage  userlist  = 1;
+}
+
+
+message BizUserToApproveMessage {
+    string customerId  = 1;
+    string firstName = 2;
+    string languageId = 50;
+}
+
+message BizUserSearchRequestMessage {
+    string userStatus  = 1;
+    string languageId = 50;
+}
+
+message CustomerSecurityQuestion {
+    int32 questionId  = 1;
+    string securityQuestion = 2;
+    
+}
+
+message CustomerSecurityQuestionsList {
+    repeated CustomerSecurityQuestion securityQuestionsList = 1;
+    
+}
+
+
+message CustomerSecurityQuestionsForUpdateMessage {
+  string securityQuestionOne = 30;
+  string securityAnswerOne = 31;
+  string securityQuestionTwo = 32;
+  string securityAnswerTwo = 33;
+  string languageId = 50;
+}
+
+
+
+message CustomerToGetSecurityQuestionForVerificationRequestMessage {
+  string customerId = 5;
+  string countryCode = 6;
+  string languageId = 50;
+}
+
+message CustomerToGetSecurityQuestionForVerificationResponseMessage {
+  bool isSuccess = 1;
+  string message = 2;
+  int32 securityQuestionNumber = 5;
+  string securityQuestion = 6;
+}
+
+message CustomerSecurityQuestionToVerifyRequestMessage {
+  int32 securityQuestionNumber = 1;
+  string securityAnswer = 2;
+  string customerId = 5;
+  string countryCode = 6;
+  string languageId = 50;
+}
+
+
+message ValidateAnswerAndPinRequestMessage {
+  string customerId = 1;
+  string countryCode = 2;
+  int32 securityQuestionNumber = 5;
+  string securityAnswer = 6;
+  int32 customerSixDigitPIN = 7;
+  string languageId = 50;
+}
+
+
+message ValidateAnswerAndPasswordRequestMessage {
+  string customerId = 1;
+  string countryCode = 2;
+  int32 securityQuestionNumber = 5;
+  string securityAnswer = 6;
+  string password = 7;
+  string languageId = 50;
+}
+
+
+message ApiAndAppversionRequestMessage {
+  int32 apiVersionNo = 20;
+  string apiVersionNoForApp = 21;
+  string languageId = 51;
+  
+}
+
+
+ message ApiAndAppversionResponseMessage {
+   
+  string appUpdateRequirementStatus = 2; 
+  
+}

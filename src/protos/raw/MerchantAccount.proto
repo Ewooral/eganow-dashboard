@@ -1,0 +1,239 @@
+syntax = "proto3";
+
+option csharp_namespace = "EganowGrpcCustomerMTGlobalApi.Protos";
+
+
+package MerchantAccount;
+
+
+  ////   PayPartnerMerchantSvc service definition.
+service MerchantAccountSvc {
+
+   rpc CreateMerchantApplicationWithOneServiceAndPackages (PayPartnerMerchantWithServiceAndPackageRequestMessage) returns (SuccessMessagePayPartnerMerchant);
+
+   ////rpc CreateMerchantApplicationOnly (PayPartnerMerchantRequestMessage) returns (SuccessMessagePayPartnerMerchant);
+   
+   rpc CreateMerchantServiceAndPackages (MerchantServiceWithPackagesRequestMessage) returns (SuccessMessagePayPartnerMerchant);
+
+   rpc GetEganowModulesForMerchantsAll (PayPartnerMerchantEmptyMessage) returns (EganowModuleListRequestMessage);
+
+   rpc GetMerchantServiceCategoryPerModule (EganowModuleRequestMessage) returns (MerchantServiceCategoryListResponseMessage);
+
+   rpc GetPayPartnerServicesListByMerchantId (PayPartnerServiceRequestMessage) returns (PayPartnerServicesListResponseMessage);
+
+   rpc GetPayPartnerServicesListByJwt (PayPartnerMerchantEmptyMessage) returns (PayPartnerServicesListResponseMessage);
+
+   rpc GetPayPartnerInfoByJwt (PayPartnerMerchantCountryMessage) returns (PayPartnerMerchantModelMessage);
+
+   rpc UpdatePayPartnerMerchant (PayPartnerMerchantModelForUpdateMessage) returns (SuccessMessagePayPartnerMerchant);
+
+   rpc GetPayRegulators (PayPartnerMerchantCountryMessage) returns (RegulatorsListRequestMessage);
+
+   rpc CheckIfMerchantAccountExist (PayPartnerMerchantCountryMessage) returns (SuccessMessagePayPartnerMerchant);
+
+   rpc GetMerchantServices (PayPartnerMerchantCountryMessage) returns (MerchantServicesListMessage);
+
+}
+
+
+/////-----------messages--------------------------
+message PayPartnerMerchantEmptyMessage {
+}
+
+message PayPartnerMerchantCountryMessage {
+ string countryCode = 1;
+ string languageId = 2;
+}
+
+message SuccessMessagePayPartnerMerchant {
+  bool isSuccess = 1;
+  string messageSuccessfulOrFailed = 2;
+  string message = 3;
+  string registrationErrorCode = 4;
+  string payPartnerId = 5;
+}   
+
+
+    
+message MerchantServiceCategoryResponseMessage {
+  string serviceCategoryId = 1;
+  string serviceCategoryName = 2;
+  int32 eganowModuleId = 3;
+  string eganowModuleDesc = 4;
+}
+
+message MerchantServiceCategoryListResponseMessage {
+  repeated MerchantServiceCategoryResponseMessage serviceCategoryList = 1;
+}
+
+
+message MerchantServiceCategoryRequestMessage {
+  string serviceCategoryId = 1;
+}
+    
+message PayPartnerMerchantRequestMessage {
+    string payPartnerSymbol = 1;
+    string payPartnerName = 2;
+    string regulatorId = 23;
+    string licenseNo = 24;
+    string issueDate = 25;
+    string expiryDate = 26;
+}
+
+
+message  PayPartnerMerchantModelMessage{
+    string payPartnerId = 1;
+    string payPartnerName = 3;
+    int32 payPartnerTypeId = 4;
+    string paypartnerOrMerchant = 5;
+    string payPartnerSymbol = 6;
+    string internalOrExternal = 7;
+    string countryCode = 8;
+    string countryName = 9;
+    string payPartnerStatus = 10;
+    string regulatorId = 11;
+    string regulatorName = 12;
+    string licenseNo = 13;
+    string issueDate = 14;
+    string expiryDate = 15;
+    string makerId = 16;
+    string makeDate = 17;
+}
+
+
+message  PayPartnerMerchantModelForUpdateMessage{
+    string payPartnerName = 2;
+    string regulatorId = 11;
+    string licenseNo = 13;
+    string issueDate = 14;
+    string expiryDate = 15;
+    string languageId = 16;
+}
+    
+message PayPartnerMerchantWithServiceAndPackageRequestMessage {
+    string payPartnerSymbol = 1;
+    string payPartnerName = 2;
+    string payPartnerServiceName = 3;
+    string serviceCategoryId = 4;
+    string settlementAccountTypeBankOrMomo = 9;
+    string settlementAcctNo = 10;
+    string settlementAcctName = 11;
+    string settlementBankOrWalletName = 12;
+    string settlementBankCode = 13;
+    string settlementBankBranchName = 14;
+    string availableOnEganowYesNo = 15;
+    string regulatorId = 23;
+    string licenseNo = 24;
+    string issueDate = 25;
+    string expiryDate = 26;
+    string countryCode = 30;
+    string tIN = 31;
+    string languageId = 51;
+    repeated PayPartnerServicesPackagesRequestMessage packages = 100;
+}
+
+message MerchantServiceWithPackagesRequestMessage {
+    string payPartnerServiceName = 3;
+    string serviceCategoryId = 4;
+    string settlementAccountTypeBankOrMomo = 9;
+    string settlementAcctNo = 10;
+    string settlementAcctName = 11;
+    string settlementBankOrWalletName = 12;
+    string settlementBankCode = 13;
+    string settlementBankBranchName = 14;
+    string availableOnEganowYesNo = 15;
+    string countryCode = 30;
+    string languageId = 31;
+    repeated PayPartnerServicesPackagesRequestMessage packages = 100;
+}
+
+message PayPartnerServicesPackagesRequestMessage {
+    string payPartnerServiceId = 2;
+    string packageName = 3;
+    string isPackageFeeFixedYesNo = 4;
+    double packageFeeAmt = 5;
+}
+
+
+message PaypartnerChargesRequestMessage {
+    string dRPayoutCRCollection = 3;
+    double lowerLimit = 4;
+    double upperLimit = 5;
+    string flatRateTypePayPartner = 6;
+    double flatRateValuePayPartner = 7;
+    string flatRateTypeEganow = 8;
+    float flatRateValueEganow = 9;
+    string lastOne = 10;
+    float chargePercentagePaidByCustomer = 11;
+    float chargePercentagePaidByPayPartner = 12;
+    string chargeSettlementInstantOrDeferred = 13;
+}
+
+
+message PayPartnerServiceRequestMessage {
+    string payPartnerId = 1;
+}
+
+message PayPartnerServiceForPayPartnerResponseMessage {
+    string payPartnerServiceId = 1; 
+    string payPartnerServiceName = 2;
+    string payPartnerId = 3;
+    string serviceCategoryId = 4;
+    string internalOrExternal = 5;
+    string labelCustomerUniqueId = 6; 
+    string labelColumnOne = 7; 
+    string labelColumnTwo = 8; 
+    string labelColumnThree = 9; 
+    string isColumnOneRequiredYesNoNa = 10; 
+    string isColumnTwoRequiredYesNoNa = 11; 
+    string isColumnThreeRequiredYesNoNa =12;
+}
+
+
+
+message PayPartnerServicesListResponseMessage {
+    repeated PayPartnerServiceForPayPartnerResponseMessage merchantServiceList = 1;
+}
+
+message RegulatorsRequestMessage {
+    string regulatorId = 1;
+    string regulatorName = 2;
+    string countryCode = 3;
+}
+
+message RegulatorsListRequestMessage {
+    repeated RegulatorsRequestMessage regulatorsList = 1;
+}
+
+
+message EganowModuleRequestMessage {
+    int32 eganowModuleId = 1;
+}
+
+message EganowmoduleModelRequestMessage {
+    string eganowModuleId = 1;
+    string eganowModuleDesc = 2;
+}
+
+
+message EganowModuleListRequestMessage {
+    repeated EganowmoduleModelRequestMessage moduleList = 1;
+}
+
+
+
+message MerchantServicesMessage {
+    string payPartnerServiceId = 1;
+    string payPartnerServiceName = 2;
+    string countryCode = 5;
+    string currencyIso = 7;
+}
+ 
+
+message MerchantServicesListMessage {
+    repeated MerchantServicesMessage serviceList = 1;
+}
+
+
+
+ 

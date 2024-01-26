@@ -1,0 +1,160 @@
+syntax = "proto3";
+
+option csharp_namespace = "EganowGrpcCustomerMTGlobalApi.Protos";
+
+package MerchantMiddlewareCustomer;
+
+////  
+service MerchantMiddlewareCustomerSvc {
+
+  rpc GetUsersByMerchantId (UsersByCIDRequestMessage) returns (UsersUssdByCIDListMessage); 
+
+  rpc AuthorizeRegistredCustomer (MerchantCustomerIdRequestMessage) returns (SuccessMessageMerchantMiddleware); 
+
+  rpc DisapproveRegistredCustomer (MerchantCustomerIdRequestMessage) returns (SuccessMessageMerchantMiddleware); 
+
+  rpc SuspendorcloseRegistredCustomer (MerchantCustomerSuspendCloseRequestMessage) returns (SuccessMessageMerchantMiddleware); 
+
+  rpc GetAccountToAccountPeriodTrans (AcctToAcctTransRequestMessage) returns (AcctToAcctTransListMessage); 
+
+  rpc GetMerchantCustomerPINChangeRequest (UsersByCIDRequestMessage) returns (MerchantCustomerPINChangeListMessage); 
+
+  /////////----- 
+  rpc MerchantCustomerPINChangeApproval (MerchantCustomerPINChangeApproveMessage) returns (SuccessMessageMerchantMiddleware); 
+
+  rpc MerchantCustomerTerminateServiceRequest (MerchantCustomerTerminateServiceMessage) returns (SuccessMessageMerchantMiddleware); 
+
+  rpc MerchantCustomerTerminateServiceRequestApproval (MerchantCustomerPINChangeApproveMessage) returns (SuccessMessageMerchantMiddleware); 
+
+  rpc GetMerchantCustomerTerminateServiceRequest (UsersByCIDRequestMessage) returns (MerchantCustomerTerminateServiceListResponseMessage); 
+}
+
+
+ 
+
+
+//////================Customer Messages ================================
+
+message MerchantMiddlewareEmptyMessage {
+}
+
+
+message SuccessMessageMerchantMiddleware {
+  bool isSuccess = 1;
+  string messageSuccessfulOrFailed = 2;
+  string message = 3;
+  string registrationErrorCode = 4;
+  string payPartnerId = 5;
+} 
+
+
+message MerchantCustomerIdRequestMessage {
+  string merchantCustomerUserId = 1;
+  string cid = 2;
+  string customerName = 3;
+  string mobileNo = 4;
+}
+
+message MerchantCustomerSuspendCloseRequestMessage {
+  string merchantCustomerUserId = 1;
+  string reasonForSuspensionOrClose = 2;
+  string merchantCustomerStatus = 3;
+}
+
+
+message UsersByCIDRequestMessage {
+  string countryCode = 1;
+  string subscriptionStatus = 2;
+}
+
+
+message UsersByCIDMessage {
+  string userId = 1;
+  string mobileNumber = 2;
+  string customerNumber = 3;
+  string cID = 4;
+  string accountNumber = 5;
+  string subscriptionUssd = 6;
+  string customerNameAtRegistration = 7;
+  string makerId = 10;
+  string makeDateTime = 11;
+}
+
+
+message UsersUssdByCIDListMessage {
+  repeated UsersByCIDMessage usersList = 1;
+}
+
+
+message AcctToAcctTransRequestMessage {
+  string merchantId = 1;
+  string startDate = 2;
+  string endDate = 3;
+   string countryCode = 4;
+ }
+
+message AcctToAcctTransMessage {
+  string sourceAccount = 1;
+  string sourceAccountName = 2;
+  string transType = 3;
+  string Amount = 4;
+  string destinationAccount = 5;
+  string destinationAccountName = 6;
+  string transStatus = 7;
+  string userId = 8;
+  string batchNo = 9;
+  string valueDate = 10;
+  string transTime = 11;
+}
+
+  
+message AcctToAcctTransListMessage {
+  repeated AcctToAcctTransMessage transList = 1;
+}
+
+
+message MerchantCustomerPINChangeMessage {
+  int64 tid = 1;
+  string mobileNo = 2;
+  string requestStatus = 3;
+  string requestDate = 4;
+  string customerName = 5;
+  string cID = 6;
+}
+
+
+message MerchantCustomerPINChangeListMessage {
+  repeated MerchantCustomerPINChangeMessage custList = 1;
+}
+
+
+message MerchantCustomerPINChangeApproveMessage {
+  int64 tid = 1;
+  string subscriptionStatus = 2;
+  string approveOrDisapprove = 3;
+  string cid = 4;
+  string mobileNo = 5;
+}
+
+
+message MerchantCustomerTerminateServiceMessage {
+  string mobileNo = 1;
+  string cid = 2;
+  string terminationStatus = 3;
+}
+
+
+message MerchantCustomerTerminateServiceResponseMessage {
+  string mobileNo = 1;
+  string cid = 2;
+  string customername = 3;
+  string makerId = 4;
+  string requestDate = 5;
+  int64 tid = 6;
+}
+ 
+
+message MerchantCustomerTerminateServiceListResponseMessage {
+  repeated  MerchantCustomerTerminateServiceResponseMessage custList = 1;
+}
+
