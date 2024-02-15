@@ -1,26 +1,26 @@
 import AppAside from './AppAside'
 import AppBreadcrumb from './AppBreadcrumb'
 import AppFooter from './AppFooter'
-import AppHeader from './AppHeader'
+import AppHeader from './header/AppHeader'
 import AppSidebar from './AppSidebar'
-import DashboardLayout from './DashboardLayout'
-import DocsExample from './DocsExample'
-import DocsLink from './DocsLink'
+import DashboardLayout from './layouts/DashboardLayout'
 /* Added by Maclean */
-import EntryLayout from './EntryLayout'
-import AppEntryHeader from './AppEntryHeader'
+import EntryLayout from './layouts/EntryLayout'
+import AppEntryHeader from './header/AppEntryHeader'
 import GlobalLoader from './GlobalLoader'
+import Features from './Features'
+import FeaturesPlaceholder from './FeaturesPlaceholder'
 
 export {
-  EntryLayout,
+  AppHeader,
   AppEntryHeader,
+  EntryLayout,
+  DashboardLayout,
   AppAside,
   AppBreadcrumb,
   AppFooter,
-  AppHeader,
   AppSidebar,
-  DashboardLayout,
-  DocsExample,
-  DocsLink,
   GlobalLoader,
+  Features,
+  FeaturesPlaceholder,
 }

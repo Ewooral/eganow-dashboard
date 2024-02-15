@@ -1,4 +1,6 @@
+// @ts-nocheck
 import React, { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { useController } from 'react-hook-form'
 import {
   CDropdown,
@@ -40,14 +42,14 @@ const DialCode = (props: any) => {
   })
 
   useEffect(() => {
-    if (data) setCountryOptions(data)
+    if (data) setCountryOptions(data?.countrylistList)
   }, [data])
 
   function handleFlagChange(event) {
     const { id, value, dataset } = event.target
 
     if (dataset.name === 'flag') {
-      const obj = data[id]
+      const obj = data?.countrylistList[id]
       //Returning event and country obj
       field.onChange({
         ...field.value,
@@ -76,7 +78,7 @@ const DialCode = (props: any) => {
           {!!field.value.dialFlag ? (
             <>
               {/* eslint-disable-next-line jsx-a11y/img-redundant-alt, @next/next/no-img-element */}
-              <img src={field.value.dialFlag} width={24} height={16} alt="flag" />{' '}
+              <Image src={field.value.dialFlag} width={24} height={16} alt="flag" />{' '}
               <span>{field.value.dialCode}</span>
             </>
           ) : (
@@ -89,7 +91,7 @@ const DialCode = (props: any) => {
             render={(item: countryOptionType, index) => {
               return (
                 <CDropdownItem id={`${index}`} data-name="flag">
-                  <img src={item.countryflagurl} width={24} height={16} alt={item.countryname} />
+                  <Image src={item.countryflagurl} width={24} height={16} alt={item.countryname} />
                   <span style={{ marginLeft: '10px' }}>{item.countryname}</span>
                 </CDropdownItem>
               )

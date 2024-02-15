@@ -30,8 +30,4 @@ export const defaultFormValues = {
   otpValue: '',
   password: '',
   PersonalBusinessGroupValue: 2,
- /*  securityQuestionOne: '',
-  securityAnswerOne: '',
-  securityQuestionTwo: '',
-  securityAnswerTwo: '', */
 }

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Image from 'next/image'
 import CIcon from '@coreui/icons-react'
 import { cilBurn, cilEnvelopeClosed } from '@coreui/icons'
@@ -12,7 +13,6 @@ import {
   CSpinner,
   CAlert,
 } from '@coreui/react-pro'
-import { FormattedMessage } from 'react-intl'
 import classNames from 'classnames'
 import { FaChevronRight } from 'react-icons/fa'
 import logo_compact from '@/public/brand/eganow.png'
@@ -85,7 +85,7 @@ const StepOnePane = (props: any) => {
               'd-none': !!formState.errors?.emailAddress ? false : true,
             })}
           >
-            <FormattedMessage id="emailAddress.required" />
+            Email address required
           </CFormText>
         </CCol>
       </CRow>

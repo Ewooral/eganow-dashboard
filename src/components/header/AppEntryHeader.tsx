@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Image from 'next/image'
 import { useUI } from 'src/store'
 
@@ -14,7 +15,7 @@ import {
   CRow,
 } from '@coreui/react-pro'
 
-import { AppHeaderDropdown } from './header'
+import { AppHeaderDropdown } from '.'
 
 import logo from '@/public/brand/eganow-colored-logo.svg'
 import logo_compact from '@/public/brand/eganow.png'
@@ -22,7 +23,7 @@ import { useEffect } from 'react'
 import { cilSearch } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
-const AppHeader = (): JSX.Element => {
+const AppEntryHeader = (props: UserInfoType): JSX.Element => {
   const theme = useUI((state) => state.theme)
 
   useEffect(() => {
@@ -63,7 +64,7 @@ const AppHeader = (): JSX.Element => {
           <CCol>
             {/* Profile Dropdown */}
             <CHeaderNav>
-              <AppHeaderDropdown />
+              <AppHeaderDropdown {...props} />
             </CHeaderNav>
           </CCol>
         </CRow>
@@ -72,4 +73,4 @@ const AppHeader = (): JSX.Element => {
   )
 }
 
-export default AppHeader
+export default AppEntryHeader

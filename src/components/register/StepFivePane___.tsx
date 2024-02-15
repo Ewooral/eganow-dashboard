@@ -1,3 +1,4 @@
+// @ts-nocheck
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked } from '@coreui/icons'
 import {
@@ -12,10 +13,8 @@ import {
 } from '@coreui/react-pro'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import classNames from 'classnames'
-import { FormattedMessage } from 'react-intl'
-import useCustomerAccountGRPC from 'src/hooks/useCustomerAccountGRPC'
 import { useQuery } from '@tanstack/react-query'
-import { URL } from 'constants'
+import { URL } from '@/constants'
 import { StepPropType } from './types'
 import { useEffect, useState, useRef } from 'react'
 import { current } from '@reduxjs/toolkit'
@@ -29,7 +28,7 @@ const StepFivePane = (props: any) => {
   const handleBackClick = props.handleBackClick
   const handleNextClick = props.handleNextClick
   //Fetching country options
-  const { getAllSecurityQuestions } = useCustomerAccountGRPC(URL)
+  /* const { getAllSecurityQuestions } = useCustomerAccountGRPC(URL) */
   //Country options
   const [securityQuestionsOptions, setSecurityQuestionsOptions] = useState([defaultOption])
 
@@ -53,13 +52,13 @@ const StepFivePane = (props: any) => {
   useEffect(() => {
     if (count.current === 0) {
       async function name() {
-        const response: any = await getAllSecurityQuestions('en')
+        /*  const response: any = await getAllSecurityQuestions('en') */
         //console.log(JSON.stringify(response, null, 4))
-        const options = response.map((obj: any) => {
+        /*  const options = response.map((obj: any) => {
           return { label: obj.securityquestion, value: obj.questionid }
         })
         //Setting options
-        setSecurityQuestionsOptions([defaultOption, ...options])
+        setSecurityQuestionsOptions([defaultOption, ...options]) */
       }
       name()
     }
@@ -139,7 +138,7 @@ const StepFivePane = (props: any) => {
                 'd-none': !!formState.errors?.securityQuestionOne ? false : true,
               })}
             >
-              <FormattedMessage id="securityQuestionOne.required" />
+              Security QuestionOne Required
             </CFormText>
           </CCol>
 
@@ -171,7 +170,7 @@ const StepFivePane = (props: any) => {
                 'd-none': !!formState.errors?.securityAnswerOne ? false : true,
               })}
             >
-              <FormattedMessage id="securityAnswerOne.required" />
+              Security AnswerOne Required
             </CFormText>
           </CCol>
         </CRow>
@@ -207,7 +206,7 @@ const StepFivePane = (props: any) => {
                 'd-none': !!formState.errors?.securityQuestionTwo ? false : true,
               })}
             >
-              <FormattedMessage id="securityQuestionTwo.required" />
+              Security Question Two is Required
             </CFormText>
           </CCol>
           <CCol>
@@ -238,7 +237,7 @@ const StepFivePane = (props: any) => {
                 'd-none': !!formState.errors?.securityAnswerTwo ? false : true,
               })}
             >
-              <FormattedMessage id="securityAnswerTwo.required" />
+              Fecurity Answer Two Required
             </CFormText>
           </CCol>
         </CRow>

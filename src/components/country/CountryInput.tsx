@@ -1,4 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
+// @ts-nocheck
 import React, { useState, useEffect, useRef } from 'react'
 import { useController } from 'react-hook-form'
 import {
@@ -28,7 +28,7 @@ type countryOptionType = {
 
 type countryPropsType = {
   name: string
-  handleForm: string
+  handleForm: string[]
   countrydialcode: string
   shouldValidate: boolean
   className: string
@@ -95,7 +95,7 @@ const Country = (props: countryPropsType) => {
             render={(item, index) => {
               return (
                 <CDropdownItem id={`${index}`} data-name="flag">
-                  <img src={item.countryflagurl} width={24} height={16} alt={item.countryname} />
+                  <Image src={item.countryflagurl} width={24} height={16} alt={item.countryname} />
                   <span style={{ marginLeft: '10px' }}>{item.countryname}</span>
                 </CDropdownItem>
               )

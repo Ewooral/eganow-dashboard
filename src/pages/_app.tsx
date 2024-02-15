@@ -1,15 +1,27 @@
-import { ReactElement, ReactNode } from 'react'
+import React, { ReactElement, ReactNode } from 'react'
+/*
+LOCALE
+ */
+import { IntlProvider } from 'react-intl'
 /* React query  */
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 /* Next */
 import Head from 'next/head'
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
+import { CookiesProvider } from 'react-cookie'
+/* LOAD DEFAULT LOCALE */
+import en from '@/lang/en.json'
 /* Styles */
 import '@/styles/style.scss'
 /* Global loader */
 import Snackbar from '@/components/Snackbar'
-/* Types */
+/* QueryClient */
+const queryClient = new QueryClient()
+/*
+ */
+import { useLocale } from '@/store'
+/* TYPE */
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
 }
@@ -19,22 +31,52 @@ type AppPropsWithLayout = AppProps & {
 }
 /*
  *
+ * Locale
+ *
+ */
+
+function loadLocaleData(locale: string) {
+  switch (locale) {
+    case 'fr':
+      return import('@/lang/fr.json')
+    default:
+      return import('@/lang/en.json')
+  }
+}
+/*
+ *
  * App
  *
  */
-const queryClient = new QueryClient()
 
-export default function App({ Component, pageProps }: AppPropsWithLayout) {
-  const getLayout = Component.getLayout ?? ((page) => page)
+export default function App({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
+  const [messages, setMessages] = React.useState(en)
+  const locale = useLocale((state) => state.locale)
+
+  React.useEffect(() => {
+    ;(async () => {
+      try {
+        const res = await loadLocaleData(locale)
+        //Setting the locale messages
+        setMessages(res)
+      } catch (err) {
+        console.error(err)
+      }
+    })()
+  }, [locale])
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Head>
-        <title>Eganow | Admin</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
-      {getLayout(<Component {...pageProps} />)}
-      <Snackbar />
-    </QueryClientProvider>
+    <IntlProvider messages={messages} locale={locale} defaultLocale="en">
+      <CookiesProvider defaultSetOptions={{ path: '/' }}>
+        <QueryClientProvider client={queryClient}>
+          <Head>
+            <title>Eganow | Admin</title>
+            <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+          </Head>
+          <Component {...pageProps} />
+          <Snackbar />
+        </QueryClientProvider>
+      </CookiesProvider>
+    </IntlProvider>
   )
 }

@@ -1,4 +1,4 @@
-
+// @ts-nocheck
 import Image from 'next/image'
 import CIcon from '@coreui/icons-react'
 import { cilUser } from '@coreui/icons'
@@ -15,11 +15,10 @@ import {
   CPopover,
   CFormSelect,
 } from '@coreui/react-pro'
-import { FormattedMessage } from 'react-intl'
 import classNames from 'classnames'
 import { StepPropType } from './types'
 import logo_compact from '@/public/brand/eganow.png'
-import DialCode from '../../components/dialCode/DialCodeInput'
+import DialCode from '../dial-code/DialCodeInput'
 /* 
 
 
@@ -101,7 +100,7 @@ const StepThreePane = (props: any) => {
               'd-none': !!formState.errors?.firstName ? false : true,
             })}
           >
-            <FormattedMessage id="firstName.required" />
+            First name is required
           </CFormText>
         </CCol>
         <CCol>
@@ -128,7 +127,7 @@ const StepThreePane = (props: any) => {
               'd-none': !!formState.errors?.lastName ? false : true,
             })}
           >
-            <FormattedMessage id="lastName.required" />
+            Last name is required
           </CFormText>
         </CCol>
       </CRow>
@@ -151,7 +150,7 @@ const StepThreePane = (props: any) => {
               'd-none': !!formState.errors?.customerMobileNo ? false : true,
             })}
           >
-            <FormattedMessage id="mobileNumber.required" />
+            Mobile number is required
           </CFormText>
         </CCol>
         <CCol>
@@ -181,7 +180,7 @@ const StepThreePane = (props: any) => {
               'd-none': !!formState.errors?.languageId ? false : true,
             })}
           >
-            <FormattedMessage id="language.required" />
+            Language is required
           </CFormText>
         </CCol>
       </CRow>
@@ -223,7 +222,7 @@ const StepThreePane = (props: any) => {
               'd-none': !!formState.errors?.password ? false : true,
             })}
           >
-            <FormattedMessage id="password.required" />
+            Password is required
           </CFormText>
         </CCol>
 
@@ -255,7 +254,7 @@ const StepThreePane = (props: any) => {
               'd-none': !!formState.errors?.confirmPassword ? false : true,
             })}
           >
-            <FormattedMessage id="confirmPassword.required" />
+            Confirm password is required
           </CFormText>
         </CCol>
       </CRow>

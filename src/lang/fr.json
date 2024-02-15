@@ -1,0 +1,14 @@
+{
+  "hello_welcome_back": "Bonjour, bon retour",
+  "login_to_your_account": "Connectez-vous à votre compte",
+  "forgot_password": "Mot de passe oublié?",
+  "login": "se connecter",
+  "do_not_have_account_yet": "Vous n'avez pas encore de compte ?",
+  "register_now": "S'inscrire maintenant!",
+  "email_address": "Adresse e-mail",
+  "password": "Mot de passe",
+  "dark_mode_on": "Mode sombre activé",
+  "theme_description_text": "En réduisant la quantité de lumière émise par les écrans, en particulier dans les environnements faiblement éclairés, le mode sombre peut réduire la fatigue oculaire.",
+  "language": "Langue",
+  "settings": "Paramètres"
+}

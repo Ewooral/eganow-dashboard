@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Image from 'next/image'
 import CIcon from '@coreui/icons-react'
 import { cilIndustry } from '@coreui/icons'
@@ -17,13 +18,12 @@ import {
   CButton,
   CFormSelect,
 } from '@coreui/react-pro'
-import { FormattedMessage } from 'react-intl'
 import classNames from 'classnames'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import logo_compact from '@/public/brand/eganow.png'
 import { StepPropType } from './types'
 /*  */
-import DialCode from '@/components/dialCode/DialCodeInput'
+import DialCode from '@/components/dial-code/DialCodeInput'
 import CountryInput from '@/components/country/CountryInput'
 
 const StepFourPane = (props: any) => {
@@ -85,7 +85,7 @@ const StepFourPane = (props: any) => {
               'd-none': !!formState.errors?.businessName ? false : true,
             })}
           >
-            <FormattedMessage id="businessName.required" />
+            Business name is required
           </CFormText>
         </CCol>
       </CRow>
@@ -98,7 +98,7 @@ const StepFourPane = (props: any) => {
               'text-error': !!formState.errors?.businessContactPersonNumber,
             })}
           >
-            Business contact person's phone no.
+            Business contact person&apos;s phone no.
           </CFormLabel>
           <DialCode name="businessContactPersonNumber" handleForm={props.handleForm} />
           <CFormText
@@ -108,7 +108,7 @@ const StepFourPane = (props: any) => {
               'd-none': !!formState.errors?.businessContactPersonNumber ? false : true,
             })}
           >
-            <FormattedMessage id="mobileNumber.required" />
+            Mobile number is equired
           </CFormText>
         </CCol>
 
@@ -129,7 +129,7 @@ const StepFourPane = (props: any) => {
               'd-none': !!formState.errors?.country ? false : true,
             })}
           >
-            <FormattedMessage id="countryCode.required" />
+            Country code is required
           </CFormText>
         </CCol>
       </CRow>

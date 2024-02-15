@@ -1,3 +1,9 @@
+// @ts-nocheck
+import { useState, useEffect, useRef } from 'react'
+/* TYPES */
+import type { NextPageWithLayout } from '@/pages/_app'
+import { EmptyObject } from 'react-hook-form'
+/*CORE UI ELEMENTS */
 import {
   CCol,
   CRow,
@@ -25,41 +31,51 @@ import {
   CDropdownItem,
   CDropdownMenu,
 } from '@coreui/react-pro'
-import { CChart, CChartBar, CChartLine } from '@coreui/react-chartjs'
-import { DashboardLayout, GlobalLoader } from '@/components'
-
-import type { NextPageWithLayout } from '@/pages/_app'
+/*CORE UI ICONS */
 import CIcon from '@coreui/icons-react'
 import { cilArrowTop, cilChartPie, cilLoopCircular, cilSearch } from '@coreui/icons'
-import { useState, useEffect, useRef } from 'react'
-/* Use Hooks */
-import useUserAuth from '@/hooks/useUserAuth'
-/* TYPES */
-import { UserLoggedType } from '@/types/Users'
-import { EmptyObject } from 'react-hook-form'
+/*FONT AWESOME ICONS */
 import { FiEye } from 'react-icons/fi'
+/* COMPONENTS */
+import { CChart, CChartBar, CChartLine } from '@coreui/react-chartjs'
+import { DashboardLayout, GlobalLoader } from '@/components'
+/* CONSTANCE */
+import { EGANOW_AUTH_COOKIE_NAME } from '@/constants'
+/* HOOKS */
+import useStoreReady from '@/hooks/useStoreReady'
 
-const BizCollect: NextPageWithLayout = () => {
-  const [userLogged, setUserLoggedIn] = useState<UserLoggedType | EmptyObject>({})
-  const { customerInfo } = useUserAuth()
+/* 
 
-  /* ************************************************************* */
-  useEffect(() => {
-    setUserLoggedIn({
-      status: customerInfo.issuccess,
-      userstatus: customerInfo.messagesuccessfulorfailed,
-    })
-  }, [customerInfo])
+
+
+
+
+
+*/
+export const getServerSideProps = async ({ req }) => {
+  const cookies = JSON.parse(req.cookies[EGANOW_AUTH_COOKIE_NAME])
+  //Response
+  return {
+    props: {
+      cookies,
+    },
+  }
+}
+
+const BizCollect: NextPageWithLayout = (props) => {
+  const isStoreReady = useStoreReady()
 
   //Server-render loading state
-  if (!userLogged?.status || userLogged?.userstatus !== 'SUCCESSFUL') {
+  if (!isStoreReady) {
     return <GlobalLoader />
   }
 
   return (
-    <DashboardLayout>
-      <div className="d-flex justify-content-between">
-        <h3 style={{ minWidth: '300px' }}>Biz Collect</h3>
+    <DashboardLayout {...props}>
+      <div className="d-flex justify-content-between flex-wrap">
+        <div className="flex-grow-1">
+          <h3>Biz Collect</h3>
+        </div>
 
         <CFormSelect className="mb-3" style={{ maxWidth: '600px' }}>
           <option value="1">Account One</option>
@@ -68,10 +84,10 @@ const BizCollect: NextPageWithLayout = () => {
         </CFormSelect>
       </div>
 
-      <hr />
+      <hr className="mt-0" />
 
       <CRow>
-        <CCol sm={3}>
+        <CCol sm={4}>
           <CWidgetStatsA
             className="mb-4"
             color="primary"
@@ -146,7 +162,7 @@ const BizCollect: NextPageWithLayout = () => {
           />
         </CCol>
 
-        <CCol sm={3}>
+        <CCol sm={4}>
           <CWidgetStatsA
             className="mb-4"
             color="warning"
@@ -207,7 +223,7 @@ const BizCollect: NextPageWithLayout = () => {
           />
         </CCol>
 
-        <CCol sm={6}>
+        <CCol sm={4}>
           <CWidgetStatsA
             className="mb-4"
             color="danger"
@@ -288,7 +304,7 @@ const BizCollect: NextPageWithLayout = () => {
         </CCol>
       </CRow>
 
-      <CContainer fluid className="p-3 bg-gradient">
+      <CContainer fluid className="p-3 bg-gradient mb-5 border">
         <div className="d-flex justify-content-between mb-2">
           <div>
             <small>Select Date Range </small>
@@ -310,7 +326,7 @@ const BizCollect: NextPageWithLayout = () => {
             variant="outline"
             className="mx-1 rounded-50"
             onMouseUp={() => {}}
-            style={{ marginTop: '30px' }}
+            style={{ marginTop: '24px' }}
           >
             <CIcon
               icon={cilLoopCircular}
@@ -325,14 +341,13 @@ const BizCollect: NextPageWithLayout = () => {
         <CRow>
           <CCol sm={6}>
             <CCard className="mb-4" style={{ overflow: 'auto' }}>
-              <CCardHeader className="d-flex justify-content-between">
-                <header className="d-flex justify-content-between">
-                  <span className="h5 me-1">Total Counts</span>
-                </header>
-              </CCardHeader>
+              <div className="pt-3 px-3">
+                <div className="card-title fs-5 fw-semibold ndc-green-text my-0">Total Counts</div>
+              </div>
+
               <CCardBody>
                 <CWidgetStatsF
-                  style={{ border: '1px solid #857dcc' }}
+                  style={{ border: '0px solid #857dcc' }}
                   className="mb-3"
                   color="primary"
                   icon={<CIcon icon={cilChartPie} height={24} />}
@@ -340,7 +355,7 @@ const BizCollect: NextPageWithLayout = () => {
                   value="# 20.000"
                 />
                 <CWidgetStatsF
-                  style={{ border: '1px dashed #d5a439' }}
+                  style={{ border: '0px solid #d5a439' }}
                   className="mb-3"
                   color="warning"
                   icon={<CIcon icon={cilChartPie} height={24} />}
@@ -352,14 +367,14 @@ const BizCollect: NextPageWithLayout = () => {
           </CCol>
 
           <CCol sm={3}>
-            <CCard className="mb-4" style={{ overflow: 'auto', height: '300px' }}>
-              <CCardHeader className="d-flex justify-content-between">
-                <header>
-                  <span className="h5">Collection Statistics</span>
-                </header>
-              </CCardHeader>
+            <CCard className="mb-4" style={{ overflow: 'auto', height: '295px' }}>
+              <div className="pt-3 px-3">
+                <div className="card-title fs-5 fw-semibold ndc-green-text my-0">
+                  Collection Statistics
+                </div>
+              </div>
               <CCardBody style={{ gap: '10px' }}>
-                <CTable striped bordered className="h-100">
+                <CTable className="h-100">
                   <CTableBody>
                     <CTableRow>
                       <CTableDataCell className="text-start align-middle">
@@ -392,14 +407,14 @@ const BizCollect: NextPageWithLayout = () => {
           </CCol>
 
           <CCol sm={3}>
-            <CCard className="mb-4" style={{ overflow: 'auto', height: '300px' }}>
-              <CCardHeader className="d-flex justify-content-between">
-                <header>
-                  <span className="h5">Payout Statistics</span>
-                </header>
-              </CCardHeader>
+            <CCard className="mb-4" style={{ overflow: 'auto', height: '295px' }}>
+              <div className="pt-3 px-3">
+                <div className="card-title fs-5 fw-semibold ndc-green-text my-0">
+                  Payout Statistics
+                </div>
+              </div>
               <CCardBody style={{ gap: '10px' }}>
-                <CTable striped bordered className="h-100">
+                <CTable className="h-100">
                   <CTableBody>
                     <CTableRow>
                       <CTableDataCell className="text-start align-middle">
@@ -437,11 +452,11 @@ const BizCollect: NextPageWithLayout = () => {
 
         <CRow>
           <CCol sm={6}>
-            <CCard className="mb-4 overflow-auto" style={{ height: '360px' }}>
-              <CCardHeader className="d-flex justify-content-between">
-                <header>
-                  <span className="h5">Payment Methods</span>
-                </header>
+            <CCard className="mb-4 h-auto">
+              <div className="pt-3 px-3 d-flex justify-content-between">
+                <div className="card-title fs-5 fw-semibold ndc-green-text my-0">
+                  Payment Methods
+                </div>
                 <CDropdown variant="btn-group">
                   <CDropdownToggle size="sm">Collection</CDropdownToggle>
                   <CDropdownMenu>
@@ -449,12 +464,13 @@ const BizCollect: NextPageWithLayout = () => {
                     <CDropdownItem href="#">Payout</CDropdownItem>
                   </CDropdownMenu>
                 </CDropdown>
-              </CCardHeader>
-              <CCardBody className="text-center d-flex justify-content-between gap-4">
-                <div className="border h-100">
+              </div>
+
+              <CCardBody className="row pt-1">
+                <div className="h-100 p-1 col-12 col-lg-6">
                   <CChart
-                    className="w-auto"
-                    style={{ height: '130px' }}
+                    style={{ height: '354px' }}
+                    className="py-2 w-auto d-flex align-items-center"
                     type="pie"
                     data={{
                       datasets: [
@@ -465,89 +481,78 @@ const BizCollect: NextPageWithLayout = () => {
                           borderWidth: 1,
                         },
                       ],
-                      
                     }}
-                    options={{ maintainAspectRatio: true}}
+                    options={{ maintainAspectRatio: true }}
                   />
                 </div>
-                <CTable striped bordered className="border h-100">
-                  <CTableHead>
-                    <CTableRow>
-                      <CTableHeaderCell scope="col" style={{ width: '50px' }}>
-                        #
-                      </CTableHeaderCell>
-                      <CTableHeaderCell scope="col" className="text-start">
-                        Name
-                      </CTableHeaderCell>
-                      <CTableHeaderCell scope="col" className="text-end">
-                        Amount
-                      </CTableHeaderCell>
-                    </CTableRow>
-                  </CTableHead>
-                  <CTableBody>
-                    <CTableRow>
-                      <CTableHeaderCell scope="row" className="align-middle">
-                        1
-                      </CTableHeaderCell>
-                      <CTableDataCell className="text-start align-middle">
-                        <CBadge shape="rounded-pill" style={{ backgroundColor: '#857dcc' }}>
-                          MOMO
-                        </CBadge>
-                      </CTableDataCell>
-                      <CTableDataCell className="text-end align-middle">GHS 20,565</CTableDataCell>
-                    </CTableRow>
-                    <CTableRow>
-                      <CTableHeaderCell scope="row" className="align-middle">
-                        2
-                      </CTableHeaderCell>
-                      <CTableDataCell className="text-start align-middle">
-                        <CBadge shape="rounded-pill" style={{ backgroundColor: '#20c997' }}>
-                          CARD
-                        </CBadge>
-                      </CTableDataCell>
-                      <CTableDataCell className="text-end align-middle">GHS 20,565</CTableDataCell>
-                    </CTableRow>
-                    <CTableRow>
-                      <CTableHeaderCell scope="row" className="align-middle">
-                        3
-                      </CTableHeaderCell>
-                      <CTableDataCell className="text-start align-middle">
-                        <CBadge shape="rounded-pill" style={{ backgroundColor: '#c77171' }}>
-                          BANK
-                        </CBadge>
-                      </CTableDataCell>
-                      <CTableDataCell className="text-end align-middle">GHS 20,565</CTableDataCell>
-                    </CTableRow>
-                    <CTableRow>
-                      <CTableHeaderCell scope="row" className="align-middle">
-                        4
-                      </CTableHeaderCell>
-                      <CTableDataCell className="text-start align-middle">
-                        <CBadge shape="rounded-pill" style={{ backgroundColor: '#d5a439' }}>
-                          MERCHANT
-                        </CBadge>
-                      </CTableDataCell>
-                      <CTableDataCell className="text-end align-middle">GHS 20,565</CTableDataCell>
-                    </CTableRow>
-                  </CTableBody>
-                </CTable>
+                <div className="col-12 col-lg-6 p-1">
+                  <CTable className="w-100  h-100">
+                    <CTableHead>
+                      <CTableRow>
+                        <CTableHeaderCell scope="col" className="text-start">
+                          Name
+                        </CTableHeaderCell>
+                        <CTableHeaderCell scope="col" className="text-end">
+                          Amount
+                        </CTableHeaderCell>
+                      </CTableRow>
+                    </CTableHead>
+                    <CTableBody>
+                      <CTableRow>
+                        <CTableDataCell className="text-start align-middle">
+                          <CBadge shape="rounded-pill" style={{ backgroundColor: '#857dcc' }}>
+                            MOMO
+                          </CBadge>
+                        </CTableDataCell>
+                        <CTableDataCell className="text-end align-middle">
+                          GHS 20,565
+                        </CTableDataCell>
+                      </CTableRow>
+                      <CTableRow>
+                        <CTableDataCell className="text-start align-middle">
+                          <CBadge shape="rounded-pill" style={{ backgroundColor: '#20c997' }}>
+                            CARD
+                          </CBadge>
+                        </CTableDataCell>
+                        <CTableDataCell className="text-end align-middle">
+                          GHS 20,565
+                        </CTableDataCell>
+                      </CTableRow>
+                      <CTableRow>
+                        <CTableDataCell className="text-start align-middle">
+                          <CBadge shape="rounded-pill" style={{ backgroundColor: '#c77171' }}>
+                            BANK
+                          </CBadge>
+                        </CTableDataCell>
+                        <CTableDataCell className="text-end align-middle">
+                          GHS 20,565
+                        </CTableDataCell>
+                      </CTableRow>
+                      <CTableRow>
+                        <CTableDataCell className="text-start align-middle">
+                          <CBadge shape="rounded-pill" style={{ backgroundColor: '#d5a439' }}>
+                            MERCHANT
+                          </CBadge>
+                        </CTableDataCell>
+                        <CTableDataCell className="text-end align-middle">
+                          GHS 20,565
+                        </CTableDataCell>
+                      </CTableRow>
+                    </CTableBody>
+                  </CTable>
+                </div>
               </CCardBody>
             </CCard>
           </CCol>
 
           <CCol sm={6}>
-            <CCard className="mb-4" style={{ overflow: 'auto' }}>
-              <CCardHeader className="d-flex justify-content-between">
-                <header className="">
-                  <span className="h5 me-1">Settlements</span>
-                  {'  '}
-                  <span>
-                    <small>Last 4 settlements</small>
-                  </span>
-                </header>
-              </CCardHeader>
-              <CCardBody className="text-center">
-                <CTable className="mb-4">
+            <CCard className="mb-4">
+              <div className="pt-4 px-3">
+                <div className="card-title fs-5 fw-semibold ndc-green-text my-0">Settlements</div>
+                <small className="card-subtitle text-disabled pt-0">Last 4 settlements</small>
+              </div>
+              <CCardBody className="text-center pt-2">
+                <CTable style={{ height: '310px' }}>
                   <CTableHead>
                     <CTableRow>
                       <CTableHeaderCell scope="col" style={{ width: '50px' }}>
@@ -641,11 +646,14 @@ const BizCollect: NextPageWithLayout = () => {
         <CRow>
           <CCol>
             <CCard className="mb-4 overflow-auto">
-              <CCardHeader>
-                <header>
-                  <span className="h5">Your Payment Trends</span>
-                </header>
-              </CCardHeader>
+              <div className="pt-3 px-3">
+                <div className="card-title fs-5 fw-semibold ndc-green-text my-0">
+                  Your Payment Trends
+                </div>
+                <small className="card-subtitle text-disabled pt-0">
+                  Multiline chart showing collection and payout transaction trends
+                </small>
+              </div>
               <CCardBody className="text-center">
                 <CChart
                   type="line"
@@ -681,7 +689,7 @@ const BizCollect: NextPageWithLayout = () => {
                     scales: {
                       x: {
                         grid: {
-                          color: 'rgba(220, 220, 220, 0.2)',
+                          color: 'rgba(220, 220, 220, .8)',
                         },
                         ticks: {
                           color: 'rgba(151, 187, 205, 1)',
@@ -689,7 +697,7 @@ const BizCollect: NextPageWithLayout = () => {
                       },
                       y: {
                         grid: {
-                          color: 'rgba(220, 220, 220, 0.2)',
+                          color: 'rgba(220, 220, 220, .8)',
                         },
                         ticks: {
                           color: 'rgba(151, 187, 205, 1)',

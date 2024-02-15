@@ -1,5 +1,7 @@
+// @ts-nocheck
 import React, { useEffect, useState } from 'react'
-import { useUI } from '@/store'
+import { FormattedMessage, useIntl } from 'react-intl'
+import { useUI, useLocale } from '@/store'
 import {
   CCloseButton,
   CFormSwitch,
@@ -12,6 +14,7 @@ import {
   CSidebarHeader,
   CButtonGroup,
   CFormCheck,
+  CFormSelect,
 } from '@coreui/react-pro'
 import CIcon from '@coreui/icons-react'
 import { cilMoon, cilSettings, cilSun } from '@coreui/icons'
@@ -21,7 +24,9 @@ const AppAside = () => {
   const setTheme = useUI((state) => state.setTheme)
   const setAsideShow = useUI((state) => state.setAsideShow)
   const asideShow = useUI((state) => state.asideShow)
-
+  const locale = useLocale((state) => state.locale)
+  const setLocale = useLocale((state) => state.setLocale)
+  const intl = useIntl()
   const [activeKey, setActiveKey] = useState(1)
 
   useEffect(() => {
@@ -30,13 +35,20 @@ const AppAside = () => {
       : document.body.classList.remove('dark-theme')
   }, [theme])
 
-  function handleTheme(event: { target: any }) {
-    console.log(event.target.checked)
-    if (event.target.checked) {
-      setTheme('dark')
-      return
+  function handleChange(event: { target: any }) {
+    const { name, value, checked } = event.target
+
+    if (name === 'theme') {
+      if (checked) {
+        setTheme('dark')
+        return
+      }
+      setTheme('light')
     }
-    setTheme('light')
+
+    if (name === 'language') {
+      setLocale(value)
+    }
   }
 
   return (
@@ -71,26 +83,51 @@ const AppAside = () => {
       </CSidebarHeader>
       <CTabContent>
         <CTabPane className="p-3" visible={activeKey === 1}>
-          <h6>Settings</h6>
+          <h6>
+            <FormattedMessage id="settings" defaultMessage="Settings" />
+          </h6>
 
           <div>
             <div className="clearfix mt-4">
               <CFormSwitch
                 size="lg"
-                label="Dark mode on"
+                label={intl.formatMessage({
+                  id: 'dark_mode_on',
+                  defaultMessage: 'Dark mode on',
+                })}
                 checked={theme === 'dark'}
-                onChange={handleTheme}
+                name="theme"
+                onChange={handleChange}
               />
             </div>
             <div>
               <small className="text-medium-emphasis">
-                By reducing the amount of light emitted by screens, especially in low-light
-                environments, dark mode can lessen eye strain and fatigue.
+                <FormattedMessage
+                  id="theme_description_text"
+                  defaultMessage="By reducing the amount of light emitted by screens, especially in low-light
+                environments, dark mode can lessen eye strain and fatigue."
+                />
               </small>
             </div>
           </div>
 
           <hr />
+          <div className="d-flex align-items-center">
+            <label className="me-2">
+              <FormattedMessage id="language" defaultMessage="Language" />
+              ::
+            </label>
+            <CFormSelect
+              name="language"
+              onChange={handleChange}
+              size="sm"
+              value={locale}
+              options={[
+                { label: 'English', value: 'en' },
+                { label: 'French', value: 'fr' },
+              ]}
+            />
+          </div>
         </CTabPane>
       </CTabContent>
     </CSidebar>

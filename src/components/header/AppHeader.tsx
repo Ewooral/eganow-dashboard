@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Image from 'next/image'
 import Link from 'next/link'
 import { useUI } from 'src/store'
@@ -22,14 +23,13 @@ import {
   AppHeaderDropdownMssg,
   AppHeaderDropdownNotif,
   AppHeaderDropdownTasks,
-} from './header/'
+} from '.'
 
 import { AppBreadcrumb } from '@/components'
 
 import logo from '@/public/images/eganow-colored-logo.svg'
-import { useEffect } from 'react'
 
-const AppHeader = (): JSX.Element => {
+const AppHeader = (props: UserInfoType): JSX.Element => {
   const asideShow = useUI((state) => state.asideShow)
   const sidebarShow = useUI((state) => state.sidebarShow)
   const setAsideShow = useUI((state) => state.setAsideShow)
@@ -53,13 +53,10 @@ const AppHeader = (): JSX.Element => {
           <AppHeaderDropdownNotif />
         </CHeaderNav> */}
         <CHeaderNav className="ms-3 me-4">
-          <AppHeaderDropdown />
+          <AppHeaderDropdown {...props} />
         </CHeaderNav>
 
-        <CHeaderToggler
-          className="px-md-0 me-md-3"
-          onClick={() => setAsideShow(!asideShow )}
-        >
+        <CHeaderToggler className="px-md-0 me-md-3" onClick={() => setAsideShow(!asideShow)}>
           <CIcon icon={cilApplicationsSettings} size="lg" />
         </CHeaderToggler>
       </CContainer>

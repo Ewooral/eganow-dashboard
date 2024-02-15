@@ -1,21 +1,21 @@
+// @ts-nocheck
 import Image from 'next/image'
 import avatar8 from '@/public/brand/eganow-white-logo.svg'
 import classNames from 'classnames'
-import Link from 'next/link';
+import Link from 'next/link'
 
 type progressBar = {
-  title: string;
-  content: string;
-  component?: HTMLPreElement;
+  title: string
+  content: string
+  component?: HTMLPreElement
 }
 
 type LeftSideProps = {
-  stepCount: number;
-  stepList: progressBar[];
+  stepCount: number
+  stepList: progressBar[]
 }
 
 const LeftSide = (props: LeftSideProps) => {
-  
   return (
     <div className="left-side radial-gradient">
       <div className="left-heading">

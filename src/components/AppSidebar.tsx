@@ -1,11 +1,7 @@
+// @ts-nocheck
 import React from 'react'
 import { useUI } from 'src/store'
-import {
-  CSidebar,
-  CSidebarBrand,
-  CSidebarNav,
-  CSidebarToggler,
-} from '@coreui/react-pro'
+import { CSidebar, CSidebarBrand, CSidebarNav, CSidebarToggler } from '@coreui/react-pro'
 
 import AppSidebarNav from './AppSidebarNav'
 

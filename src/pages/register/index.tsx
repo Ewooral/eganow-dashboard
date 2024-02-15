@@ -1,19 +1,19 @@
+// @ts-nocheck
 import { useState, useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
-import { validationSchema } from './validationSchema'
-import { defaultFormValues } from './defaultFormValues'
+import { validationSchema } from '@/components/register/validationSchema'
+import { defaultFormValues } from '@/components/register/defaultFormValues'
 
-import LeftSide from './LeftSide'
-import RightSide from './RightSide'
-import StepOnePane from './StepOnePane'
-import StepTwoPane from './StepTwoPane'
-import StepThreePane from './StepThreePane'
-import StepFourPane from './StepFourPane'
-/* import StepFivePane from './StepFivePane' */
-import StepSixPane from './StepSixPane'
-import StepSevenPane from './StepSevenPane'
+import LeftSide from '@/components/register/LeftSide'
+import RightSide from '@/components/register/RightSide'
+import StepOnePane from '@/components/register/StepOnePane'
+import StepTwoPane from '@/components/register/StepTwoPane'
+import StepThreePane from '@/components/register/StepThreePane'
+import StepFourPane from '@/components/register/StepFourPane'
+import StepSixPane from '@/components/register/StepSixPane'
+import StepSevenPane from '@/components/register/StepSevenPane'
 
 import { CRow, CCol, CFormInput, CButton, CForm, CFormLabel, CFormText } from '@coreui/react-pro'
 /* API */

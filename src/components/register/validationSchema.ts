@@ -4,15 +4,15 @@ import * as yup from 'yup'
 export const validationSchema = yup
   .object({
     emailAddress: yup.string().email().required(),
+
     otpValue: yup.string().required().matches(NUMBER_ONLY_REGEX).min(6).max(6),
+
     firstName: yup.string().required(),
     lastName: yup.string().required(),
-
     customerMobileNo: yup.object({
       dialCode: yup.string().required(),
       dialNumber: yup.number(),
     }),
-
     businessContactPersonNumber: yup.object({
       dialCode: yup.string().required(),
       dialNumber: yup.number().required(),
@@ -30,6 +30,7 @@ export const validationSchema = yup
       .required()
       .oneOf([yup.ref('password')]),
     businessName: yup.string().required(),
+    
     /* countryCode: yup.string().required(), */
     /*  securityQuestionOne: yup.string().required(),
     securityAnswerOne: yup.string().required(),
@@ -38,6 +39,7 @@ export const validationSchema = yup
       .required()
       .notOneOf([yup.ref('securityQuestionOne')]),
     securityAnswerTwo: yup.string().required(), */
+
     customerSixDigitPIN: yup.string().required().matches(NUMBER_ONLY_REGEX).min(6).max(6),
     confirmCustomerSixDigitPIN: yup
       .string()

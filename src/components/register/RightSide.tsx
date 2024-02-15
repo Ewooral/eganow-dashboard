@@ -1,3 +1,4 @@
+// @ts-nocheck
 import CIcon from '@coreui/icons-react'
 import { cilBurn } from '@coreui/icons'
 import { CAlert } from '@coreui/react-pro'

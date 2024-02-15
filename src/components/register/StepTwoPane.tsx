@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Image from 'next/image'
 import CIcon from '@coreui/icons-react'
 import { cilBurn, cilLockLocked } from '@coreui/icons'
@@ -12,7 +13,6 @@ import {
   CSpinner,
   CAlert,
 } from '@coreui/react-pro'
-import { FormattedMessage } from 'react-intl'
 import classNames from 'classnames'
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa'
 import logo_compact from '@/public/brand/eganow.png'
@@ -87,7 +87,7 @@ const StepTwoPane = (props: any) => {
               'd-none': !!formState.errors?.otpValue ? false : true,
             })}
           >
-            <FormattedMessage id="otpValue.required" />
+            OtpValue required
           </CFormText>
         </CCol>
       </CRow>

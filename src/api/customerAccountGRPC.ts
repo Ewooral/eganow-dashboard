@@ -158,7 +158,7 @@ const customerAccountGRPC = () => {
    *
    *
    */
-  function loginUserBusiness(data) {
+  function loginUserBusiness(data:any) {
     try {
       return new Promise((resolve, reject) => {
         const request = new LoginRequestMessage()

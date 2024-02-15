@@ -1,18 +1,10 @@
+// @ts-nocheck
 import Image from 'next/image'
 import CIcon from '@coreui/icons-react'
 import { cilHttps } from '@coreui/icons'
-import {
-  CRow,
-  CCol,
-  CFormLabel,
-  CFormInput,
-  CFormText,
-  CButton,
-  CAlert,
-} from '@coreui/react-pro'
+import { CRow, CCol, CFormLabel, CFormInput, CFormText, CButton, CAlert } from '@coreui/react-pro'
 import { FaChevronLeft, FaTelegramPlane } from 'react-icons/fa'
 import classNames from 'classnames'
-import { FormattedMessage } from 'react-intl'
 import { cilBurn } from '@coreui/icons'
 import logo_compact from '@/public/brand/eganow.png'
 
@@ -83,7 +75,7 @@ const StepSixPane = (props: any) => {
               'd-none': !!formState.errors?.customerSixDigitPIN ? false : true,
             })}
           >
-            <FormattedMessage id="customerSixDigitPIN.required" />
+            Customer six digit PIN is required
           </CFormText>
         </CCol>
         <CCol>
@@ -115,7 +107,7 @@ const StepSixPane = (props: any) => {
               'd-none': !!formState.errors?.confirmCustomerSixDigitPIN ? false : true,
             })}
           >
-            <FormattedMessage id="confirmCustomerSixDigitPIN.required" />
+            Confirm customer six digit PIN.required
           </CFormText>
         </CCol>
       </CRow>

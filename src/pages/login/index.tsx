@@ -1,4 +1,6 @@
+// @ts-nocheck
 import Image from 'next/image'
+import { FormattedMessage, useIntl } from 'react-intl'
 import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
@@ -23,16 +25,16 @@ import {
 } from '@coreui/react-pro'
 import CIcon from '@coreui/icons-react'
 import logo_compact from '@/public/brand/eganow.png'
-import { cilEnvelopeClosed, cilFire, cilLockLocked, cilUser } from '@coreui/icons'
-import { EmptyObject, useForm } from 'react-hook-form'
-
-
+import { cilEnvelopeClosed, cilFire, cilLockLocked } from '@coreui/icons'
 /* API */
 import customerAccountGRPC from '@/api/customerAccountGRPC'
-/* STORE */
-import { useCustomerInfoStore } from 'src/store'
 /* COMPONENTS */
 import CountryInput from '@/components/country/CountryInput'
+/* HOOKS */
+import { useCookies } from 'react-cookie'
+import { EmptyObject, useForm } from 'react-hook-form'
+/* CONSTANCE */
+import { EGANOW_AUTH_COOKIE_NAME } from '@/constants'
 
 export const defaultValues = {
   country: {
@@ -71,30 +73,17 @@ const vars = {
   '--cui-btn-disabled-bg': '#cd0429',
   '--cui-btn-disabled-border-color': '#cd0429',
 }
-
-type Errors = {
-  messages: string
-}
-
-type LoginType = {
-  country: { code: string; name: string }
-  username: string
-  password: string
-}
-
 /* 
 
 
 
 */
 const Login = () => {
-  
-  const setCustomerInfo = useCustomerInfoStore((state: any) => state.setCustomerInfo)
-  const setLogOutUser = useCustomerInfoStore((state: any) => state.setLogOutUser)
-
   const { loginUserBusiness } = customerAccountGRPC()
-  const [errors, setErrors] = useState<Errors | EmptyObject>({})
+  const [_, setCookie] = useCookies([EGANOW_AUTH_COOKIE_NAME])
+  const [errors, setErrors] = useState<LoginInputErrors | EmptyObject>({})
   const router = useRouter()
+  const intl = useIntl()
 
   const {
     register,
@@ -104,24 +93,20 @@ const Login = () => {
     formState: { isSubmitting },
   } = useForm({
     resolver: yupResolver(validationSchema),
-    /*  mode: 'onChange', */
+    mode: 'onChange',
     defaultValues,
   })
 
-  useEffect(() => {
-    setLogOutUser()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setLogOutUser])
-
-  const onSubmit = async (data: LoginType) => {
+  const onSubmit = async (data: LoginInputType) => {
     try {
       const response = await loginUserBusiness(data)
-
       //On success
       if (response.issuccess && response.messagesuccessfulorfailed === 'SUCCESSFUL') {
-        //Storing customer info upon login in store
-        setCustomerInfo(response)
-        //Navigating to the dashboard upon login
+        //Storing login authentication in cookie
+        setCookie(EGANOW_AUTH_COOKIE_NAME, response, {
+          maxAge: 30 * 60 * 24,
+        })
+        //Routing to the intermediate page when logged in.
         router.push('/')
         //Exit onSubmit function
         return
@@ -151,8 +136,18 @@ const Login = () => {
                 <Image src={logo_compact} height={80} alt="Eganow" className="mx-auto" />
 
                 <CCardBody>
-                  <h2 className="text-center">Hello, welcome back</h2>
-                  <p className="text-medium-emphasis text-center">Login to your account</p>
+                  <h2 className="text-center">
+                    <FormattedMessage
+                      id="hello_welcome_back"
+                      defaultMessage="Hello, welcome back"
+                    />
+                  </h2>
+                  <p className="text-medium-emphasis text-center">
+                    <FormattedMessage
+                      id="login_to_your_account"
+                      defaultMessage="Login to your account"
+                    />
+                  </p>
 
                   {errors?.message && (
                     <CAlert color="danger">
@@ -160,11 +155,6 @@ const Login = () => {
                       {errors?.message}
                     </CAlert>
                   )}
-
-
-                  
-
-
 
                   <CForm noValidate onSubmit={handleSubmit(onSubmit)}>
                     <CountryInput
@@ -179,7 +169,10 @@ const Login = () => {
                         <CIcon icon={cilEnvelopeClosed} />
                       </CInputGroupText>
                       <CFormInput
-                        placeholder="Email Address"
+                        placeholder={intl.formatMessage({
+                          id: 'email_address',
+                          defaultMessage: 'Email Address',
+                        })}
                         autoComplete="emailAddress"
                         {...register('username', { required: true, minLength: 2, maxLength: 50 })}
                         required
@@ -192,7 +185,10 @@ const Login = () => {
                       </CInputGroupText>
                       <CFormInput
                         type="password"
-                        placeholder="Password"
+                        placeholder={intl.formatMessage({
+                          id: 'password',
+                          defaultMessage: 'Password',
+                        })}
                         autoComplete="current-password"
                         {...register('password', { required: true, minLength: 2, maxLength: 50 })}
                         required
@@ -202,7 +198,10 @@ const Login = () => {
                     <CRow>
                       <CCol xs={12} className="text-right">
                         <CButton color="link" className="px-0">
-                          Forgot password?
+                          <FormattedMessage
+                            id="forgot_password"
+                            defaultMessage="Forgot password?"
+                          />
                         </CButton>
                       </CCol>
                     </CRow>
@@ -219,7 +218,7 @@ const Login = () => {
                           {isSubmitting ? (
                             <CSpinner component="span" size="sm" aria-hidden="true" />
                           ) : (
-                            'Login'
+                            <FormattedMessage id="login" defaultMessage="Login" />
                           )}
                         </CButton>
                       </CCol>
@@ -227,28 +226,18 @@ const Login = () => {
 
                     <CRow>
                       <CCol xs={12} className="mt-4">
-                        Don't have account yet? <Link href="/register"> Register Now!</Link>
+                        <FormattedMessage
+                          id="do_not_have_account_yet"
+                          defaultMessage="Don't have account yet?"
+                        />{' '}
+                        <Link href="/register">
+                          <FormattedMessage id="register_now" defaultMessage="Register now!" />
+                        </Link>
                       </CCol>
                     </CRow>
                   </CForm>
-                  {/* <div className="login-corner"></div> */}
                 </CCardBody>
               </CCard>
-
-              {/*  <CCard className="text-white py-5" style={{ backgroundColor: '#cc0229' }}>
-                <CCardBody className="text-center">
-                  <h2>Sign up</h2>
-                  <p>
-                    Signing up is quick and easy. By creating an account, you will gain access to a
-                    wide range of features and benefits. Click below to begin.
-                  </p>
-                  <Link href="/register">
-                    <CButton className="mt-3" color="light" variant="outline" tabIndex={-1}>
-                      Register Now!
-                    </CButton>
-                  </Link>
-                </CCardBody>
-              </CCard> */}
             </CCardGroup>
           </CCol>
         </CRow>

@@ -1,0 +1,14 @@
+{
+  "hello_welcome_back": "Hello, welcome back",
+  "login_to_your_account": "Login to your account",
+  "forgot_password": "Forgot password?",
+  "login": "Login",
+  "do_not_have_account_yet": "Don't have account yet?",
+  "register_now": "Register now!",
+  "email_address": "Email Address",
+  "password": "Password",
+  "dark_mode_on": "Dark mode on",
+  "theme_description_text": "By reducing the amount of light emitted by screens, especially in low-light environments, dark mode can lessen eye strain and fatigue.",
+  "language": "Language",
+  "settings": "Settings"
+}
