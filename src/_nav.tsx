@@ -70,17 +70,8 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: 'Account Balance',
-        href: '/components/icons/free',
-        badge: {
-          color: 'success-gradient',
-          text: '9',
-        },
-      },
-      {
-        component: CNavItem,
         name: 'Account Transactions',
-        href: '/components/icons/flags',
+        href: '/biz-collect/account-transactions',
       },
       {
         component: CNavItem,
@@ -147,7 +138,7 @@ const _nav = [
       },
     ],
   },
-  
+
   {
     component: CNavItem,
     name: 'Merchant Users',

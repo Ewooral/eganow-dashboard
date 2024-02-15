@@ -1,6 +1,6 @@
 // @ts-nocheck
 import Image from 'next/image'
-import { CURRENCY, MONEY_FORMAT, PLACEHOLDER } from '@/util/constants'
+import { CURRENCY, MONEY_FORMAT, PLACEHOLDER } from '@/constants'
 import { formatMoney_util, statusType_util } from '@/util/utils'
 import { cilLibrary, cilLockLocked, cilPencil } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
@@ -11,35 +11,7 @@ import { ChangeEvent } from 'react'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 
-import ARISE from '@/public/images/cards/arise.svg'
-import BRONZE from '@/public/images/cards/bronze.svg'
-import FREEDOM from '@/public/images/cards/freedom.svg'
-import GOLD from '@/public/images/cards/gold.svg'
-import HOPE from '@/public/images/cards/hope.svg'
-import STANDARD from '@/public/images/cards/standard.svg'
-import LOYALTY from '@/public/images/cards/loyalty.svg'
-import SILVER from '@/public/images/cards/silver.svg'
-import PLATINUM from '@/public/images/cards/platinum.svg'
-import PRESTIGE from '@/public/images/cards/prestige.svg'
-import DEMOCRATIC from '@/public/images/cards/freedom.svg'
-import STARTER from '@/public/images/cards/starter.png'
-import JUSTICE from '@/public/images/cards/justice.svg'
 
-export const imagesObj = {
-  ARISE,
-  BRONZE,
-  FREEDOM,
-  STANDARD,
-  LOYALTY,
-  SILVER,
-  GOLD,
-  HOPE,
-  PLATINUM,
-  PRESTIGE,
-  DEMOCRATIC,
-  STARTER,
-  JUSTICE,
-}
 
 export const NameColumn = (name: string) => {
   return (
@@ -133,9 +105,7 @@ export const MemberDetails = (item, state) => {
           </span>
           <span className="ms-5 text-muted d-inline-flex">
             <i className="me-2">Card Type::</i>
-            <Zoom>
-              <Image src={imagesObj[item.cardname.trim()]} width={70} height={40} alt={item.cardname} className="mx-auto rounded grow-img" />
-            </Zoom>
+          
           </span>
         </div>
       </CCardBody>
