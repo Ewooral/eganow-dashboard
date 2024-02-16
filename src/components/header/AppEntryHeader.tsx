@@ -1,6 +1,6 @@
 // @ts-nocheck
 import Image from 'next/image'
-import { useUI } from 'src/store'
+import { useFeatureStore, useUI } from 'src/store'
 
 import {
   CCol,
@@ -25,11 +25,14 @@ import { cilSearch, cilApplicationsSettings } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import { Features } from '@/components'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const AppEntryHeader = (props: UserInfoType): JSX.Element => {
   const theme = useUI((state) => state.theme)
   const asideShow = useUI((state) => state.asideShow)
   const setAsideShow = useUI((state) => state.setAsideShow)
+  const { incrementFeatureCount } = useFeatureStore()
+  const router = useRouter()
 
   const [searchValue, setSearchValue] = useState('')
   const [searchBox, setSearchBox] = useState(false)
@@ -109,12 +112,17 @@ const AppEntryHeader = (props: UserInfoType): JSX.Element => {
                     }}
                     className="bg-white rounded border"
                   >
-                    {filteredFeatures?.map((filteredFeature: FeaturePropsType) => {
+                    {filteredFeatures?.map((filteredFeature: FeaturePropsType, index) => {
                       return (
                         filteredFeature.title && (
-                          <Link
+                          <div
+                            key={index}
+                            role="button"
                             style={{ textDecoration: 'none' }}
-                            href={filteredFeature.route}
+                            onClick={() => {
+                              incrementFeatureCount(filteredFeature.title)
+                              router.push(filteredFeature.route)
+                            }}
                             className=" menudropdown text-dark border-bottom text-center py-2 px-3 d-flex align-items-center gap-3 searchbox"
                           >
                             <Image
@@ -125,7 +133,7 @@ const AppEntryHeader = (props: UserInfoType): JSX.Element => {
                               alt=""
                             />
                             <p className="m-0">{filteredFeature.title}</p>
-                          </Link>
+                          </div>
                         )
                       )
                     })}
