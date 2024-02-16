@@ -77,7 +77,7 @@ export const getServerSideProps = async ({ req }) => {
 
 const Entry: NextPageWithLayout = (props) => {
   return (
-    <EntryLayout {...props}>
+    <EntryLayout {...props} features={features}>
       <CContainer className="rounded mb-5">
         <div className="mb-3">
           <CRow>
