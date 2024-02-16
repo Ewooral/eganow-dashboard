@@ -214,3 +214,23 @@ export const fileDownload_util = async (path: string, fileName: string) => {
   link.setAttribute('download', fileName)
   link.click()
 }
+
+/**
+ * get max value in an object
+ * @param {object} data
+ */
+export const getMaxValueKey = (data: object) => {
+  if (!data || typeof data !== 'object' || Object.keys(data).length === 0) {
+    return null
+  }
+  const entries = Object?.entries(data)
+
+  const [maxKey] = entries.reduce(
+    (acc, [key, value]) => {
+      return value > acc[1] ? [key, value] : acc
+    },
+    [null, -Infinity],
+  )
+
+  return maxKey
+}

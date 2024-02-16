@@ -3,8 +3,16 @@ import React from 'react'
 import Image from 'next/image'
 import { CButton, CCard, CCardBody, CCardText, CCardTitle, CCol, CLink } from '@coreui/react-pro'
 import type { FeaturePropsType } from '@/types/Features'
+import { useFeatureStore } from '@/store'
 
 export default function Features(props: FeaturePropsType) {
+  const { incrementFeatureCount } = useFeatureStore()
+
+  //increment feature count for most used feature
+  const handleFeatureClick = (featureTitle) => {
+    incrementFeatureCount(featureTitle)
+  }
+
   return (
     <CCol sm={6} lg={3}>
       <CCard className="card1 text-center w-100 pt-3 rounded-4">
@@ -38,7 +46,12 @@ export default function Features(props: FeaturePropsType) {
 
           <CCardText>{props.data.content}</CCardText>
 
-          <CButton href={props.data.route} shape="rounded-pill" className="w-50">
+          <CButton
+            onClick={() => handleFeatureClick(props.data.title)}
+            href={props.data.route}
+            shape="rounded-pill"
+            className="w-50"
+          >
             Continue
           </CButton>
         </CCardBody>
