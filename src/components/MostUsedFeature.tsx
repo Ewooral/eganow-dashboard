@@ -14,12 +14,11 @@ function MostUsedFeature(props: any) {
   return (
     <CButton
       size="sm"
-      color="dark"
-      className="d-flex align-items-center gap-1"
+      className="d-flex align-items-center gap-1 mostusedfeature"
       onClick={() => router.push(filtered[0]?.route)}
     >
-      <CIcon icon={cibMacys} className="text-warning" />
-      <p className="m-0">{filtered[0]?.title}</p>
+      <CIcon icon={cibMacys} className="text-warning mostusedfeature-star" />
+      <p className="m-0 ">{filtered[0]?.title}</p>
     </CButton>
   )
 }
