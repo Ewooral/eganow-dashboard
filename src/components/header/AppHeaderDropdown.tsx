@@ -17,6 +17,10 @@ import { cilAccountLogout } from '@coreui/icons'
 import { useCookies } from 'react-cookie'
 /* CONSTANCE */
 import { EGANOW_AUTH_COOKIE_NAME } from '@/constants'
+/* UTILITY FUNCITONS */
+import { getInitialsForAvatar } from '@/util/utils'
+/* TYPE */
+import { UserInfoType } from '@/types/Users'
 /* 
 
 
@@ -27,9 +31,7 @@ const AppHeaderDropdown = (props: UserInfoType) => {
   const [_, __, removeCookie] = useCookies([EGANOW_AUTH_COOKIE_NAME])
   const router = useRouter()
 
-  const avarter = `${props?.firstname?.charAt(0).toUpperCase()} ${props?.lastname
-    ?.charAt(0)
-    .toUpperCase()}`
+  const avatarInitials = getInitialsForAvatar(props?.firstname, props?.lastname)
 
   function handleLogout() {
     //Removing the cookie on logout
@@ -43,7 +45,7 @@ const AppHeaderDropdown = (props: UserInfoType) => {
       <CDropdownToggle className="py-0" caret={false}>
         <span className="d-none d-md-inline">{`${props?.firstname} ${props?.lastname}`} </span>
         <CAvatar color="primary" textColor="white" size="md">
-          {avarter}
+          {avatarInitials}
         </CAvatar>
       </CDropdownToggle>
       <CDropdownMenu
@@ -57,7 +59,7 @@ const AppHeaderDropdown = (props: UserInfoType) => {
         </CDropdownHeader>
         <CDropdownItem className="flex text-center p-6 pt-4 text-body-secondary">
           <CAvatar color="primary" textColor="white" size="xl">
-            {avarter}
+            {avatarInitials}
           </CAvatar>
           <p className="p-2">{`${props?.firstname} ${props?.lastname}`} </p>
         </CDropdownItem>

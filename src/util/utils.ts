@@ -214,3 +214,17 @@ export const fileDownload_util = async (path: string, fileName: string) => {
   link.setAttribute('download', fileName)
   link.click()
 }
+
+
+/**
+ * Utility function to create an avatar string.
+ * It takes the first character of the firstname and lastname,
+ * converts them to uppercase, and combines them into a single string.
+ *
+ * @param {string} firstname - The first name of the user.
+ * @param {string} lastname - The last name of the user.
+ * @returns {string} The combined avatar string.
+ */
+export function getInitialsForAvatar(firstname: string, lastname: string): string {
+  return `${firstname?.charAt(0).toUpperCase()} ${lastname?.charAt(0).toUpperCase()}`;
+}
