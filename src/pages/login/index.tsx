@@ -35,6 +35,8 @@ import { useCookies } from 'react-cookie'
 import { EmptyObject, useForm } from 'react-hook-form'
 /* CONSTANCE */
 import { EGANOW_AUTH_COOKIE_NAME } from '@/constants'
+import { LoginInputType } from '@/types/Users'
+import { LoginInputErrors } from '@/types/Errors'
 
 export const defaultValues = {
   country: {

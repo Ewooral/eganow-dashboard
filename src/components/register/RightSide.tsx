@@ -2,17 +2,8 @@
 import CIcon from '@coreui/icons-react'
 import { cilBurn } from '@coreui/icons'
 import { CAlert } from '@coreui/react-pro'
+import { LeftSideProps } from '@/types/CommonDataType'
 
-type progressBar = {
-  title: string
-  content: string
-  component?: HTMLPreElement
-}
-
-type LeftSideProps = {
-  stepCount: number
-  stepList: progressBar[]
-}
 const RightSide = (props: LeftSideProps) => {
   return (
     <div className="right-side">
