@@ -226,5 +226,5 @@ export const fileDownload_util = async (path: string, fileName: string) => {
  * @returns {string} The combined avatar string.
  */
 export function getInitialsForAvatar(firstname: string, lastname: string): string {
-  return `${firstname?.charAt(1).toUpperCase()} ${lastname?.charAt(3).toUpperCase()}`;
+  return `${firstname?.charAt(0).toUpperCase()} ${lastname?.charAt(0).toUpperCase()}`;
 }
