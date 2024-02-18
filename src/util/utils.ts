@@ -217,14 +217,22 @@ export const fileDownload_util = async (path: string, fileName: string) => {
 
 
 /**
- * Utility function to create an avatar string.
- * It takes the first character of the firstname and lastname,
+ * Utility function to create an initials string.
+ * It takes the first character of each of the first four names,
  * converts them to uppercase, and combines them into a single string.
  *
- * @param {string} firstname - The first name of the user.
- * @param {string} lastname - The last name of the user.
- * @returns {string} The combined avatar string.
+ * @param {...string} args - The names of the users.
+ * @returns {string} The combined initials string.
  */
-export function getInitialsForAvatar(firstname: string, lastname: string): string {
-  return `${firstname?.charAt(0).toUpperCase()} ${lastname?.charAt(0).toUpperCase()}`;
+export function getInitialsForAvatar_util(...args: string[]): string {
+  // Limit to first four names
+  const names = args.slice(0, 4);
+  // Get the first letter of each name and capitalize it
+  const initials = names.map(name => {
+    // handle empty string
+    if (!name) return ''; 
+    return name.charAt(0).toUpperCase();
+  });
+  // Join the initials into a single string
+  return initials.join(' ');
 }

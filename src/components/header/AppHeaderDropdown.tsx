@@ -18,7 +18,7 @@ import { useCookies } from 'react-cookie'
 /* CONSTANCE */
 import { EGANOW_AUTH_COOKIE_NAME } from '@/constants'
 /* UTILITY FUNCITONS */
-import { getInitialsForAvatar } from '@/util/utils'
+import { getInitialsForAvatar_util } from '@/util/utils'
 /* TYPE */
 import { UserInfoType } from '@/types/Users'
 /* 
@@ -31,7 +31,7 @@ const AppHeaderDropdown = (props: UserInfoType) => {
   const [_, __, removeCookie] = useCookies([EGANOW_AUTH_COOKIE_NAME])
   const router = useRouter()
 
-  const avatarInitials = getInitialsForAvatar(props?.firstname, props?.lastname)
+  const avatarInitials = getInitialsForAvatar_util(props?.firstname, props?.lastname)
 
   function handleLogout() {
     //Removing the cookie on logout
