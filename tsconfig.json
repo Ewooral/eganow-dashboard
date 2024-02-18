@@ -45,7 +45,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "public/brand/logo-base64.js"
-, "../../Full-Stack-Web-Dev-HUST/server/nodejs/js-methods-typescript/src/problem-solving/TestField.ts"  ],
+  ],
   "exclude": [
     "node_modules",
     ".vscode"
