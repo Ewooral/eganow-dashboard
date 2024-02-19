@@ -262,7 +262,7 @@ const Register = () => {
   }
 
   return (
-    <div className="bg-light registration-bg min-vh-100 d-flex flex-row align-items-center">
+    <div className="bg-light  min-vh-100 d-flex flex-row align-items-center login-bg">
       <div className="step-container">
         <div className="card">
           <div className="form">

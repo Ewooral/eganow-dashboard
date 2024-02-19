@@ -255,7 +255,7 @@ const Login = (props) => {
 
                     <CRow className='align-items-center my-3'>
                       <CCol xs={6} className='text-start text-muted'>
-                        <CFormCheck id="flexCheckDefault" label="Remember Me" />
+                        <CFormCheck id="flexCheckDefault" label="Remember Me" checked />
                       </CCol>
 
                       <CCol xs={6} className="text-end">
