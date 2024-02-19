@@ -38,18 +38,22 @@ const AppEntryHeader = (props: UserInfoType): JSX.Element => {
   const [searchBox, setSearchBox] = useState(false)
   const dropdownRef = useRef<HTMLInputElement>(null)
 
+  // Filters the features based on the search value
   const filteredFeatures = props.features?.filter(
     (feature: { icon: string; title: string; content: string; route: string }) =>
       feature.title.toLowerCase().includes(searchValue.toLowerCase()),
   )
 
+  // Filters the features based on the search value
   const handleSearchBoxClick = (e: any) => {
     if (dropdownRef?.current?.contains(e.target)) {
       return
     }
+    // If the click occurs outside the dropdown, close the search box
     setSearchBox(false)
   }
 
+  // Function to handle changes in the search input
   const handleSearchBoxChange = (e: any) => {
     setSearchValue(e.target.value)
     if (!searchBox) {

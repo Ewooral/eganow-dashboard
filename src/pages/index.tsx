@@ -12,10 +12,7 @@ import biz_collect from '@/public/images/features/budget.png'
 import teamwork from '@/public/images/features/group-meeting.png'
 /* CONSTANCE */
 import { EGANOW_AUTH_COOKIE_NAME } from '@/constants'
-import { useFeatureStore } from '@/store'
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { getMaxValueKey } from '@/util/utils'
 import MostUsedFeature from '@/components/MostUsedFeature'
 /*  */
@@ -86,10 +83,12 @@ const Entry: NextPageWithLayout = (props) => {
   const [mostUsedFeature, setMostUsedFeature] = useState({})
   const [highestFeatureValue, setHighestFeatureValue] = useState(null)
 
+  //gets the most used feature object from localstorage
   useEffect(() => {
     setMostUsedFeature(JSON.parse(localStorage.getItem('most-used-feature-storage')))
   }, [])
 
+  //sets the highest used feature to local state
   useEffect(() => {
     setHighestFeatureValue(getMaxValueKey(mostUsedFeature?.state?.featureCounts))
   }, [mostUsedFeature])
