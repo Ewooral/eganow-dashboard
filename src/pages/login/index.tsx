@@ -15,6 +15,7 @@ import {
   CCol,
   CContainer,
   CForm,
+  CFormCheck,
   CFormInput,
   CFormSelect,
   CFormText,
@@ -35,6 +36,10 @@ import { useCookies } from 'react-cookie'
 import { EmptyObject, useForm } from 'react-hook-form'
 /* CONSTANCE */
 import { EGANOW_AUTH_COOKIE_NAME } from '@/constants'
+/* IMAGE */
+import lady from '@/public/images/lady.jpg'
+import logoIcon from '@/public/images/EganowLogo.png'
+import logoIconwhite from '@/public/images/eganowlogowhite.png'
 
 export const defaultValues = {
   country: {
@@ -78,7 +83,19 @@ const vars = {
 
 
 */
-const Login = () => {
+
+export async function getStaticProps() {
+  return {
+    props: {
+      secret_key: process.env.SECRET_KEY
+    }
+  }
+}
+
+
+
+
+const Login = (props) => {
   const { loginUserBusiness } = customerAccountGRPC()
   const [_, setCookie] = useCookies([EGANOW_AUTH_COOKIE_NAME])
   const [errors, setErrors] = useState<LoginInputErrors | EmptyObject>({})
@@ -96,6 +113,10 @@ const Login = () => {
     mode: 'onChange',
     defaultValues,
   })
+
+  useEffect(() => {
+    console.log(props.secret_key)
+  }, [props.secret_key])
 
   const onSubmit = async (data: LoginInputType) => {
     try {
@@ -129,13 +150,39 @@ const Login = () => {
   return (
     <div className="login-bg min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
-        <CRow className="justify-content-center">
-          <CCol style={{ maxWidth: '450px' }} className="position-relative">
-            <CCardGroup>
-              <CCard className="p-4">
-                <Image src={logo_compact} height={80} alt="Eganow" className="mx-auto" />
+        <CRow className="justify-content-center align-items-center">
+          <CCol md={8}>
+            <CCardGroup className=''>
+              <CCard className="text-white d-md-block p-0 overflow-hidden" style={{ width: '44%' }}>
+                <CCardBody className="text-center p-0 overflow-hidden position-relative h-100">
+                  <div className='p-0 m-0 bg-info overflow-hidden h-100 d-md-block d-none'>
 
+                    <Image src={lady}
+                      width={'100%'}
+                      style={{ objectFit: "cover", height: '100%' }}
+                    />
+                    <div className='position-absolute top-0 bg-danger w-100 h-100 opacity-75' style={{
+                      background: 'linear-gradient(to bottom, #ff0000, #990000)'
+                    }}>
+                    </div>
+                    <div className='position-absolute p-5 top-0 w-100 h-100  d-flex justify-content-center align-items-center'>
+                      <div className='text-white text-center'>
+                        <Image src={logoIconwhite} alt="" width={227} />
+                        <p className='my-3 fw-bold'>
+                        Payments & Financial Services infrastructure for businesses
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </CCardBody>
+              </CCard>
+
+
+              {/* FORM FIELD */}
+              <CCard className="p-4 text-center">
                 <CCardBody>
+                  <Image src={logoIcon} alt="" width={227} />
+
                   <h2 className="text-center">
                     <FormattedMessage
                       id="hello_welcome_back"
@@ -195,7 +242,7 @@ const Login = () => {
                       />
                     </CInputGroup>
 
-                    <CRow>
+                    {/* <CRow>
                       <CCol xs={12} className="text-right">
                         <CButton color="link" className="px-0">
                           <FormattedMessage
@@ -203,6 +250,16 @@ const Login = () => {
                             defaultMessage="Forgot password?"
                           />
                         </CButton>
+                      </CCol>
+                    </CRow> */}
+
+                    <CRow className='align-items-center my-3'>
+                      <CCol xs={6} className='text-start text-muted'>
+                        <CFormCheck id="flexCheckDefault" label="Remember Me" />
+                      </CCol>
+
+                      <CCol xs={6} className="text-end">
+                        <Link href={'#'} className='text-sm'><small>Forgot Password ?</small></Link>
                       </CCol>
                     </CRow>
 
@@ -235,9 +292,11 @@ const Login = () => {
                         </Link>
                       </CCol>
                     </CRow>
+
                   </CForm>
                 </CCardBody>
               </CCard>
+
             </CCardGroup>
           </CCol>
         </CRow>
