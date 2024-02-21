@@ -19,11 +19,9 @@ import commonDataSvcGRPC from '@/api/commonDataSvcGRPC'
 import { useQuery } from '@tanstack/react-query'
 import Each from '@/components/Each'
 
-type countryOptionType = {
-  countryflagurl: string
-  countryname: string
-  countrydialcode: string
-}
+// COUNTRY TYPE
+import { countryOptionType } from '@/types/CommonDataType'
+
 
 const DialCode = (props: any) => {
   const { field, fieldState } = useController({
