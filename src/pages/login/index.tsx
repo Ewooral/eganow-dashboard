@@ -101,6 +101,7 @@ export async function getStaticProps() {
 const Login = (props) => {
   const { loginUserBusiness } = customerAccountGRPC()
   const [_, setCookie] = useCookies([EGANOW_AUTH_COOKIE_NAME])
+  const [rememberMeCookie, setRemeberMeCookie,removeCookie] = useCookies()
   const [errors, setErrors] = useState<LoginInputErrors | EmptyObject>({})
   const router = useRouter()
   const intl = useIntl()
@@ -111,6 +112,7 @@ const Login = (props) => {
     handleSubmit,
     control,
     reset,
+    setValue,
     formState: { isSubmitting },
   } = useForm({
     resolver: yupResolver(validationSchema),
@@ -124,7 +126,21 @@ const Login = (props) => {
   }
 
   useEffect(() => {
-  }, [props.secret_key,rememberMe])
+    try{
+      if(rememberMeCookie){
+        // DECRYPT REMEBER ME DATA
+        const decrypted = CryptoJS.DES.decrypt(rememberMeCookie.EGANOW_REMEBER_ME, props.secret_key);
+        // CONVERT DECRYPTED DATA TO OBJECT
+        const  decryptedData = JSON.parse(decrypted.toString(CryptoJS.enc.Utf8));
+        setValue('username',decryptedData.email) //SET EMAIL STATE VALUE
+        setValue('password',decryptedData.password) //SET PASSWORD VALUE
+        setRememberMe(true)
+      }
+    }catch(err){
+      console.log(err)
+    }
+
+  }, [props.secret_key])
 
 
 
@@ -134,17 +150,23 @@ const Login = (props) => {
       //On success
       if (response.issuccess && response.messagesuccessfulorfailed === 'SUCCESSFUL') {
 
-        //Storing login authentication in cookie
-        // const encyptedLogins = CryptoJS.AES.encrypt(JSON.stringify({...response,rememberMe}),props.secret_key).toString();
+        //IF REMEMBER ME IS TRUE SET IN A COOKIE THAT STORES THE ENCYPTED DATA
+        if(rememberMe){
+          const encyptedLogins = await CryptoJS.DES.encrypt(JSON.stringify({email : data.username , password : data.password,rememberMe}),props.secret_key).toString();
+          setRemeberMeCookie("EGANOW_REMEBER_ME", encyptedLogins)
 
-        // {...response,rememberMe}
-        setCookie(EGANOW_AUTH_COOKIE_NAME,{...response,rememberMe}, {
+        }else{
+          // remove cookie if rememberMe is not set
+          removeCookie("EGANOW_REMEBER_ME")
+        }
+
+        //Storing login authentication in cookie
+        setCookie(EGANOW_AUTH_COOKIE_NAME,response, {
           maxAge: 30 * 60 * 24,
         })
 
-
         //Routing to the intermediate page when logged in.
-        router.push('/')
+        await router.push('/')
         //Exit onSubmit function
         return
       }
@@ -165,10 +187,10 @@ const Login = (props) => {
 
   return (
     <div className="login-bg min-vh-100 d-flex flex-row align-items-center">
-      <CContainer>
+      <CContainer >
         <CRow className="justify-content-center align-items-center">
-          <CCol md={8}>
-            <CCardGroup className=''>
+          <CCol md={8} >
+            <CCardGroup className='shadow-lg'>
               <CCard className="text-white d-md-block p-0 overflow-hidden" style={{ width: '44%' }}>
                 <CCardBody className="text-center p-0 overflow-hidden position-relative h-100">
                   <div className='p-0 m-0 bg-info overflow-hidden h-100 d-md-block d-none'>
@@ -223,6 +245,7 @@ const Login = (props) => {
                     <CountryInput
                       className="mb-3"
                       name="country"
+                      
                       handleForm={{ control }}
                       shouldValidate={false}
                     />
@@ -232,6 +255,7 @@ const Login = (props) => {
                         <CIcon icon={cilEnvelopeClosed} />
                       </CInputGroupText>
                       <CFormInput
+
                         placeholder={intl.formatMessage({
                           id: 'email_address',
                           defaultMessage: 'Email Address',
@@ -258,16 +282,6 @@ const Login = (props) => {
                       />
                     </CInputGroup>
 
-                    {/* <CRow>
-                      <CCol xs={12} className="text-right">
-                        <CButton color="link" className="px-0">
-                          <FormattedMessage
-                            id="forgot_password"
-                            defaultMessage="Forgot password?"
-                          />
-                        </CButton>
-                      </CCol>
-                    </CRow> */}
 
                     <CRow className='align-items-center my-3'>
                       <CCol xs={6} className='text-start text-muted'>
