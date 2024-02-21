@@ -15,6 +15,7 @@ import {
   CCol,
   CContainer,
   CForm,
+  CFormCheck,
   CFormInput,
   CFormSelect,
   CFormText,
@@ -35,6 +36,12 @@ import { useCookies } from 'react-cookie'
 import { EmptyObject, useForm } from 'react-hook-form'
 /* CONSTANCE */
 import { EGANOW_AUTH_COOKIE_NAME } from '@/constants'
+/* IMAGE */
+import lady from '@/public/images/lady.jpg'
+import logoIcon from '@/public/images/EganowLogo.png'
+import logoIconwhite from '@/public/images/eganowlogowhite.png'
+import CryptoJS from 'crypto-js';
+
 import { LoginInputType } from '@/types/Users'
 import { LoginInputErrors } from '@/types/Errors'
 
@@ -80,18 +87,34 @@ const vars = {
 
 
 */
-const Login = () => {
+
+
+
+// SETTING SECRET KEY ON SERVER
+// getStaticProps
+export async function getStaticProps() {
+  return {
+    props: {
+      secret_key: process.env.SECRET_KEY,
+    }
+  }
+}
+
+const Login = (props) => {
   const { loginUserBusiness } = customerAccountGRPC()
   const [_, setCookie] = useCookies([EGANOW_AUTH_COOKIE_NAME])
+  const [rememberMeCookie, setRemeberMeCookie,removeCookie] = useCookies()
   const [errors, setErrors] = useState<LoginInputErrors | EmptyObject>({})
   const router = useRouter()
   const intl = useIntl()
+  const [rememberMe,setRememberMe] = useState(false)
 
   const {
     register,
     handleSubmit,
     control,
     reset,
+    setValue,
     formState: { isSubmitting },
   } = useForm({
     resolver: yupResolver(validationSchema),
@@ -99,17 +122,53 @@ const Login = () => {
     defaultValues,
   })
 
+  // SETTING THE STATE FOR REMEBER ME 
+  const handleRememberMe = (e)=>{
+    setRememberMe(e.target.checked)
+  }
+
+  useEffect(() => {
+    try{
+      if(rememberMeCookie){
+        // DECRYPT REMEBER ME DATA
+        const decrypted = CryptoJS.DES.decrypt(rememberMeCookie.EGANOW_REMEBER_ME, props.secret_key);
+        // CONVERT DECRYPTED DATA TO OBJECT
+        const  decryptedData = JSON.parse(decrypted.toString(CryptoJS.enc.Utf8));
+        setValue('username',decryptedData.email) //SET EMAIL STATE VALUE
+        setValue('password',decryptedData.password) //SET PASSWORD VALUE
+        setRememberMe(true)
+      }
+    }catch(err){
+      console.log(err)
+    }
+
+  }, [props.secret_key])
+
+
+
   const onSubmit = async (data: LoginInputType) => {
     try {
       const response = await loginUserBusiness(data)
       //On success
       if (response.issuccess && response.messagesuccessfulorfailed === 'SUCCESSFUL') {
+
+        //IF REMEMBER ME IS TRUE SET IN A COOKIE THAT STORES THE ENCYPTED DATA
+        if(rememberMe){
+          const encyptedLogins = await CryptoJS.DES.encrypt(JSON.stringify({email : data.username , password : data.password,rememberMe}),props.secret_key).toString();
+          setRemeberMeCookie("EGANOW_REMEBER_ME", encyptedLogins)
+
+        }else{
+          // remove cookie if rememberMe is not set
+          removeCookie("EGANOW_REMEBER_ME")
+        }
+
         //Storing login authentication in cookie
-        setCookie(EGANOW_AUTH_COOKIE_NAME, response, {
+        setCookie(EGANOW_AUTH_COOKIE_NAME,response, {
           maxAge: 30 * 60 * 24,
         })
+
         //Routing to the intermediate page when logged in.
-        router.push('/')
+        await router.push('/')
         //Exit onSubmit function
         return
       }
@@ -130,14 +189,40 @@ const Login = () => {
 
   return (
     <div className="login-bg min-vh-100 d-flex flex-row align-items-center">
-      <CContainer>
-        <CRow className="justify-content-center">
-          <CCol style={{ maxWidth: '450px' }} className="position-relative">
-            <CCardGroup>
-              <CCard className="p-4">
-                <Image src={logo_compact} height={80} alt="Eganow" className="mx-auto" />
+      <CContainer >
+        <CRow className="justify-content-center align-items-center">
+          <CCol md={8} >
+            <CCardGroup className='shadow-lg'>
+              <CCard className="text-white d-md-block p-0 overflow-hidden" style={{ width: '44%' }}>
+                <CCardBody className="text-center p-0 overflow-hidden position-relative h-100">
+                  <div className='p-0 m-0 bg-info overflow-hidden h-100 d-md-block d-none'>
 
+                    <Image src={lady}
+                      width={'100%'}
+                      alt=''
+                      style={{ objectFit: "cover", height: '100%' }}
+                    />
+                    <div className='position-absolute top-0 bg-danger w-100 h-100 opacity-75' style={{
+                      background: 'linear-gradient(to bottom, #ff0000, #990000)'
+                    }}>
+                    </div>
+                    <div className='position-absolute p-5 top-0 w-100 h-100  d-flex justify-content-center align-items-center'>
+                      <div className='text-white text-center'>
+                        <Image src={logoIconwhite} alt="" width={227} />
+                        <p className='my-3 fw-bold'>
+                        Payments & Financial Services infrastructure for businesses
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </CCardBody>
+              </CCard>
+
+              {/* FORM FIELD */}
+              <CCard className="p-4 text-center">
                 <CCardBody>
+                  <Image src={logoIcon} alt="logo1" width={227} />
+
                   <h2 className="text-center">
                     <FormattedMessage
                       id="hello_welcome_back"
@@ -162,6 +247,7 @@ const Login = () => {
                     <CountryInput
                       className="mb-3"
                       name="country"
+                      
                       handleForm={{ control }}
                       shouldValidate={false}
                     />
@@ -171,6 +257,7 @@ const Login = () => {
                         <CIcon icon={cilEnvelopeClosed} />
                       </CInputGroupText>
                       <CFormInput
+
                         placeholder={intl.formatMessage({
                           id: 'email_address',
                           defaultMessage: 'Email Address',
@@ -197,14 +284,14 @@ const Login = () => {
                       />
                     </CInputGroup>
 
-                    <CRow>
-                      <CCol xs={12} className="text-right">
-                        <CButton color="link" className="px-0">
-                          <FormattedMessage
-                            id="forgot_password"
-                            defaultMessage="Forgot password?"
-                          />
-                        </CButton>
+
+                    <CRow className='align-items-center my-3'>
+                      <CCol xs={6} className='text-start text-muted'>
+                        <CFormCheck id="flexCheckDefault" label="Remember Me" checked={rememberMe} onChange={handleRememberMe} />
+                      </CCol>
+
+                      <CCol xs={6} className="text-end">
+                        <Link href={'#'} className='text-sm'><small>Forgot Password ?</small></Link>
                       </CCol>
                     </CRow>
 
@@ -237,9 +324,11 @@ const Login = () => {
                         </Link>
                       </CCol>
                     </CRow>
+
                   </CForm>
                 </CCardBody>
               </CCard>
+
             </CCardGroup>
           </CCol>
         </CRow>
