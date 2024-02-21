@@ -40,6 +40,8 @@ import { EGANOW_AUTH_COOKIE_NAME } from '@/constants'
 import lady from '@/public/images/lady.jpg'
 import logoIcon from '@/public/images/EganowLogo.png'
 import logoIconwhite from '@/public/images/eganowlogowhite.png'
+import CryptoJS from 'crypto-js';
+
 
 export const defaultValues = {
   country: {
@@ -84,16 +86,17 @@ const vars = {
 
 */
 
+
+
+// SETTING SECRET KEY ON SERVER
+// getStaticProps
 export async function getStaticProps() {
   return {
     props: {
-      secret_key: process.env.SECRET_KEY
+      secret_key: process.env.SECRET_KEY,
     }
   }
 }
-
-
-
 
 const Login = (props) => {
   const { loginUserBusiness } = customerAccountGRPC()
@@ -101,6 +104,7 @@ const Login = (props) => {
   const [errors, setErrors] = useState<LoginInputErrors | EmptyObject>({})
   const router = useRouter()
   const intl = useIntl()
+  const [rememberMe,setRememberMe] = useState(false)
 
   const {
     register,
@@ -114,19 +118,31 @@ const Login = (props) => {
     defaultValues,
   })
 
+  // SETTING THE STATE FOR REMEBER ME 
+  const handleRememberMe = (e)=>{
+    setRememberMe(e.target.checked)
+  }
+
   useEffect(() => {
-    console.log(props.secret_key)
-  }, [props.secret_key])
+  }, [props.secret_key,rememberMe])
+
+
 
   const onSubmit = async (data: LoginInputType) => {
     try {
       const response = await loginUserBusiness(data)
       //On success
       if (response.issuccess && response.messagesuccessfulorfailed === 'SUCCESSFUL') {
+
         //Storing login authentication in cookie
-        setCookie(EGANOW_AUTH_COOKIE_NAME, response, {
+        // const encyptedLogins = CryptoJS.AES.encrypt(JSON.stringify({...response,rememberMe}),props.secret_key).toString();
+
+        // {...response,rememberMe}
+        setCookie(EGANOW_AUTH_COOKIE_NAME,{...response,rememberMe}, {
           maxAge: 30 * 60 * 24,
         })
+
+
         //Routing to the intermediate page when logged in.
         router.push('/')
         //Exit onSubmit function
@@ -159,6 +175,7 @@ const Login = (props) => {
 
                     <Image src={lady}
                       width={'100%'}
+                      alt=''
                       style={{ objectFit: "cover", height: '100%' }}
                     />
                     <div className='position-absolute top-0 bg-danger w-100 h-100 opacity-75' style={{
@@ -177,11 +194,10 @@ const Login = (props) => {
                 </CCardBody>
               </CCard>
 
-
               {/* FORM FIELD */}
               <CCard className="p-4 text-center">
                 <CCardBody>
-                  <Image src={logoIcon} alt="" width={227} />
+                  <Image src={logoIcon} alt="logo1" width={227} />
 
                   <h2 className="text-center">
                     <FormattedMessage
@@ -255,7 +271,7 @@ const Login = (props) => {
 
                     <CRow className='align-items-center my-3'>
                       <CCol xs={6} className='text-start text-muted'>
-                        <CFormCheck id="flexCheckDefault" label="Remember Me" checked />
+                        <CFormCheck id="flexCheckDefault" label="Remember Me" checked={rememberMe} onChange={handleRememberMe} />
                       </CCol>
 
                       <CCol xs={6} className="text-end">
