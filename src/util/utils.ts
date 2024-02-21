@@ -214,3 +214,36 @@ export const fileDownload_util = async (path: string, fileName: string) => {
   link.setAttribute('download', fileName)
   link.click()
 }
+
+
+/**
+ * Utility function to create an initials string.
+ * It takes the first character of each of the first four names,
+ * converts them to uppercase, and combines them into a single string.
+ *
+ * @param {...string} args - The names of the users.
+ * @returns {string} The combined initials string.
+ */
+// This utility function takes one or more strings as arguments and returns the initials.
+export function getInitialsForAvatar_util(...args: string[]): string {
+  // Join all arguments into a single string and split it into words.
+  // This allows the function to handle multiple arguments as well as a single argument with multiple words.
+  const words = args.join(' ').split(' ');
+
+  // Limit to the first four words.
+  // This is because we only want up to four initials.
+  const names = words.slice(0, 4);
+
+  // Get the first letter of each name and capitalize it.
+  // We use map to apply this operation to each name.
+  const initials = names.map(name => {
+    // If the name is an empty string, we return an empty string.
+    // This handles the case where an argument is an empty string or multiple spaces.
+    if (!name) return ''; 
+    return name.charAt(0).toUpperCase();
+  });
+
+  // Join the initials into a single string and return it.
+  // This is the final result of the function.
+  return initials.join('');
+}

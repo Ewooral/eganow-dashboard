@@ -4,16 +4,11 @@ import avatar8 from '@/public/brand/eganow-white-logo.svg'
 import classNames from 'classnames'
 import Link from 'next/link'
 
-type progressBar = {
-  title: string
-  content: string
-  component?: HTMLPreElement
-}
+// 
+import { LeftSideProps } from '@/types/CommonDataType'
 
-type LeftSideProps = {
-  stepCount: number
-  stepList: progressBar[]
-}
+
+
 
 const LeftSide = (props: LeftSideProps) => {
   return (
