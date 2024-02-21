@@ -42,6 +42,8 @@ import logoIcon from '@/public/images/EganowLogo.png'
 import logoIconwhite from '@/public/images/eganowlogowhite.png'
 import CryptoJS from 'crypto-js';
 
+import { LoginInputType } from '@/types/Users'
+import { LoginInputErrors } from '@/types/Errors'
 
 export const defaultValues = {
   country: {

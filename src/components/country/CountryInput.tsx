@@ -19,20 +19,9 @@ import commonDataSvcGRPC from '@/api/commonDataSvcGRPC'
 import { useQuery } from '@tanstack/react-query'
 import Each from '@/components/Each'
 import { isEmpty_util } from '@/util/utils'
+import { countryPropsType } from '@/types/CommonDataType'
 
-type countryOptionType = {
-  countryflagurl: string
-  countryname: string
-  countrydialcode: string
-}
 
-type countryPropsType = {
-  name: string
-  handleForm: string[]
-  countrydialcode: string
-  shouldValidate: boolean
-  className: string
-}
 
 const Country = (props: countryPropsType) => {
   //Creating a react hook form controlled component
