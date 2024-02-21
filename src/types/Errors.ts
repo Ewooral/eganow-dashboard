@@ -7,3 +7,7 @@ export type errorType = {
   stepTwo?: string | undefined
   stepSix?: string | undefined
 }
+
+export type ForgotPasswordErrors = {
+  message: string
+}
