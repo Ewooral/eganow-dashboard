@@ -188,10 +188,10 @@ const Login = (props) => {
   return (
     <div className="login-bg min-vh-100 d-flex flex-row align-items-center">
       <CContainer >
-        <CRow className="justify-content-center align-items-center">
-          <CCol md={8} >
-            <CCardGroup className='shadow-lg'>
-              <CCard className="text-white d-xl-block d-none p-0 overflow-hidden bg-info" style={{ width: '44%' }}>
+        <CRow className="justify-content-center align-items-center" >
+          <CCol md={8}  style={{ width : 'auto' }}>
+            <CCardGroup className='shadow-lg'  >
+              <CCard className="text-white  d-none d-xl-block p-0 overflow-hidden" style={{ width: '40%' }}>
                 <CCardBody className="text-center p-0 overflow-hidden position-relative h-100 ">
                   <div className='p-0 m-0 bg-info overflow-hidden h-100 d-none d-lg-block'>
                     <Image src={lady}
@@ -216,7 +216,7 @@ const Login = (props) => {
               </CCard>
 
               {/* FORM FIELD */}
-              <CCard className="p-4 text-center">
+              <CCard className="p-4 text-center" style={{ maxWidth : '400px' }}>
                 <CCardBody>
                   <Image src={logoIcon} alt="logo1" width={227} />
 
