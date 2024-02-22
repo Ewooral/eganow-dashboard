@@ -291,7 +291,7 @@ const Login = (props) => {
                       </CCol>
 
                       <CCol xs={6} className="text-end">
-                        <Link href={'#'} className='text-sm'><small>Forgot Password ?</small></Link>
+                        <Link href="forgot-password" className='text-sm'><small>Forgot Password?</small></Link>
                       </CCol>
                     </CRow>
 
