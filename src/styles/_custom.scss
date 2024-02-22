@@ -304,3 +304,18 @@ select {
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
   }
 }
+
+.eyeIcon {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  top: 12px;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease, visibility 0.3s ease; /* Adding transitions */
+}
+
+.hiddenEyeIcon {
+  opacity: 0;
+  visibility: hidden;
+}

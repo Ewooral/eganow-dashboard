@@ -5,6 +5,9 @@ import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import * as yup from 'yup'
+import { RiEyeCloseFill } from "react-icons/ri";
+import { ImEye } from "react-icons/im";
+
 import { yupResolver } from '@hookform/resolvers/yup'
 import {
   CAlert,
@@ -288,12 +291,14 @@ const Login = (props) => {
                         required
                       />
 
-                      <CIcon
-                        onClick={togglePasswordVisibility}
-                        icon={cilLowVision}
-                        style={{ right: '10', cursor: 'pointer', top: '12' }}
-                        className="position-absolute text-danger"
-                      />
+<RiEyeCloseFill
+        onClick={togglePasswordVisibility}
+        className={`eyeIcon position-absolute ${showPassword ? 'hiddenEyeIcon' : ''}`}
+      />
+      <ImEye
+        onClick={togglePasswordVisibility}
+        className={`eyeIcon position-absolute ${showPassword ? '' : 'hiddenEyeIcon'}`}
+      />
                     </CInputGroup>
 
                     <CRow className="align-items-center my-3">
