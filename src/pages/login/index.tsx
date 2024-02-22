@@ -191,10 +191,9 @@ const Login = (props) => {
         <CRow className="justify-content-center align-items-center">
           <CCol md={8} >
             <CCardGroup className='shadow-lg'>
-              <CCard className="text-white d-md-block p-0 overflow-hidden" style={{ width: '44%' }}>
-                <CCardBody className="text-center p-0 overflow-hidden position-relative h-100">
-                  <div className='p-0 m-0 bg-info overflow-hidden h-100 d-md-block d-none'>
-
+              <CCard className="text-white d-xl-block d-none p-0 overflow-hidden bg-info" style={{ width: '44%' }}>
+                <CCardBody className="text-center p-0 overflow-hidden position-relative h-100 ">
+                  <div className='p-0 m-0 bg-info overflow-hidden h-100 d-none d-lg-block'>
                     <Image src={lady}
                       width={'100%'}
                       alt=''
