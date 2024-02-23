@@ -110,11 +110,13 @@ const AppEntryHeader = (props: UserInfoType): JSX.Element => {
                     style={{
                       maxHeight: '400px',
                       position: 'absolute',
-                      width: '100%',
-                      left: -1,
+                      width: '75%',
+                      margin: "0 auto",
+                      right: 0,
+                      left: 5,
                       top: 50,
                     }}
-                    className="bg-white rounded border"
+                    className="bg-white rounded "
                   >
                     {filteredFeatures?.map((filteredFeature: FeaturePropsType, index) => {
                       return (
