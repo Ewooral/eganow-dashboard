@@ -12,6 +12,10 @@ import biz_collect from '@/public/images/features/budget.png'
 import teamwork from '@/public/images/features/group-meeting.png'
 /* CONSTANCE */
 import { EGANOW_AUTH_COOKIE_NAME } from '@/constants'
+import { useEffect, useState } from 'react'
+import { getMaxValueKey } from '@/util/utils'
+import MostUsedFeature from '@/components/MostUsedFeature'
+/*  */
 
 const features = [
   {
@@ -76,17 +80,30 @@ export const getServerSideProps = async ({ req }) => {
 }
 
 const Entry: NextPageWithLayout = (props) => {
+  const [mostUsedFeature, setMostUsedFeature] = useState({})
+  const [highestFeatureValue, setHighestFeatureValue] = useState(null)
+
+  //gets the most used feature object from localstorage
+  useEffect(() => {
+    setMostUsedFeature(JSON.parse(localStorage.getItem('most-used-feature-storage')))
+  }, [])
+
+  //sets the highest used feature to local state
+  useEffect(() => {
+    setHighestFeatureValue(getMaxValueKey(mostUsedFeature?.state?.featureCounts))
+  }, [mostUsedFeature])
+
   return (
-    <EntryLayout {...props}>
+    <EntryLayout {...props} features={features}>
       <CContainer className="rounded mb-5">
         <div className="mb-3">
-          <CRow>
+          <CRow className=" align-items-end">
             <CCol md="auto" xs="auto" className="mx-auto mx-lg-0 ">
               <div className="entry-icon">
                 <CIcon icon={cilIndustry} size="xl" />
               </div>
             </CCol>
-            <CCol md={11}>
+            <CCol md={8}>
               <div className="mt-2">
                 <p className="text-medium-emphasis small m-0">
                   <em>Welcome back:: </em>{' '}
@@ -95,6 +112,14 @@ const Entry: NextPageWithLayout = (props) => {
                   </span>
                 </p>
                 <h3 className="text-medium-emphasis">{props.cookies.businessname}</h3>
+              </div>
+            </CCol>
+            <CCol className="">
+              <div className="d-flex justify-content-sm-end align-items-center gap-2  mx-auto mx-lg-0">
+                <p className="m-0">
+                  <em>Your most used feature::</em>{' '}
+                </p>
+                <MostUsedFeature features={features} highestFeatureValue={highestFeatureValue} />
               </div>
             </CCol>
           </CRow>

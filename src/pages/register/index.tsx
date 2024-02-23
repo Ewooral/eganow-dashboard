@@ -20,17 +20,15 @@ import { CRow, CCol, CFormInput, CButton, CForm, CFormLabel, CFormText } from '@
 import customerAccountGRPC from '@/api/customerAccountGRPC'
 
 import { useQuery } from '@tanstack/react-query'
+import { errorType } from '@/types/Errors'
+import { ProgressBar } from '@/types/CommonDataType'
 
 /* type ResponseMSG = {
   issuccess: string
   messagesuccessfulorfailed: string
 } */
 
-type errorType = {
-  stepOne?: string | undefined
-  stepTwo?: string | undefined
-  stepSix?: string | undefined
-}
+
 /* 
 
 
@@ -50,7 +48,7 @@ const Register = () => {
     defaultValues: defaultFormValues,
   })
 
-  const progressBar = [
+  const progressBar: ProgressBar = [
     {
       title: 'Email Address',
       content: 'Setting your email address. A verification code will be sent to your email .',

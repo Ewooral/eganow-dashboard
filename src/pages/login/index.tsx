@@ -5,6 +5,9 @@ import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import * as yup from 'yup'
+import { RiEyeCloseFill } from "react-icons/ri";
+import { ImEye } from "react-icons/im";
+
 import { yupResolver } from '@hookform/resolvers/yup'
 import {
   CAlert,
@@ -26,7 +29,7 @@ import {
 } from '@coreui/react-pro'
 import CIcon from '@coreui/icons-react'
 import logo_compact from '@/public/brand/eganow.png'
-import { cilEnvelopeClosed, cilFire, cilLockLocked } from '@coreui/icons'
+import { cilEnvelopeClosed, cilFire, cilLockLocked, cilHappy, cilLowVision } from '@coreui/icons'
 /* API */
 import customerAccountGRPC from '@/api/customerAccountGRPC'
 /* COMPONENTS */
@@ -40,8 +43,11 @@ import { EGANOW_AUTH_COOKIE_NAME } from '@/constants'
 import lady from '@/public/images/lady.jpg'
 import logoIcon from '@/public/images/EganowLogo.png'
 import logoIconwhite from '@/public/images/eganowlogowhite.png'
-import CryptoJS from 'crypto-js';
+import CryptoJS from 'crypto-js'
 
+import { LoginInputType } from '@/types/Users'
+import { LoginInputErrors } from '@/types/Errors'
+import { Icon } from './../../components/IconsView'
 
 export const defaultValues = {
   country: {
@@ -86,26 +92,25 @@ const vars = {
 
 */
 
-
-
 // SETTING SECRET KEY ON SERVER
 // getStaticProps
 export async function getStaticProps() {
   return {
     props: {
       secret_key: process.env.SECRET_KEY,
-    }
+    },
   }
 }
 
 const Login = (props) => {
   const { loginUserBusiness } = customerAccountGRPC()
   const [_, setCookie] = useCookies([EGANOW_AUTH_COOKIE_NAME])
-  const [rememberMeCookie, setRemeberMeCookie,removeCookie] = useCookies()
+  const [rememberMeCookie, setRemeberMeCookie, removeCookie] = useCookies()
   const [errors, setErrors] = useState<LoginInputErrors | EmptyObject>({})
+  const [showPassword, setShowPassword] = useState(false)
   const router = useRouter()
   const intl = useIntl()
-  const [rememberMe,setRememberMe] = useState(false)
+  const [rememberMe, setRememberMe] = useState(false)
 
   const {
     register,
@@ -120,48 +125,46 @@ const Login = (props) => {
     defaultValues,
   })
 
-  // SETTING THE STATE FOR REMEBER ME 
-  const handleRememberMe = (e)=>{
+  // SETTING THE STATE FOR REMEBER ME
+  const handleRememberMe = (e) => {
     setRememberMe(e.target.checked)
   }
 
   useEffect(() => {
-    try{
-      if(rememberMeCookie){
+    try {
+      if (rememberMeCookie) {
         // DECRYPT REMEBER ME DATA
-        const decrypted = CryptoJS.DES.decrypt(rememberMeCookie.EGANOW_REMEBER_ME, props.secret_key);
+        const decrypted = CryptoJS.DES.decrypt(rememberMeCookie.EGANOW_REMEBER_ME, props.secret_key)
         // CONVERT DECRYPTED DATA TO OBJECT
-        const  decryptedData = JSON.parse(decrypted.toString(CryptoJS.enc.Utf8));
-        setValue('username',decryptedData.email) //SET EMAIL STATE VALUE
-        setValue('password',decryptedData.password) //SET PASSWORD VALUE
+        const decryptedData = JSON.parse(decrypted.toString(CryptoJS.enc.Utf8))
+        setValue('username', decryptedData.email) //SET EMAIL STATE VALUE
+        setValue('password', decryptedData.password) //SET PASSWORD VALUE
         setRememberMe(true)
       }
-    }catch(err){
+    } catch (err) {
       console.log(err)
     }
-
   }, [props.secret_key])
-
-
 
   const onSubmit = async (data: LoginInputType) => {
     try {
       const response = await loginUserBusiness(data)
       //On success
       if (response.issuccess && response.messagesuccessfulorfailed === 'SUCCESSFUL') {
-
         //IF REMEMBER ME IS TRUE SET IN A COOKIE THAT STORES THE ENCYPTED DATA
-        if(rememberMe){
-          const encyptedLogins = await CryptoJS.DES.encrypt(JSON.stringify({email : data.username , password : data.password,rememberMe}),props.secret_key).toString();
-          setRemeberMeCookie("EGANOW_REMEBER_ME", encyptedLogins)
-
-        }else{
+        if (rememberMe) {
+          const encyptedLogins = await CryptoJS.DES.encrypt(
+            JSON.stringify({ email: data.username, password: data.password, rememberMe }),
+            props.secret_key,
+          ).toString()
+          setRemeberMeCookie('EGANOW_REMEBER_ME', encyptedLogins)
+        } else {
           // remove cookie if rememberMe is not set
-          removeCookie("EGANOW_REMEBER_ME")
+          removeCookie('EGANOW_REMEBER_ME')
         }
 
         //Storing login authentication in cookie
-        setCookie(EGANOW_AUTH_COOKIE_NAME,response, {
+        setCookie(EGANOW_AUTH_COOKIE_NAME, response, {
           maxAge: 30 * 60 * 24,
         })
 
@@ -185,8 +188,15 @@ const Login = (props) => {
     }
   }
 
+  // Function to toggle password visibility
+  const togglePasswordVisibility = () => {
+    console.log(showPassword)
+    setShowPassword(!showPassword)
+  }
+
   return (
     <div className="login-bg min-vh-100 d-flex flex-row align-items-center">
+
       <CContainer >
         <CRow className="justify-content-center align-items-center" >
           <CCol md={8}  style={{ width : 'auto' }}>
@@ -196,18 +206,20 @@ const Login = (props) => {
                   <div className='p-0 m-0 bg-info overflow-hidden h-100 d-none d-lg-block'>
                     <Image src={lady}
                       width={'100%'}
-                      alt=''
-                      style={{ objectFit: "cover", height: '100%' }}
+                      alt=""
+                      style={{ objectFit: 'cover', height: '100%' }}
                     />
-                    <div className='position-absolute top-0 bg-danger w-100 h-100 opacity-75' style={{
-                      background: 'linear-gradient(to bottom, #ff0000, #990000)'
-                    }}>
-                    </div>
-                    <div className='position-absolute p-5 top-0 w-100 h-100  d-flex justify-content-center align-items-center'>
-                      <div className='text-white text-center'>
+                    <div
+                      className="position-absolute top-0 bg-danger w-100 h-100 opacity-75"
+                      style={{
+                        background: 'linear-gradient(to bottom, #ff0000, #990000)',
+                      }}
+                    ></div>
+                    <div className="position-absolute p-5 top-0 w-100 h-100  d-flex justify-content-center align-items-center">
+                      <div className="text-white text-center">
                         <Image src={logoIconwhite} alt="" width={227} />
-                        <p className='my-3 fw-bold'>
-                        Payments & Financial Services infrastructure for businesses
+                        <p className="my-3 fw-bold">
+                          Payments & Financial Services infrastructure for businesses
                         </p>
                       </div>
                     </div>
@@ -244,7 +256,6 @@ const Login = (props) => {
                     <CountryInput
                       className="mb-3"
                       name="country"
-                      
                       handleForm={{ control }}
                       shouldValidate={false}
                     />
@@ -254,7 +265,6 @@ const Login = (props) => {
                         <CIcon icon={cilEnvelopeClosed} />
                       </CInputGroupText>
                       <CFormInput
-
                         placeholder={intl.formatMessage({
                           id: 'email_address',
                           defaultMessage: 'Email Address',
@@ -265,12 +275,13 @@ const Login = (props) => {
                       />
                     </CInputGroup>
 
-                    <CInputGroup className="mb-1">
+                    <CInputGroup className="mb-1  ">
                       <CInputGroupText style={{ width: '50px' }}>
                         <CIcon icon={cilLockLocked} />
                       </CInputGroupText>
                       <CFormInput
-                        type="password"
+                        style={{ borderRadius: '0 5px 5px 0' }}
+                        type={showPassword ? 'text' : 'password'}
                         placeholder={intl.formatMessage({
                           id: 'password',
                           defaultMessage: 'Password',
@@ -279,16 +290,31 @@ const Login = (props) => {
                         {...register('password', { required: true, minLength: 2, maxLength: 50 })}
                         required
                       />
+
+<RiEyeCloseFill
+        onClick={togglePasswordVisibility}
+        className={`eyeIcon position-absolute ${showPassword ? 'hiddenEyeIcon' : ''}`}
+      />
+      <ImEye
+        onClick={togglePasswordVisibility}
+        className={`eyeIcon position-absolute ${showPassword ? '' : 'hiddenEyeIcon'}`}
+      />
                     </CInputGroup>
 
-
-                    <CRow className='align-items-center my-3'>
-                      <CCol xs={6} className='text-start text-muted'>
-                        <CFormCheck id="flexCheckDefault" label="Remember Me" checked={rememberMe} onChange={handleRememberMe} />
+                    <CRow className="align-items-center my-3">
+                      <CCol xs={6} className="text-start text-muted">
+                        <CFormCheck
+                          id="flexCheckDefault"
+                          label="Remember Me"
+                          checked={rememberMe}
+                          onChange={handleRememberMe}
+                        />
                       </CCol>
 
                       <CCol xs={6} className="text-end">
-                        <Link href={'#'} className='text-sm'><small>Forgot Password ?</small></Link>
+                        <Link href="forgot-password" className="text-sm">
+                          <small>Forgot Password?</small>
+                        </Link>
                       </CCol>
                     </CRow>
 
@@ -321,11 +347,9 @@ const Login = (props) => {
                         </Link>
                       </CCol>
                     </CRow>
-
                   </CForm>
                 </CCardBody>
               </CCard>
-
             </CCardGroup>
           </CCol>
         </CRow>
