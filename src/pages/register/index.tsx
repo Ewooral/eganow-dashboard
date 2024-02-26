@@ -22,6 +22,7 @@ import customerAccountGRPC from '@/api/customerAccountGRPC'
 import { useQuery } from '@tanstack/react-query'
 import { errorType } from '@/types/Errors'
 import { ProgressBar } from '@/types/CommonDataType'
+import LanguageSelector from '@/components/LanguageSelector'
 
 /* type ResponseMSG = {
   issuccess: string
@@ -262,13 +263,16 @@ const Register = () => {
   return (
     <div className="bg-light  min-vh-100 d-flex flex-row align-items-center login-bg">
       <div className="step-container">
-        <div className="card">
-          <div className="form">
-            {/*  */}
-            <LeftSide stepCount={stepCount} stepList={progressBar} />
-            {/*  */}
-            <RightSide stepCount={stepCount} stepList={progressBar} />
-            {/*  */}
+        <div>
+          <LanguageSelector/>
+          <div className="card">
+            <div className="form">
+              {/*  */}
+              <LeftSide stepCount={stepCount} stepList={progressBar} />
+              {/*  */}
+              <RightSide stepCount={stepCount} stepList={progressBar} />
+              {/*  */}
+            </div>
           </div>
         </div>
       </div>
