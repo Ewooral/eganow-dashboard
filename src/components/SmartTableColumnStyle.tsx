@@ -1,7 +1,7 @@
 // @ts-nocheck
 import Image from 'next/image'
 import { CURRENCY, MONEY_FORMAT, PLACEHOLDER } from '@/constants'
-import { formatMoney_util, statusType_util } from '@/util/utils'
+import { formatMoney_util, statusType_util } from '@/util'
 import { cilLibrary, cilLockLocked, cilPencil } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import { CBadge, CButton, CCardBody, CCollapse } from '@coreui/react-pro'

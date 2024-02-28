@@ -9,10 +9,6 @@ export type StepPropType = {
       language: String[]
       confirmPassword: String[]
       countryCode: String[]
-      securityQuestionOne: String[]
-      securityAnswerOne: String[]
-      securityQuestionTwo: String[]
-      securityAnswerTwo: String[]
     }
     dirtyFields: {
       emailAddress: String[]
@@ -23,10 +19,6 @@ export type StepPropType = {
       language: String[]
       confirmPassword: String[]
       countryCode: String[]
-      securityQuestionOne: String[]
-      securityAnswerOne: String[]
-      securityQuestionTwo: String[]
-      securityAnswerTwo: String[]
     }
   }
   register: Function

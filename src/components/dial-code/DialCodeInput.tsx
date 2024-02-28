@@ -14,7 +14,7 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilGlobeAlt } from '@coreui/icons'
 /* API */
-import commonDataSvcGRPC from '@/api/commonDataSvcGRPC'
+import sharedServiceGRPC from '@/api/sharedServiceGRPC'
 /* USE_QUERY */
 import { useQuery } from '@tanstack/react-query'
 import Each from '@/components/Each'
@@ -28,31 +28,26 @@ const DialCode = (props: any) => {
     name: props.name,
     control: props.handleForm.control,
   })
-  //Country options
-  const [countryOptions, setCountryOptions] = useState([])
   //Fetching country options
-  const { getReceivingOperatingCountries } = commonDataSvcGRPC()
+  const { getCountries } = sharedServiceGRPC()
   //Fetching API
-  const { isLoading, isSuccess, error, data } = useQuery({
-    queryKey: ['countryGrpcData'],
-    queryFn: getReceivingOperatingCountries,
+  const { error, data } = useQuery({
+    queryKey: ['countryData'],
+    queryFn: () => getCountries({ countryFilter: 'COUNTRY_FILTER_SIGNUP' }),
     staleTime: 5000,
   })
 
-  useEffect(() => {
-    if (data) setCountryOptions(data?.countrylistList)
-  }, [data])
-
+ 
   function handleFlagChange(event) {
     const { id, value, dataset } = event.target
 
     if (dataset.name === 'flag') {
-      const obj = data?.countrylistList[id]
+      const obj = data?.countriesList[id]
       //Returning event and country obj
       field.onChange({
         ...field.value,
-        dialFlag: obj.countryflagurl,
-        dialCode: obj.countrydialcode,
+        dialFlag: obj.countryFlagUrl,
+        dialCode: obj.dialCode,
       })
     }
 
@@ -73,11 +68,11 @@ const DialCode = (props: any) => {
       <CDropdown variant="input-group">
         <CDropdownToggle color="secondary" variant="outline" split style={{ width: '30px' }} />
         <CInputGroupText className="flex">
-          {!!field.value.dialFlag ? (
+          {!!field.value?.dialFlag ? (
             <>
               {/* eslint-disable-next-line jsx-a11y/img-redundant-alt, @next/next/no-img-element */}
-              <Image src={field.value.dialFlag} width={24} height={16} alt="flag" />{' '}
-              <span>{field.value.dialCode}</span>
+              <Image src={field.value?.dialFlag} width={24} height={16} alt="flag" />{' '}
+              <span>{field.value?.dialCode}</span>
             </>
           ) : (
             <CIcon icon={cilGlobeAlt} />
@@ -85,12 +80,12 @@ const DialCode = (props: any) => {
         </CInputGroupText>
         <CDropdownMenu className="w-100" onClick={handleFlagChange}>
           <Each
-            of={countryOptions}
+            of={data?.countriesList}
             render={(item: countryOptionType, index) => {
               return (
                 <CDropdownItem id={`${index}`} data-name="flag">
-                  <Image src={item.countryflagurl} width={24} height={16} alt={item.countryname} />
-                  <span style={{ marginLeft: '10px' }}>{item.countryname}</span>
+                  <Image src={item.countryFlagUrl} width={24} height={16} alt={item.countryName} />
+                  <span style={{ marginLeft: '10px' }}>{item.countryName}</span>
                 </CDropdownItem>
               )
             }}

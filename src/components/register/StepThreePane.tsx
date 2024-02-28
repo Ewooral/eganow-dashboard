@@ -43,10 +43,10 @@ const languageOption = [
 ]
 
 const StepThreePane = (props: any) => {
-  const { register, formState } = props.handleForm
+  const { register, formState, getValues } = props.handleForm
   const handleBackClick = props.handleBackClick
   const handleNextClick = props.handleNextClick
-
+  
   return (
     <>
       <CRow>
@@ -155,32 +155,35 @@ const StepThreePane = (props: any) => {
         </CCol>
         <CCol>
           <CFormLabel
-            htmlFor="languageId"
+            htmlFor="emailAddress"
             className={classNames({
-              'text-error': !!formState.errors?.languageId,
+              'text-error': !!formState.errors?.emailAddress,
             })}
           >
-            Language
+            Email address
           </CFormLabel>
-          <CFormSelect
-            aria-label="Default select example"
-            id="languageId"
-            placeholder="Per your legal documents."
-            {...register('languageId')}
+          <CFormInput
+            readOnly
+            type="email"
+            id="emailAddress"
+            placeholder="Enter email address here."
+            value={getValues('emailAddress')}
             valid={
-              formState.dirtyFields?.languageId && !!!formState.errors?.languageId ? true : false
+              formState.dirtyFields?.emailAddress && !!!formState.errors?.emailAddress
+                ? true
+                : false
             }
-            invalid={!!formState.errors?.languageId && true}
-            options={languageOption}
+            invalid={!!formState.errors?.emailAddress && true}
           />
+
           <CFormText
             component="span"
             className={classNames({
               'text-error': true,
-              'd-none': !!formState.errors?.languageId ? false : true,
+              'd-none': !!formState.errors?.emailAddress ? false : true,
             })}
           >
-            Language is required
+            Email address required
           </CFormText>
         </CCol>
       </CRow>

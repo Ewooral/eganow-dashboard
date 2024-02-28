@@ -1,5 +1,6 @@
 // @ts-nocheck
 import Image from 'next/image'
+import { useEffect } from 'react'
 import CIcon from '@coreui/icons-react'
 import { cilBurn, cilEnvelopeClosed } from '@coreui/icons'
 import {
@@ -7,7 +8,6 @@ import {
   CCol,
   CFormInput,
   CButton,
-  CForm,
   CFormLabel,
   CFormText,
   CSpinner,
@@ -16,11 +16,31 @@ import {
 import classNames from 'classnames'
 import { FaChevronRight } from 'react-icons/fa'
 import logo_compact from '@/public/brand/eganow.png'
-import { StepPropType } from './types'
+//import { StepPropType } from './types'
+/* COMPONENTS */
+import CountryInput from '@/components/country/CountryInput'
+/* STORE */
+import { useLocale } from '@/store'
 
 const StepOnePane = (props: any) => {
-  const { register, formState } = props.handleForm
+  const { country, setCountry } = useLocale((state) => state)
+  const { register, formState, setValue } = props.handleForm
   const handleNextClick = props.handleNextClick
+
+  useEffect(() => {
+    if (country?.code) {
+      setValue('country', country)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [country])
+
+  function handleCallback(event, result) {
+    setCountry({
+      flag: result.countryFlagUrl,
+      code: result.countryCode,
+      name: result.countryName,
+    })
+  }
 
   return (
     <>
@@ -52,9 +72,38 @@ const StepOnePane = (props: any) => {
           </CAlert>
         )}
 
-        <h4>Your Email Address</h4>
+        <h4>Country & Email Address</h4>
         <p>Enter your email address to receive your verification code (OTP) for the next step.</p>
       </div>
+      <CRow>
+        <CCol>
+          <CFormLabel
+            htmlFor="country"
+            className={classNames({
+              'text-error': !!formState.errors?.country,
+            })}
+          >
+            Country
+          </CFormLabel>
+          <CountryInput
+            className="mb-3"
+            name="country"
+            handleForm={{ control: props.handleForm.control }}
+            callback={handleCallback}
+            shouldValidate={false}
+          />
+
+          <CFormText
+            component="span"
+            className={classNames({
+              'text-error': true,
+              'd-none': !!formState.errors?.country ? false : true,
+            })}
+          >
+            Country is required
+          </CFormText>
+        </CCol>
+      </CRow>
       <CRow>
         <CCol>
           <CFormLabel
