@@ -34,6 +34,7 @@ import { cilEnvelopeClosed, cilFire, cilLockLocked, cilHappy, cilLowVision } fro
 import customerAccountGRPC from '@/api/customerAccountGRPC'
 /* COMPONENTS */
 import CountryInput from '@/components/country/CountryInput'
+import LanguageSelector from '@/components/LanguageSelector'
 /* HOOKS */
 import { useCookies } from 'react-cookie'
 import { EmptyObject, useForm } from 'react-hook-form'
@@ -200,6 +201,7 @@ const Login = (props) => {
       <CContainer >
         <CRow className="justify-content-center align-items-center" >
           <CCol md={8}  style={{ width : 'auto' }}>
+            <LanguageSelector/>
             <CCardGroup className='shadow-lg'  >
               <CCard className="text-white  d-none d-xl-block p-0 overflow-hidden" style={{ width: '40%' }}>
                 <CCardBody className="text-center p-0 overflow-hidden position-relative h-100 ">
