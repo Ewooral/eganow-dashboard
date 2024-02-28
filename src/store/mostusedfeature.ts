@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
-import create from 'zustand'
-=======
-import {create} from 'zustand'
->>>>>>> Stashed changes
+import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 export const useFeatureStore = create(

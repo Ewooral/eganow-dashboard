@@ -6,7 +6,7 @@ import { Children } from 'react'
 /**
  * Capitalize first letter
  * @param  {String} string
- * @return {int}  The conveted strings
+ * @return {int}  The converted strings
  */
 export const capitalizeFirstLetter_util = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1)
@@ -15,7 +15,7 @@ export const capitalizeFirstLetter_util = (string: string) => {
 /**
  * Capitalize first letter of word
  * @param  {String} string
- * @return {int}  The conveted strings
+ * @return {int}  The converted strings
  */
 export const capitalizeFirstLetterOfWords_util = (string: string) => {
   //split string into an array of strings on blank spaces
@@ -31,7 +31,7 @@ export const capitalizeFirstLetterOfWords_util = (string: string) => {
 /**
  * Camel Case Split to words.
  * @param  {String} string
- * @return {int}  The conveted strings
+ * @return {int}  The converted strings
  */
 export const camelCaseSplit_util = (string: string) => {
   return string.replace(/([a-z])([A-Z])/g, '$1 $2')
@@ -40,7 +40,7 @@ export const camelCaseSplit_util = (string: string) => {
 /**
  * Camel Case Split to words.
  * @param  {String} string
- * @return {int}  The conveted strings
+ * @return {int}  The converted strings
  */
 export const removeUnderscores_util = (string: string) => {
   return string.replace(/_/g, ' ')
@@ -247,38 +247,13 @@ export const getMaxValueKey = (data: object) => {
  * @returns {string} The combined initials string.
  */
 // This utility function takes one or more strings as arguments and returns the initials.
-<<<<<<< Updated upstream:src/util/utils.ts
-export function getInitialsForAvatar_util(...args: string[]): string {
-  // Join all arguments into a single string and split it into words.
-  // This allows the function to handle multiple arguments as well as a single argument with multiple words.
-  const words = args.join(' ').split(' ');
-
-  // Limit to the first four words.
-  // This is because we only want up to four initials.
-  const names = words.slice(0, 4);
-
-  // Get the first letter of each name and capitalize it.
-  // We use map to apply this operation to each name.
-  const initials = names.map(name => {
-    // If the name is an empty string, we return an empty string.
-    // This handles the case where an argument is an empty string or multiple spaces.
-    if (!name) return ''; 
-    return name.charAt(0).toUpperCase();
-  });
-
-  // Join the initials into a single string and return it.
-  // This is the final result of the function.
-  return initials.join('');
-=======
 export function getInitialsForAvatar_util(number=2, ...args: string[]): string {
   // Join all arguments into a single string and split it into words.
   // This allows the function to handle multiple arguments as well as a single argument with multiple words.
   const words = args.join(' ').split(' ')
-
   // Limit to the first four words.
   // This is because we only want up to four initials.
   const names = words.slice(0, number)
-
   // Get the first letter of each name and capitalize it.
   // We use map to apply this operation to each name.
   const initials = names.map((name) => {
@@ -287,9 +262,7 @@ export function getInitialsForAvatar_util(number=2, ...args: string[]): string {
     if (!name) return ''
     return name.charAt(0).toUpperCase()
   })
-
   // Join the initials into a single string and return it.
   // This is the final result of the function.
   return initials.join('')
->>>>>>> Stashed changes:src/util/index.ts
 }

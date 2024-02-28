@@ -15,7 +15,6 @@ import StepThreePane from '@/components/register/StepThreePane'
 import StepFourPane from '@/components/register/StepFourPane'
 import StepFivePane from '@/components/register/StepFivePane'
 /* API */
-<<<<<<< Updated upstream
 import customerAccountGRPC from '@/api/customerAccountGRPC'
 
 import { useQuery } from '@tanstack/react-query'
@@ -29,7 +28,6 @@ import LanguageSelector from '@/components/LanguageSelector'
 } */
 
 
-=======
 import merchantOnboardingSvcGRPC from '@/api/merchantOnboardingSvcGRPC'
 import otpSvcGRPC from '@/api/otpSvcGRPC'
 /* TYPES */
@@ -39,7 +37,6 @@ import { ProgressBar } from '@/types/CommonDataType'
 import { useCookies } from 'react-cookie'
 /* CONSTANCE */
 import { EGANOW_AUTH_COOKIE } from '@/constants'
->>>>>>> Stashed changes
 /* 
 
 

@@ -17,15 +17,9 @@ import { cilAccountLogout } from '@coreui/icons'
 /* HOOKS */
 import { useCookies } from 'react-cookie'
 /* CONSTANCE */
-<<<<<<< Updated upstream
-import { EGANOW_AUTH_COOKIE_NAME } from '@/constants'
-/* UTILITY FUNCITONS */
-import { getInitialsForAvatar_util } from '@/util/utils'
-=======
 import { EGANOW_AUTH_COOKIE } from '@/constants'
 /* UTILITY FUNCITONS */
 import { getInitialsForAvatar_util } from '@/util'
->>>>>>> Stashed changes
 /* TYPE */
 import { UserInfoType } from '@/types/Users'
 /* 
@@ -38,15 +32,11 @@ const AppHeaderDropdown = (props: UserInfoType) => {
   const [_, __, removeCookie] = useCookies()
   const router = useRouter()
 
-<<<<<<< Updated upstream
-  const avatarInitials = getInitialsForAvatar_util(props?.firstname, props?.lastname)
-=======
   //Creating avatar
   const avatarInitials = useMemo(
     () => getInitialsForAvatar_util(2, props?.fullName),
     [props?.fullName],
   )
->>>>>>> Stashed changes
 
   function handleLogout() {
     //Removing the cookie on logout

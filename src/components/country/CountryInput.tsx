@@ -18,15 +18,8 @@ import sharedServiceGRPC from '@/api/sharedServiceGRPC'
 /* USE_QUERY */
 import { useQuery } from '@tanstack/react-query'
 import Each from '@/components/Each'
-<<<<<<< Updated upstream
-import { isEmpty_util } from '@/util/utils'
-import { countryPropsType } from '@/types/CommonDataType'
-
-
-=======
 import { isEmpty_util } from '@/util'
 import { countryPropsType } from '@/types/CommonDataType'
->>>>>>> Stashed changes
 
 const Country = (props: countryPropsType) => {
   //Creating a react hook form controlled component

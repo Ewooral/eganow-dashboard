@@ -4,14 +4,8 @@ import { FormattedMessage, useIntl } from 'react-intl'
 import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-<<<<<<< Updated upstream
-import * as yup from 'yup'
-import { RiEyeCloseFill } from "react-icons/ri";
-import { ImEye } from "react-icons/im";
-=======
 import { RiEyeCloseFill } from 'react-icons/ri'
 import { ImEye } from 'react-icons/im'
->>>>>>> Stashed changes
 
 import { yupResolver } from '@hookform/resolvers/yup'
 import {
@@ -34,21 +28,14 @@ import {
 } from '@coreui/react-pro'
 import CIcon from '@coreui/icons-react'
 import logo_compact from '@/public/brand/eganow.png'
-<<<<<<< Updated upstream
-import { cilEnvelopeClosed, cilFire, cilLockLocked, cilHappy, cilLowVision } from '@coreui/icons'
-=======
 import { cilEnvelopeClosed, cilFire, cilLockLocked} from '@coreui/icons'
->>>>>>> Stashed changes
 /* API */
 import merchantOnboardingSvcGRPC from '@/api/merchantOnboardingSvcGRPC'
 /* COMPONENTS */
 import CountryInput from '@/components/country/CountryInput'
-<<<<<<< Updated upstream
 import LanguageSelector from '@/components/LanguageSelector'
-=======
 import { defaultFormValues } from '@/components/login/defaultFormValues'
 import { validationSchema } from '@/components/login/validationSchema'
->>>>>>> Stashed changes
 /* HOOKS */
 import { useCookies } from 'react-cookie'
 import { EmptyObject, useForm } from 'react-hook-form'
@@ -61,40 +48,12 @@ import lady from '@/public/images/lady.jpg'
 import logoIcon from '@/public/images/EganowLogo.png'
 import logoIconwhite from '@/public/images/eganowlogowhite.png'
 import CryptoJS from 'crypto-js'
-<<<<<<< Updated upstream
-
-import { LoginInputType } from '@/types/Users'
-import { LoginInputErrors } from '@/types/Errors'
-import { Icon } from './../../components/IconsView'
-
-export const defaultValues = {
-  country: {
-    flag: 'https://res.cloudinary.com/eganow/image/upload/v1640022623/Flags/GH0233.png',
-    code: 'GH0233',
-    name: 'Ghana',
-  },
-  username: '',
-  password: '',
-}
-
-export const validationSchema = yup
-  .object({
-    country: yup.object({
-      code: yup.string().required(),
-      name: yup.string().required(),
-    }),
-    username: yup.string().required(),
-    password: yup.string().required(),
-  })
-  .required()
-=======
 /* UTILITY */
 import { capitalizeFirstLetter_util } from '@/util'
 
 import { LoginInputType } from '@/types/Users'
 import { LoginInputErrors } from '@/types/Errors'
 import { Icon } from '@/components/IconsView'
->>>>>>> Stashed changes
 
 const vars = {
   '--cui-btn-color': 'white',
@@ -112,14 +71,6 @@ const vars = {
   '--cui-btn-disabled-bg': '#cd0429',
   '--cui-btn-disabled-border-color': '#cd0429',
 }
-<<<<<<< Updated upstream
-/* 
-
-
-
-*/
-=======
->>>>>>> Stashed changes
 
 // SETTING SECRET KEY ON SERVER
 export async function getStaticProps() {
@@ -135,16 +86,6 @@ export async function getStaticProps() {
  *
  */
 const Login = (props) => {
-<<<<<<< Updated upstream
-  const { loginUserBusiness } = customerAccountGRPC()
-  const [_, setCookie] = useCookies([EGANOW_AUTH_COOKIE_NAME])
-  const [rememberMeCookie, setRemeberMeCookie, removeCookie] = useCookies()
-  const [errors, setErrors] = useState<LoginInputErrors | EmptyObject>({})
-  const [showPassword, setShowPassword] = useState(false)
-  const router = useRouter()
-  const intl = useIntl()
-  const [rememberMe, setRememberMe] = useState(false)
-=======
   const { loginMerchant } = merchantOnboardingSvcGRPC()
   const [cookie, setCookie, removeCookie] = useCookies()
   const [errors, setErrors] = useState<LoginInputErrors | EmptyObject>({})
@@ -153,7 +94,6 @@ const Login = (props) => {
 
   const router = useRouter()
   const intl = useIntl()
->>>>>>> Stashed changes
 
   const {
     register,
@@ -168,48 +108,6 @@ const Login = (props) => {
     defaultValues: defaultFormValues,
   })
 
-<<<<<<< Updated upstream
-  // SETTING THE STATE FOR REMEBER ME
-  const handleRememberMe = (e) => {
-    setRememberMe(e.target.checked)
-  }
-
-  useEffect(() => {
-    try {
-      if (rememberMeCookie) {
-        // DECRYPT REMEBER ME DATA
-        const decrypted = CryptoJS.DES.decrypt(rememberMeCookie.EGANOW_REMEBER_ME, props.secret_key)
-        // CONVERT DECRYPTED DATA TO OBJECT
-        const decryptedData = JSON.parse(decrypted.toString(CryptoJS.enc.Utf8))
-        setValue('username', decryptedData.email) //SET EMAIL STATE VALUE
-        setValue('password', decryptedData.password) //SET PASSWORD VALUE
-        setRememberMe(true)
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  }, [props.secret_key])
-
-  const onSubmit = async (data: LoginInputType) => {
-    try {
-      const response = await loginUserBusiness(data)
-      //On success
-      if (response.issuccess && response.messagesuccessfulorfailed === 'SUCCESSFUL') {
-        //IF REMEMBER ME IS TRUE SET IN A COOKIE THAT STORES THE ENCYPTED DATA
-        if (rememberMe) {
-          const encyptedLogins = await CryptoJS.DES.encrypt(
-            JSON.stringify({ email: data.username, password: data.password, rememberMe }),
-            props.secret_key,
-          ).toString()
-          setRemeberMeCookie('EGANOW_REMEBER_ME', encyptedLogins)
-        } else {
-          // remove cookie if rememberMe is not set
-          removeCookie('EGANOW_REMEBER_ME')
-        }
-
-        //Storing login authentication in cookie
-        setCookie(EGANOW_AUTH_COOKIE_NAME, response, {
-=======
   useEffect(() => {
     if (country?.code) {
       setValue('country', country)
@@ -268,7 +166,6 @@ const Login = (props) => {
 
         //Storing login authentication in cookie
         setCookie(EGANOW_AUTH_COOKIE, response, {
->>>>>>> Stashed changes
           maxAge: 30 * 60 * 24,
         })
         //Routing to the intermediate page when logged in.
@@ -291,28 +188,8 @@ const Login = (props) => {
     }
   }
 
-  // Function to toggle password visibility
-  const togglePasswordVisibility = () => {
-    console.log(showPassword)
-    setShowPassword(!showPassword)
-  }
-
   return (
     <div className="login-bg min-vh-100 d-flex flex-row align-items-center">
-<<<<<<< Updated upstream
-
-      <CContainer >
-        <CRow className="justify-content-center align-items-center" >
-          <CCol md={8}  style={{ width : 'auto' }}>
-            <LanguageSelector/>
-            <CCardGroup className='shadow-lg'  >
-              <CCard className="text-white  d-none d-xl-block p-0 overflow-hidden" style={{ width: '40%' }}>
-                <CCardBody className="text-center p-0 overflow-hidden position-relative h-100 ">
-                  <div className='p-0 m-0 bg-info overflow-hidden h-100 d-none d-lg-block'>
-                    <Image src={lady}
-                      width={'100%'}
-                      alt=""
-=======
       <CContainer>
         <CRow className="justify-content-center align-items-center">
           <CCol md={8} style={{ width: 'auto' }}>
@@ -327,7 +204,6 @@ const Login = (props) => {
                       src={lady}
                       width="auto"
                       alt="lady"
->>>>>>> Stashed changes
                       style={{ objectFit: 'cover', height: '100%' }}
                     />
                     <div
@@ -349,11 +225,7 @@ const Login = (props) => {
               </CCard>
 
               {/* FORM FIELD */}
-<<<<<<< Updated upstream
-              <CCard className="p-4 text-center" style={{ maxWidth : '400px' }}>
-=======
               <CCard className="p-4 text-center" style={{ maxWidth: '400px' }}>
->>>>>>> Stashed changes
                 <CCardBody>
                   <Image src={logoIcon} alt="logo1" width={227} height="auto" />
 
@@ -401,11 +273,7 @@ const Login = (props) => {
                       />
                     </CInputGroup>
 
-<<<<<<< Updated upstream
-                    <CInputGroup className="mb-1  ">
-=======
                     <CInputGroup className="mb-1 ">
->>>>>>> Stashed changes
                       <CInputGroupText style={{ width: '50px' }}>
                         <CIcon icon={cilLockLocked} size="lg" />
                       </CInputGroupText>
@@ -420,17 +288,6 @@ const Login = (props) => {
                         {...register('password', { required: true, minLength: 2, maxLength: 50 })}
                         required
                       />
-<<<<<<< Updated upstream
-
-<RiEyeCloseFill
-        onClick={togglePasswordVisibility}
-        className={`eyeIcon position-absolute ${showPassword ? 'hiddenEyeIcon' : ''}`}
-      />
-      <ImEye
-        onClick={togglePasswordVisibility}
-        className={`eyeIcon position-absolute ${showPassword ? '' : 'hiddenEyeIcon'}`}
-      />
-=======
                       <RiEyeCloseFill
                         onClick={togglePasswordVisibility}
                         className={`eyeIcon position-absolute ${
@@ -444,21 +301,11 @@ const Login = (props) => {
                           showPassword ? '' : 'hiddenEyeIcon'
                         }`}
                       />
->>>>>>> Stashed changes
                     </CInputGroup>
 
                     <CRow className="align-items-center my-3">
                       <CCol xs={6} className="text-start text-muted">
-<<<<<<< Updated upstream
-                        <CFormCheck
-                          id="flexCheckDefault"
-                          label="Remember Me"
-                          checked={rememberMe}
-                          onChange={handleRememberMe}
-                        />
-=======
                         <CFormCheck label="Remember Me" {...register('rememberMe')} />
->>>>>>> Stashed changes
                       </CCol>
 
                       <CCol xs={6} className="text-end">

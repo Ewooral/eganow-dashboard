@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { grpc } from '@improbable-eng/grpc-web'
 import { URL } from '@/constants'
 import { OtpSvcClient } from '@/protos/generated/eganow/api/common/Otp_serviceServiceClientPb'

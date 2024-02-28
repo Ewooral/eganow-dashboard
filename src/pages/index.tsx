@@ -11,15 +11,9 @@ import { EntryLayout, Features, FeaturesPlaceholder } from '@/components'
 import biz_collect from '@/public/images/features/budget.png'
 import teamwork from '@/public/images/features/group-meeting.png'
 /* CONSTANCE */
-<<<<<<< Updated upstream
-import { EGANOW_AUTH_COOKIE_NAME } from '@/constants'
-import { useEffect, useState } from 'react'
-import { getMaxValueKey } from '@/util/utils'
-=======
 import { EGANOW_AUTH_COOKIE } from '@/constants'
 import { useEffect, useState } from 'react'
 import { getMaxValueKey } from '@/util'
->>>>>>> Stashed changes
 import MostUsedFeature from '@/components/MostUsedFeature'
 /*  */
 
@@ -90,11 +84,7 @@ const Entry: NextPageWithLayout = (props) => {
   const [mostUsedFeature, setMostUsedFeature] = useState({})
   const [highestFeatureValue, setHighestFeatureValue] = useState(null)
 
-<<<<<<< Updated upstream
-  //gets the most used feature object from localstorage
-=======
   //Gets the most used feature object from local storage
->>>>>>> Stashed changes
   useEffect(() => {
     setMostUsedFeature(JSON.parse(localStorage.getItem('most-used-feature-storage')))
   }, [])

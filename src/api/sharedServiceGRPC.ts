@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { grpc } from '@improbable-eng/grpc-web'
 import { URL } from '@/constants'
 import { CommonDataSvcClient } from '@/protos/generated/eganow/api/common/Shared_serviceServiceClientPb'
