@@ -110,11 +110,13 @@ const AppEntryHeader = (props: UserInfoType): JSX.Element => {
                     style={{
                       maxHeight: '400px',
                       position: 'absolute',
-                      width: '100%',
-                      left: -1,
+                      width: '75%',
+                      margin: "0 auto",
+                      right: 0,
+                      left: 5,
                       top: 50,
                     }}
-                    className="bg-white rounded border"
+                    className="bg-white rounded "
                   >
                     {filteredFeatures?.map((filteredFeature: FeaturePropsType, index) => {
                       return (
@@ -127,7 +129,7 @@ const AppEntryHeader = (props: UserInfoType): JSX.Element => {
                               incrementFeatureCount(filteredFeature.title)
                               router.push(filteredFeature.route)
                             }}
-                            className=" menudropdown text-dark border-bottom text-center py-2 px-3 d-flex align-items-center gap-3 searchbox"
+                            className=" menudropdown text-dark border-bottom text-center py-2 px-3 d-flex align-items-center gap-3 searchbox rounded"
                           >
                             <Image
                               orientation="top"
