@@ -1,0 +1,46 @@
+syntax = "proto3";
+package eganow.api.common;
+
+option go_package = "github.com/eganow/core/api;pb";
+
+message CountryData {
+  string CountryName = 1;
+  string CountryCode = 2;
+  string CountryDialCode = 3;
+  string CurrencyIso = 4;
+  string CountryFlagUrl = 5;
+  int32 MobileNoMinLen = 6;
+  int32 MobileNoMaxLen = 7;
+}
+
+enum GroupValue {
+  GROUP_VALUE_UNKNOWN = 0;
+  GROUP_VALUE_PERSONAL = 1;
+  GROUP_VALUE_BUSINESS = 2;
+}
+
+// AccountLocationValue is used to define the location of the account (required for new customer registration)
+enum AccountLocationValue {
+  ACCOUNT_LOCATION_UNKNOWN = 0;
+  ACCOUNT_LOCATION_INTERNAL = 1;
+  ACCOUNT_LOCATION_EXTERNAL = 2;
+}
+
+enum ClientPlatform {
+  CLIENT_UNKNOWN = 0;
+  CLIENT_MOBILE = 1;
+  CLIENT_WEB = 2;
+  CLIENT_API = 3;
+}
+
+enum UserAccountStatus {
+  USER_ACCOUNT_STATUS_UNKNOWN = 0;
+  USER_ACCOUNT_STATUS_ACTIVE = 1;
+  USER_ACCOUNT_STATUS_BLOCKED = 2;
+}
+
+enum UserPasswordStatus {
+  PASSWORD_RESET_STATUS_UNKNOWN = 0;
+  PASSWORD_RESET_STATUS_TEMPORAL = 1;
+  PASSWORD_RESET_STATUS_PERMANENT = 2;
+}

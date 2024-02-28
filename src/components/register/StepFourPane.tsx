@@ -1,35 +1,20 @@
 // @ts-nocheck
 import Image from 'next/image'
 import CIcon from '@coreui/icons-react'
+import { cilBurn } from '@coreui/icons'
 import { cilIndustry } from '@coreui/icons'
-import {
-  CForm,
-  CRow,
-  CCol,
-  CFormLabel,
-  CFormInput,
-  CFormText,
-  CInputGroup,
-  CDropdown,
-  CDropdownToggle,
-  CInputGroupText,
-  CDropdownMenu,
-  CDropdownItem,
-  CButton,
-  CFormSelect,
-} from '@coreui/react-pro'
+import { CRow, CCol, CFormLabel, CFormInput, CFormText, CButton, CAlert } from '@coreui/react-pro'
 import classNames from 'classnames'
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { FaChevronLeft, FaTelegramPlane } from 'react-icons/fa'
 import logo_compact from '@/public/brand/eganow.png'
 import { StepPropType } from './types'
-/*  */
+/* COMPONENT */
 import DialCode from '@/components/dial-code/DialCodeInput'
-import CountryInput from '@/components/country/CountryInput'
 
 const StepFourPane = (props: any) => {
   const { register, formState } = props.handleForm
   const handleBackClick = props.handleBackClick
-  const handleNextClick = props.handleNextClick
+  const handleSubmitClick = props.handleSubmitClick
 
   return (
     <>
@@ -52,11 +37,18 @@ const StepFourPane = (props: any) => {
         </CCol>
       </CRow>
       <div className="text">
+        {/* Error MSG */}
+        {props.errors?.stepFour && (
+          <CAlert color="danger">
+            <CIcon icon={cilBurn} className="flex-shrink-0 me-2" width={24} height={24} />
+            {props.errors?.stepFour}
+          </CAlert>
+        )}
         <h4>Business Information</h4>
         <p>Enter your business details in the fields below.</p>
       </div>
 
-      <CRow className="mb-4 mt-5">
+      <CRow className="mt-2">
         <CCol>
           <CFormLabel
             htmlFor="businessName"
@@ -90,46 +82,57 @@ const StepFourPane = (props: any) => {
         </CCol>
       </CRow>
 
-      <CRow className="mb-3" xs={{ gutterY: 3, cols: 1 }} md={{ gutterY: 3, cols: 2 }}>
+      <CRow className="mt-3">
         <CCol>
           <CFormLabel
-            htmlFor="businessContactPersonNumber"
+            htmlFor="tradingName"
             className={classNames({
-              'text-error': !!formState.errors?.businessContactPersonNumber,
+              'text-error': !!formState.errors?.tradingName,
             })}
           >
-            Business contact person&apos;s phone no.
+            Trading name
           </CFormLabel>
-          <DialCode name="businessContactPersonNumber" handleForm={props.handleForm} />
+          <CFormInput
+            type="text"
+            id="tradingName"
+            placeholder="Enter your business trading name here."
+            {...register('tradingName')}
+            valid={
+              formState.dirtyFields?.tradingName && !!!formState.errors?.tradingName ? true : false
+            }
+            invalid={!!formState.errors?.tradingName && true}
+          />
           <CFormText
             component="span"
             className={classNames({
               'text-error': true,
-              'd-none': !!formState.errors?.businessContactPersonNumber ? false : true,
+              'd-none': !!formState.errors?.tradingName ? false : true,
             })}
           >
-            Mobile number is equired
+            Business trading name is required
           </CFormText>
         </CCol>
+      </CRow>
 
+      <CRow className="mt-3">
         <CCol>
           <CFormLabel
-            htmlFor="countryCode"
+            htmlFor="businessMobileNo"
             className={classNames({
-              'text-error': !!formState.errors?.country,
+              'text-error': !!formState.errors?.businessMobileNo,
             })}
           >
-            Country
+            Business mobile number.
           </CFormLabel>
-          <CountryInput name="country" handleForm={props.handleForm} shouldValidate={true} />
+          <DialCode name="businessMobileNo" handleForm={props.handleForm} />
           <CFormText
             component="span"
             className={classNames({
               'text-error': true,
-              'd-none': !!formState.errors?.country ? false : true,
+              'd-none': !!formState.errors?.businessMobileNo ? false : true,
             })}
           >
-            Country code is required
+            Mobile number is required
           </CFormText>
         </CCol>
       </CRow>
@@ -142,9 +145,9 @@ const StepFourPane = (props: any) => {
           </CButton>
         </CCol>
         <CCol xs="auto">
-          <CButton color="primary" onMouseUp={handleNextClick}>
-            Next Step
-            <FaChevronRight className="ms-2 mb-1" />
+          <CButton className="text-white" color="success" onMouseUp={handleSubmitClick}>
+            Submit
+            <FaTelegramPlane className="ms-2 mb-1" />
           </CButton>
         </CCol>
       </CRow>

@@ -6,7 +6,7 @@ const uiDefault: UIDataType = {
   sidebarShow: true,
   sidebarUnfoldable: false,
   asideShow: false,
-  theme: 'light',
+  theme: 'dark',
 }
 
 const ui = (set) => ({

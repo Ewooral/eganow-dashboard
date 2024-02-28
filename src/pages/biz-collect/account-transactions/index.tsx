@@ -1,4 +1,4 @@
-//// @ts-nocheck
+// @ts-nocheck
 import { useState, useEffect, useRef } from 'react'
 /* TYPES */
 import type { NextPageWithLayout } from '@/pages/_app'
@@ -41,7 +41,7 @@ import { FiEye } from 'react-icons/fi'
 import { CChart, CChartBar, CChartLine } from '@coreui/react-chartjs'
 import { DashboardLayout, GlobalLoader } from '@/components'
 /* CONSTANCE */
-import { EGANOW_AUTH_COOKIE_NAME } from '@/constants'
+import { EGANOW_AUTH_COOKIE } from '@/constants'
 /* HOOKS */
 import useStoreReady from '@/hooks/useStoreReady'
 import NoItemsLabel from '@/components/NoItemsLabel'
@@ -98,7 +98,7 @@ const columns = [
 ]
 
 export const getServerSideProps = async ({ req }) => {
-  const cookies = JSON.parse(req.cookies[EGANOW_AUTH_COOKIE_NAME])
+  const cookies = JSON.parse(req.cookies[EGANOW_AUTH_COOKIE])
   //Response
   return {
     props: {

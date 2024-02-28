@@ -5,12 +5,21 @@ export type countryOptionType = {
 }
 
 export type countryPropsType = {
+<<<<<<< Updated upstream
     name: string
     handleForm: string[]
     countrydialcode: string
     shouldValidate: boolean
     className: string
   }
+=======
+  name: string
+  handleForm: string[]
+  countrydialcode: string
+  shouldValidate: boolean
+  className: string
+}
+>>>>>>> Stashed changes
 
 export type progressBar = {
     title: string

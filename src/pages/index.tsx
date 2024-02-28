@@ -11,9 +11,15 @@ import { EntryLayout, Features, FeaturesPlaceholder } from '@/components'
 import biz_collect from '@/public/images/features/budget.png'
 import teamwork from '@/public/images/features/group-meeting.png'
 /* CONSTANCE */
+<<<<<<< Updated upstream
 import { EGANOW_AUTH_COOKIE_NAME } from '@/constants'
 import { useEffect, useState } from 'react'
 import { getMaxValueKey } from '@/util/utils'
+=======
+import { EGANOW_AUTH_COOKIE } from '@/constants'
+import { useEffect, useState } from 'react'
+import { getMaxValueKey } from '@/util'
+>>>>>>> Stashed changes
 import MostUsedFeature from '@/components/MostUsedFeature'
 /*  */
 
@@ -70,7 +76,8 @@ const features = [
 ]
 
 export const getServerSideProps = async ({ req }) => {
-  const cookies = JSON.parse(req.cookies[EGANOW_AUTH_COOKIE_NAME])
+  const cookies = JSON.parse(req.cookies[EGANOW_AUTH_COOKIE])
+  
   //Response
   return {
     props: {
@@ -83,7 +90,11 @@ const Entry: NextPageWithLayout = (props) => {
   const [mostUsedFeature, setMostUsedFeature] = useState({})
   const [highestFeatureValue, setHighestFeatureValue] = useState(null)
 
+<<<<<<< Updated upstream
   //gets the most used feature object from localstorage
+=======
+  //Gets the most used feature object from local storage
+>>>>>>> Stashed changes
   useEffect(() => {
     setMostUsedFeature(JSON.parse(localStorage.getItem('most-used-feature-storage')))
   }, [])
@@ -108,10 +119,18 @@ const Entry: NextPageWithLayout = (props) => {
                 <p className="text-medium-emphasis small m-0">
                   <em>Welcome back:: </em>{' '}
                   <span style={{ color: '#e55353', fontSize: '16px' }}>
-                    {`${props.cookies.firstname} ${props.cookies.lastname}`}
+                    {`${props.cookies.fullName}`}
                   </span>
                 </p>
-                <h3 className="text-medium-emphasis">{props.cookies.businessname}</h3>
+                <h3 className="text-medium-emphasis">{props.cookies.businessName}</h3>
+              </div>
+            </CCol>
+            <CCol className="">
+              <div className="d-flex justify-content-sm-end align-items-center gap-2  mx-auto mx-lg-0">
+                <p className="m-0">
+                  <em>Your most used feature::</em>{' '}
+                </p>
+                <MostUsedFeature features={features} highestFeatureValue={highestFeatureValue} />
               </div>
             </CCol>
             <CCol className="">

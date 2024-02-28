@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import { useController } from 'react-hook-form'
 import {
   CDropdown,
@@ -14,14 +14,19 @@ import { cilGlobeAlt } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import Image from 'next/image'
 /* API */
-import commonDataSvcGRPC from '@/api/commonDataSvcGRPC'
+import sharedServiceGRPC from '@/api/sharedServiceGRPC'
 /* USE_QUERY */
 import { useQuery } from '@tanstack/react-query'
 import Each from '@/components/Each'
+<<<<<<< Updated upstream
 import { isEmpty_util } from '@/util/utils'
 import { countryPropsType } from '@/types/CommonDataType'
 
 
+=======
+import { isEmpty_util } from '@/util'
+import { countryPropsType } from '@/types/CommonDataType'
+>>>>>>> Stashed changes
 
 const Country = (props: countryPropsType) => {
   //Creating a react hook form controlled component
@@ -30,32 +35,31 @@ const Country = (props: countryPropsType) => {
     control: props.handleForm.control,
   })
   const inputRef = useRef(null)
-  //Country options state
-  const [countryOptions, setCountryOptions] = useState([])
   //Fetching API
-  const { getReceivingOperatingCountries } = commonDataSvcGRPC()
+  const { getCountries } = sharedServiceGRPC()
   //Fetching countries with useQuery
   const { error, data } = useQuery({
     queryKey: ['countryData'],
-    queryFn: getReceivingOperatingCountries,
+    queryFn: () => getCountries({ countryFilter: 'COUNTRY_FILTER_SIGNUP' }),
     staleTime: 5000,
   })
 
-  useEffect(() => {
-    if (data) setCountryOptions(data.countrylistList)
-  }, [data])
-
   function handleChange(event) {
     const { id } = event.target
-    const obj = data[id]
+    const obj = data?.countriesList[id]
 
     //Triggering onChange event on the selected country
     if (!isEmpty_util(obj)) {
       field.onChange({
-        flag: obj.countryflagurl,
-        code: obj.countrydialcode,
-        name: obj.countryname,
+        flag: obj.countryFlagUrl,
+        code: obj.countryCode,
+        name: obj.countryName,
       })
+
+      //Call props.callback
+      if (typeof props.callback === 'function') {
+        props.callback(event, obj)
+      }
     }
 
     //Setting focus to country input
@@ -74,18 +78,22 @@ const Country = (props: countryPropsType) => {
             // eslint-disable-next-line jsx-a11y/img-redundant-alt, @next/next/no-img-element
             <img src={field.value?.flag} width={24} height={16} alt="flag" />
           ) : (
-            <CIcon icon={cilGlobeAlt} />
+            <CIcon icon={cilGlobeAlt} size="lg" />
           )}
         </CInputGroupText>
 
-        <CDropdownMenu className="w-100" onClick={handleChange}>
+        <CDropdownMenu
+          className="w-100 overflow-auto"
+          onClick={handleChange}
+          style={{ maxHeight: '290px' }}
+        >
           <Each
-            of={countryOptions}
+            of={data?.countriesList}
             render={(item, index) => {
               return (
                 <CDropdownItem id={`${index}`} data-name="flag">
-                  <Image src={item.countryflagurl} width={24} height={16} alt={item.countryname} />
-                  <span style={{ marginLeft: '10px' }}>{item.countryname}</span>
+                  <Image src={item.countryFlagUrl} width={24} height={16} alt={item.countryName} />
+                  <span style={{ marginLeft: '10px' }}>{item.countryName}</span>
                 </CDropdownItem>
               )
             }}
@@ -100,6 +108,7 @@ const Country = (props: countryPropsType) => {
           onBlur={field.onBlur}
           ref={inputRef}
           placeholder="Select country."
+          disabled={true}
           value={field.value?.name}
           valid={
             props.shouldValidate && fieldState.isDirty && !!!fieldState.error?.name ? true : false
@@ -110,8 +119,8 @@ const Country = (props: countryPropsType) => {
         <CDropdownToggle
           color="secondary"
           variant="outline"
-          split
           className={props?.className}
+          split
         ></CDropdownToggle>
       </CDropdown>
     </CInputGroup>

@@ -1,0 +1,12 @@
+syntax = "proto3";
+package eganow.api.merchant;
+
+option go_package = "github.com/eganow/core/api;pb";
+
+message MerchantEmpty {}
+
+// The JSON representation for `StringValue` is JSON string.
+message MerchantStringValue {
+  // The string value.
+  string value = 1;
+}

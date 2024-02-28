@@ -20,9 +20,9 @@ import CIcon from '@coreui/icons-react'
 
 import {
   AppHeaderDropdown,
-  AppHeaderDropdownMssg,
+  /* AppHeaderDropdownMssg,
   AppHeaderDropdownNotif,
-  AppHeaderDropdownTasks,
+  AppHeaderDropdownTasks, */
 } from '.'
 
 import { AppBreadcrumb } from '@/components'

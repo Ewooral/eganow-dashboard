@@ -1,22 +1,21 @@
 // @ts-nocheck
-import { useState, useEffect, useRef } from 'react'
+import { useState } from 'react'
+import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import { validationSchema } from '@/components/register/validationSchema'
 import { defaultFormValues } from '@/components/register/defaultFormValues'
-
+/* COMPONENTS */
 import LeftSide from '@/components/register/LeftSide'
 import RightSide from '@/components/register/RightSide'
 import StepOnePane from '@/components/register/StepOnePane'
 import StepTwoPane from '@/components/register/StepTwoPane'
 import StepThreePane from '@/components/register/StepThreePane'
 import StepFourPane from '@/components/register/StepFourPane'
-import StepSixPane from '@/components/register/StepSixPane'
-import StepSevenPane from '@/components/register/StepSevenPane'
-
-import { CRow, CCol, CFormInput, CButton, CForm, CFormLabel, CFormText } from '@coreui/react-pro'
+import StepFivePane from '@/components/register/StepFivePane'
 /* API */
+<<<<<<< Updated upstream
 import customerAccountGRPC from '@/api/customerAccountGRPC'
 
 import { useQuery } from '@tanstack/react-query'
@@ -30,6 +29,17 @@ import LanguageSelector from '@/components/LanguageSelector'
 } */
 
 
+=======
+import merchantOnboardingSvcGRPC from '@/api/merchantOnboardingSvcGRPC'
+import otpSvcGRPC from '@/api/otpSvcGRPC'
+/* TYPES */
+import { errorType } from '@/types/Errors'
+import { ProgressBar } from '@/types/CommonDataType'
+/* HOOKS */
+import { useCookies } from 'react-cookie'
+/* CONSTANCE */
+import { EGANOW_AUTH_COOKIE } from '@/constants'
+>>>>>>> Stashed changes
 /* 
 
 
@@ -37,11 +47,14 @@ import LanguageSelector from '@/components/LanguageSelector'
 
 */
 const Register = () => {
-  const { createCustomerGenerateOTP, createCustomerVerifyOTP, createCustomerAccount } =
-    customerAccountGRPC()
+  const { createMerchantAccount, checkIfMerchantAccountExists, loginMerchant } =
+    merchantOnboardingSvcGRPC()
+  const [_, setCookie] = useCookies()
+  const { sendOTP, verifyOTP } = otpSvcGRPC()
   const [stepCount, setStepCount] = useState(0)
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<errorType>({})
+  const router = useRouter()
 
   const handleForm = useForm({
     resolver: yupResolver(validationSchema),
@@ -93,133 +106,107 @@ const Register = () => {
         <StepFourPane
           handleForm={handleForm}
           handleBackClick={back_click}
-          handleNextClick={next_click}
-        />
-      ),
-    },
-    /* {
-      title: 'Set security questions',
-      content: 'Setting and answering security questions.',
-      component: (
-        <StepFivePane
-          handleForm={handleForm}
-          handleBackClick={back_click}
-          handleNextClick={next_click}
-        />
-      ),
-    }, */
-    {
-      title: 'Transaction Pin',
-      content: 'Setting and confirming your 6-digit transaction pin.',
-      component: (
-        <StepSixPane
-          handleForm={handleForm}
-          handleBackClick={back_click}
           handleSubmitClick={submit_click}
+          errors={errors}
         />
       ),
     },
     {
       title: 'Finish',
       content: 'You are successively registered',
-      component: <StepSevenPane handleForm={handleForm} />,
+      component: (
+        <StepFivePane
+          handleForm={handleForm}
+          handleLogin={onLogin}
+          errors={errors}
+          loading={loading}
+        />
+      ),
     },
   ]
 
   async function next_click() {
-    //If email address next-btn is clicked trigger validation
-    if (stepCount === 0) {
-      //Start validation
-      const state = await handleForm.trigger('emailAddress')
-      //Return if validation fails
-      if (!state) return
-      //Start loading
-      setLoading(true)
-      //Getting email address
-      const emailAddress = handleForm.getValues('emailAddress')
-      const response: any = await createCustomerGenerateOTP({ emailAddress })
+    let stepKey
+    try {
+      //If email address next-btn is clicked trigger validation
+      if (stepCount === 0) {
+        //Setting the error step key
+        stepKey = 'stepOne'
+        //Start validation
+        const state = await handleForm.trigger('emailAddress')
+        //Return if validation fails
+        if (!state) return
+        //Start loading
+        setLoading(true)
+        //Getting email address
+        const values = handleForm.getValues()
+        //Checking if merchant account exist by email
+        await checkIfMerchantAccountExists(values)
+        //Upon response send an OTP to the new merchant
+        await sendOTP(values)
+        //Stop loading
+        setLoading(false)
+        //Resetting the error
+        if (errors?.stepOne) {
+          setErrors({})
+        }
+        //If validation fails don't increment step
+      }
+
+      //If verification code next-btn is clicked trigger validation
+      if (stepCount === 1) {
+        //Setting the error step key
+        stepKey = 'stepTwo'
+        //Start validation
+        const state = await handleForm.trigger('otpValue')
+        //If validation fails don't increment step
+        if (!state) return
+        //Start loading
+        setLoading(true)
+        //Getting email address
+        const values = handleForm.getValues()
+        //Getting email address
+        await verifyOTP(values)
+        //Stop loading
+        setLoading(false)
+        //Resetting the error
+        if (errors?.stepTwo) {
+          setErrors({})
+        }
+      }
+
+      //If personal information next-btn is clicked trigger validation
+      if (stepCount === 2) {
+        //Start validation
+        const state = await handleForm.trigger([
+          'firstName',
+          'lastName',
+          'customerMobileNo',
+          'password',
+          'confirmPassword',
+        ])
+        //If validation fails don't increment step
+        if (!state) return
+      }
+
+      //Moving to the next step
+      setStepCount((prev) => {
+        const increment = prev + 1
+        return increment
+      })
+    } catch (error) {
       //Stop loading
       setLoading(false)
-      //Return if error occurs
-      if (!response.issuccess && response.messagesuccessfulorfailed !== 'SUCCESSFUL') {
-        setErrors({ stepOne: response.message })
+      //Handling GRPC errors
+      if (error.name === 'RpcError') {
+        setErrors({
+          [stepKey]: error.metadata['grpc-message'],
+        })
         return
       }
-      //Resetting the error
-      if (errors?.stepOne) {
-        setErrors({})
-      }
-      //If validation fails don't increment step
+      //Logging general error
+      console.error(error)
     }
-
-    //If verification code next-btn is clicked trigger validation
-    if (stepCount === 1) {
-      const state = await handleForm.trigger('otpValue')
-      //If validation fails don't increment step
-      if (!state) return
-      //Start loading
-      setLoading(true)
-      //Getting email address
-      const param = {
-        emailAddress: handleForm.getValues('emailAddress'),
-        otpValue: handleForm.getValues('otpValue'),
-      }
-      const response: any = await createCustomerVerifyOTP(param)
-      //Stop loading
-      setLoading(false)
-      //Return if error occurs
-      if (!response.issuccess && response.messagesuccessfulorfailed !== 'SUCCESSFUL') {
-        setErrors({ stepTwo: response.message })
-        return
-      }
-      //Resetting the error
-      if (errors?.stepTwo) {
-        setErrors({})
-      }
-    }
-
-    //If personal information next-btn is clicked trigger validation
-    if (stepCount === 2) {
-      const state = await handleForm.trigger([
-        'firstName',
-        'lastName',
-        'customerMobileNo',
-        'languageId',
-        'password',
-        'confirmPassword',
-      ])
-      //If validation fails don't increment step
-      if (!state) return
-    }
-
-    //If business information next-btn is clicked trigger validation
-    if (stepCount === 3) {
-      const state = await handleForm.trigger([
-        'businessName',
-        'businessContactPersonNumber',
-        'country',
-      ])
-      //If validation fails don't increment step
-      if (!state) return
-    }
-
-    //If first security question next-btn is clicked trigger validation
-    /* if (stepCount === 4) {
-      const state = await handleForm.trigger([
-        'securityQuestionOne',
-        'securityAnswerOne',
-        'securityQuestionTwo',
-        'securityAnswerTwo',
-      ])
-      //If validation fails don't increment step
-      if (!state) return
-    } */
-
-    //Moving to the next step
-    setStepCount((prev) => {
-      const increment = prev + 1
-      return increment
-    })
   }
 
   function back_click() {
@@ -230,38 +217,81 @@ const Register = () => {
   }
 
   async function submit_click() {
-    //If transaction pin next-btn is clicked trigger validation
-    const state = await handleForm.trigger(['customerSixDigitPIN', 'confirmCustomerSixDigitPIN'])
+    //Start validation
+    const state = await handleForm.trigger(['businessName', 'businessMobileNo'])
     //If validation fails don't increment step
     if (!state) return
     //If no error handle submit
     handleForm.handleSubmit(onSubmit)()
   }
 
-  const onSubmit = async (param) => {
-    //Start loading
-    setLoading(true)
-    //Getting all the param
-    const response: any = await createCustomerAccount(param)
-    //Stop loading
-    setLoading(false)
-    //Return if error occurs
-    if (!response.issuccess && response.messagesuccessfulorfailed !== 'SUCCESSFUL') {
-      setErrors({ stepSix: response?.message })
-      return
+  async function onSubmit(values) {
+    try {
+      //Start loading
+      setLoading(true)
+      //Creating the merchant account
+      await createMerchantAccount(values)
+      //Stop loading
+      setLoading(false)
+      //Resetting the error if any
+      if (errors?.stepFour) {
+        setErrors({})
+      }
+      //Moving to the final step
+      setStepCount((prev) => {
+        return prev + 1
+      })
+    } catch (error) {
+      //Stop loading
+      setLoading(false)
+      //Handling GRPC errors
+      if (error.name === 'RpcError') {
+        setErrors({
+          stepFour: error.metadata['grpc-message'],
+        })
+        return
+      }
+      //Logging general error
+      console.error(error)
     }
-    //Resetting the error if any
-    if (errors?.stepSix) {
-      setErrors({})
+  }
+
+  async function onLogin() {
+    try {
+      const email = handleForm.getValues('emailAddress')
+      const password = handleForm.getValues('password')
+      //Start loading
+      setLoading(true)
+      //Log merchant in
+      const response = await loginMerchant({ email, password })
+      //If accessToken exist on success then log user in.
+      if (response.accessToken) {
+        //Storing login authentication in cookie
+        setCookie(EGANOW_AUTH_COOKIE, response, {
+          maxAge: 30 * 60 * 24,
+        })
+        //Routing to the intermediate page when logged in.
+        await router.push('/')
+        //Exit onSubmit function
+        return
+      }
+    } catch (error) {
+      //Stop loading
+      setLoading(false)
+      //Handling GRPC errors
+      if (error.name === 'RpcError') {
+        setErrors({
+          stepFinal: error.metadata['grpc-message'],
+        })
+        return
+      }
+      //Logging general error
+      console.error(error)
     }
-    //Moving to the next step
-    setStepCount((prev) => {
-      return prev + 1
-    })
   }
 
   return (
-    <div className="bg-light  min-vh-100 d-flex flex-row align-items-center login-bg">
+    <div className="min-vh-100 d-flex flex-row align-items-center login-bg">
       <div className="step-container">
         <div>
           <LanguageSelector/>
