@@ -1,0 +1,9 @@
+[submodule "EGANOW-MERCHANT-API-PROTOS"]
+	path = EGANOW-MERCHANT-API-PROTOS
+	url = https://github.com/EGANOW-CORE-SERVICES/EGANOW-MERCHANT-API-PROTOS.git
+[submodule "protos"]
+	path = protos
+	url = https://github.com/EGANOW-CORE-SERVICES/EGANOW-CORE-PROTOS.git
+[submodule "src/protos/raw"]
+	path = src/protos/raw
+	url = https://github.com/EGANOW-CORE-SERVICES/EGANOW-CORE-PROTOS.git
