@@ -7,3 +7,6 @@
 [submodule "src/protos/raw"]
 	path = src/protos/raw
 	url = https://github.com/EGANOW-CORE-SERVICES/EGANOW-CORE-PROTOS.git
+[submodule "src/protos"]
+	path = src/protos
+	url = https://github.com/EGANOW-CORE-SERVICES/EGANOW-CORE-PROTOS.git
