@@ -123,14 +123,6 @@ const Entry: NextPageWithLayout = (props) => {
                 <MostUsedFeature features={features} highestFeatureValue={highestFeatureValue} />
               </div>
             </CCol>
-            <CCol className="">
-              {highestFeatureValue && <div className="d-flex justify-content-sm-end align-items-center gap-2  mx-auto mx-lg-0">
-                <p className="m-0">
-                  <em>Your most used feature::</em>{' '}
-                </p>
-                <MostUsedFeature features={features} highestFeatureValue={highestFeatureValue} />
-              </div>}
-            </CCol>
           </CRow>
         </div>
 

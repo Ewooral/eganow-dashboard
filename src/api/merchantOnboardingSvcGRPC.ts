@@ -6,6 +6,7 @@ import {
   LoginMerchantRequest,
   CreateMerchantRequest,
   CheckMerchantAccountRequest,
+  ResetPasswordRequest,
 } from '@/protos/generated/eganow/api/merchant/onboarding_payload_pb'
 import { Metadata } from '@/helpers'
 
@@ -90,7 +91,31 @@ const MerchantOnboardingSvc = () => {
     }
   }
 
-  return { loginMerchant, createMerchantAccount, checkIfMerchantAccountExists }
+  function requestPasswordReset(param) {
+    try {
+      const request = new ResetPasswordRequest()
+      request.setEmail(param.emailAddress)
+
+      return new Promise((resolve, reject) => {
+        client.requestPasswordReset(request, metadata, (err, res) => {
+          if (err) {
+            reject(err)
+          }
+
+          resolve(res?.toObject())
+        })
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  return {
+    loginMerchant,
+    createMerchantAccount,
+    checkIfMerchantAccountExists,
+    requestPasswordReset,
+  }
 }
 
 export default MerchantOnboardingSvc

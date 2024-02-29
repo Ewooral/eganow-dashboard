@@ -12,8 +12,9 @@ import {
   CButton,
   CSpinner,
   CAlert,
+  CFormLabel,
 } from '@coreui/react-pro'
-import logo_compact from '@/public/brand/eganow.png'
+import logo_compact from '@/public/brand/eganow-colored-logo.svg'
 import Image from 'next/image'
 import { cilEnvelopeClosed, cilFire } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
@@ -25,14 +26,17 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { FormattedMessage } from 'react-intl'
 import { ForgotPasswordErrors } from '@/types/Errors'
+import classNames from 'classnames'
+/* API */
+import merchantOnboardingSvcGRPC from '@/api/merchantOnboardingSvcGRPC'
 
 export const defaultValues = {
-  username: '',
+  emailAddress: '',
 }
 
 export const validationSchema = yup
   .object({
-    username: yup.string().required(),
+    emailAddress: yup.string().email().required(),
   })
   .required()
 
@@ -54,24 +58,26 @@ const vars: object = {
 }
 
 const ForgotPassword = () => {
-  const [errors, setErrors] = useState<ForgotPasswordErrors | EmptyObject>({})
+  const { requestPasswordReset } = merchantOnboardingSvcGRPC()
+  const [errors, setErrors] = useState({})
   const [showFeedback, setShowFeedback] = useState(false) //state to toggle between feedback component
   const router = useRouter()
 
-  const {
-    register,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = useForm({
+  const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues,
   })
 
-  const onSubmit = async () => {
+  const onSubmit = async (data) => {
     try {
-      setShowFeedback(true)
+      const response = await requestPasswordReset(data)
+      console.log(response)
+      if (response) {
+        setShowFeedback(true)
+      }
     } catch (error) {
       console.error(error)
+      setErrors(error)
     }
   }
 
@@ -79,12 +85,12 @@ const ForgotPassword = () => {
   const Feedback = () => {
     return (
       <div>
-        <h3 className="text-center m-0">
+        <h3 className="text-center mb-2">
           {/*//TODO - add id to languages folder*/}
           <FormattedMessage id="check_your_email" defaultMessage="Check your email" />
         </h3>
-        <div className="d-flex justify-content-center my-4">
-          <CIcon className="tada" icon={cilEnvelopeClosed} size="3xl" style={{ color: 'black' }} />
+        <div className="d-flex justify-content-center mb-2">
+          <CIcon className="mb-2" icon={cilEnvelopeClosed} size="3xl" style={{ color: 'black' }} />
         </div>
         <p className="text-medium-emphasis text-center m-0">
           {/*//TODO - add id to languages folder*/}
@@ -100,6 +106,12 @@ const ForgotPassword = () => {
             defaultMessage="Check your inbox and use the temporary password to login."
           />
         </p>
+
+        <Link href="/login">
+          <p className="" style={{ cursor: 'pointer', textDecoration: 'underline' }}>
+            Back to login
+          </p>
+        </Link>
       </div>
     )
   }
@@ -110,8 +122,8 @@ const ForgotPassword = () => {
         <CRow className="justify-content-center">
           <CCol style={{ maxWidth: '450px' }} className="position-relative ">
             <CCardGroup className=" shadow-lg">
-              <CCard className="p-4">
-                <Image src={logo_compact} height={80} alt="Eganow" className="mx-auto mb-3" />
+              <CCard className="p-3">
+                <Image src={logo_compact} height={60} alt="Eganow" className="mx-auto" />
                 {showFeedback ? (
                   <Feedback />
                 ) : (
@@ -127,7 +139,7 @@ const ForgotPassword = () => {
                     <p className="text-medium-emphasis text-center">
                       <FormattedMessage
                         id="please_enter_email"
-                        defaultMessage="Please enter your email you used to sign in."
+                        defaultMessage="Enter your sign up email"
                       />
                     </p>
                     {errors?.message && (
@@ -150,8 +162,13 @@ const ForgotPassword = () => {
                           className=""
                           placeholder="Email Address"
                           autoComplete="emailAddress"
-                          {...register('username', { required: true, minLength: 2, maxLength: 50 })}
-                          required
+                          {...register('emailAddress')}
+                          valid={
+                            formState.dirtyFields?.emailAddress && !!!formState.errors?.emailAddress
+                              ? true
+                              : false
+                          }
+                          invalid={!!formState.errors?.emailAddress && true}
                         />
                       </CInputGroup>
 
@@ -161,10 +178,10 @@ const ForgotPassword = () => {
                             type="submit"
                             className="px-4 w-100"
                             active
-                            disabled={isSubmitting}
+                            disabled={formState.isSubmitting}
                             style={vars}
                           >
-                            {isSubmitting ? (
+                            {formState.isSubmitting ? (
                               <CSpinner component="span" size="sm" aria-hidden="true" />
                             ) : (
                               'Request password reset'
@@ -173,15 +190,17 @@ const ForgotPassword = () => {
                         </CCol>
                       </CRow>
                     </CForm>
+                    <Link href="/login">
+                      <p
+                        className="m-0 p-0"
+                        onClick={() => router.push('/login')}
+                        style={{ cursor: 'pointer', textDecoration: 'underline' }}
+                      >
+                        Back to login
+                      </p>
+                    </Link>
                   </CCardBody>
                 )}
-                <p
-                  className="m-0"
-                  onClick={() => router.push('/login')}
-                  style={{ cursor: 'pointer', textDecoration: 'underline', color: 'blue' }}
-                >
-                  Back to login
-                </p>
               </CCard>
             </CCardGroup>
           </CCol>
