@@ -47,7 +47,6 @@
     "eslint": "8.32.0",
     "eslint-config-next": "^13.1.5",
     "google-protobuf": "^3.21.2",
-    "grpc-web": "^1.4.2",
     "next": "13.1.5",
     "next-auth": "^4.24.5",
     "next-i18next": "^15.2.0",
