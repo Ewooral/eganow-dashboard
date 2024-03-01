@@ -94,6 +94,8 @@ const Entry: NextPageWithLayout = (props) => {
     setHighestFeatureValue(getMaxValueKey(mostUsedFeature?.state?.featureCounts))
   }, [mostUsedFeature])
 
+
+
   return (
     <EntryLayout {...props} features={features}>
       <CContainer className="rounded mb-5">
