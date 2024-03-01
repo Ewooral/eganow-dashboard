@@ -297,7 +297,7 @@ const Register = () => {
           <div className='d-lg-none my-2'>
             <LanguageSelector />
           </div>
-          <div className="card">
+          <div className="card my-0">
             <div className="form">
               {/*  */}
               <LeftSide stepCount={stepCount} stepList={progressBar} />
