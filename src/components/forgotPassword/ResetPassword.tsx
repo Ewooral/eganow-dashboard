@@ -22,6 +22,7 @@ import { FormattedMessage } from 'react-intl'
 import * as yup from 'yup'
 import logo_compact from '@/public/brand/eganow-colored-logo.svg'
 import { PASSWORD_REGEX } from '@/constants'
+import { ForgotPasswordErrors } from '@/types/Errors'
 
 const vars: object = {
   '--cui-btn-color': 'white',
@@ -56,13 +57,13 @@ const validationSchema = yup.object({
 })
 
 export default function ResetPassword() {
-  const [errors, setErrors] = useState({})
+  const [errors, setErrors] = useState<ForgotPasswordErrors>()
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues,
   })
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: object) => {
     try {
       console.log(data)
     } catch (error) {}
@@ -79,14 +80,14 @@ export default function ResetPassword() {
           <h3 className="text-center">
             {/*//TODO - add id to languages folder*/}
             <FormattedMessage
-              id="reset_account_password"
+              id="Provide_your_new_password"
               defaultMessage="Provide your new password"
             />
           </h3>
           {/*//TODO - add id to languages folder*/}
           <p className="text-medium-emphasis text-center">
             <FormattedMessage
-              id="please_enter_email"
+              id="please_enter_your_new_password_and_confirm"
               defaultMessage="Please enter your new password and confirm"
             />
           </p>

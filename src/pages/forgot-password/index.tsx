@@ -12,21 +12,18 @@ import {
   CButton,
   CSpinner,
   CAlert,
-  CFormLabel,
 } from '@coreui/react-pro'
 import logo_compact from '@/public/brand/eganow-colored-logo.svg'
 import Image from 'next/image'
 import { cilEnvelopeClosed, cilFire } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm, EmptyObject } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import Link from 'next/link'
 import { useState } from 'react'
-import { useRouter } from 'next/router'
 import { FormattedMessage } from 'react-intl'
 import { ForgotPasswordErrors } from '@/types/Errors'
-import classNames from 'classnames'
 /* API */
 import merchantOnboardingSvcGRPC from '@/api/merchantOnboardingSvcGRPC'
 
@@ -59,24 +56,22 @@ const vars: object = {
 
 const ForgotPassword = () => {
   const { requestPasswordReset } = merchantOnboardingSvcGRPC()
-  const [errors, setErrors] = useState({})
+  const [errors, setErrors] = useState<ForgotPasswordErrors>()
   const [showFeedback, setShowFeedback] = useState(false) //state to toggle between feedback component
-  const router = useRouter()
 
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues,
   })
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: object) => {
     try {
       const response = await requestPasswordReset(data)
-      console.log(response)
       if (response) {
+        //if response is true show the feedback ui
         setShowFeedback(true)
       }
-    } catch (error) {
-      console.error(error)
+    } catch (error: any) {
       setErrors(error)
     }
   }
@@ -127,6 +122,7 @@ const ForgotPassword = () => {
                 {showFeedback ? (
                   <Feedback />
                 ) : (
+                  //Request password reset form
                   <CCardBody>
                     <h3 className="text-center">
                       {/*//TODO - add id to languages folder*/}
@@ -193,7 +189,6 @@ const ForgotPassword = () => {
                     <Link href="/login">
                       <p
                         className="m-0 p-0"
-                        onClick={() => router.push('/login')}
                         style={{ cursor: 'pointer', textDecoration: 'underline' }}
                       >
                         Back to login
