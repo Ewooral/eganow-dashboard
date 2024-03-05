@@ -50,6 +50,7 @@
   "password_placholder": "Entrez le mot de passe ici",
   "confirm_password_placeholder": "Confirmez le mot de passe ici",
   "submit": "Soumettre",
+  "send": "envoyer",
   "business_name": "Nom de l'entreprise",
   "business_name_placeholder": "Entrez le nom de votre entreprise ici",
   "business_name_is_required": "Le nom de l'entreprise est requis",

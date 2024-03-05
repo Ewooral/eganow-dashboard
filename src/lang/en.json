@@ -50,6 +50,7 @@
   "password_placholder": "Enter password here",
   "confirm_password_placeholder": "Confirm password here",
   "submit": "Submit",
+  "send": "envoyer",
   "business_name": "Business Name",
   "business_name_placeholder": "Enter your business name here",
   "business_name_is_required": "Business name is required",
@@ -60,5 +61,5 @@
   "business_trading_name_is_required": "Business trading name is required",
   "congratulations": "Congratulations!",
   "continue": "Continue",
-  "registration_successfully_created": "Thanks {`${firstName} ${lastName}`}, your registration process hassuccessfully been created. Please click Continue to login."
+  "registration_successfully_created": "Thanks {`${firstName} ${lastName}`}, your registration process has successfully been created. Please click Continue to login."
 }

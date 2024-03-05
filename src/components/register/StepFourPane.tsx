@@ -155,7 +155,7 @@ const StepFourPane = (props: any) => {
         </CCol>
         <CCol xs="auto">
           <CButton className="text-white" color="success" onMouseUp={handleSubmitClick}>
-            <FormattedMessage id="submit" defaultMessage="Submit" />
+            <FormattedMessage id="send" defaultMessage="Send" />
             <FaTelegramPlane className="ms-2 mb-1" />
           </CButton>
         </CCol>
