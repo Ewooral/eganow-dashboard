@@ -23,6 +23,13 @@ import * as yup from 'yup'
 import logo_compact from '@/public/brand/eganow-colored-logo.svg'
 import { PASSWORD_REGEX } from '@/constants'
 import { ForgotPasswordErrors } from '@/types/Errors'
+import { useRouter } from 'next/router'
+/* API */
+import merchantOnboardingSvcGRPC from '@/api/merchantOnboardingSvcGRPC'
+
+/* CONSTANCE */
+import { EGANOW_AUTH_COOKIE, EGANOW_REMEMBER_ME_COOKIE } from '@/constants'
+import { useCookies } from 'react-cookie'
 
 const vars: object = {
   '--cui-btn-color': 'white',
@@ -41,10 +48,13 @@ const vars: object = {
   '--cui-btn-disabled-border-color': '#cd0429',
 }
 
-const defaultValues = {
-  emailAddress: '',
-  password: '',
-  confirmPassword: '',
+// SETTING SECRET KEY ON SERVER
+export async function getStaticProps() {
+  return {
+    props: {
+      secret_key: process.env.SECRET_KEY,
+    },
+  }
 }
 
 const validationSchema = yup.object({
@@ -57,20 +67,56 @@ const validationSchema = yup.object({
 })
 
 export default function ResetPassword() {
+  const { resetPassword } = merchantOnboardingSvcGRPC()
   const [errors, setErrors] = useState<ForgotPasswordErrors>()
-  const { register, handleSubmit, formState } = useForm({
+  const [cookie, setCookie, removeCookie] = useCookies()
+  //getting email address from url params
+  const router = useRouter()
+  const emailAddress = router.query.email
+
+  const defaultValues = {
+    emailAddress,
+    password: '',
+    confirmPassword: '',
+  }
+
+  const { register, handleSubmit, formState, reset } = useForm({
     resolver: yupResolver(validationSchema),
+    mode: 'onChange',
     defaultValues,
   })
 
-  const onSubmit = (data: object) => {
+  const onSubmit = async (data: object) => {
     try {
-      console.log(data)
-    } catch (error) {}
-  }
+      const response: any = await resetPassword(data)
 
+      //If accessToken exist on success then log user in.
+      if (response.accessToken) {
+        //Storing login authentication in cookie
+        setCookie(EGANOW_AUTH_COOKIE, response, {
+          maxAge: 30 * 60 * 24,
+        })
+        //Routing to the intermediate page when logged in.
+        await router.push('/')
+        //Exit onSubmit function
+        return
+      }
+      //Resetting form with same data to stop its isSubmitting state
+      reset(data)
+    } catch (error: any) {
+      if (error.name === 'RpcError') {
+        //setting rpc errors
+        setErrors({
+          message: error.metadata['grpc-message'],
+        })
+        return
+      }
+      //Logging general error
+      console.error(error)
+    }
+  }
   return (
-    <div>
+    <div className="login-bg d-flex justify-content-center align-items-center">
       <CCard className="p-3">
         <CCardBody>
           <div className="d-flex">
@@ -109,6 +155,7 @@ export default function ResetPassword() {
                   placeholder="Email Address"
                   autoComplete="emailAddress"
                   {...register('emailAddress')}
+                  disabled
                   valid={
                     formState.dirtyFields?.emailAddress && !!!formState.errors?.emailAddress
                       ? true

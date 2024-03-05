@@ -110,11 +110,32 @@ const MerchantOnboardingSvc = () => {
     }
   }
 
+  function resetPassword(param) {
+    try {
+      const request = new ResetPasswordRequest()
+      request.setEmail(param.emailAddress)
+      request.setNewPassword(param.password)
+
+      return new Promise((resolve, reject) => {
+        client.resetPassword(request, metadata, (err, res) => {
+          if (err) {
+            reject(err)
+          }
+
+          resolve(res?.toObject())
+        })
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return {
     loginMerchant,
     createMerchantAccount,
     checkIfMerchantAccountExists,
     requestPasswordReset,
+    resetPassword,
   }
 }
 

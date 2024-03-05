@@ -67,6 +67,8 @@ const ForgotPassword = () => {
   const onSubmit = async (data: object) => {
     try {
       const response = await requestPasswordReset(data)
+      console.log(response);
+      
       if (response) {
         //if response is true show the feedback ui
         setShowFeedback(true)
@@ -115,7 +117,7 @@ const ForgotPassword = () => {
     <div className="login-bg min-vh-100 d-flex flex-row align-items-center ">
       <CContainer>
         <CRow className="justify-content-center">
-          <CCol style={{ maxWidth: '450px' }} className="position-relative ">
+          <CCol style={{ maxWidth: '400px' }} className="position-relative ">
             <CCardGroup className=" shadow-lg">
               <CCard className="p-3">
                 <Image src={logo_compact} height={60} alt="Eganow" className="mx-auto" />
@@ -124,13 +126,13 @@ const ForgotPassword = () => {
                 ) : (
                   //Request password reset form
                   <CCardBody>
-                    <h3 className="text-center">
+                    <h4 className="text-center font">
                       {/*//TODO - add id to languages folder*/}
                       <FormattedMessage
                         id="reset_account_password"
                         defaultMessage="Reset Account Password"
                       />
-                    </h3>
+                    </h4>
                     {/*//TODO - add id to languages folder*/}
                     <p className="text-medium-emphasis text-center">
                       <FormattedMessage
@@ -149,7 +151,7 @@ const ForgotPassword = () => {
                         {errors?.message}
                       </CAlert>
                     )}
-                    <CForm noValidate onSubmit={handleSubmit(onSubmit)}>
+                    <CForm className='px-4' noValidate onSubmit={handleSubmit(onSubmit)}>
                       <CInputGroup className="mb-3">
                         <CInputGroupText style={{ width: '50px' }}>
                           <CIcon icon={cilEnvelopeClosed} />
@@ -186,13 +188,13 @@ const ForgotPassword = () => {
                         </CCol>
                       </CRow>
                     </CForm>
-                    <Link href="/login">
-                      <p
-                        className="m-0 p-0"
+                    <Link href="/login" className=' '>
+                      <h6
+                        className="m-0 p-0 "
                         style={{ cursor: 'pointer', textDecoration: 'underline' }}
                       >
                         Back to login
-                      </p>
+                      </h6>
                     </Link>
                   </CCardBody>
                 )}
