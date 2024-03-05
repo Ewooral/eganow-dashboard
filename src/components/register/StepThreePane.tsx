@@ -89,7 +89,7 @@ const StepThreePane = (props: any) => {
               'text-error': !!formState.errors?.firstName,
             })}
           >
-            <FormattedMessage id="First_name" defaultMessage="First Name" />
+            <FormattedMessage id="first_name" defaultMessage="First Name" />
           </CFormLabel>
           <CFormInput
             type="text"
