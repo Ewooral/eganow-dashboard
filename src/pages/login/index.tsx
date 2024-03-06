@@ -1,4 +1,5 @@
 // @ts-nocheck
+'use client'
 import Image from 'next/image'
 import { FormattedMessage, useIntl } from 'react-intl'
 import Link from 'next/link'
@@ -189,7 +190,12 @@ const Login = (props) => {
   }
 
   return (
-    <div className="login-bg min-vh-100 d-flex flex-row align-items-center">
+    <div className='login-bg '>
+      <CContainer fluid>
+      <LanguageSelector />
+      </CContainer>
+   
+    <div className="min-vh-100 d-flex flex-row align-items-center">  
       <CContainer>
         <CRow className="justify-content-center align-items-center">
           <CCol md={8} style={{ width: 'auto' }}>
@@ -216,7 +222,7 @@ const Login = (props) => {
                       <div className="text-white text-center">
                         <Image src={logoIconwhite} alt="" width={227} />
                         <p className="my-3 fw-bold">
-                          Payments & Financial Services infrastructure for businesses
+                          <FormattedMessage id='payments_&_financial_service' defaultMessage={'Payments & Financial Services infrastructure for businesses'} />
                         </p>
                       </div>
                     </div>
@@ -264,7 +270,7 @@ const Login = (props) => {
                       </CInputGroupText>
                       <CFormInput
                         placeholder={intl.formatMessage({
-                          id: 'email',
+                          id: 'email_address',
                           defaultMessage: 'Email Address',
                         })}
                         autoComplete="email"
@@ -305,12 +311,12 @@ const Login = (props) => {
 
                     <CRow className="align-items-center my-3">
                       <CCol xs={6} className="text-start text-muted">
-                        <CFormCheck label="Remember Me" {...register('rememberMe')} />
+                        <CFormCheck label={intl.formatMessage({id:'remember_me', defaultMessage:'Remember Me'})} {...register('rememberMe')} />
                       </CCol>
 
                       <CCol xs={6} className="text-end">
                         <Link href="forgot-password" className="text-sm">
-                          <small>Forgot Password?</small>
+                          <small><FormattedMessage id='forgot_password' defaultMessage={'Forgot Password?'} /></small>
                         </Link>
                       </CCol>
                     </CRow>
@@ -351,6 +357,7 @@ const Login = (props) => {
           </CCol>
         </CRow>
       </CContainer>
+    </div>
     </div>
   )
 }

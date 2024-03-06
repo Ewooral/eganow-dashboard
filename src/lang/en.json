@@ -61,5 +61,7 @@
   "business_trading_name_is_required": "Business trading name is required",
   "congratulations": "Congratulations!",
   "continue": "Continue",
-  "registration_successfully_created": "Thanks {`${firstName} ${lastName}`}, your registration process has successfully been created. Please click Continue to login."
+  "registration_successfully_created": "Thanks {`${firstName} ${lastName}`}, your registration process has successfully been created. Please click Continue to login.",
+  "payments_&_financial_service": "Payments & Financial Services infrastructure for businesses",
+  "remember_me": "Remember Me"
 }

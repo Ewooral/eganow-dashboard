@@ -1,4 +1,5 @@
 // @ts-nocheck
+'use client'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
@@ -55,15 +56,6 @@ const Register = () => {
   const router = useRouter()
   const {formatMessage} = useIntl()
 
-   // handle hydration errors
-  const [isClient, setIsClient] = useState(false)
-
-  // handle hydration errors
-  useEffect(() => {  
-    setIsClient(true)
-  }, [])
-
-  
 
   const handleForm = useForm({
     resolver: yupResolver(validationSchema),
@@ -302,9 +294,7 @@ const Register = () => {
   return (
     <div className="min-vh-100 d-flex flex-row align-items-center login-bg">
       <div className="step-container">
-        {
-          isClient &&
-          <>
+ 
           <div>
           <LanguageSelector/>
           <div className="card">
@@ -317,8 +307,7 @@ const Register = () => {
             </div>
           </div>
         </div>
-          </>
-        }
+
       </div>
     </div>
   )

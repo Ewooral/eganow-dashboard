@@ -61,5 +61,8 @@
   "business_trading_name_is_required": "Le nom commercial de l'entreprise est requis",
   "congratulations": "Félicitations!",
   "continue": "Continuer",
-  "registration_successfully_created": "Merci { `${firstName} ${lastName}` }, votre processus d'inscription a été créé avec succès. Veuillez cliquer sur Continuer pour vous connecter."
+  "registration_successfully_created": "Merci { `${firstName} ${lastName}` }, votre processus d'inscription a été créé avec succès. Veuillez cliquer sur Continuer pour vous connecter.",
+  "payments_&_financial_service": "Infrastructure de paiements et de services financiers pour les entreprises",
+  "remember_me": "Souviens-toi de moi"
+
 }
