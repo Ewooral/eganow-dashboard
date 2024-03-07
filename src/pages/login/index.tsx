@@ -198,10 +198,16 @@ const Login = (props) => {
   }
 
   return (
-    <div className="login-bg min-vh-100 d-flex flex-row align-items-center">
+    <div className="login-bg min-vh-100 d-flex align-items-center position-relative">
       <CContainer>
         <CRow className="justify-content-center align-items-center">
+          <div className='position-absolute top-0 my-4 py-2 px-md-5 px-3 d-none d-lg-block '>
+            <LanguageSelector/>
+          </div>
           <CCol md={8} style={{ width: 'auto' }}>
+            <div className='d-lg-none my-2'>
+              <LanguageSelector/>
+            </div>
             <CCardGroup className="shadow-lg">
               <CCard
                 className="text-white  d-none d-xl-block p-0 overflow-hidden"

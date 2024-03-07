@@ -289,10 +289,15 @@ const Register = () => {
 
   return (
     <div className="min-vh-100 d-flex flex-row align-items-center login-bg">
+        <div className='position-absolute top-0 my-4 py-2 px-md-5 px-3 d-none d-lg-block '>
+          <LanguageSelector />
+        </div>
       <div className="step-container">
         <div>
-          <LanguageSelector/>
-          <div className="card">
+          <div className='d-lg-none my-2'>
+            <LanguageSelector />
+          </div>
+          <div className="card my-0">
             <div className="form">
               {/*  */}
               <LeftSide stepCount={stepCount} stepList={progressBar} />
