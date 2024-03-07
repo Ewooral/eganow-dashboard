@@ -16,12 +16,13 @@ import {
 } from '@coreui/react-pro'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FormattedMessage } from 'react-intl'
 import * as yup from 'yup'
 import logo_compact from '@/public/brand/eganow-colored-logo.svg'
 import { PASSWORD_REGEX } from '@/constants'
+import CryptoJS from 'crypto-js'
 import { ForgotPasswordErrors } from '@/types/Errors'
 import { useRouter } from 'next/router'
 /* API */
@@ -57,7 +58,7 @@ export async function getStaticProps() {
 }
 
 const validationSchema = yup.object({
-  emailAddress: yup.string().email().required(),
+  // emailAddress: yup.string().email().required(),
   password: yup.string().required().matches(PASSWORD_REGEX),
   confirmPassword: yup
     .string()
@@ -65,17 +66,17 @@ const validationSchema = yup.object({
     .oneOf([yup.ref('password')]),
 })
 
-export default function ResetPassword() {
+export default function ResetPassword(props) {
   const { resetPassword } = merchantOnboardingSvcGRPC()
   const [errors, setErrors] = useState<ForgotPasswordErrors>()
+  const [emailValue, setEmailValue] = useState('')
   const [cookie, setCookie, removeCookie] = useCookies()
   const router = useRouter()
 
-  //getting email address from url params
-  const emailAddress = router.query.email
+  //getting encrypted email address from url query
+  const encryptedEmail = router.query.email
 
   const defaultValues = {
-    emailAddress,
     password: '',
     confirmPassword: '',
   }
@@ -88,8 +89,7 @@ export default function ResetPassword() {
 
   const onSubmit = async (data: object) => {
     try {
-      const response: any = await resetPassword(data)
-
+      const response: any = await resetPassword({emailAddress: emailValue,...data})
       //If accessToken exist on success then log user in.
       if (response.accessToken) {
         //Storing login authentication in cookie
@@ -115,6 +115,20 @@ export default function ResetPassword() {
       console.error(error)
     }
   }
+
+  useEffect(() => {
+    try {
+      //Decrypt email address
+      const decryptedEmail = CryptoJS.DES.decrypt(encryptedEmail, props.secret_key)
+      //Convert Decrypted email To Object
+      const email = JSON.parse(decryptedEmail.toString(CryptoJS.enc.Utf8))
+      //set email address to the decrypted email
+      setEmailValue(email)
+    } catch (error) {
+      console.error(error)
+    }
+  }, [props.secret_key, encryptedEmail])
+
   return (
     <div className="login-bg d-flex justify-content-center align-items-center">
       <CCard className="p-3">
@@ -154,14 +168,8 @@ export default function ResetPassword() {
                   className=""
                   placeholder="Email Address"
                   autoComplete="emailAddress"
-                  {...register('emailAddress')}
+                  value={emailValue}
                   disabled
-                  valid={
-                    formState.dirtyFields?.emailAddress && !!!formState.errors?.emailAddress
-                      ? true
-                      : false
-                  }
-                  invalid={!!formState.errors?.emailAddress && true}
                 />
               </CInputGroup>
             </CCol>

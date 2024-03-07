@@ -67,7 +67,6 @@ const ForgotPassword = () => {
   const onSubmit = async (data: object) => {
     try {
       const response = await requestPasswordReset(data)
-      console.log(response)
 
       if (response) {
         //if response is true show the feedback ui
