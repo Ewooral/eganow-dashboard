@@ -26,8 +26,7 @@ import { ForgotPasswordErrors } from '@/types/Errors'
 import { useRouter } from 'next/router'
 /* API */
 import merchantOnboardingSvcGRPC from '@/api/merchantOnboardingSvcGRPC'
-
-/* CONSTANCE */
+/* CONSTANT */
 import { EGANOW_AUTH_COOKIE, EGANOW_REMEMBER_ME_COOKIE } from '@/constants'
 import { useCookies } from 'react-cookie'
 
@@ -70,8 +69,9 @@ export default function ResetPassword() {
   const { resetPassword } = merchantOnboardingSvcGRPC()
   const [errors, setErrors] = useState<ForgotPasswordErrors>()
   const [cookie, setCookie, removeCookie] = useCookies()
-  //getting email address from url params
   const router = useRouter()
+
+  //getting email address from url params
   const emailAddress = router.query.email
 
   const defaultValues = {
@@ -222,15 +222,6 @@ export default function ResetPassword() {
               </CCol>
             </CRow>
           </CForm>
-          {/* <Link href="/login">
-      <p
-        className="m-0 p-0"
-        onClick={() => router.push('/login')}
-        style={{ cursor: 'pointer', textDecoration: 'underline' }}
-      >
-        Back to login
-      </p>
-    </Link> */}
         </CCardBody>
       </CCard>
     </div>

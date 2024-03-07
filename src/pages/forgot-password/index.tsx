@@ -67,8 +67,8 @@ const ForgotPassword = () => {
   const onSubmit = async (data: object) => {
     try {
       const response = await requestPasswordReset(data)
-      console.log(response);
-      
+      console.log(response)
+
       if (response) {
         //if response is true show the feedback ui
         setShowFeedback(true)
@@ -125,7 +125,7 @@ const ForgotPassword = () => {
                   <Feedback />
                 ) : (
                   //Request password reset form
-                  <CCardBody>
+                  <CCardBody className=" p-0 m-0">
                     <h4 className="text-center font">
                       {/*//TODO - add id to languages folder*/}
                       <FormattedMessage
@@ -151,7 +151,7 @@ const ForgotPassword = () => {
                         {errors?.message}
                       </CAlert>
                     )}
-                    <CForm className='px-4' noValidate onSubmit={handleSubmit(onSubmit)}>
+                    <CForm className="px-4" noValidate onSubmit={handleSubmit(onSubmit)}>
                       <CInputGroup className="mb-3">
                         <CInputGroupText style={{ width: '50px' }}>
                           <CIcon icon={cilEnvelopeClosed} />
@@ -188,13 +188,14 @@ const ForgotPassword = () => {
                         </CCol>
                       </CRow>
                     </CForm>
-                    <Link href="/login" className=' '>
-                      <h6
-                        className="m-0 p-0 "
-                        style={{ cursor: 'pointer', textDecoration: 'underline' }}
+                  
+                    <Link  href="/login" className=" ">
+                      <p
+                        className=" p-0"
+                        style={{ cursor: 'pointer', textDecoration: 'underline', width: '200px', marginLeft: "25px" }}
                       >
                         Back to login
-                      </h6>
+                      </p>
                     </Link>
                   </CCardBody>
                 )}
