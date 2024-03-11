@@ -28,7 +28,7 @@ import {
 } from '@coreui/react-pro'
 import CIcon from '@coreui/icons-react'
 import logo_compact from '@/public/brand/eganow.png'
-import { cilEnvelopeClosed, cilFire, cilLockLocked} from '@coreui/icons'
+import { cilEnvelopeClosed, cilFire, cilLockLocked } from '@coreui/icons'
 /* API */
 import merchantOnboardingSvcGRPC from '@/api/merchantOnboardingSvcGRPC'
 /* COMPONENTS */
@@ -42,7 +42,7 @@ import { EmptyObject, useForm } from 'react-hook-form'
 /* STORE */
 import { useLocale } from '@/store'
 /* CONSTANCE */
-import { EGANOW_AUTH_COOKIE, EGANOW_REMEMBER_ME_COOKIE } from '@/constants'
+import { EGANOW_AUTH_COOKIE, EGANOW_REMEMBER_ME_COOKIE, RPC_ERROR } from '@/constants'
 /* IMAGE */
 import lady from '@/public/images/lady.jpg'
 import logoIcon from '@/public/images/EganowLogo.png'
@@ -54,6 +54,7 @@ import { capitalizeFirstLetter_util } from '@/util'
 import { LoginInputType } from '@/types/Users'
 import { LoginInputErrors } from '@/types/Errors'
 import { Icon } from '@/components/IconsView'
+import ResetPassword from '@/components/forgotPassword/ResetPassword'
 
 const vars = {
   '--cui-btn-color': 'white',
@@ -80,6 +81,7 @@ export async function getStaticProps() {
     },
   }
 }
+
 /*
  *
  *LOGIN COMPONENT
@@ -177,7 +179,18 @@ const Login = (props) => {
       reset(data)
     } catch (error) {
       //Handling GRPC errors
+
       if (error.name === 'RpcError') {
+        if (error.metadata['grpc-status'] === RPC_ERROR.FAILED_PRECONDITION) {
+          //encrypting th email address
+          const encryptedEmail = await CryptoJS.DES.encrypt(
+            JSON.stringify(data.email),
+            props.secret_key,
+          ).toString()
+          router.push({ pathname: `/reset-password`, query: { email: encryptedEmail } })
+          return
+        }
+        //setting rpc errors
         setErrors({
           message: error.metadata['grpc-message'],
         })
@@ -192,12 +205,12 @@ const Login = (props) => {
     <div className="login-bg min-vh-100 d-flex align-items-center position-relative">
       <CContainer>
         <CRow className="justify-content-center align-items-center">
-          <div className='position-absolute top-0 my-4 py-2 px-md-5 px-3 d-none d-lg-block '>
-            <LanguageSelector/>
+          <div className="position-absolute top-0 my-4 py-2 px-md-5 px-3 d-none d-lg-block ">
+            <LanguageSelector />
           </div>
           <CCol md={8} style={{ width: 'auto' }}>
-            <div className='d-lg-none my-2'>
-              <LanguageSelector/>
+            <div className="d-lg-none my-2">
+              <LanguageSelector />
             </div>
             <CCardGroup className="shadow-lg">
               <CCard
