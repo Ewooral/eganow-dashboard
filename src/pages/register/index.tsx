@@ -1,5 +1,6 @@
 // @ts-nocheck
-import { useState } from 'react'
+'use client'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -35,6 +36,7 @@ import { errorType } from '@/types/Errors'
 import { ProgressBar } from '@/types/CommonDataType'
 /* HOOKS */
 import { useCookies } from 'react-cookie'
+import { useIntl } from 'react-intl'
 /* CONSTANCE */
 import { EGANOW_AUTH_COOKIE } from '@/constants'
 /* 
@@ -52,6 +54,8 @@ const Register = () => {
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<errorType>({})
   const router = useRouter()
+  const {formatMessage} = useIntl()
+
 
   const handleForm = useForm({
     resolver: yupResolver(validationSchema),
@@ -61,8 +65,8 @@ const Register = () => {
 
   const progressBar: ProgressBar = [
     {
-      title: 'Email Address',
-      content: 'Setting your email address. A verification code will be sent to your email .',
+      title: formatMessage({id: 'email_address', defaultMessage:'Email Address'}),
+      content: formatMessage({id: 'set_and_verify_code_from_email', defaultMessage:'Setting your email address. A verification code will be sent to your email.'}),
       component: (
         <StepOnePane
           handleForm={handleForm}
@@ -73,8 +77,8 @@ const Register = () => {
       ),
     },
     {
-      title: 'Enter verification code',
-      content: 'Entering verification code sent to your email.',
+      title: formatMessage({id:'enter_verification_code', defaultMessage:'Enter verification code'}),
+      content: formatMessage({id:'entering_verification_code', defaultMessage:'Entering verification code sent to your email.'}),
       component: (
         <StepTwoPane
           handleForm={handleForm}
@@ -86,8 +90,8 @@ const Register = () => {
       ),
     },
     {
-      title: 'Personal Information',
-      content: 'Setting your personal information details',
+      title: formatMessage({id:'personal_information', defaultMessage:'Personal Information'}),
+      content: formatMessage({id:'set_personal_info_details', defaultMessage:'Set your personal information details below'}),
       component: (
         <StepThreePane
           handleForm={handleForm}
@@ -97,8 +101,8 @@ const Register = () => {
       ),
     },
     {
-      title: 'Business Information',
-      content: 'Setting your business information details',
+      title: formatMessage({id:'business_information', defaultMessage:'Business Information'}),
+      content: formatMessage({id:'set_business_info_details', defaultMessage:'Set your business information details below'}),
       component: (
         <StepFourPane
           handleForm={handleForm}
@@ -109,8 +113,8 @@ const Register = () => {
       ),
     },
     {
-      title: 'Finish',
-      content: 'You are successively registered',
+      title: formatMessage({id:'finish', defaultMessage:'Finish'}),
+      content: formatMessage({id:'successfully_registered', defaultMessage:'You are successfully registered'}),
       component: (
         <StepFivePane
           handleForm={handleForm}
@@ -293,11 +297,13 @@ const Register = () => {
           <LanguageSelector />
         </div>
       <div className="step-container">
+
         <div>
           <div className='d-lg-none my-2'>
             <LanguageSelector />
           </div>
           <div className="card my-0">
+
             <div className="form">
               {/*  */}
               <LeftSide stepCount={stepCount} stepList={progressBar} />
@@ -307,6 +313,7 @@ const Register = () => {
             </div>
           </div>
         </div>
+
       </div>
     </div>
   )

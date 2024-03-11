@@ -1,6 +1,6 @@
 // @ts-nocheck
 import Image from 'next/image'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import CIcon from '@coreui/icons-react'
 import { cilBurn, cilEnvelopeClosed } from '@coreui/icons'
 import {
@@ -22,10 +22,16 @@ import CountryInput from '@/components/country/CountryInput'
 /* STORE */
 import { useLocale } from '@/store'
 
+/* HOOKS */
+import { FormattedMessage, useIntl } from 'react-intl'
+
 const StepOnePane = (props: any) => {
   const { country, setCountry } = useLocale((state) => state)
   const { register, formState, setValue } = props.handleForm
   const handleNextClick = props.handleNextClick
+  const {formatMessage} = useIntl()
+   // handle hydration issues
+  const [isClient, setIsClient] = useState(false)
 
   useEffect(() => {
     if (country?.code) {
@@ -33,6 +39,11 @@ const StepOnePane = (props: any) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [country])
+
+  // handle hydration issues
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   function handleCallback(event, result) {
     setCountry({
@@ -44,7 +55,10 @@ const StepOnePane = (props: any) => {
 
   return (
     <>
-      <CRow>
+      {
+        isClient && 
+        <>
+        <CRow>
         <CCol xs="auto" className="mx-auto pb-2">
           <span className="d-none d-md-inline">
             <small>
@@ -60,7 +74,9 @@ const StepOnePane = (props: any) => {
           />
         </CCol>
         <CCol xs={10} className="mx-auto">
-          <h3 className="mx-auto">Customer Registration</h3>
+          <h3 className="mx-auto">
+            <FormattedMessage id="customer_registration" defaultMessage="Customer Registration" />
+          </h3>
         </CCol>
       </CRow>
       <div className="text" style={{ marginTop: '55px' }}>
@@ -72,8 +88,10 @@ const StepOnePane = (props: any) => {
           </CAlert>
         )}
 
-        <h4>Country & Email Address</h4>
-        <p>Enter your email address to receive your verification code (OTP) for the next step.</p>
+        <h4>
+          <FormattedMessage id="country_and_email_address" defaultMessage={"Country & Email Address"} />
+        </h4>
+        <p><FormattedMessage id="enter_emailaddress_to_receive_otp" defaultMessage={ "Enter your email address to receive your verification code (OTP) for the next step"} /></p>
       </div>
       <CRow>
         <CCol>
@@ -83,7 +101,7 @@ const StepOnePane = (props: any) => {
               'text-error': !!formState.errors?.country,
             })}
           >
-            Country
+            <FormattedMessage id="country" defaultMessage={"Country"} />
           </CFormLabel>
           <CountryInput
             className="mb-3"
@@ -100,7 +118,7 @@ const StepOnePane = (props: any) => {
               'd-none': !!formState.errors?.country ? false : true,
             })}
           >
-            Country is required
+            <FormattedMessage id="country_is_required" defaultMessage="Country is required" />
           </CFormText>
         </CCol>
       </CRow>
@@ -112,12 +130,12 @@ const StepOnePane = (props: any) => {
               'text-error': !!formState.errors?.emailAddress,
             })}
           >
-            Email address
+            <FormattedMessage id="email_address" defaultMessage={"Email address"} />
           </CFormLabel>
           <CFormInput
             type="email"
             id="emailAddress"
-            placeholder="Enter email address here."
+            placeholder= {formatMessage({id:'email_address_placeholder', defaultMessage: 'Enter email address here.'})}
             {...register('emailAddress')}
             valid={
               formState.dirtyFields?.emailAddress && !!!formState.errors?.emailAddress
@@ -126,7 +144,6 @@ const StepOnePane = (props: any) => {
             }
             invalid={!!formState.errors?.emailAddress && true}
           />
-
           <CFormText
             component="span"
             className={classNames({
@@ -134,13 +151,13 @@ const StepOnePane = (props: any) => {
               'd-none': !!formState.errors?.emailAddress ? false : true,
             })}
           >
-            Email address required
+            <FormattedMessage id="email_address_is_required" defaultMessage="Email address required" />
           </CFormText>
         </CCol>
       </CRow>
       <div className="mt-5 buttons">
         <CButton color="primary" onMouseUp={handleNextClick} disabled={props.loading}>
-          Next Step
+          <FormattedMessage id="next_step" defaultMessage="Next Step" />
           {props.loading ? (
             <CSpinner component="span" size="sm" aria-hidden="true" className="ms-2" />
           ) : (
@@ -148,6 +165,8 @@ const StepOnePane = (props: any) => {
           )}
         </CButton>
       </div>
+        </>
+      }
     </>
   )
 }

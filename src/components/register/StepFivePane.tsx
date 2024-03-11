@@ -3,6 +3,8 @@
 import { FaChevronRight } from 'react-icons/fa'
 import { CButton, CAlert, CSpinner } from '@coreui/react-pro'
 import CIcon from '@coreui/icons-react'
+/* HOOKS */
+import { FormattedMessage, useIntl } from 'react-intl'
 
 const StepFivePane = (props: any) => {
   const { getValues } = props.handleForm
@@ -26,13 +28,18 @@ const StepFivePane = (props: any) => {
             {props.errors?.stepFinal}
           </CAlert>
         )}
-        <h2>Congratulations!</h2>
+        <h2>
+          <FormattedMessage id='congratulations' defaultMessage={'Congratulations!'} />
+        </h2>
         <p>
-          Thanks <span>{`${firstName} ${lastName}`}</span>, your registration process has
-          successfully been created. Please click Continue to login.
+          <FormattedMessage
+            id="registration_successfully_created"
+            defaultMessage={`Thanks ${<span>{firstName} {lastName}</span>} , your registration process hassuccessfully been created. Please click Continue to login.`}
+            values={{ emailAddress: emailAddress }}
+          />
         </p>
         <CButton color="primary" onMouseUp={props.handleLogin}>
-          Continue
+        <FormattedMessage id='continue' defaultMessage={'Continue'} />
           {props.loading ? (
             <CSpinner component="span" size="sm" aria-hidden="true" className="ms-2" />
           ) : (

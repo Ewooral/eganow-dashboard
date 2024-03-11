@@ -11,7 +11,6 @@ export const PASSWORD_REGEX =
   export const EGANOW_AUTH_COOKIE_NAME = 'eganow_customer_auth'
  */
 
-
   // export const URL = 'http://185-3-92-47.ip.linodeusercontent.com:80/'
   export const URL = 'http://192.168.10.31:1444'
   

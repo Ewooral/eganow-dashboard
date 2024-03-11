@@ -17,11 +17,14 @@ import classNames from 'classnames'
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa'
 import logo_compact from '@/public/brand/eganow.png'
 import { StepPropType } from './types'
+/* HOOKS */
+import { FormattedMessage, useIntl } from 'react-intl'
 
 const StepTwoPane = (props: any) => {
   const { register, getValues, formState } = props.handleForm
   const handleBackClick = props.handleBackClick
   const handleNextClick = props.handleNextClick
+  const {formatMessage} = useIntl()
 
   //Getting the email address from useForm
   const emailAddress = getValues('emailAddress')
@@ -43,7 +46,9 @@ const StepTwoPane = (props: any) => {
           />
         </CCol>
         <CCol xs={10} className="mx-auto">
-          <h3 className="mx-auto">Customer Registration</h3>
+          <h3 className="mx-auto">
+            <FormattedMessage id="customer_registration" defaultMessage="Customer Registration" />
+          </h3>
         </CCol>
       </CRow>
 
@@ -55,10 +60,15 @@ const StepTwoPane = (props: any) => {
             {props.errors?.stepTwo}
           </CAlert>
         )}
-        <h4>Enter verification code</h4>
+        <h4>
+          <FormattedMessage id="enter_verification_code" defaultMessage="Enter verification code" />
+        </h4>
         <p>
-          Enter the verification code that was sent to <span>{emailAddress}</span>. Please use this
-          code to continue, valid for 2 minutes. Do NOT share with anyone.
+          <FormattedMessage
+            id="enter_verification_code_valid_for_2_minutes"
+            defaultMessage={`Enter the verification code that was sent to ${<span>{emailAddress}</span>}. Please use this code to continue, valid for 2 minutes. Do NOT share with anyone.`}
+            values={{ emailAddress: emailAddress }}
+          />
         </p>
       </div>
 
@@ -70,12 +80,12 @@ const StepTwoPane = (props: any) => {
               'text-error': !!formState.errors?.otpValue,
             })}
           >
-            Verification code (OTP)
+           <FormattedMessage id="verification_code_otp" defaultMessage="Verification Code (OTP)" />
           </CFormLabel>
           <CFormInput
             type="text"
             id="otpValue"
-            placeholder="Enter 6-digit verification code here."
+            placeholder={formatMessage({id:'otp_placeholder', defaultMessage: 'Enter 6-digit verification code here.'})}
             {...register('otpValue')}
             valid={formState.dirtyFields?.otpValue && !!!formState.errors?.otpValue ? true : false}
             invalid={!!formState.errors?.otpValue && true}
@@ -87,7 +97,7 @@ const StepTwoPane = (props: any) => {
               'd-none': !!formState.errors?.otpValue ? false : true,
             })}
           >
-            OtpValue required
+            <FormattedMessage id="otp_is_required" defaultMessage="OTP is required" />
           </CFormText>
         </CCol>
       </CRow>
@@ -100,12 +110,12 @@ const StepTwoPane = (props: any) => {
             disabled={props.loading}
           >
             <FaChevronLeft className="me-2 mb-1" />
-            Go Back
+            <FormattedMessage id="go_back" defaultMessage="Go Back" />
           </CButton>
         </CCol>
         <CCol xs="auto">
           <CButton color="primary" onMouseUp={handleNextClick} disabled={props.loading}>
-            Next Step
+            <FormattedMessage id='next_step' defaultMessage={'Next Step'} />
             {props.loading ? (
               <CSpinner component="span" size="sm" aria-hidden="true" className="ms-2" />
             ) : (

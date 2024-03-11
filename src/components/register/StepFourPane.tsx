@@ -10,11 +10,14 @@ import logo_compact from '@/public/brand/eganow.png'
 import { StepPropType } from './types'
 /* COMPONENT */
 import DialCode from '@/components/dial-code/DialCodeInput'
+/* HOOKS */
+import { FormattedMessage, useIntl } from 'react-intl'
 
 const StepFourPane = (props: any) => {
   const { register, formState } = props.handleForm
   const handleBackClick = props.handleBackClick
   const handleSubmitClick = props.handleSubmitClick
+  const {formatMessage} = useIntl()
 
   return (
     <>
@@ -33,7 +36,9 @@ const StepFourPane = (props: any) => {
           />
         </CCol>
         <CCol xs={10} className="mx-auto">
-          <h3 className="mx-auto">Customer Registration</h3>
+        <h3 className="mx-auto">
+            <FormattedMessage id="customer_registration" defaultMessage="Customer Registration" />
+          </h3>
         </CCol>
       </CRow>
       <div className="text">
@@ -44,8 +49,8 @@ const StepFourPane = (props: any) => {
             {props.errors?.stepFour}
           </CAlert>
         )}
-        <h4>Business Information</h4>
-        <p>Enter your business details in the fields below.</p>
+        <FormattedMessage id='business_information' defaultMessage={'Business Information'} />
+        <p><FormattedMessage id='set_business_info_details' defaultMessage={'Set your business information details below'} /></p>
       </div>
 
       <CRow className="mt-2">
@@ -56,12 +61,12 @@ const StepFourPane = (props: any) => {
               'text-error': !!formState.errors?.businessName,
             })}
           >
-            Business name
+            <FormattedMessage id="business_name" defaultMessage="Business Name" />
           </CFormLabel>
           <CFormInput
             type="text"
             id="businessName"
-            placeholder="Enter your business name here."
+            placeholder={formatMessage({id:'business_name_placeholder', defaultMessage: 'Enter your business name here'})}
             {...register('businessName')}
             valid={
               formState.dirtyFields?.businessName && !!!formState.errors?.businessName
@@ -77,7 +82,7 @@ const StepFourPane = (props: any) => {
               'd-none': !!formState.errors?.businessName ? false : true,
             })}
           >
-            Business name is required
+             <FormattedMessage id="business_name_is_required" defaultMessage="Business name is required" />
           </CFormText>
         </CCol>
       </CRow>
@@ -90,12 +95,13 @@ const StepFourPane = (props: any) => {
               'text-error': !!formState.errors?.tradingName,
             })}
           >
-            Trading name
+         <FormattedMessage id="trading_name" defaultMessage="Trading Name" />
+
           </CFormLabel>
           <CFormInput
             type="text"
             id="tradingName"
-            placeholder="Enter your business trading name here."
+            placeholder={formatMessage({id:'business_trading_name_placeholder', defaultMessage: 'Enter your business trading name here'})}
             {...register('tradingName')}
             valid={
               formState.dirtyFields?.tradingName && !!!formState.errors?.tradingName ? true : false
@@ -109,7 +115,7 @@ const StepFourPane = (props: any) => {
               'd-none': !!formState.errors?.tradingName ? false : true,
             })}
           >
-            Business trading name is required
+            <FormattedMessage id="business_trading_name_is_required" defaultMessage="Business trading name is required" />
           </CFormText>
         </CCol>
       </CRow>
@@ -122,7 +128,7 @@ const StepFourPane = (props: any) => {
               'text-error': !!formState.errors?.businessMobileNo,
             })}
           >
-            Business mobile number.
+            <FormattedMessage id='business_mobile_number' defaultMessage={'Business Mobile Number'} />
           </CFormLabel>
           <DialCode name="businessMobileNo" handleForm={props.handleForm} />
           <CFormText
@@ -132,7 +138,10 @@ const StepFourPane = (props: any) => {
               'd-none': !!formState.errors?.businessMobileNo ? false : true,
             })}
           >
-            Mobile number is required
+            <FormattedMessage
+              id="mobile_number_is_required"
+              defaultMessage="Mobile number is required"
+            />
           </CFormText>
         </CCol>
       </CRow>
@@ -141,12 +150,12 @@ const StepFourPane = (props: any) => {
         <CCol xs="auto">
           <CButton color="dark" variant="outline" onMouseUp={handleBackClick}>
             <FaChevronLeft className="me-2 mb-1" />
-            Go Back
+            <FormattedMessage id="go_back" defaultMessage="Back" />
           </CButton>
         </CCol>
         <CCol xs="auto">
           <CButton className="text-white" color="success" onMouseUp={handleSubmitClick}>
-            Submit
+            <FormattedMessage id="send" defaultMessage="Send" />
             <FaTelegramPlane className="ms-2 mb-1" />
           </CButton>
         </CCol>
