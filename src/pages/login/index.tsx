@@ -43,7 +43,7 @@ import { EmptyObject, useForm } from 'react-hook-form'
 /* STORE */
 import { useLocale } from '@/store'
 /* CONSTANCE */
-import { EGANOW_AUTH_COOKIE, EGANOW_REMEMBER_ME_COOKIE } from '@/constants'
+import { EGANOW_AUTH_COOKIE, EGANOW_REMEMBER_ME_COOKIE, RPC_ERROR } from '@/constants'
 /* IMAGE */
 import lady from '@/public/images/lady.jpg'
 import logoIcon from '@/public/images/EganowLogo.png'
@@ -55,6 +55,7 @@ import { capitalizeFirstLetter_util } from '@/util'
 import { LoginInputType } from '@/types/Users'
 import { LoginInputErrors } from '@/types/Errors'
 import { Icon } from '@/components/IconsView'
+import ResetPassword from '@/components/forgotPassword/ResetPassword'
 
 const vars = {
   '--cui-btn-color': 'white',
@@ -81,6 +82,7 @@ export async function getStaticProps() {
     },
   }
 }
+
 /*
  *
  *LOGIN COMPONENT
@@ -178,7 +180,18 @@ const Login = (props) => {
       reset(data)
     } catch (error) {
       //Handling GRPC errors
+
       if (error.name === 'RpcError') {
+        if (error.metadata['grpc-status'] === RPC_ERROR.FAILED_PRECONDITION) {
+          //encrypting th email address
+          const encryptedEmail = await CryptoJS.DES.encrypt(
+            JSON.stringify(data.email),
+            props.secret_key,
+          ).toString()
+          router.push({ pathname: `/reset-password`, query: { email: encryptedEmail } })
+          return
+        }
+        //setting rpc errors
         setErrors({
           message: error.metadata['grpc-message'],
         })
@@ -190,46 +203,43 @@ const Login = (props) => {
   }
 
   return (
-    <div className="login-bg ">
-      <CContainer fluid>
-        <LanguageSelector />
-      </CContainer>
 
-      <div className="min-vh-100 d-flex flex-row align-items-center">
-        <CContainer>
-          <CRow className="justify-content-center align-items-center">
-            <CCol md={8} style={{ width: 'auto' }}>
-              <CCardGroup className="shadow-lg">
-                <CCard
-                  className="text-white  d-none d-xl-block p-0 overflow-hidden"
-                  style={{ width: '40%' }}
-                >
-                  <CCardBody className="text-center p-0 overflow-hidden position-relative h-100 ">
-                    <div className="p-0 m-0 bg-info overflow-hidden h-100 d-none d-lg-block">
-                      <Image
-                        src={lady}
-                        width="auto"
-                        alt="lady"
-                        style={{ objectFit: 'cover', height: '100%' }}
-                      />
-                      <div
-                        className="position-absolute top-0 bg-danger w-100 h-100 opacity-75"
-                        style={{
-                          background: 'linear-gradient(to bottom, #ff0000, #990000)',
-                        }}
-                      ></div>
-                      <div className="position-absolute p-5 top-0 w-100 h-100  d-flex justify-content-center align-items-center">
-                        <div className="text-white text-center">
-                          <Image src={logoIconwhite} alt="" width={227} />
-                          <p className="my-3 fw-bold">
-                            <FormattedMessage
-                              id="payments_&_financial_service"
-                              defaultMessage={
-                                'Payments & Financial Services infrastructure for businesses'
-                              }
-                            />
-                          </p>
-                        </div>
+    <div className="login-bg min-vh-100 d-flex align-items-center position-relative">
+      <CContainer>
+        <CRow className="justify-content-center align-items-center">
+          <div className="position-absolute top-0 my-4 py-2 px-md-5 px-3 d-none d-lg-block ">
+            <LanguageSelector />
+          </div>
+          <CCol md={8} style={{ width: 'auto' }}>
+            <div className="d-lg-none my-2">
+              <LanguageSelector />
+            </div>
+            <CCardGroup className="shadow-lg">
+              <CCard
+                className="text-white  d-none d-xl-block p-0 overflow-hidden"
+                style={{ width: '40%' }}
+              >
+                <CCardBody className="text-center p-0 overflow-hidden position-relative h-100 ">
+                  <div className="p-0 m-0 bg-info overflow-hidden h-100 d-none d-lg-block">
+                    <Image
+                      src={lady}
+                      width="auto"
+                      alt="lady"
+                      style={{ objectFit: 'cover', height: '100%' }}
+                    />
+                    <div
+                      className="position-absolute top-0 bg-danger w-100 h-100 opacity-75"
+                      style={{
+                        background: 'linear-gradient(to bottom, #ff0000, #990000)',
+                      }}
+                    ></div>
+                    <div className="position-absolute p-5 top-0 w-100 h-100  d-flex justify-content-center align-items-center">
+                      <div className="text-white text-center">
+                        <Image src={logoIconwhite} alt="" width={227} />
+                        <p className="my-3 fw-bold">
+                          Payments & Financial Services infrastructure for businesses
+                        </p>
+
                       </div>
                     </div>
                   </CCardBody>

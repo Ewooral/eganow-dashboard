@@ -94,6 +94,8 @@ const Entry: NextPageWithLayout = (props) => {
     setHighestFeatureValue(getMaxValueKey(mostUsedFeature?.state?.featureCounts))
   }, [mostUsedFeature])
 
+
+
   return (
     <EntryLayout {...props} features={features}>
       <CContainer className="rounded mb-5">
@@ -113,14 +115,6 @@ const Entry: NextPageWithLayout = (props) => {
                   </span>
                 </p>
                 <h3 className="text-medium-emphasis">{props.cookies.businessName}</h3>
-              </div>
-            </CCol>
-            <CCol className="">
-              <div className="d-flex justify-content-sm-end align-items-center gap-2  mx-auto mx-lg-0">
-                <p className="m-0">
-                  <em>Your most used feature::</em>{' '}
-                </p>
-                <MostUsedFeature features={features} highestFeatureValue={highestFeatureValue} />
               </div>
             </CCol>
             <CCol className="">
