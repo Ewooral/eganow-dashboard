@@ -227,6 +227,7 @@ const Login = (props) => {
                       alt="lady"
                       style={{ objectFit: 'cover', height: '100%' }}
                     />
+                    </div>
                     <div
                       className="position-absolute top-0 bg-danger w-100 h-100 opacity-75"
                       style={{
@@ -389,7 +390,6 @@ const Login = (props) => {
           </CRow>
         </CContainer>
       </div>
-    </div>
   )
 }
 
