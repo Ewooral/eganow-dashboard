@@ -13,7 +13,7 @@ function LanguageSelector() {
     { label: 'French', value: 'fr', img: 'https://res.cloudinary.com/eganow/image/upload/v1640022623/Flags/FR0033.png' },
   ];
 
-  // handle language chanage
+  // handle language change
   function handleChange(event) {
     if (event) {
       setLocale(event)
@@ -22,13 +22,13 @@ function LanguageSelector() {
 
 
   return (
-    <div className='text-center d-flex align-items-center justify-content-end mb-3 z-3'>
-      <CDropdown direction="center">
+    <div className='z-3'>
+      <CDropdown>
         {/* CURRENT OPTION USER HAS SELECTED */}
         <CDropdownToggle color='secondary' size="sm"style={{background:'white'}}>
           {dropdownItems.find(item => item.value === locale) ? (
             <>
-              <img
+              <img  
                 src={dropdownItems.find(item => item.value === locale).img}
                 alt={locale}
                 width={30}

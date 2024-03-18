@@ -19,6 +19,8 @@ import classNames from 'classnames'
 import { StepPropType } from './types'
 import logo_compact from '@/public/brand/eganow.png'
 import DialCode from '../dial-code/DialCodeInput'
+/* HOOKS */
+import { FormattedMessage, useIntl } from 'react-intl'
 /* 
 
 
@@ -46,7 +48,8 @@ const StepThreePane = (props: any) => {
   const { register, formState, getValues } = props.handleForm
   const handleBackClick = props.handleBackClick
   const handleNextClick = props.handleNextClick
-  
+  const { formatMessage } = useIntl()
+
   return (
     <>
       <CRow>
@@ -64,13 +67,18 @@ const StepThreePane = (props: any) => {
           />
         </CCol>
         <CCol xs={10} className="mx-auto">
-          <h3 className="mx-auto">Customer Registration</h3>
+          <h3 className="mx-auto">
+            <FormattedMessage id="customer_registration" defaultMessage="Customer Registration" />
+          </h3>
         </CCol>
       </CRow>
 
       <div className="text">
-        <h4>Personal Information</h4>
-        <p>Enter your personal details in the fields below.</p>
+        <FormattedMessage id="personal_information" defaultMessage={'Personal Information'} />
+        <FormattedMessage
+          id="personal_information_description"
+          defaultMessage={'Enter your personal details in the fields below'}
+        />
       </div>
 
       <CRow className="mb-3 mt-2" xs={{ gutterY: 3, cols: 1 }} md={{ gutterY: 3, cols: 2 }}>
@@ -81,12 +89,15 @@ const StepThreePane = (props: any) => {
               'text-error': !!formState.errors?.firstName,
             })}
           >
-            First name
+            <FormattedMessage id="first_name" defaultMessage="First Name" />
           </CFormLabel>
           <CFormInput
             type="text"
             id="firstName"
-            placeholder="Enter your first name here."
+            placeholder={formatMessage({
+              id: 'first_name_placeholder',
+              defaultMessage: 'Enter your first name here.',
+            })}
             {...register('firstName')}
             valid={
               formState.dirtyFields?.firstName && !!!formState.errors?.firstName ? true : false
@@ -100,7 +111,7 @@ const StepThreePane = (props: any) => {
               'd-none': !!formState.errors?.firstName ? false : true,
             })}
           >
-            First name is required
+            <FormattedMessage id="first_name_is_required" defaultMessage="First name is required" />
           </CFormText>
         </CCol>
         <CCol>
@@ -110,12 +121,15 @@ const StepThreePane = (props: any) => {
               'text-error': !!formState.errors?.lastName,
             })}
           >
-            Last name
+            <FormattedMessage id="last_name" defaultMessage="Last Name" />
           </CFormLabel>
           <CFormInput
             type="text"
             id="lastName"
-            placeholder="Enter your last name here."
+            placeholder={formatMessage({
+              id: 'last_name_placeholder',
+              defaultMessage: 'Enter your last name here.',
+            })}
             {...register('lastName')}
             valid={formState.dirtyFields?.lastName && !!!formState.errors?.lastName ? true : false}
             invalid={!!formState.errors?.lastName && true}
@@ -127,7 +141,7 @@ const StepThreePane = (props: any) => {
               'd-none': !!formState.errors?.lastName ? false : true,
             })}
           >
-            Last name is required
+            <FormattedMessage id="last_name_is_required" defaultMessage="Last name is required" />
           </CFormText>
         </CCol>
       </CRow>
@@ -140,7 +154,7 @@ const StepThreePane = (props: any) => {
               'text-error': !!formState.errors?.customerMobileNo,
             })}
           >
-            Mobile number
+            <FormattedMessage id="mobile_number" defaultMessage="Mobile Number" />
           </CFormLabel>
           <DialCode name="customerMobileNo" handleForm={props.handleForm} />
           <CFormText
@@ -150,7 +164,10 @@ const StepThreePane = (props: any) => {
               'd-none': !!formState.errors?.customerMobileNo ? false : true,
             })}
           >
-            Mobile number is required
+            <FormattedMessage
+              id="mobile_number_is_required"
+              defaultMessage="Mobile number is required"
+            />
           </CFormText>
         </CCol>
         <CCol>
@@ -160,13 +177,16 @@ const StepThreePane = (props: any) => {
               'text-error': !!formState.errors?.emailAddress,
             })}
           >
-            Email address
+            <FormattedMessage id="email_address" defaultMessage="Email Address" />
           </CFormLabel>
           <CFormInput
             readOnly
             type="email"
             id="emailAddress"
-            placeholder="Enter email address here."
+            placeholder={formatMessage({
+              id: 'email_address_placeholder',
+              defaultMessage: 'Enter email address here.',
+            })}
             value={getValues('emailAddress')}
             valid={
               formState.dirtyFields?.emailAddress && !!!formState.errors?.emailAddress
@@ -183,7 +203,10 @@ const StepThreePane = (props: any) => {
               'd-none': !!formState.errors?.emailAddress ? false : true,
             })}
           >
-            Email address required
+            <FormattedMessage
+              id="email_address_is_required"
+              defaultMessage="Email address is required"
+            />
           </CFormText>
         </CCol>
       </CRow>
@@ -197,7 +220,9 @@ const StepThreePane = (props: any) => {
               'me-1': true,
             })}
           >
-            <span className="d-inline-block">Password</span>
+            <span className="d-inline-block">
+              <FormattedMessage id="password" defaultMessage="Password" />
+            </span>
           </CFormLabel>
           <CPopover
             title="Password Format"
@@ -213,7 +238,10 @@ const StepThreePane = (props: any) => {
           <CFormInput
             type="password"
             id="password"
-            placeholder="Enter your password here."
+            placeholder={formatMessage({
+              id: 'password_placholder',
+              defaultMessage: 'Enter password here.',
+            })}
             {...register('password')}
             valid={formState.dirtyFields?.password && !!!formState.errors?.password ? true : false}
             invalid={!!formState.errors?.password && true}
@@ -225,7 +253,7 @@ const StepThreePane = (props: any) => {
               'd-none': !!formState.errors?.password ? false : true,
             })}
           >
-            Password is required
+            <FormattedMessage id="password_is_required" defaultMessage="Password is required" />
           </CFormText>
         </CCol>
 
@@ -236,12 +264,15 @@ const StepThreePane = (props: any) => {
               'text-error': !!formState.errors?.confirmPassword,
             })}
           >
-            Confirm Password
+            <FormattedMessage id="confirm_password" defaultMessage="Confirm Password" />
           </CFormLabel>
           <CFormInput
             type="password"
             id="confirmPassword"
-            placeholder="Confirm password here."
+            placeholder={formatMessage({
+              id: 'confirm_password_placeholder',
+              defaultMessage: 'Confirm password here.',
+            })}
             {...register('confirmPassword')}
             valid={
               formState.dirtyFields?.confirmPassword && !!!formState.errors?.confirmPassword
@@ -257,7 +288,10 @@ const StepThreePane = (props: any) => {
               'd-none': !!formState.errors?.confirmPassword ? false : true,
             })}
           >
-            Confirm password is required
+            <FormattedMessage
+              id="confirm_password_is_required"
+              defaultMessage="Confirm password is required"
+            />
           </CFormText>
         </CCol>
       </CRow>
@@ -266,12 +300,12 @@ const StepThreePane = (props: any) => {
         <CCol xs="auto">
           <CButton color="dark" variant="outline" onMouseUp={handleBackClick}>
             <FaChevronLeft className="me-2 mb-1" />
-            Go Back
+            <FormattedMessage id="go_back" defaultMessage="Back" />
           </CButton>
         </CCol>
         <CCol xs="auto">
           <CButton color="primary" onMouseUp={handleNextClick}>
-            Next Step
+            <FormattedMessage id="next_step" defaultMessage="Next" />
             <FaChevronRight className="ms-2 mb-1" />
           </CButton>
         </CCol>

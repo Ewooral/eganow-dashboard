@@ -13,26 +13,27 @@ import {
   CSpinner,
   CAlert,
 } from '@coreui/react-pro'
-import logo_compact from '@/public/brand/eganow.png'
+import logo_compact from '@/public/brand/eganow-colored-logo.svg'
 import Image from 'next/image'
 import { cilEnvelopeClosed, cilFire } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm, EmptyObject } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import Link from 'next/link'
 import { useState } from 'react'
-import { useRouter } from 'next/router'
 import { FormattedMessage } from 'react-intl'
 import { ForgotPasswordErrors } from '@/types/Errors'
+/* API */
+import merchantOnboardingSvcGRPC from '@/api/merchantOnboardingSvcGRPC'
 
 export const defaultValues = {
-  username: '',
+  emailAddress: '',
 }
 
 export const validationSchema = yup
   .object({
-    username: yup.string().required(),
+    emailAddress: yup.string().email().required(),
   })
   .required()
 
@@ -54,24 +55,25 @@ const vars: object = {
 }
 
 const ForgotPassword = () => {
-  const [errors, setErrors] = useState<ForgotPasswordErrors | EmptyObject>({})
+  const { requestPasswordReset } = merchantOnboardingSvcGRPC()
+  const [errors, setErrors] = useState<ForgotPasswordErrors>()
   const [showFeedback, setShowFeedback] = useState(false) //state to toggle between feedback component
-  const router = useRouter()
 
-  const {
-    register,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = useForm({
+  const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues,
   })
 
-  const onSubmit = async () => {
+  const onSubmit = async (data: object) => {
     try {
-      setShowFeedback(true)
-    } catch (error) {
-      console.error(error)
+      const response = await requestPasswordReset(data)
+
+      if (response) {
+        //if response is true show the feedback ui
+        setShowFeedback(true)
+      }
+    } catch (error: any) {
+      setErrors(error)
     }
   }
 
@@ -79,12 +81,12 @@ const ForgotPassword = () => {
   const Feedback = () => {
     return (
       <div>
-        <h3 className="text-center m-0">
+        <h3 className="text-center mb-2">
           {/*//TODO - add id to languages folder*/}
           <FormattedMessage id="check_your_email" defaultMessage="Check your email" />
         </h3>
-        <div className="d-flex justify-content-center my-4">
-          <CIcon className="tada" icon={cilEnvelopeClosed} size="3xl" style={{ color: 'black' }} />
+        <div className="d-flex justify-content-center mb-2">
+          <CIcon className="mb-2" icon={cilEnvelopeClosed} size="3xl" style={{ color: 'black' }} />
         </div>
         <p className="text-medium-emphasis text-center m-0">
           {/*//TODO - add id to languages folder*/}
@@ -100,6 +102,12 @@ const ForgotPassword = () => {
             defaultMessage="Check your inbox and use the temporary password to login."
           />
         </p>
+
+        <Link href="/login">
+          <p className="" style={{ cursor: 'pointer', textDecoration: 'underline' }}>
+            Back to login
+          </p>
+        </Link>
       </div>
     )
   }
@@ -108,26 +116,27 @@ const ForgotPassword = () => {
     <div className="login-bg min-vh-100 d-flex flex-row align-items-center ">
       <CContainer>
         <CRow className="justify-content-center">
-          <CCol style={{ maxWidth: '450px' }} className="position-relative ">
+          <CCol style={{ maxWidth: '400px' }} className="position-relative ">
             <CCardGroup className=" shadow-lg">
-              <CCard className="p-4">
-                <Image src={logo_compact} height={80} alt="Eganow" className="mx-auto mb-3" />
+              <CCard className="p-3">
+                <Image src={logo_compact} height={60} alt="Eganow" className="mx-auto" />
                 {showFeedback ? (
                   <Feedback />
                 ) : (
-                  <CCardBody>
-                    <h3 className="text-center">
+                  //Request password reset form
+                  <CCardBody className=" p-0 m-0">
+                    <h4 className="text-center font">
                       {/*//TODO - add id to languages folder*/}
                       <FormattedMessage
                         id="reset_account_password"
                         defaultMessage="Reset Account Password"
                       />
-                    </h3>
+                    </h4>
                     {/*//TODO - add id to languages folder*/}
                     <p className="text-medium-emphasis text-center">
                       <FormattedMessage
                         id="please_enter_email"
-                        defaultMessage="Please enter your email you used to sign in."
+                        defaultMessage="Enter your sign up email"
                       />
                     </p>
                     {errors?.message && (
@@ -141,7 +150,7 @@ const ForgotPassword = () => {
                         {errors?.message}
                       </CAlert>
                     )}
-                    <CForm noValidate onSubmit={handleSubmit(onSubmit)}>
+                    <CForm className="px-4" noValidate onSubmit={handleSubmit(onSubmit)}>
                       <CInputGroup className="mb-3">
                         <CInputGroupText style={{ width: '50px' }}>
                           <CIcon icon={cilEnvelopeClosed} />
@@ -150,8 +159,13 @@ const ForgotPassword = () => {
                           className=""
                           placeholder="Email Address"
                           autoComplete="emailAddress"
-                          {...register('username', { required: true, minLength: 2, maxLength: 50 })}
-                          required
+                          {...register('emailAddress')}
+                          valid={
+                            formState.dirtyFields?.emailAddress && !!!formState.errors?.emailAddress
+                              ? true
+                              : false
+                          }
+                          invalid={!!formState.errors?.emailAddress && true}
                         />
                       </CInputGroup>
 
@@ -161,10 +175,10 @@ const ForgotPassword = () => {
                             type="submit"
                             className="px-4 w-100"
                             active
-                            disabled={isSubmitting}
+                            disabled={formState.isSubmitting}
                             style={vars}
                           >
-                            {isSubmitting ? (
+                            {formState.isSubmitting ? (
                               <CSpinner component="span" size="sm" aria-hidden="true" />
                             ) : (
                               'Request password reset'
@@ -173,15 +187,17 @@ const ForgotPassword = () => {
                         </CCol>
                       </CRow>
                     </CForm>
+                  
+                    <Link  href="/login" className=" ">
+                      <p
+                        className=" p-0"
+                        style={{ cursor: 'pointer', textDecoration: 'underline', width: '200px', marginLeft: "25px" }}
+                      >
+                        Back to login
+                      </p>
+                    </Link>
                   </CCardBody>
                 )}
-                <p
-                  className="m-0"
-                  onClick={() => router.push('/login')}
-                  style={{ cursor: 'pointer', textDecoration: 'underline', color: 'blue' }}
-                >
-                  Back to login
-                </p>
               </CCard>
             </CCardGroup>
           </CCol>
