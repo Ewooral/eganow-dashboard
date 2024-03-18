@@ -5,7 +5,9 @@ import AppHeader from './header/AppHeader'
 import AppSidebar from './AppSidebar'
 import DashboardLayout from './layouts/DashboardLayout'
 /* Added by Maclean */
+import GeneralLayout from './layouts/GeneralLayout'
 import EntryLayout from './layouts/EntryLayout'
+
 import AppEntryHeader from './header/AppEntryHeader'
 import GlobalLoader from './GlobalLoader'
 import Features from './Features'
@@ -16,6 +18,7 @@ export {
   AppEntryHeader,
   EntryLayout,
   DashboardLayout,
+  GeneralLayout,
   AppAside,
   AppBreadcrumb,
   AppFooter,

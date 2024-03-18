@@ -1,4 +1,3 @@
-
 export const NUMBER_ONLY_REGEX = /^[0-9]+$/
 export const PASSWORD_REGEX =
   /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/
@@ -13,8 +12,8 @@ export const PASSWORD_REGEX =
  */
 
 
-  export const URL = 'http://185-3-92-47.ip.linodeusercontent.com:80/'
-  //export const URL = 'http://192.168.10.54:8443/'
+  export const URL = 'https://merchant-web-proxy.uat.egadevapi.com/'
+  //export const URL = 'http://192.168.10.31:1444/'
   
  /*  export const METADATA = {
     eganowappcustkey: 'keY-a6ee91c7-493a-4e0d-814d-06919674cea1-a0UoThthyys30a-Ey',

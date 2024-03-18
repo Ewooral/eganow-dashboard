@@ -41,7 +41,7 @@ const _nav = [
     component: CNavItem,
     name: 'Back to Features',
     href: '/',
-    icon: <CIcon icon={cilHandPointLeft} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilHandPointLeft} customClassName="nav-icon text-danger" />,
     badge: {
       color: 'info-gradient',
     },
@@ -56,7 +56,7 @@ const _nav = [
     component: CNavItem,
     name: 'Dashboard',
     href: '/biz-collect',
-    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon text-warning" />,
     badge: {
       color: 'info-gradient',
     },
@@ -66,7 +66,7 @@ const _nav = [
     component: CNavGroup,
     name: 'Transactions',
     href: '/components/icons',
-    icon: <CIcon icon={cilNotes} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilNotes} customClassName="nav-icon text-primary" />,
     items: [
       {
         component: CNavItem,
@@ -100,7 +100,7 @@ const _nav = [
     component: CNavGroup,
     name: 'Payment Link',
     href: '/components/icons',
-    icon: <CIcon icon={cilEnvelopeOpen} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilEnvelopeOpen} customClassName="nav-icon text-info" />,
     items: [
       {
         component: CNavItem,
@@ -117,9 +117,8 @@ const _nav = [
 
   {
     component: CNavGroup,
-    name: 'Merchant Customers',
-    href: '/components/icons',
-    icon: <CIcon icon={cilSpreadsheet} customClassName="nav-icon" />,
+    name: 'Merchant',
+    icon: <CIcon icon={cilSpreadsheet} customClassName="nav-icon text-success" />,
     items: [
       {
         component: CNavItem,
@@ -128,22 +127,20 @@ const _nav = [
       },
       {
         component: CNavItem,
-        name: 'Pin Reset Request',
+        name: 'Pin Reset',
         href: '/components/icons/flags',
       },
       {
         component: CNavItem,
-        name: 'Pin Reset Request',
+        name: 'User Management',
         href: '/components/icons/brands',
       },
+      {
+        component: CNavItem,
+        name: 'Business Details',
+        href: '/business-details',
+      },
     ],
-  },
-
-  {
-    component: CNavItem,
-    name: 'Merchant Users',
-    href: '/components/icons',
-    icon: <CIcon icon={cilGroup} customClassName="nav-icon" />,
   },
 ]
 

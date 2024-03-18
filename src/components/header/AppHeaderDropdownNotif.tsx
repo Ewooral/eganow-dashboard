@@ -6,7 +6,9 @@ import {
   CDropdownItem,
   CDropdownMenu,
   CDropdownToggle,
-  CProgress,
+  CAlert,
+  CButton,
+  CCloseButton,
 } from '@coreui/react-pro'
 import CIcon from '@coreui/icons-react'
 import {
@@ -16,10 +18,12 @@ import {
   cilSpeedometer,
   cilUserFollow,
   cilUserUnfollow,
+  cilInfo,
+  cilPlus,
 } from '@coreui/icons'
 
-const AppHeaderDropdownNotif = () => {
-  const itemsCount = 5
+const AppHeaderDropdownNotification = () => {
+  const itemsCount = 2
   return (
     <CDropdown variant="nav-item" alignment="end">
       <CDropdownToggle caret={false}>
@@ -32,58 +36,38 @@ const AppHeaderDropdownNotif = () => {
           {itemsCount}
         </CBadge>
       </CDropdownToggle>
-      <CDropdownMenu className="pt-0">
-        <CDropdownHeader className="bg-light dark:bg-white dark:bg-opacity-10">
+      <CDropdownMenu className="py-0 overflow-hidden">
+        <CDropdownHeader className="bg-light dark:bg-white dark:bg-opacity-10 d-flex align-items-center justify-content-between">
           <strong>You have {itemsCount} notifications</strong>
+          <CButton color="link">Clear All</CButton>
         </CDropdownHeader>
-        <CDropdownItem>
-          <CIcon icon={cilUserFollow} className="me-2 text-success" /> New user registered
-        </CDropdownItem>
-        <CDropdownItem>
-          <CIcon icon={cilUserUnfollow} className="me-2 text-danger" /> User deleted
-        </CDropdownItem>
-        <CDropdownItem>
-          <CIcon icon={cilChartPie} className="me-2 text-info" /> Sales report is ready
-        </CDropdownItem>
-        <CDropdownItem>
-          <CIcon icon={cilBasket} className="me-2 text-primary" /> New client
-        </CDropdownItem>
-        <CDropdownItem>
-          <CIcon icon={cilSpeedometer} className="me-2 text-warning" /> Server overloaded
-        </CDropdownItem>
+
+        <>
+          <CDropdownItem className="p-4 d-flex align-items-center" style={{ cursor: 'pointer' }}>
+            <CIcon icon={cilInfo} className="flex-shrink-0 me-2 text-info" width={24} height={24} />
+            <span className="d-inline-block text-truncate" style={{ maxWidth: '25rem' }}>
+              Your eganow business account scanned document.
+            </span>
+          </CDropdownItem>
+          <CDropdownItem className="p-4 d-flex align-items-center" style={{ cursor: 'pointer' }}>
+            <CIcon
+              icon={cilUserUnfollow}
+              className="flex-shrink-0 me-2 text-success"
+              width={24}
+              height={24}
+            />
+            <span className="d-inline-block text-truncate" style={{ maxWidth: '25rem' }}>
+              Please report to the HQ of Eganow to collect the scanned document of
+            </span>
+          </CDropdownItem>
+        </>
+
         <CDropdownHeader className="bg-light dark:bg-white dark:bg-opacity-10">
-          <strong>Server</strong>
+          <CButton color="link">View All</CButton>
         </CDropdownHeader>
-        <CDropdownItem className="d-block">
-          <div className="text-uppercase mb-1">
-            <small>
-              <b>CPU Usage</b>
-            </small>
-          </div>
-          <CProgress thin color="info-gradient" value={25} />
-          <small className="text-medium-emphasis">348 Processes. 1/4 Cores.</small>
-        </CDropdownItem>
-        <CDropdownItem className="d-block">
-          <div className="text-uppercase mb-1">
-            <small>
-              <b>Memory Usage</b>
-            </small>
-          </div>
-          <CProgress thin color="warning-gradient" value={70} />
-          <small className="text-medium-emphasis">11444GB/16384MB</small>
-        </CDropdownItem>
-        <CDropdownItem className="d-block">
-          <div className="text-uppercase mb-1">
-            <small>
-              <b>SSD 1 Usage</b>
-            </small>
-          </div>
-          <CProgress thin color="danger-gradient" value={90} />
-          <small className="text-medium-emphasis">243GB/256GB</small>
-        </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>
   )
 }
 
-export default AppHeaderDropdownNotif
+export default AppHeaderDropdownNotification

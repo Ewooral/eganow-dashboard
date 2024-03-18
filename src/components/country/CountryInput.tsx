@@ -66,7 +66,12 @@ const Country = (props: countryPropsType) => {
   return (
     <CInputGroup>
       <CDropdown variant="input-group" alignment="end">
-        <CInputGroupText className={props?.className} style={{ width: '50px' }}>
+        <CInputGroupText
+          color="secondary"
+          variant="outline"
+          className={`${props?.className} dark:border-1`}
+          style={{ width: '50px' }}
+        >
           {!!field.value?.flag ? (
             // eslint-disable-next-line jsx-a11y/img-redundant-alt, @next/next/no-img-element
             <img src={field.value?.flag} width={24} height={16} alt="flag" />
@@ -84,7 +89,7 @@ const Country = (props: countryPropsType) => {
             of={data?.countriesList}
             render={(item, index) => {
               return (
-                <CDropdownItem id={`${index}`} data-name="flag">
+                <CDropdownItem id={`${index}`} data-name="flag" style={{ cursor: 'pointer' }}>
                   <Image src={item.countryFlagUrl} width={24} height={16} alt={item.countryName} />
                   <span style={{ marginLeft: '10px' }}>{item.countryName}</span>
                 </CDropdownItem>
@@ -93,28 +98,23 @@ const Country = (props: countryPropsType) => {
           />
         </CDropdownMenu>
 
-        <CFormInput
-          className={props?.className}
-          type="text"
-          id={props.name}
-          data-name="name"
-          onBlur={field.onBlur}
-          ref={inputRef}
-          placeholder="Select country."
-          disabled={true}
-          value={field.value?.name}
-          valid={
-            props.shouldValidate && fieldState.isDirty && !!!fieldState.error?.name ? true : false
-          }
-          invalid={props.shouldValidate && !!fieldState.error?.name && true}
-        />
-
-        <CDropdownToggle
-          color="secondary"
-          variant="outline"
-          className={props?.className}
-          split
-        ></CDropdownToggle>
+        <CDropdownToggle caret={false} color="secondary" variant="outline" custom={true}>
+          <CFormInput
+            className={props?.className}
+            type="text"
+            id={props.name}
+            data-name="name"
+            onBlur={field.onBlur}
+            ref={inputRef}
+            placeholder="Select country."
+            readOnly={true}
+            value={field.value?.name}
+            valid={
+              props.shouldValidate && fieldState.isDirty && !!!fieldState.error?.name ? true : false
+            }
+            invalid={props.shouldValidate && !!fieldState.error?.name && true}
+          />
+        </CDropdownToggle>
       </CDropdown>
     </CInputGroup>
   )

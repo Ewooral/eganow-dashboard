@@ -1,4 +1,5 @@
 // @ts-nocheck
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 
@@ -38,6 +39,11 @@ const AppHeaderDropdown = (props: UserInfoType) => {
     [props?.fullName],
   )
 
+  function handleLink() {
+    //Redirecting to the business-details page
+    router.push('/business-details')
+  }
+
   function handleLogout() {
     //Removing the cookie on logout
     removeCookie(EGANOW_AUTH_COOKIE)
@@ -48,7 +54,7 @@ const AppHeaderDropdown = (props: UserInfoType) => {
   return (
     <CDropdown variant="nav-item" alignment="end" placement="bottom-end" className="ms-auto">
       <CDropdownToggle className="py-0" caret={false}>
-        <span className="d-none d-md-inline">{`${props?.fullName}`} </span>
+        <span className="d-none d-md-inline">{props?.fullName} </span>
         <CAvatar color="primary" textColor="white" size="md">
           {avatarInitials}
         </CAvatar>
@@ -59,14 +65,18 @@ const AppHeaderDropdown = (props: UserInfoType) => {
           minWidth: '250px',
         }}
       >
-        <CDropdownHeader className="bg-light dark:bg-white dark:bg-opacity-10 fw-semibold py-2">
+        <CDropdownHeader className="bg-light dark:bg-dark dark:bg-opacity-10 fw-semibold py-2">
           Profile
         </CDropdownHeader>
-        <CDropdownItem className="flex text-center p-6 pt-4 text-body-secondary">
+        <CDropdownItem
+          href="#"
+          className="bg-light dark:bg-dark flex text-center p-6 pt-4 text-body-secondary "
+          onMouseUp={handleLink}
+        >
           <CAvatar color="primary" textColor="white" size="xl">
             {avatarInitials}
           </CAvatar>
-          <p className="p-2">{`${props?.fullName}`} </p>
+          <p className="p-2 dark:text-white">{props?.fullName} </p>
         </CDropdownItem>
         <CDropdownHeader className="bg-light dark:bg-white dark:bg-opacity-10 fw-semibold py-2">
           Settings
@@ -76,12 +86,8 @@ const AppHeaderDropdown = (props: UserInfoType) => {
           User Management
         </CDropdownItem>
         <CDropdownItem href="#">
-          <CIcon icon={cilSettings} className="me-2" />
-          Change Password
-        </CDropdownItem>
-        <CDropdownItem href="#">
           <CIcon icon={cilLockLocked} className="me-2" />
-          Change PIN
+          Change Password
         </CDropdownItem>
         <CDropdownDivider />
 

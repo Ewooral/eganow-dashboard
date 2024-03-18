@@ -20,9 +20,9 @@ import CIcon from '@coreui/icons-react'
 
 import {
   AppHeaderDropdown,
-  /* AppHeaderDropdownMssg,
+  AppHeaderDropdownMssg,
   AppHeaderDropdownNotif,
-  AppHeaderDropdownTasks, */
+  AppHeaderDropdownTasks,
 } from '.'
 
 import { AppBreadcrumb } from '@/components'
@@ -36,7 +36,7 @@ const AppHeader = (props: UserInfoType): JSX.Element => {
   const setSidebarShow = useUI((state) => state.setSidebarShow)
 
   return (
-    <CHeader position="sticky" className="mb-4">
+    <CHeader position="sticky">
       <CContainer fluid>
         <CHeaderToggler className="ps-1" onClick={() => setSidebarShow(!sidebarShow)}>
           <CIcon icon={cilMenu} size="lg" />
@@ -49,9 +49,9 @@ const AppHeader = (props: UserInfoType): JSX.Element => {
             </CNavLink>
           </CNavItem>
         </CHeaderNav>
-        {/* <CHeaderNav>
+        <CHeaderNav>
           <AppHeaderDropdownNotif />
-        </CHeaderNav> */}
+        </CHeaderNav>
         <CHeaderNav className="ms-3 me-4">
           <AppHeaderDropdown {...props} />
         </CHeaderNav>
