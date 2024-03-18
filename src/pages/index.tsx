@@ -125,6 +125,7 @@ const Entry: NextPageWithLayout = (props) => {
                 <MostUsedFeature features={features} highestFeatureValue={highestFeatureValue} />
               </div>}
             </CCol>
+
           </CRow>
         </div>
 
