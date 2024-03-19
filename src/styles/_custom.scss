@@ -61,7 +61,7 @@ select {
   background-color: #ccc;
   font-size: 30px;
   color: var(--eganow-red);
-  
+
   height: 130px;
   width: 130px;
   padding: 30px;
@@ -214,6 +214,26 @@ select {
   }
 }
 
+.card1-selected {
+  background-color: #484a4a;
+  border: 1px solid var(--cui-red) !important;
+  box-shadow: 5px 12px 20px rgba(36, 37, 38, 0.13);
+  .card-title {
+    color: #f2f8f9;
+  }
+
+  p {
+    color: #f2f8f9;
+  }
+
+  .go-corner {
+    margin-right: -46px;
+  }
+  .go-arrow {
+    opacity: 1;
+  }
+}
+
 /* ************************************************************************************ */
 
 /* .card1 {
@@ -336,13 +356,12 @@ select {
   visibility: hidden;
 }
 
-.profile-banner-color {  
+.profile-banner-color {
   position: relative;
   height: 160px;
   background-image: linear-gradient(220deg, #1f8fff 8%, #954a8d 64%, #e11e43);
   //background-image: linear-gradient(220deg, rgba(31, 143, 255,.5) 8%, rgba(149, 74, 141,.5) 64%, rgba(225, 30, 67,.5));
   background-size: cover;
- 
 }
 
 .profile-banner-img {
@@ -355,6 +374,6 @@ select {
   left: 0px;
 }
 
-.modal-dialog{
+.modal-dialog {
   border-radius: 20px !important;
 }

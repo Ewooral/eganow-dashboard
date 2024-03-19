@@ -12,10 +12,10 @@ import {
   CPlaceholder,
 } from '@coreui/react-pro'
 
-export default function FeaturesPlaceholder() {
+export default function FeaturesPlaceholder(props) {
   return (
     <CCol sm={6} lg={3}>
-      <CCard className="card1 text-center w-100 pt-2 rounded-4">
+      <CCard className="card1 text-center w-100 pt-2 rounded-4" onMouseOver={props.removeUsedFeatureSelect}>
         <div className="go-corner" href="#">
           <div className="go-arrow">→</div>
         </div>
