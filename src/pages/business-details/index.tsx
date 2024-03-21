@@ -67,7 +67,6 @@ const Entry: NextPageWithLayout = (props) => {
         queryKey: ['listbusinesscontactpersons', 1],
         queryFn: () => listBusinessContactPersons(),
         staleTime: 5000,
-        refetchInterval: 2000,
       },
       // { queryKey: ['addbusinesscontactperson', 2], queryFn: ()=> addBusinessContactPerson(),  },
     ],

@@ -124,8 +124,6 @@ const ContactPerson = (props) => {
     )
   }
 
-  
-
   async function handleClick(e: React.ChangeEvent<HTMLInputElement>, items): void {
     const { type } = e.currentTarget.dataset
 
@@ -159,10 +157,10 @@ const ContactPerson = (props) => {
           messages: response.value,
           show: true,
         } as SnackbarDataType)
-     
+        handleRefresh()
       } catch (error) {
-        console.log(error);
-        
+        console.log(error)
+
         showSnackbar({
           type: 'danger',
           title: 'User Management',
@@ -181,7 +179,7 @@ const ContactPerson = (props) => {
 
   function handleRefresh() {
     //Rehydrating users
-    //refetch()
+    props.data.refetch()
   }
 
   return (
