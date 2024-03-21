@@ -21,6 +21,7 @@ import {
   CTabPane,
   CTabContent,
   CBadge,
+  CCard,
 } from '@coreui/react-pro'
 import CIcon from '@coreui/icons-react'
 import { cilIndustry } from '@coreui/icons'
@@ -106,152 +107,149 @@ const Entry: NextPageWithLayout = (props) => {
 
       <div className="position-relative px-4 px-sm-5" style={{ marginTop: '-4.1rem' }}>
         <CRow className="justify-content-between mb-5 gap-4">
-          <CCol
-            className="bg-white p-2 border me-1 dark:bg-dark dark:bg-opacity-5"
-            style={{ minHeight: '100vh' }}
-          >
-            <CRow className="justify-content-center p-4">
-              <div className="company-logo position-relative">
-                <CIcon icon={cilIndustry} style={{ height: '100px', width: 'auto' }} />
-                <FaEdit
-                  className="position-absolute bg-white p-1 rounded-circle fs-2 border-2 border-light"
-                  style={{
-                    bottom: 0,
-                    right: 20,
-                    marginBottom: '-10',
-                    border: '1px solid #ccc',
-                    width: '34px',
-                    height: '34px',
-                  }}
-                  onMouseUp={handleLogoUpload}
-                />
-              </div>
-
-              <div className="mt-4">
-                <div>
-                  <em>Current User</em>
-                  <h5 style={{ color: '#e55353' }} className="mb-4">
-                    {props.cookies.fullName}
-                  </h5>
-                </div>
-
-                <div>
-                  <em>Company Name</em>
-                  <h5 className="mb-4">{props.cookies.businessName}</h5>
-                </div>
-
-                <div>
-                  <em>Registration Number</em>
-                  <h5 className="mb-4">TG466565</h5>
-                </div>
-
-                <div>
-                  <em>TIN</em>
-                  <h5 className="mb-4">CFRT55555</h5>
-                </div>
-
-                <div>
-                  <em>Attachments</em>
-                  <h5 className="mb-4">
-                    Count::{' '}
-                    <CBadge color="secondary" shape="rounded-circle">
-                      3
-                    </CBadge>
-                  </h5>
-                </div>
-
-                <div className="mb-4">
-                  <em>Country</em>
-                  <CountryInput
-                    className="mb-3"
-                    name="country"
-                    handleForm={{ control }}
-                    callback={() => {}}
-                    shouldValidate={false}
+          <CCol>
+            <CCard className="p-2 border me-1 rounded-0" style={{ minHeight: '100vh' }}>
+              <CRow className="justify-content-center p-4">
+                <div className="company-logo position-relative">
+                  <CIcon icon={cilIndustry} style={{ height: '100px', width: 'auto' }} />
+                  <FaEdit
+                    className="position-absolute bg-white p-1 rounded-circle fs-2 border-2 border-light"
+                    style={{
+                      bottom: 0,
+                      right: 20,
+                      marginBottom: '-10',
+                      border: '1px solid #ccc',
+                      width: '34px',
+                      height: '34px',
+                    }}
+                    onMouseUp={handleLogoUpload}
                   />
                 </div>
-              </div>
-            </CRow>
+
+                <div className="mt-4">
+                  <div>
+                    <em>Current User</em>
+                    <h5 style={{ color: '#e55353' }} className="mb-4">
+                      {props.cookies.fullName}
+                    </h5>
+                  </div>
+
+                  <div>
+                    <em>Company Name</em>
+                    <h5 className="mb-4">{props.cookies.businessName}</h5>
+                  </div>
+
+                  <div>
+                    <em>Registration Number</em>
+                    <h5 className="mb-4">TG466565</h5>
+                  </div>
+
+                  <div>
+                    <em>TIN</em>
+                    <h5 className="mb-4">CFRT55555</h5>
+                  </div>
+
+                  <div>
+                    <em>Attachments</em>
+                    <h5 className="mb-4">
+                      Count::{' '}
+                      <CBadge color="secondary" shape="rounded-circle">
+                        3
+                      </CBadge>
+                    </h5>
+                  </div>
+
+                  <div className="mb-4">
+                    <em>Country</em>
+                    <CountryInput
+                      className="mb-3"
+                      name="country"
+                      handleForm={{ control }}
+                      callback={() => {}}
+                      shouldValidate={false}
+                    />
+                  </div>
+                </div>
+              </CRow>
+            </CCard>
           </CCol>
 
-          <CCol
-            lg={9}
-            className="position-relative bg-white px-0 pt-4 border dark:bg-dark dark:bg-opacity-1"
-            style={{ minHeight: '100vh' }}
-          >
-            <div className="w-100 overflow-y-hidden overflow-x-auto">
-              <CNav variant="underline" className="mb-4 w-100">
-                <CNavItem>
-                  <CNavLink href="#" active={activeKey === 1} onClick={() => setActiveKey(1)}>
-                    <strong>Business Info</strong>
-                  </CNavLink>
-                </CNavItem>
-                <CNavItem>
-                  <CNavLink href="#2" active={activeKey === 2} onClick={() => setActiveKey(2)}>
-                    <strong>Contact Info</strong>
-                  </CNavLink>
-                </CNavItem>
-                <CNavItem>
-                  <CNavLink href="#" active={activeKey === 3} onClick={() => setActiveKey(3)}>
-                    <strong>Contact Person</strong>
-                  </CNavLink>
-                </CNavItem>
-                <CNavItem>
-                  <CNavLink href="#" active={activeKey === 4} onClick={() => setActiveKey(4)}>
-                    <strong>Directors & Shareholders</strong>
-                  </CNavLink>
-                </CNavItem>
-                <CNavItem>
-                  <CNavLink href="#" active={activeKey === 5} onClick={() => setActiveKey(5)}>
-                    <strong>Attachments</strong>
-                  </CNavLink>
-                </CNavItem>
-                <CNavItem>
-                  <CNavLink href="#" active={activeKey === 6} onClick={() => setActiveKey(6)}>
-                    <strong>Note</strong>
-                  </CNavLink>
-                </CNavItem>
-                <CNavItem>
-                  <CNavLink href="#" active={activeKey === 7} onClick={() => setActiveKey(7)}>
-                    <strong>Message</strong>
-                  </CNavLink>
-                </CNavItem>
-              </CNav>
-            </div>
+          <CCol lg={9} >
+            <CCard className="px-0 pt-4 border me-1 rounded-0" style={{ minHeight: '100vh' }}>
+              <div className="w-100 overflow-y-hidden overflow-x-auto">
+                <CNav variant="underline" className="mb-4 w-100">
+                  <CNavItem>
+                    <CNavLink href="#" active={activeKey === 1} onClick={() => setActiveKey(1)}>
+                      <strong>Business Info</strong>
+                    </CNavLink>
+                  </CNavItem>
+                  <CNavItem>
+                    <CNavLink href="#2" active={activeKey === 2} onClick={() => setActiveKey(2)}>
+                      <strong>Contact Info</strong>
+                    </CNavLink>
+                  </CNavItem>
+                  <CNavItem>
+                    <CNavLink href="#" active={activeKey === 3} onClick={() => setActiveKey(3)}>
+                      <strong>Contact Person</strong>
+                    </CNavLink>
+                  </CNavItem>
+                  <CNavItem>
+                    <CNavLink href="#" active={activeKey === 4} onClick={() => setActiveKey(4)}>
+                      <strong>Directors & Shareholders</strong>
+                    </CNavLink>
+                  </CNavItem>
+                  <CNavItem>
+                    <CNavLink href="#" active={activeKey === 5} onClick={() => setActiveKey(5)}>
+                      <strong>Attachments</strong>
+                    </CNavLink>
+                  </CNavItem>
+                  <CNavItem>
+                    <CNavLink href="#" active={activeKey === 6} onClick={() => setActiveKey(6)}>
+                      <strong>Note</strong>
+                    </CNavLink>
+                  </CNavItem>
+                  <CNavItem>
+                    <CNavLink href="#" active={activeKey === 7} onClick={() => setActiveKey(7)}>
+                      <strong>Message</strong>
+                    </CNavLink>
+                  </CNavItem>
+                </CNav>
+              </div>
 
-            <CTabContent>
-              <CTabPane
-                role="tabpanel"
-                aria-labelledby="business-info-tab"
-                visible={activeKey === 1}
-              >
-                <BusinessInfo control={control} />
-              </CTabPane>
+              <CTabContent>
+                <CTabPane
+                  role="tabpanel"
+                  aria-labelledby="business-info-tab"
+                  visible={activeKey === 1}
+                >
+                  <BusinessInfo control={control} />
+                </CTabPane>
 
-              <CTabPane role="tabpanel" aria-labelledby="profile-tab" visible={activeKey === 2}>
-                <CustomerInfo control={control} />
-              </CTabPane>
+                <CTabPane role="tabpanel" aria-labelledby="profile-tab" visible={activeKey === 2}>
+                  <CustomerInfo control={control} />
+                </CTabPane>
 
-              <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 3}>
-                <ContactPerson control={control} />
-              </CTabPane>
+                <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 3}>
+                  <ContactPerson control={control} />
+                </CTabPane>
 
-              <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 4}>
-                <DirectorsShareholders control={control} />
-              </CTabPane>
+                <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 4}>
+                  <DirectorsShareholders control={control} />
+                </CTabPane>
 
-              <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 5}>
-                <Attachments control={control} />
-              </CTabPane>
+                <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 5}>
+                  <Attachments control={control} />
+                </CTabPane>
 
-              <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 6}>
-                <Note control={control} />
-              </CTabPane>
+                <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 6}>
+                  <Note control={control} />
+                </CTabPane>
 
-              <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 7}>
-                <Message control={control} />
-              </CTabPane>
-            </CTabContent>
+                <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 7}>
+                  <Message control={control} />
+                </CTabPane>
+              </CTabContent>
+            </CCard>
           </CCol>
         </CRow>
       </div>

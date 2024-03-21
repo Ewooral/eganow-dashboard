@@ -28,7 +28,6 @@ import LanguageSelector from '@/components/LanguageSelector'
   messagesuccessfulorfailed: string
 } */
 
-
 import merchantOnboardingSvcGRPC from '@/api/merchantOnboardingSvcGRPC'
 import otpSvcGRPC from '@/api/otpSvcGRPC'
 /* TYPES */
@@ -54,8 +53,7 @@ const Register = () => {
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<errorType>({})
   const router = useRouter()
-  const {formatMessage} = useIntl()
-
+  const { formatMessage } = useIntl()
 
   const handleForm = useForm({
     resolver: yupResolver(validationSchema),
@@ -65,8 +63,12 @@ const Register = () => {
 
   const progressBar: ProgressBar = [
     {
-      title: formatMessage({id: 'email_address', defaultMessage:'Email Address'}),
-      content: formatMessage({id: 'set_and_verify_code_from_email', defaultMessage:'Setting your email address. A verification code will be sent to your email.'}),
+      title: formatMessage({ id: 'email_address', defaultMessage: 'Email Address' }),
+      content: formatMessage({
+        id: 'set_and_verify_code_from_email',
+        defaultMessage:
+          'Setting your email address. A verification code will be sent to your email.',
+      }),
       component: (
         <StepOnePane
           handleForm={handleForm}
@@ -77,8 +79,14 @@ const Register = () => {
       ),
     },
     {
-      title: formatMessage({id:'enter_verification_code', defaultMessage:'Enter verification code'}),
-      content: formatMessage({id:'entering_verification_code', defaultMessage:'Entering verification code sent to your email.'}),
+      title: formatMessage({
+        id: 'enter_verification_code',
+        defaultMessage: 'Enter verification code',
+      }),
+      content: formatMessage({
+        id: 'entering_verification_code',
+        defaultMessage: 'Entering verification code sent to your email.',
+      }),
       component: (
         <StepTwoPane
           handleForm={handleForm}
@@ -90,8 +98,11 @@ const Register = () => {
       ),
     },
     {
-      title: formatMessage({id:'personal_information', defaultMessage:'Personal Information'}),
-      content: formatMessage({id:'set_personal_info_details', defaultMessage:'Set your personal information details below'}),
+      title: formatMessage({ id: 'personal_information', defaultMessage: 'Personal Information' }),
+      content: formatMessage({
+        id: 'set_personal_info_details',
+        defaultMessage: 'Set your personal information details below',
+      }),
       component: (
         <StepThreePane
           handleForm={handleForm}
@@ -101,8 +112,11 @@ const Register = () => {
       ),
     },
     {
-      title: formatMessage({id:'business_information', defaultMessage:'Business Information'}),
-      content: formatMessage({id:'set_business_info_details', defaultMessage:'Set your business information details below'}),
+      title: formatMessage({ id: 'business_information', defaultMessage: 'Business Information' }),
+      content: formatMessage({
+        id: 'set_business_info_details',
+        defaultMessage: 'Set your business information details below',
+      }),
       component: (
         <StepFourPane
           handleForm={handleForm}
@@ -113,8 +127,11 @@ const Register = () => {
       ),
     },
     {
-      title: formatMessage({id:'finish', defaultMessage:'Finish'}),
-      content: formatMessage({id:'successfully_registered', defaultMessage:'You are successfully registered'}),
+      title: formatMessage({ id: 'finish', defaultMessage: 'Finish' }),
+      content: formatMessage({
+        id: 'successfully_registered',
+        defaultMessage: 'You are successfully registered',
+      }),
       component: (
         <StepFivePane
           handleForm={handleForm}
@@ -143,6 +160,7 @@ const Register = () => {
         const values = handleForm.getValues()
         //Checking if merchant account exist by email
         await checkIfMerchantAccountExists(values)
+        //Throw error on undefined
         //Upon response send an OTP to the new merchant
         await sendOTP(values)
         //Stop loading
@@ -293,17 +311,15 @@ const Register = () => {
 
   return (
     <div className="min-vh-100 d-flex flex-row align-items-center login-bg">
-        <div className='position-absolute top-0 my-4 py-2 px-md-5 px-3 d-none d-lg-block '>
-          <LanguageSelector />
-        </div>
+      <div className="position-absolute top-0 my-4 py-2 px-md-5 px-3 d-none d-lg-block ">
+        <LanguageSelector />
+      </div>
       <div className="step-container">
-
         <div>
-          <div className='d-lg-none my-2'>
+          <div className="d-lg-none my-2">
             <LanguageSelector />
           </div>
           <div className="card my-0">
-
             <div className="form">
               {/*  */}
               <LeftSide stepCount={stepCount} stepList={progressBar} />
@@ -313,7 +329,6 @@ const Register = () => {
             </div>
           </div>
         </div>
-
       </div>
     </div>
   )

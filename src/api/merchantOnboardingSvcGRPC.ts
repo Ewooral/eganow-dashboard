@@ -31,21 +31,21 @@ const MerchantOnboardingSvc = () => {
           //Setting countries to state
           resolve(res?.toObject())
         })
-        // resolve({
-        //   accessToken:
-        //     'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJTdWJqZWN0Ijp7Im5hbWUiOiJkZW5uaXNAZWdhbm93LmNvbSIsInNlcmlhbF9udW1iZXIiOiIwMjMzMjAyNDA1MzAwMDAwMDAwMSIsImVtYWlsIjoiZGVubmlzQGVnYW5vdy5jb20iLCJtb2JpbGVfcGhvbmUiOiIiLCJnaXZlbl9uYW1lIjoiRGVubmlzIiwic3VybmFtZSI6IkJpbHNvbiJ9LCJleHAiOjE3MDkwMDc1MzksImlhdCI6MTcwOTAzMzk1OSwiaXNzIjoiRWdhbm93Iiwic3ViIjoiZGVubmlzQGVnYW5vdy5jb20ifQ.OnGpYpm--Uj8X8hPAk_EPW-YAUfMtOw-dlJ3BsqfKQM1YRF-1XbK9imXAmrqFm0rx1lLNS8CEmExn0J1qCApBw',
-        //   fullName: 'Dennis Bilson',
-        //   firstName: 'Dennis',
-        //   lastName: 'Bilson',
-        //   businessName: 'Quabynah Codelabs LLC',
-        //   merchantId: 'dennis@eganow.com',
-        //   profilePicture: '',
-        //   email: 'dennis@eganow.com',
-        //   mobileNumber: '',
-        // })
+        /* resolve({
+          accessToken:
+            'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJTdWJqZWN0Ijp7Im5hbWUiOiJkZW5uaXNAZWdhbm93LmNvbSIsInNlcmlhbF9udW1iZXIiOiIwMjMzMjAyNDA1MzAwMDAwMDAwMSIsImVtYWlsIjoiZGVubmlzQGVnYW5vdy5jb20iLCJtb2JpbGVfcGhvbmUiOiIiLCJnaXZlbl9uYW1lIjoiRGVubmlzIiwic3VybmFtZSI6IkJpbHNvbiJ9LCJleHAiOjE3MDkwMDc1MzksImlhdCI6MTcwOTAzMzk1OSwiaXNzIjoiRWdhbm93Iiwic3ViIjoiZGVubmlzQGVnYW5vdy5jb20ifQ.OnGpYpm--Uj8X8hPAk_EPW-YAUfMtOw-dlJ3BsqfKQM1YRF-1XbK9imXAmrqFm0rx1lLNS8CEmExn0J1qCApBw',
+          fullName: 'Dennis Bilson',
+          firstName: 'Dennis',
+          lastName: 'Bilson',
+          businessName: 'Quabynah Codelabs LLC',
+          merchantId: 'dennis@eganow.com',
+          profilePicture: '',
+          email: 'dennis@eganow.com',
+          mobileNumber: '',
+        }) */
       })
     } catch (error) {
-      console.error(error)
+      throw new Error(error)
     }
   }
 
@@ -64,7 +64,7 @@ const MerchantOnboardingSvc = () => {
         })
       })
     } catch (error) {
-      console.error(error)
+      throw new Error(error)
     }
   }
 
@@ -99,7 +99,7 @@ const MerchantOnboardingSvc = () => {
         //resolve({})
       })
     } catch (error) {
-      console.error(error)
+      throw new Error(error)
     }
   }
 
@@ -118,7 +118,7 @@ const MerchantOnboardingSvc = () => {
         })
       })
     } catch (error) {
-      console.error(error)
+      throw new Error(error)
     }
   }
 
@@ -138,7 +138,7 @@ const MerchantOnboardingSvc = () => {
         })
       })
     } catch (error) {
-      console.error(error)
+      throw new Error(error)
     }
   }
 
