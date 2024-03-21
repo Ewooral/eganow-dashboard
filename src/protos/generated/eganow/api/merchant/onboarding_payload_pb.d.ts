@@ -160,11 +160,8 @@ export class AuthMerchantResponse extends jspb.Message {
   getLastName(): string;
   setLastName(value: string): AuthMerchantResponse;
 
-  getBusinessName(): string;
-  setBusinessName(value: string): AuthMerchantResponse;
-
-  getMerchantId(): string;
-  setMerchantId(value: string): AuthMerchantResponse;
+  getCompanyName(): string;
+  setCompanyName(value: string): AuthMerchantResponse;
 
   getProfilePicture(): string;
   setProfilePicture(value: string): AuthMerchantResponse;
@@ -189,8 +186,7 @@ export namespace AuthMerchantResponse {
     fullName: string,
     firstName: string,
     lastName: string,
-    businessName: string,
-    merchantId: string,
+    companyName: string,
     profilePicture: string,
     email: string,
     mobileNumber: string,

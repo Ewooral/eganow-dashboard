@@ -41,6 +41,8 @@ import {
 } from '@/components/business-customer-details'
 /* HOOKS */
 import { useForm } from 'react-hook-form'
+import { useQueries } from '@tanstack/react-query'
+import BusinessAccountSvc from '@/api/merchantAccountSvcGRPC'
 
 export const getServerSideProps = async ({ req }) => {
   const cookies = req.cookies[EGANOW_AUTH_COOKIE] ? JSON.parse(req.cookies[EGANOW_AUTH_COOKIE]) : {}
@@ -54,6 +56,22 @@ export const getServerSideProps = async ({ req }) => {
 
 const Entry: NextPageWithLayout = (props) => {
   const [activeKey, setActiveKey] = useState(1)
+
+  //business info apis
+  const { listBusinessContactPersons } = BusinessAccountSvc()
+
+  //handles multiple queries
+  const results = useQueries({
+    queries: [
+      {
+        queryKey: ['listbusinesscontactpersons', 1],
+        queryFn: () => listBusinessContactPersons(),
+        staleTime: 5000,
+        refetchInterval: 2000,
+      },
+      // { queryKey: ['addbusinesscontactperson', 2], queryFn: ()=> addBusinessContactPerson(),  },
+    ],
+  })
 
   const { control } = useForm({
     mode: 'onChange',
@@ -174,7 +192,7 @@ const Entry: NextPageWithLayout = (props) => {
             </CCard>
           </CCol>
 
-          <CCol lg={9} >
+          <CCol lg={9}>
             <CCard className="px-0 pt-4 border me-1 rounded-0" style={{ minHeight: '100vh' }}>
               <div className="w-100 overflow-y-hidden overflow-x-auto">
                 <CNav variant="underline" className="mb-4 w-100">
@@ -230,7 +248,7 @@ const Entry: NextPageWithLayout = (props) => {
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 3}>
-                  <ContactPerson control={control} />
+                  <ContactPerson control={control} data={results[0]} />
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 4}>

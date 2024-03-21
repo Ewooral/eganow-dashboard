@@ -4,33 +4,70 @@ import * as eganow_api_merchant_onboarding_entity_pb from '../../../eganow/api/m
 import * as google_api_field_behavior_pb from '../../../google/api/field_behavior_pb';
 
 
+export class BusinessLicenseInfo extends jspb.Message {
+  getLicenseNumber(): string;
+  setLicenseNumber(value: string): BusinessLicenseInfo;
+
+  getIssuedDate(): string;
+  setIssuedDate(value: string): BusinessLicenseInfo;
+
+  getExpiryDate(): string;
+  setExpiryDate(value: string): BusinessLicenseInfo;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): BusinessLicenseInfo.AsObject;
+  static toObject(includeInstance: boolean, msg: BusinessLicenseInfo): BusinessLicenseInfo.AsObject;
+  static serializeBinaryToWriter(message: BusinessLicenseInfo, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): BusinessLicenseInfo;
+  static deserializeBinaryFromReader(message: BusinessLicenseInfo, reader: jspb.BinaryReader): BusinessLicenseInfo;
+}
+
+export namespace BusinessLicenseInfo {
+  export type AsObject = {
+    licenseNumber: string,
+    issuedDate: string,
+    expiryDate: string,
+  }
+}
+
 export class AddBusinessInfoRequest extends jspb.Message {
-  getPostalZipCode(): string;
-  setPostalZipCode(value: string): AddBusinessInfoRequest;
+  getName(): string;
+  setName(value: string): AddBusinessInfoRequest;
 
-  getStreetAddress(): string;
-  setStreetAddress(value: string): AddBusinessInfoRequest;
+  getTradingName(): string;
+  setTradingName(value: string): AddBusinessInfoRequest;
 
-  getCity(): string;
-  setCity(value: string): AddBusinessInfoRequest;
+  getDateOfIncorporation(): string;
+  setDateOfIncorporation(value: string): AddBusinessInfoRequest;
 
-  getProvinceState(): string;
-  setProvinceState(value: string): AddBusinessInfoRequest;
+  getIndustryId(): string;
+  setIndustryId(value: string): AddBusinessInfoRequest;
 
-  getDigitalAddress(): string;
-  setDigitalAddress(value: string): AddBusinessInfoRequest;
+  getCompanyRegistrationNumber(): string;
+  setCompanyRegistrationNumber(value: string): AddBusinessInfoRequest;
 
-  getFirstOccupancyDate(): string;
-  setFirstOccupancyDate(value: string): AddBusinessInfoRequest;
+  getEmail(): string;
+  setEmail(value: string): AddBusinessInfoRequest;
 
-  getOfficeOwnership(): eganow_api_merchant_onboarding_entity_pb.OfficeOwnership;
-  setOfficeOwnership(value: eganow_api_merchant_onboarding_entity_pb.OfficeOwnership): AddBusinessInfoRequest;
+  getRegulatorId(): string;
+  setRegulatorId(value: string): AddBusinessInfoRequest;
 
-  getPostalAddress(): string;
-  setPostalAddress(value: string): AddBusinessInfoRequest;
+  getCompanyRegistrationType(): eganow_api_merchant_onboarding_entity_pb.CompanyRegistrationType;
+  setCompanyRegistrationType(value: eganow_api_merchant_onboarding_entity_pb.CompanyRegistrationType): AddBusinessInfoRequest;
+
+  getLicenseInfo(): BusinessLicenseInfo | undefined;
+  setLicenseInfo(value?: BusinessLicenseInfo): AddBusinessInfoRequest;
+  hasLicenseInfo(): boolean;
+  clearLicenseInfo(): AddBusinessInfoRequest;
 
   getOfficeMobileNumber(): string;
   setOfficeMobileNumber(value: string): AddBusinessInfoRequest;
+
+  getTaxIdentificationNumber(): string;
+  setTaxIdentificationNumber(value: string): AddBusinessInfoRequest;
+
+  getVatNumber(): string;
+  setVatNumber(value: string): AddBusinessInfoRequest;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): AddBusinessInfoRequest.AsObject;
@@ -42,15 +79,18 @@ export class AddBusinessInfoRequest extends jspb.Message {
 
 export namespace AddBusinessInfoRequest {
   export type AsObject = {
-    postalZipCode: string,
-    streetAddress: string,
-    city: string,
-    provinceState: string,
-    digitalAddress: string,
-    firstOccupancyDate: string,
-    officeOwnership: eganow_api_merchant_onboarding_entity_pb.OfficeOwnership,
-    postalAddress: string,
+    name: string,
+    tradingName: string,
+    dateOfIncorporation: string,
+    industryId: string,
+    companyRegistrationNumber: string,
+    email: string,
+    regulatorId: string,
+    companyRegistrationType: eganow_api_merchant_onboarding_entity_pb.CompanyRegistrationType,
+    licenseInfo?: BusinessLicenseInfo.AsObject,
     officeMobileNumber: string,
+    taxIdentificationNumber: string,
+    vatNumber: string,
   }
 }
 
@@ -61,35 +101,17 @@ export class UpdateBusinessInfoRequest extends jspb.Message {
   getTradingName(): string;
   setTradingName(value: string): UpdateBusinessInfoRequest;
 
-  getPostalZipCode(): string;
-  setPostalZipCode(value: string): UpdateBusinessInfoRequest;
-
-  getStreetAddress(): string;
-  setStreetAddress(value: string): UpdateBusinessInfoRequest;
-
-  getCity(): string;
-  setCity(value: string): UpdateBusinessInfoRequest;
-
-  getProvinceState(): string;
-  setProvinceState(value: string): UpdateBusinessInfoRequest;
-
-  getDigitalAddress(): string;
-  setDigitalAddress(value: string): UpdateBusinessInfoRequest;
-
   getDateOfIncorporation(): string;
   setDateOfIncorporation(value: string): UpdateBusinessInfoRequest;
 
   getIndustryId(): string;
   setIndustryId(value: string): UpdateBusinessInfoRequest;
 
-  getRegistrationNumber(): string;
-  setRegistrationNumber(value: string): UpdateBusinessInfoRequest;
+  getCompanyRegistrationNumber(): string;
+  setCompanyRegistrationNumber(value: string): UpdateBusinessInfoRequest;
 
   getEmail(): string;
   setEmail(value: string): UpdateBusinessInfoRequest;
-
-  getIsRegulated(): boolean;
-  setIsRegulated(value: boolean): UpdateBusinessInfoRequest;
 
   getRegulatorId(): string;
   setRegulatorId(value: string): UpdateBusinessInfoRequest;
@@ -97,8 +119,8 @@ export class UpdateBusinessInfoRequest extends jspb.Message {
   getCompanyRegistrationType(): eganow_api_merchant_onboarding_entity_pb.CompanyRegistrationType;
   setCompanyRegistrationType(value: eganow_api_merchant_onboarding_entity_pb.CompanyRegistrationType): UpdateBusinessInfoRequest;
 
-  getLicenseInfo(): UpdateBusinessInfoRequest.LicenseInfo | undefined;
-  setLicenseInfo(value?: UpdateBusinessInfoRequest.LicenseInfo): UpdateBusinessInfoRequest;
+  getLicenseInfo(): BusinessLicenseInfo | undefined;
+  setLicenseInfo(value?: BusinessLicenseInfo): UpdateBusinessInfoRequest;
   hasLicenseInfo(): boolean;
   clearLicenseInfo(): UpdateBusinessInfoRequest;
 
@@ -123,79 +145,54 @@ export namespace UpdateBusinessInfoRequest {
   export type AsObject = {
     name: string,
     tradingName: string,
-    postalZipCode: string,
-    streetAddress: string,
-    city: string,
-    provinceState: string,
-    digitalAddress: string,
     dateOfIncorporation: string,
     industryId: string,
-    registrationNumber: string,
+    companyRegistrationNumber: string,
     email: string,
-    isRegulated: boolean,
     regulatorId: string,
     companyRegistrationType: eganow_api_merchant_onboarding_entity_pb.CompanyRegistrationType,
-    licenseInfo?: UpdateBusinessInfoRequest.LicenseInfo.AsObject,
+    licenseInfo?: BusinessLicenseInfo.AsObject,
     officeMobileNumber: string,
     taxIdentificationNumber: string,
     vatNumber: string,
   }
-
-  export class LicenseInfo extends jspb.Message {
-    getLicenseNumber(): string;
-    setLicenseNumber(value: string): LicenseInfo;
-
-    getIssuedDate(): string;
-    setIssuedDate(value: string): LicenseInfo;
-
-    getExpiryDate(): string;
-    setExpiryDate(value: string): LicenseInfo;
-
-    serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): LicenseInfo.AsObject;
-    static toObject(includeInstance: boolean, msg: LicenseInfo): LicenseInfo.AsObject;
-    static serializeBinaryToWriter(message: LicenseInfo, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): LicenseInfo;
-    static deserializeBinaryFromReader(message: LicenseInfo, reader: jspb.BinaryReader): LicenseInfo;
-  }
-
-  export namespace LicenseInfo {
-    export type AsObject = {
-      licenseNumber: string,
-      issuedDate: string,
-      expiryDate: string,
-    }
-  }
-
 }
 
 export class BusinessInfoResponse extends jspb.Message {
-  getCity(): string;
-  setCity(value: string): BusinessInfoResponse;
+  getCompanyName(): string;
+  setCompanyName(value: string): BusinessInfoResponse;
 
-  getProvinceState(): string;
-  setProvinceState(value: string): BusinessInfoResponse;
+  getTradingName(): string;
+  setTradingName(value: string): BusinessInfoResponse;
 
-  getDigitalAddress(): string;
-  setDigitalAddress(value: string): BusinessInfoResponse;
+  getDateOfIncorporation(): string;
+  setDateOfIncorporation(value: string): BusinessInfoResponse;
 
-  getPostalAddress(): string;
-  setPostalAddress(value: string): BusinessInfoResponse;
-
-  getPostalZipCode(): string;
-  setPostalZipCode(value: string): BusinessInfoResponse;
-
-  getFirstOccupancyDate(): string;
-  setFirstOccupancyDate(value: string): BusinessInfoResponse;
-
-  getOfficeOwnership(): eganow_api_merchant_onboarding_entity_pb.OfficeOwnership;
-  setOfficeOwnership(value: eganow_api_merchant_onboarding_entity_pb.OfficeOwnership): BusinessInfoResponse;
-
-  getMobileNumber(): string;
-  setMobileNumber(value: string): BusinessInfoResponse;
+  getCompanyRegistrationNumber(): string;
+  setCompanyRegistrationNumber(value: string): BusinessInfoResponse;
 
   getEmail(): string;
   setEmail(value: string): BusinessInfoResponse;
+
+  getRegulatorId(): string;
+  setRegulatorId(value: string): BusinessInfoResponse;
+
+  getCompanyRegistrationType(): eganow_api_merchant_onboarding_entity_pb.CompanyRegistrationType;
+  setCompanyRegistrationType(value: eganow_api_merchant_onboarding_entity_pb.CompanyRegistrationType): BusinessInfoResponse;
+
+  getLicenseInfo(): BusinessLicenseInfo | undefined;
+  setLicenseInfo(value?: BusinessLicenseInfo): BusinessInfoResponse;
+  hasLicenseInfo(): boolean;
+  clearLicenseInfo(): BusinessInfoResponse;
+
+  getTaxIdentificationNumber(): string;
+  setTaxIdentificationNumber(value: string): BusinessInfoResponse;
+
+  getVatNumber(): string;
+  setVatNumber(value: string): BusinessInfoResponse;
+
+  getProfilePicture(): string;
+  setProfilePicture(value: string): BusinessInfoResponse;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): BusinessInfoResponse.AsObject;
@@ -206,6 +203,158 @@ export class BusinessInfoResponse extends jspb.Message {
 }
 
 export namespace BusinessInfoResponse {
+  export type AsObject = {
+    companyName: string,
+    tradingName: string,
+    dateOfIncorporation: string,
+    companyRegistrationNumber: string,
+    email: string,
+    regulatorId: string,
+    companyRegistrationType: eganow_api_merchant_onboarding_entity_pb.CompanyRegistrationType,
+    licenseInfo?: BusinessLicenseInfo.AsObject,
+    taxIdentificationNumber: string,
+    vatNumber: string,
+    profilePicture: string,
+  }
+}
+
+export class AddBusinessContactInfoRequest extends jspb.Message {
+  getPostalZipCode(): string;
+  setPostalZipCode(value: string): AddBusinessContactInfoRequest;
+
+  getStreetAddress(): string;
+  setStreetAddress(value: string): AddBusinessContactInfoRequest;
+
+  getCity(): string;
+  setCity(value: string): AddBusinessContactInfoRequest;
+
+  getProvinceState(): string;
+  setProvinceState(value: string): AddBusinessContactInfoRequest;
+
+  getDigitalAddress(): string;
+  setDigitalAddress(value: string): AddBusinessContactInfoRequest;
+
+  getFirstOccupancyDate(): string;
+  setFirstOccupancyDate(value: string): AddBusinessContactInfoRequest;
+
+  getOfficeOwnership(): eganow_api_merchant_onboarding_entity_pb.OfficeOwnership;
+  setOfficeOwnership(value: eganow_api_merchant_onboarding_entity_pb.OfficeOwnership): AddBusinessContactInfoRequest;
+
+  getPostalAddress(): string;
+  setPostalAddress(value: string): AddBusinessContactInfoRequest;
+
+  getOfficeMobileNumber(): string;
+  setOfficeMobileNumber(value: string): AddBusinessContactInfoRequest;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): AddBusinessContactInfoRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: AddBusinessContactInfoRequest): AddBusinessContactInfoRequest.AsObject;
+  static serializeBinaryToWriter(message: AddBusinessContactInfoRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): AddBusinessContactInfoRequest;
+  static deserializeBinaryFromReader(message: AddBusinessContactInfoRequest, reader: jspb.BinaryReader): AddBusinessContactInfoRequest;
+}
+
+export namespace AddBusinessContactInfoRequest {
+  export type AsObject = {
+    postalZipCode: string,
+    streetAddress: string,
+    city: string,
+    provinceState: string,
+    digitalAddress: string,
+    firstOccupancyDate: string,
+    officeOwnership: eganow_api_merchant_onboarding_entity_pb.OfficeOwnership,
+    postalAddress: string,
+    officeMobileNumber: string,
+  }
+}
+
+export class UpdateBusinessContactInfoRequest extends jspb.Message {
+  getPostalZipCode(): string;
+  setPostalZipCode(value: string): UpdateBusinessContactInfoRequest;
+
+  getStreetAddress(): string;
+  setStreetAddress(value: string): UpdateBusinessContactInfoRequest;
+
+  getCity(): string;
+  setCity(value: string): UpdateBusinessContactInfoRequest;
+
+  getProvinceState(): string;
+  setProvinceState(value: string): UpdateBusinessContactInfoRequest;
+
+  getDigitalAddress(): string;
+  setDigitalAddress(value: string): UpdateBusinessContactInfoRequest;
+
+  getFirstOccupancyDate(): string;
+  setFirstOccupancyDate(value: string): UpdateBusinessContactInfoRequest;
+
+  getOfficeOwnership(): eganow_api_merchant_onboarding_entity_pb.OfficeOwnership;
+  setOfficeOwnership(value: eganow_api_merchant_onboarding_entity_pb.OfficeOwnership): UpdateBusinessContactInfoRequest;
+
+  getPostalAddress(): string;
+  setPostalAddress(value: string): UpdateBusinessContactInfoRequest;
+
+  getOfficeMobileNumber(): string;
+  setOfficeMobileNumber(value: string): UpdateBusinessContactInfoRequest;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): UpdateBusinessContactInfoRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: UpdateBusinessContactInfoRequest): UpdateBusinessContactInfoRequest.AsObject;
+  static serializeBinaryToWriter(message: UpdateBusinessContactInfoRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): UpdateBusinessContactInfoRequest;
+  static deserializeBinaryFromReader(message: UpdateBusinessContactInfoRequest, reader: jspb.BinaryReader): UpdateBusinessContactInfoRequest;
+}
+
+export namespace UpdateBusinessContactInfoRequest {
+  export type AsObject = {
+    postalZipCode: string,
+    streetAddress: string,
+    city: string,
+    provinceState: string,
+    digitalAddress: string,
+    firstOccupancyDate: string,
+    officeOwnership: eganow_api_merchant_onboarding_entity_pb.OfficeOwnership,
+    postalAddress: string,
+    officeMobileNumber: string,
+  }
+}
+
+export class BusinessContactInfoResponse extends jspb.Message {
+  getCity(): string;
+  setCity(value: string): BusinessContactInfoResponse;
+
+  getProvinceState(): string;
+  setProvinceState(value: string): BusinessContactInfoResponse;
+
+  getDigitalAddress(): string;
+  setDigitalAddress(value: string): BusinessContactInfoResponse;
+
+  getPostalAddress(): string;
+  setPostalAddress(value: string): BusinessContactInfoResponse;
+
+  getPostalZipCode(): string;
+  setPostalZipCode(value: string): BusinessContactInfoResponse;
+
+  getFirstOccupancyDate(): string;
+  setFirstOccupancyDate(value: string): BusinessContactInfoResponse;
+
+  getOfficeOwnership(): eganow_api_merchant_onboarding_entity_pb.OfficeOwnership;
+  setOfficeOwnership(value: eganow_api_merchant_onboarding_entity_pb.OfficeOwnership): BusinessContactInfoResponse;
+
+  getMobileNumber(): string;
+  setMobileNumber(value: string): BusinessContactInfoResponse;
+
+  getEmail(): string;
+  setEmail(value: string): BusinessContactInfoResponse;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): BusinessContactInfoResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: BusinessContactInfoResponse): BusinessContactInfoResponse.AsObject;
+  static serializeBinaryToWriter(message: BusinessContactInfoResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): BusinessContactInfoResponse;
+  static deserializeBinaryFromReader(message: BusinessContactInfoResponse, reader: jspb.BinaryReader): BusinessContactInfoResponse;
+}
+
+export namespace BusinessContactInfoResponse {
   export type AsObject = {
     city: string,
     provinceState: string,
@@ -219,31 +368,31 @@ export namespace BusinessInfoResponse {
   }
 }
 
-export class AddBusinessContactRequest extends jspb.Message {
+export class AddBusinessContactPersonRequest extends jspb.Message {
   getEmail(): string;
-  setEmail(value: string): AddBusinessContactRequest;
+  setEmail(value: string): AddBusinessContactPersonRequest;
 
   getFirstName(): string;
-  setFirstName(value: string): AddBusinessContactRequest;
+  setFirstName(value: string): AddBusinessContactPersonRequest;
 
   getLastName(): string;
-  setLastName(value: string): AddBusinessContactRequest;
+  setLastName(value: string): AddBusinessContactPersonRequest;
 
   getMobileNumber(): string;
-  setMobileNumber(value: string): AddBusinessContactRequest;
+  setMobileNumber(value: string): AddBusinessContactPersonRequest;
 
   getPosition(): eganow_api_merchant_onboarding_entity_pb.DirectorPosition;
-  setPosition(value: eganow_api_merchant_onboarding_entity_pb.DirectorPosition): AddBusinessContactRequest;
+  setPosition(value: eganow_api_merchant_onboarding_entity_pb.DirectorPosition): AddBusinessContactPersonRequest;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): AddBusinessContactRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: AddBusinessContactRequest): AddBusinessContactRequest.AsObject;
-  static serializeBinaryToWriter(message: AddBusinessContactRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): AddBusinessContactRequest;
-  static deserializeBinaryFromReader(message: AddBusinessContactRequest, reader: jspb.BinaryReader): AddBusinessContactRequest;
+  toObject(includeInstance?: boolean): AddBusinessContactPersonRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: AddBusinessContactPersonRequest): AddBusinessContactPersonRequest.AsObject;
+  static serializeBinaryToWriter(message: AddBusinessContactPersonRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): AddBusinessContactPersonRequest;
+  static deserializeBinaryFromReader(message: AddBusinessContactPersonRequest, reader: jspb.BinaryReader): AddBusinessContactPersonRequest;
 }
 
-export namespace AddBusinessContactRequest {
+export namespace AddBusinessContactPersonRequest {
   export type AsObject = {
     email: string,
     firstName: string,
@@ -253,34 +402,34 @@ export namespace AddBusinessContactRequest {
   }
 }
 
-export class UpdateBusinessContactRequest extends jspb.Message {
+export class UpdateBusinessContactPersonRequest extends jspb.Message {
   getContactId(): number;
-  setContactId(value: number): UpdateBusinessContactRequest;
+  setContactId(value: number): UpdateBusinessContactPersonRequest;
 
   getFirstName(): string;
-  setFirstName(value: string): UpdateBusinessContactRequest;
+  setFirstName(value: string): UpdateBusinessContactPersonRequest;
 
   getLastName(): string;
-  setLastName(value: string): UpdateBusinessContactRequest;
+  setLastName(value: string): UpdateBusinessContactPersonRequest;
 
   getPosition(): eganow_api_merchant_onboarding_entity_pb.DirectorPosition;
-  setPosition(value: eganow_api_merchant_onboarding_entity_pb.DirectorPosition): UpdateBusinessContactRequest;
+  setPosition(value: eganow_api_merchant_onboarding_entity_pb.DirectorPosition): UpdateBusinessContactPersonRequest;
 
   getMobileNumber(): string;
-  setMobileNumber(value: string): UpdateBusinessContactRequest;
+  setMobileNumber(value: string): UpdateBusinessContactPersonRequest;
 
   getEmail(): string;
-  setEmail(value: string): UpdateBusinessContactRequest;
+  setEmail(value: string): UpdateBusinessContactPersonRequest;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): UpdateBusinessContactRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: UpdateBusinessContactRequest): UpdateBusinessContactRequest.AsObject;
-  static serializeBinaryToWriter(message: UpdateBusinessContactRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): UpdateBusinessContactRequest;
-  static deserializeBinaryFromReader(message: UpdateBusinessContactRequest, reader: jspb.BinaryReader): UpdateBusinessContactRequest;
+  toObject(includeInstance?: boolean): UpdateBusinessContactPersonRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: UpdateBusinessContactPersonRequest): UpdateBusinessContactPersonRequest.AsObject;
+  static serializeBinaryToWriter(message: UpdateBusinessContactPersonRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): UpdateBusinessContactPersonRequest;
+  static deserializeBinaryFromReader(message: UpdateBusinessContactPersonRequest, reader: jspb.BinaryReader): UpdateBusinessContactPersonRequest;
 }
 
-export namespace UpdateBusinessContactRequest {
+export namespace UpdateBusinessContactPersonRequest {
   export type AsObject = {
     contactId: number,
     firstName: string,
