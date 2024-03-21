@@ -34,3 +34,21 @@ export namespace MerchantStringValue {
   }
 }
 
+export class MerchantIntValue extends jspb.Message {
+  getValue(): number;
+  setValue(value: number): MerchantIntValue;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): MerchantIntValue.AsObject;
+  static toObject(includeInstance: boolean, msg: MerchantIntValue): MerchantIntValue.AsObject;
+  static serializeBinaryToWriter(message: MerchantIntValue, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): MerchantIntValue;
+  static deserializeBinaryFromReader(message: MerchantIntValue, reader: jspb.BinaryReader): MerchantIntValue;
+}
+
+export namespace MerchantIntValue {
+  export type AsObject = {
+    value: number,
+  }
+}
+

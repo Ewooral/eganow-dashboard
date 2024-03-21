@@ -1,13 +1,19 @@
 import * as jspb from 'google-protobuf'
 
+import * as google_api_field_behavior_pb from '../../../google/api/field_behavior_pb';
 
 
 export class SendOTPRequest extends jspb.Message {
   getBusinessEmailAddress(): string;
   setBusinessEmailAddress(value: string): SendOTPRequest;
 
+  getMobileNumber(): string;
+  setMobileNumber(value: string): SendOTPRequest;
+
   getPurpose(): OtpGenerationPurpose;
   setPurpose(value: OtpGenerationPurpose): SendOTPRequest;
+
+  getOtpRecipientInfoCase(): SendOTPRequest.OtpRecipientInfoCase;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): SendOTPRequest.AsObject;
@@ -20,7 +26,14 @@ export class SendOTPRequest extends jspb.Message {
 export namespace SendOTPRequest {
   export type AsObject = {
     businessEmailAddress: string,
+    mobileNumber: string,
     purpose: OtpGenerationPurpose,
+  }
+
+  export enum OtpRecipientInfoCase { 
+    OTP_RECIPIENT_INFO_NOT_SET = 0,
+    BUSINESS_EMAIL_ADDRESS = 1,
+    MOBILE_NUMBER = 2,
   }
 }
 
