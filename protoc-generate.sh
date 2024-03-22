@@ -14,7 +14,7 @@ OUT_DIR="${ROOT_DIR}/src/protos/generated"
 if [ -d "${SRC_DIR}" ]; then
   echo "This [${SRC_DIR}] directory exists, updating protos from GITHUB."
   #Update the raw protos from github before building 
-  #git submodule update --init --recursive  --remote "${SRC_DIR}"
+  git submodule update --init --recursive  --remote "${SRC_DIR}"
  else
   echo "This [${SRC_DIR}] directory does not exists, initialising protos from GITHUB."
   #Initialising protos from github before building 
@@ -26,7 +26,7 @@ if [ -d "${OUT_DIR}" ]; then
   echo "Removing previous generated protos."
   # Clean all existing generated files
   rm -r "${OUT_DIR}"
-FI
+fi
 
 #Create generated folder.
 mkdir -p "${OUT_DIR}"

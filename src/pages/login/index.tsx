@@ -203,7 +203,6 @@ const Login = (props) => {
   }
 
   return (
-
     <div className="login-bg min-vh-100 d-flex align-items-center position-relative">
       <CContainer>
         <CRow className="justify-content-center align-items-center">
@@ -227,169 +226,163 @@ const Login = (props) => {
                       alt="lady"
                       style={{ objectFit: 'cover', height: '100%' }}
                     />
+                  </div>
+                  <div
+                    className="position-absolute top-0 bg-danger w-100 h-100 opacity-75"
+                    style={{
+                      background: 'linear-gradient(to bottom, #ff0000, #990000)',
+                    }}
+                  ></div>
+                  <div className="position-absolute p-5 top-0 w-100 h-100  d-flex justify-content-center align-items-center">
+                    <div className="text-white text-center">
+                      <Image src={logoIconwhite} alt="" width={227} />
+                      <p className="my-3 fw-bold">
+                        Payments & Financial Services infrastructure for businesses
+                      </p>
                     </div>
-                    <div
-                      className="position-absolute top-0 bg-danger w-100 h-100 opacity-75"
-                      style={{
-                        background: 'linear-gradient(to bottom, #ff0000, #990000)',
-                      }}
-                    ></div>
-                    <div className="position-absolute p-5 top-0 w-100 h-100  d-flex justify-content-center align-items-center">
-                      <div className="text-white text-center">
-                        <Image src={logoIconwhite} alt="" width={227} />
-                        <p className="my-3 fw-bold">
-                          Payments & Financial Services infrastructure for businesses
-                        </p>
+                  </div>
+                </CCardBody>
+              </CCard>
 
-                      </div>
-                    </div>
-                  </CCardBody>
-                </CCard>
+              {/* FORM FIELD */}
+              <CCard className="p-4 text-center" style={{ maxWidth: '400px' }}>
+                <CCardBody>
+                  <Image src={logoIcon} alt="logo1" width={227} height="auto" />
 
-                {/* FORM FIELD */}
-                <CCard className="p-4 text-center" style={{ maxWidth: '400px' }}>
-                  <CCardBody>
-                    <Image src={logoIcon} alt="logo1" width={227} height="auto" />
+                  <h2 className="text-center">
+                    <FormattedMessage
+                      id="hello_welcome_back"
+                      defaultMessage="Hello, welcome back"
+                    />
+                  </h2>
+                  <p className="text-medium-emphasis text-center">
+                    <FormattedMessage
+                      id="login_to_your_account"
+                      defaultMessage="Login to your account"
+                    />
+                  </p>
 
-                    <h2 className="text-center">
-                      <FormattedMessage
-                        id="hello_welcome_back"
-                        defaultMessage="Hello, welcome back"
+                  {errors?.message && (
+                    <CAlert color="danger">
+                      <CIcon icon={cilFire} className="flex-shrink-0 me-2" width={24} height={24} />
+                      {capitalizeFirstLetter_util(errors?.message)}
+                    </CAlert>
+                  )}
+
+                  <CForm noValidate onSubmit={handleSubmit(onSubmit)}>
+                    <CountryInput
+                      className="mb-3"
+                      name="country"
+                      handleForm={{ control }}
+                      callback={handleCallback}
+                      shouldValidate={false}
+                    />
+
+                    <CInputGroup className="mb-3">
+                      <CInputGroupText style={{ width: '50px' }}>
+                        <CIcon icon={cilEnvelopeClosed} size="lg" />
+                      </CInputGroupText>
+                      <CFormInput
+                        placeholder={intl.formatMessage({
+                          id: 'email_address',
+                          defaultMessage: 'Email Address',
+                        })}
+                        autoComplete="email"
+                        {...register('email', { required: true, minLength: 2, maxLength: 50 })}
+                        required
                       />
-                    </h2>
-                    <p className="text-medium-emphasis text-center">
-                      <FormattedMessage
-                        id="login_to_your_account"
-                        defaultMessage="Login to your account"
+                    </CInputGroup>
+
+                    <CInputGroup className="mb-1 ">
+                      <CInputGroupText style={{ width: '50px' }}>
+                        <CIcon icon={cilLockLocked} size="lg" />
+                      </CInputGroupText>
+                      <CFormInput
+                        style={{ borderRadius: '0 5px 5px 0' }}
+                        type={showPassword ? 'text' : 'password'}
+                        placeholder={intl.formatMessage({
+                          id: 'password',
+                          defaultMessage: 'Password',
+                        })}
+                        autoComplete="current-password"
+                        {...register('password', { required: true, minLength: 2, maxLength: 50 })}
+                        required
                       />
-                    </p>
-
-                    {errors?.message && (
-                      <CAlert color="danger">
-                        <CIcon
-                          icon={cilFire}
-                          className="flex-shrink-0 me-2"
-                          width={24}
-                          height={24}
-                        />
-                        {capitalizeFirstLetter_util(errors?.message)}
-                      </CAlert>
-                    )}
-
-                    <CForm noValidate onSubmit={handleSubmit(onSubmit)}>
-                      <CountryInput
-                        className="mb-3"
-                        name="country"
-                        handleForm={{ control }}
-                        callback={handleCallback}
-                        shouldValidate={false}
+                      <RiEyeCloseFill
+                        onClick={togglePasswordVisibility}
+                        className={`eyeIcon position-absolute ${
+                          showPassword ? 'hiddenEyeIcon' : ''
+                        }`}
+                        style={{ font: '50px' }}
                       />
+                      <ImEye
+                        onClick={togglePasswordVisibility}
+                        className={`eyeIcon position-absolute ${
+                          showPassword ? '' : 'hiddenEyeIcon'
+                        }`}
+                      />
+                    </CInputGroup>
 
-                      <CInputGroup className="mb-3">
-                        <CInputGroupText style={{ width: '50px' }}>
-                          <CIcon icon={cilEnvelopeClosed} size="lg" />
-                        </CInputGroupText>
-                        <CFormInput
-                          placeholder={intl.formatMessage({
-                            id: 'email_address',
-                            defaultMessage: 'Email Address',
+                    <CRow className="align-items-center my-3">
+                      <CCol xs={6} className="text-start text-muted">
+                        <CFormCheck
+                          label={intl.formatMessage({
+                            id: 'remember_me',
+                            defaultMessage: 'Remember Me',
                           })}
-                          autoComplete="email"
-                          {...register('email', { required: true, minLength: 2, maxLength: 50 })}
-                          required
+                          {...register('rememberMe')}
                         />
-                      </CInputGroup>
+                      </CCol>
 
-                      <CInputGroup className="mb-1 ">
-                        <CInputGroupText style={{ width: '50px' }}>
-                          <CIcon icon={cilLockLocked} size="lg" />
-                        </CInputGroupText>
-                        <CFormInput
-                          style={{ borderRadius: '0 5px 5px 0' }}
-                          type={showPassword ? 'text' : 'password'}
-                          placeholder={intl.formatMessage({
-                            id: 'password',
-                            defaultMessage: 'Password',
-                          })}
-                          autoComplete="current-password"
-                          {...register('password', { required: true, minLength: 2, maxLength: 50 })}
-                          required
-                        />
-                        <RiEyeCloseFill
-                          onClick={togglePasswordVisibility}
-                          className={`eyeIcon position-absolute ${
-                            showPassword ? 'hiddenEyeIcon' : ''
-                          }`}
-                          style={{ font: '50px' }}
-                        />
-                        <ImEye
-                          onClick={togglePasswordVisibility}
-                          className={`eyeIcon position-absolute ${
-                            showPassword ? '' : 'hiddenEyeIcon'
-                          }`}
-                        />
-                      </CInputGroup>
+                      <CCol xs={6} className="text-end">
+                        <Link href="forgot-password" className="text-sm">
+                          <small>
+                            <FormattedMessage
+                              id="forgot_password"
+                              defaultMessage={'Forgot Password?'}
+                            />
+                          </small>
+                        </Link>
+                      </CCol>
+                    </CRow>
 
-                      <CRow className="align-items-center my-3">
-                        <CCol xs={6} className="text-start text-muted">
-                          <CFormCheck
-                            label={intl.formatMessage({
-                              id: 'remember_me',
-                              defaultMessage: 'Remember Me',
-                            })}
-                            {...register('rememberMe')}
-                          />
-                        </CCol>
+                    <CRow>
+                      <CCol xs={12} className="mt-2 w-100">
+                        <CButton
+                          type="submit"
+                          className="px-4 w-100"
+                          active
+                          disabled={isSubmitting}
+                          style={vars}
+                        >
+                          {isSubmitting ? (
+                            <CSpinner component="span" size="sm" aria-hidden="true" />
+                          ) : (
+                            <FormattedMessage id="login" defaultMessage="Login" />
+                          )}
+                        </CButton>
+                      </CCol>
+                    </CRow>
 
-                        <CCol xs={6} className="text-end">
-                          <Link href="forgot-password" className="text-sm">
-                            <small>
-                              <FormattedMessage
-                                id="forgot_password"
-                                defaultMessage={'Forgot Password?'}
-                              />
-                            </small>
-                          </Link>
-                        </CCol>
-                      </CRow>
-
-                      <CRow>
-                        <CCol xs={12} className="mt-2 w-100">
-                          <CButton
-                            type="submit"
-                            className="px-4 w-100"
-                            active
-                            disabled={isSubmitting}
-                            style={vars}
-                          >
-                            {isSubmitting ? (
-                              <CSpinner component="span" size="sm" aria-hidden="true" />
-                            ) : (
-                              <FormattedMessage id="login" defaultMessage="Login" />
-                            )}
-                          </CButton>
-                        </CCol>
-                      </CRow>
-
-                      <CRow>
-                        <CCol xs={12} className="mt-4">
-                          <FormattedMessage
-                            id="do_not_have_account_yet"
-                            defaultMessage="Don't have account yet?"
-                          />{' '}
-                          <Link href="/register">
-                            <FormattedMessage id="register_now" defaultMessage="Register now!" />
-                          </Link>
-                        </CCol>
-                      </CRow>
-                    </CForm>
-                  </CCardBody>
-                </CCard>
-              </CCardGroup>
-            </CCol>
-          </CRow>
-        </CContainer>
-      </div>
+                    <CRow>
+                      <CCol xs={12} className="mt-4">
+                        <FormattedMessage
+                          id="do_not_have_account_yet"
+                          defaultMessage="Don't have account yet?"
+                        />{' '}
+                        <Link href="/register">
+                          <FormattedMessage id="register_now" defaultMessage="Register now!" />
+                        </Link>
+                      </CCol>
+                    </CRow>
+                  </CForm>
+                </CCardBody>
+              </CCard>
+            </CCardGroup>
+          </CCol>
+        </CRow>
+      </CContainer>
+    </div>
   )
 }
 

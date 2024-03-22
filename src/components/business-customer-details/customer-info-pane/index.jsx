@@ -27,8 +27,8 @@ const CustomerInfo = (props) => {
   /* *************************************************************************************** */
 
   return (
-    <CForm className="px-4">
-      <CRow className="mb-4">
+    <CForm>
+      <CRow className="mb-4 px-4">
         <CCol sm={6}>
           <fieldset className="p-3 border border-2">
             <legend className="fs-6 float-none w-auto px-2 text-primary">Contact Info</legend>
@@ -109,7 +109,7 @@ const CustomerInfo = (props) => {
       </CRow>
 
       <CFooter
-        className="position-absolute bg-white dark:bg-dark w-100 float-right justify-content-end p-4"
+        className="position-sticky bg-white dark:bg-dark w-100 float-right justify-content-end p-4"
         style={{
           left: '0',
           bottom: '0',

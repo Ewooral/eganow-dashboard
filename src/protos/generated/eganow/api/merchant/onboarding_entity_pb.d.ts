@@ -124,6 +124,56 @@ export namespace MerchantAccount {
   }
 }
 
+export class BusinessContactPerson extends jspb.Message {
+  getContid(): string;
+  setContid(value: string): BusinessContactPerson;
+
+  getCustomerguidprospective(): string;
+  setCustomerguidprospective(value: string): BusinessContactPerson;
+
+  getFirstname(): string;
+  setFirstname(value: string): BusinessContactPerson;
+
+  getLastname(): string;
+  setLastname(value: string): BusinessContactPerson;
+
+  getPosition(): string;
+  setPosition(value: string): BusinessContactPerson;
+
+  getMobilenumber(): string;
+  setMobilenumber(value: string): BusinessContactPerson;
+
+  getEmailaddress(): string;
+  setEmailaddress(value: string): BusinessContactPerson;
+
+  getMakerid(): string;
+  setMakerid(value: string): BusinessContactPerson;
+
+  getMakedate(): string;
+  setMakedate(value: string): BusinessContactPerson;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): BusinessContactPerson.AsObject;
+  static toObject(includeInstance: boolean, msg: BusinessContactPerson): BusinessContactPerson.AsObject;
+  static serializeBinaryToWriter(message: BusinessContactPerson, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): BusinessContactPerson;
+  static deserializeBinaryFromReader(message: BusinessContactPerson, reader: jspb.BinaryReader): BusinessContactPerson;
+}
+
+export namespace BusinessContactPerson {
+  export type AsObject = {
+    contid: string,
+    customerguidprospective: string,
+    firstname: string,
+    lastname: string,
+    position: string,
+    mobilenumber: string,
+    emailaddress: string,
+    makerid: string,
+    makedate: string,
+  }
+}
+
 export enum CompanyRegistrationType { 
   COMPANY_REGISTRATION_TYPE_UNKNOWN = 0,
   COMPANY_REGISTRATION_TYPE_BUSINESS = 1,
@@ -147,4 +197,9 @@ export enum CustomerIDTypes {
   CUSTOMER_ID_TYPES_DRIVERS_LICENSE = 2,
   CUSTOMER_ID_TYPES_NATIOANL_ID = 3,
   CUSTOMER_ID_TYPES_BANKID = 4,
+}
+export enum OfficeOwnership { 
+  OFFICE_OWNERSHIP_UNKNOWN = 0,
+  OFFICE_OWNERSHIP_OWNED = 1,
+  OFFICE_OWNERSHIP_RENTED = 2,
 }
