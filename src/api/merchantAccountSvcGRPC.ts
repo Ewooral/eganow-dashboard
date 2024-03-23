@@ -1,4 +1,4 @@
-// @ts-nocheck
+//// @ts-nocheck
 import { grpc } from '@improbable-eng/grpc-web'
 import { URL } from '@/constants'
 import { MerchantAccountSvcClient } from '@/protos/generated/eganow/api/merchant/Account_serviceServiceClientPb'
@@ -9,9 +9,11 @@ import {
   AddBusinessContactPersonRequest,
   UpdateBusinessContactInfoRequest,
   UpdateBusinessContactPersonRequest,
+  UpdateBusinessInfoRequest,
 } from '@/protos/generated/eganow/api/merchant/account_payload_pb'
 
 import { MerchantIntValue } from '@/protos/generated/eganow/api/merchant/common_pb'
+import { BusinessLicenseInfo } from '@/protos/generated/eganow/api/merchant/account_payload_pb'
 
 const MerchantAccountSvc = () => {
   const client = new MerchantAccountSvcClient(URL, {
@@ -37,6 +39,42 @@ const MerchantAccountSvc = () => {
       throw new Error(error)
     }
   }
+  function updateBusinessInfo(params) {
+    try {
+      const request = new UpdateBusinessInfoRequest()
+
+      console.log(params);
+      
+
+      request.setCompanyRegistrationNumber(params.registrationNumber)
+      request.setCompanyRegistrationType(params.registrationType)
+      request.setDateOfIncorporation(params.dateOfIncorporation)
+      request.setIndustryId(params.industryId)
+      request.setEmail(params.registeredEmail)
+      request.setName(params.businessName)
+      request.setVatNumber(params.vatNumber)
+      request.setTradingName(params.tradingName)
+      request.setRegulatorId(params.regulatorId)
+      request.setTaxIdentificationNumber(params.taxIdentificationNumber)
+
+      const licenseInfo = new BusinessLicenseInfo()
+      licenseInfo.setLicenseNumber(params.licenseNumber)
+      licenseInfo.setIssuedDate(params.licenseIssueDate)
+      licenseInfo.setExpiryDate(params.licenseExpiryDate)
+      request.setLicenseInfo(licenseInfo)
+
+      return new Promise((resolve, reject) => {
+        client.updateBusinessInfo(request, metadata, (err, res) => {
+          if (err) {
+            reject(err)
+          }
+          resolve(res?.toObject())
+        })
+      })
+    } catch (error) {
+      throw new Error(error)
+    }
+  }
 
   //list business contact persons function
   function listBusinessContactPersons() {
@@ -52,8 +90,6 @@ const MerchantAccountSvc = () => {
         })
       })
     } catch (error) {
-      console.log(error)
-
       throw new Error(error)
     }
   }
@@ -129,6 +165,7 @@ const MerchantAccountSvc = () => {
     addBusinessContactPerson,
     updateBusinessContactPerson,
     deleteBusinessContactPerson,
+    updateBusinessInfo,
   }
 }
 

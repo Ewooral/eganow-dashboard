@@ -31,6 +31,9 @@ import classNames from 'classnames'
 import { GrSave } from 'react-icons/gr'
 import { useSnackbar } from '@/store'
 import MerchantAccountSvc from '@/api/merchantAccountSvcGRPC'
+import { DirectorPosition } from '@/protos/generated/eganow/api/merchant/onboarding_entity_pb'
+import { formatDate_util, formatEnum, formatEnum_util } from '@/util'
+import { generateOptions } from '@/helpers'
 
 const userRoleOptions = [
   { label: 'Admin', value: 'admin' },
@@ -53,48 +56,11 @@ const AddEditContactPerson = (props: UserProps) => {
     defaultValues: defaultFormValues,
   })
 
-  const [memberTypeOptions, setMemberTypeOptions] = useState<UserTypeOptionsType[]>([])
+  const [contactPersonPositionOptions, setcontactPersonPositionsOptions] = useState<
+    UserTypeOptionsType[]
+  >(generateContactPersonPositionsOptions())
 
   const { addBusinessContactPerson, updateBusinessContactPerson } = MerchantAccountSvc()
-
-  const contactPersonPositions = [
-    {
-      label: 'DIRECTOR',
-      value: 1,
-    },
-    {
-      label: 'SHAREHOLDER',
-      value: 2,
-    },
-    {
-      label: 'CEO',
-      value: 3,
-    },
-    {
-      label: 'MANAGEMENT',
-      value: 4,
-    },
-    {
-      label: 'ENGINEERING',
-      value: 5,
-    },
-    {
-      label: ' MERCHANT OWN CARD MID',
-      value: 6,
-    },
-    {
-      label: 'PRIMARY CONTACT',
-      value: 7,
-    },
-    {
-      label: 'SECONDARY CONTACT',
-      value: 8,
-    },
-    {
-      label: 'ACCOUNT SIGNATORY',
-      value: 9,
-    },
-  ]
 
   useEffect(() => {
     if (props.data?.type === 'new') {
@@ -119,20 +85,16 @@ const AddEditContactPerson = (props: UserProps) => {
       setValue('status', status)
       setValue('membertype', membertype)
       setValue('userrole', userrole)
-      //Creating the customer option
-      createMemberTypeOptions(membertype)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.data])
 
-  function createMemberTypeOptions(value) {
-    // Setting Role Option
-    setMemberTypeOptions([
-      {
-        label: value,
-        value: value,
-      },
-    ])
+  function generateContactPersonPositionsOptions() {
+    const formattedEnum = formatEnum_util(DirectorPosition, 2)
+
+    const generatedOptions = generateOptions(formattedEnum)
+
+    return generatedOptions
   }
 
   const onSubmit = async (values: UserType) => {
@@ -361,7 +323,8 @@ const AddEditContactPerson = (props: UserProps) => {
                     formState.dirtyFields?.position && !!!formState.errors?.position ? true : false
                   }
                   invalid={!!formState.errors?.position && true}
-                  options={contactPersonPositions}
+                  defaultValue="hi"
+                  options={contactPersonPositionOptions}
                 />
                 <CFormText
                   component="span"

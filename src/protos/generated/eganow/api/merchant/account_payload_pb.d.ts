@@ -30,70 +30,6 @@ export namespace BusinessLicenseInfo {
   }
 }
 
-export class AddBusinessInfoRequest extends jspb.Message {
-  getName(): string;
-  setName(value: string): AddBusinessInfoRequest;
-
-  getTradingName(): string;
-  setTradingName(value: string): AddBusinessInfoRequest;
-
-  getDateOfIncorporation(): string;
-  setDateOfIncorporation(value: string): AddBusinessInfoRequest;
-
-  getIndustryId(): string;
-  setIndustryId(value: string): AddBusinessInfoRequest;
-
-  getCompanyRegistrationNumber(): string;
-  setCompanyRegistrationNumber(value: string): AddBusinessInfoRequest;
-
-  getEmail(): string;
-  setEmail(value: string): AddBusinessInfoRequest;
-
-  getRegulatorId(): string;
-  setRegulatorId(value: string): AddBusinessInfoRequest;
-
-  getCompanyRegistrationType(): eganow_api_merchant_onboarding_entity_pb.CompanyRegistrationType;
-  setCompanyRegistrationType(value: eganow_api_merchant_onboarding_entity_pb.CompanyRegistrationType): AddBusinessInfoRequest;
-
-  getLicenseInfo(): BusinessLicenseInfo | undefined;
-  setLicenseInfo(value?: BusinessLicenseInfo): AddBusinessInfoRequest;
-  hasLicenseInfo(): boolean;
-  clearLicenseInfo(): AddBusinessInfoRequest;
-
-  getOfficeMobileNumber(): string;
-  setOfficeMobileNumber(value: string): AddBusinessInfoRequest;
-
-  getTaxIdentificationNumber(): string;
-  setTaxIdentificationNumber(value: string): AddBusinessInfoRequest;
-
-  getVatNumber(): string;
-  setVatNumber(value: string): AddBusinessInfoRequest;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): AddBusinessInfoRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: AddBusinessInfoRequest): AddBusinessInfoRequest.AsObject;
-  static serializeBinaryToWriter(message: AddBusinessInfoRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): AddBusinessInfoRequest;
-  static deserializeBinaryFromReader(message: AddBusinessInfoRequest, reader: jspb.BinaryReader): AddBusinessInfoRequest;
-}
-
-export namespace AddBusinessInfoRequest {
-  export type AsObject = {
-    name: string,
-    tradingName: string,
-    dateOfIncorporation: string,
-    industryId: string,
-    companyRegistrationNumber: string,
-    email: string,
-    regulatorId: string,
-    companyRegistrationType: eganow_api_merchant_onboarding_entity_pb.CompanyRegistrationType,
-    licenseInfo?: BusinessLicenseInfo.AsObject,
-    officeMobileNumber: string,
-    taxIdentificationNumber: string,
-    vatNumber: string,
-  }
-}
-
 export class UpdateBusinessInfoRequest extends jspb.Message {
   getName(): string;
   setName(value: string): UpdateBusinessInfoRequest;
@@ -124,9 +60,6 @@ export class UpdateBusinessInfoRequest extends jspb.Message {
   hasLicenseInfo(): boolean;
   clearLicenseInfo(): UpdateBusinessInfoRequest;
 
-  getOfficeMobileNumber(): string;
-  setOfficeMobileNumber(value: string): UpdateBusinessInfoRequest;
-
   getTaxIdentificationNumber(): string;
   setTaxIdentificationNumber(value: string): UpdateBusinessInfoRequest;
 
@@ -152,7 +85,6 @@ export namespace UpdateBusinessInfoRequest {
     regulatorId: string,
     companyRegistrationType: eganow_api_merchant_onboarding_entity_pb.CompanyRegistrationType,
     licenseInfo?: BusinessLicenseInfo.AsObject,
-    officeMobileNumber: string,
     taxIdentificationNumber: string,
     vatNumber: string,
   }

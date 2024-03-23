@@ -43,6 +43,7 @@ import {
 import { useForm } from 'react-hook-form'
 import { useQueries } from '@tanstack/react-query'
 import BusinessAccountSvc from '@/api/merchantAccountSvcGRPC'
+import MerchantCommonSvc from '@/api/merchantCommonSvcGRPC'
 
 export const getServerSideProps = async ({ req }) => {
   const cookies = req.cookies[EGANOW_AUTH_COOKIE] ? JSON.parse(req.cookies[EGANOW_AUTH_COOKIE]) : {}
@@ -56,9 +57,11 @@ export const getServerSideProps = async ({ req }) => {
 
 const Entry: NextPageWithLayout = (props) => {
   const [activeKey, setActiveKey] = useState(1)
+  const [type, setType] = useState('')
 
   //business info apis
-  const { listBusinessContactPersons } = BusinessAccountSvc()
+  const { listBusinessContactPersons, getBusinessInfo } = BusinessAccountSvc()
+  const { getBusinessSectors, getBusinessRegulators, getBusinessIndustries } = MerchantCommonSvc()
 
   //handles multiple queries
   const results = useQueries({
@@ -68,9 +71,12 @@ const Entry: NextPageWithLayout = (props) => {
         queryFn: () => listBusinessContactPersons(),
         staleTime: 5000,
       },
-      // { queryKey: ['addbusinesscontactperson', 2], queryFn: ()=> addBusinessContactPerson(),  },
+      { queryKey: ['getBusinessSectors', 2], queryFn: () => getBusinessSectors() },
+      { queryKey: ['getBusinessRegulators', 3], queryFn: () => getBusinessRegulators() },
+      { queryKey: ['getBusinessInfo', 3], queryFn: () => getBusinessInfo(), staleTime: 5000 },
     ],
   })
+
 
   const { control } = useForm({
     mode: 'onChange',
@@ -114,8 +120,13 @@ const Entry: NextPageWithLayout = (props) => {
             </div>
 
             <div>
-              <CButton color="info" className="justify-content-center">
+              <CButton
+                onMouseUp={() => setType('edit')}
+                color="info"
+                className="d-flex justify-content-center align-items-center  gap-1 text-white"
+              >
                 <FaEdit style={{ fontSize: '1.2rem' }} />
+                Edit
               </CButton>
             </div>
           </div>
@@ -145,39 +156,41 @@ const Entry: NextPageWithLayout = (props) => {
 
                 <div className="mt-4">
                   <div>
-                    <em>Current User</em>
-                    <h5 style={{ color: '#e55353' }} className="mb-4">
+                    <h6 className="fw-bold">Current User</h6>
+                    <h6 style={{ color: '#e55353' }} className="mb-4 fw-normal">
                       {props.cookies.fullName}
-                    </h5>
+                    </h6>
                   </div>
 
                   <div>
-                    <em>Company Name</em>
-                    <h5 className="mb-4">{props.cookies.businessName}</h5>
+                    <h6 className="fw-bold">Company Name</h6>
+                    <h6 className="mb-4 fw-normal">{results[3]?.data?.companyName}</h6>
                   </div>
 
                   <div>
-                    <em>Registration Number</em>
-                    <h5 className="mb-4">TG466565</h5>
+                    <h6 className="fw-bold">Registration Number</h6>
+                    <h6 className="mb-4 fw-normal">
+                      {results[3]?.data?.companyRegistrationNumber}
+                    </h6>
                   </div>
 
                   <div>
-                    <em>TIN</em>
-                    <h5 className="mb-4">CFRT55555</h5>
+                    <h6 className="fw-bold">TIN</h6>
+                    <h6 className="mb-4 fw-normal">{results[3]?.data?.taxIdentificationNumber}</h6>
                   </div>
 
                   <div>
-                    <em>Attachments</em>
-                    <h5 className="mb-4">
+                    <h6 className="fw-bold">Attachments</h6>
+                    <h6 className="mb-4 fw-normal">
                       Count::{' '}
                       <CBadge color="secondary" shape="rounded-circle">
                         3
                       </CBadge>
-                    </h5>
+                    </h6>
                   </div>
 
                   <div className="mb-4">
-                    <em>Country</em>
+                    <h6 className="fw-bold">Country</h6>
                     <CountryInput
                       className="mb-3"
                       name="country"
@@ -239,7 +252,13 @@ const Entry: NextPageWithLayout = (props) => {
                   aria-labelledby="business-info-tab"
                   visible={activeKey === 1}
                 >
-                  <BusinessInfo control={control} />
+                  <BusinessInfo
+                    businessInfoData={results[3]}
+                    sectors={results[1]?.data?.sectorsList}
+                    regulators={results[2]?.data?.regulatorsList}
+                    type={type}
+                    setType={setType}
+                  />
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="profile-tab" visible={activeKey === 2}>

@@ -73,6 +73,10 @@ export const isEmpty_util = (value: any) => {
  */
 export const formatDate_util = (date: string, pattern: string) => {
   try {
+    if (!date) {
+      return
+    }
+
     return format(new Date(date), pattern)
   } catch (error) {
     throw error
@@ -235,8 +239,73 @@ export const getMaxValueKey = (data: object) => {
   return maxKey
 }
 
+/**
+ * @param {enum} obj
+ * @param {int} n
+ * this function removes separate a string
+ */
+export function formatEnum_util(obj: any, n: number) {
+  const newObj = {};
+  for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+          const keyArray = key.split('_'); // Split the key into an array of characters
+          keyArray.splice(0, n); // Remove the first n characters
+          const newKey = keyArray.join(''); // Join the characters back into a string
+          newObj[newKey] = obj[key];
+      }
+  }
 
+  
+  return   newObj;
+}
 
+/**
+ * @param {obj}
+ * this function flips swaps the key and value in an object
+ */
+export function flipObject_util(obj) {
+  const flippedObj = {}
+  for (const key in obj) {
+    const value = obj[key]
+    flippedObj[value] = key
+  }
+  return flippedObj
+}
+
+/**
+ * @param {string}
+ * this function changes date to text format
+ */
+export function formatDate_to_text_util(dateStr) {
+  // Create a Date object from the input date string
+  var dateObj = new Date(dateStr)
+
+  // Define month names
+  var monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ]
+
+  // Extract components
+  var year = dateObj.getFullYear()
+  var month = dateObj.getMonth() // Month is zero-based
+  var day = dateObj.getDate()
+
+  // Construct the textual representation
+  var textDate = monthNames[month] + ' ' + day + ', ' + year
+
+  return textDate
+}
 
 /**
  * Utility function to create an initials string.
@@ -247,7 +316,7 @@ export const getMaxValueKey = (data: object) => {
  * @returns {string} The combined initials string.
  */
 // This utility function takes one or more strings as arguments and returns the initials.
-export function getInitialsForAvatar_util(number=2, ...args: string[]): string {
+export function getInitialsForAvatar_util(number = 2, ...args: string[]): string {
   // Join all arguments into a single string and split it into words.
   // This allows the function to handle multiple arguments as well as a single argument with multiple words.
   const words = args.join(' ').split(' ')

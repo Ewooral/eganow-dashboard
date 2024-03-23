@@ -60,3 +60,20 @@ export const CONTACT_PERSON_POSITION = {
   '8': 'SECONDARY CONTACT',
   '9': 'ACCOUNT SIGNATORY',
 }
+
+export const COMPANYREGISTRATIONTYPEOPTIONS = [
+  {
+    value: 0,
+    label: 'UNKNOWN',
+  },
+  {
+    value: 1,
+    label: 'BUSINESS',
+  },
+  {
+    value: 2,
+    label: 'PERSONAL',
+  },
+  
+]
+
