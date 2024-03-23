@@ -84,7 +84,6 @@ const BusinessInfo = (props) => {
   }
 
   const onSubmit = async (values) => {
-    console.log(values);
     
     try {
       if (props.type === 'edit') {

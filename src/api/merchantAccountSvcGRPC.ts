@@ -43,7 +43,6 @@ const MerchantAccountSvc = () => {
     try {
       const request = new UpdateBusinessInfoRequest()
 
-      console.log(params);
       
 
       request.setCompanyRegistrationNumber(params.registrationNumber)
