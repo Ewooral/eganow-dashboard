@@ -1268,8 +1268,7 @@ proto.eganow.api.merchant.AuthMerchantResponse.toObject = function(includeInstan
     fullName: jspb.Message.getFieldWithDefault(msg, 2, ""),
     firstName: jspb.Message.getFieldWithDefault(msg, 3, ""),
     lastName: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    businessName: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    merchantId: jspb.Message.getFieldWithDefault(msg, 7, ""),
+    companyName: jspb.Message.getFieldWithDefault(msg, 5, ""),
     profilePicture: jspb.Message.getFieldWithDefault(msg, 8, ""),
     email: jspb.Message.getFieldWithDefault(msg, 9, ""),
     mobileNumber: jspb.Message.getFieldWithDefault(msg, 10, "")
@@ -1327,11 +1326,7 @@ proto.eganow.api.merchant.AuthMerchantResponse.deserializeBinaryFromReader = fun
       break;
     case 5:
       var value = /** @type {string} */ (reader.readString());
-      msg.setBusinessName(value);
-      break;
-    case 7:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setMerchantId(value);
+      msg.setCompanyName(value);
       break;
     case 8:
       var value = /** @type {string} */ (reader.readString());
@@ -1402,17 +1397,10 @@ proto.eganow.api.merchant.AuthMerchantResponse.serializeBinaryToWriter = functio
       f
     );
   }
-  f = message.getBusinessName();
+  f = message.getCompanyName();
   if (f.length > 0) {
     writer.writeString(
       5,
-      f
-    );
-  }
-  f = message.getMerchantId();
-  if (f.length > 0) {
-    writer.writeString(
-      7,
       f
     );
   }
@@ -1513,10 +1501,10 @@ proto.eganow.api.merchant.AuthMerchantResponse.prototype.setLastName = function(
 
 
 /**
- * optional string business_name = 5;
+ * optional string company_name = 5;
  * @return {string}
  */
-proto.eganow.api.merchant.AuthMerchantResponse.prototype.getBusinessName = function() {
+proto.eganow.api.merchant.AuthMerchantResponse.prototype.getCompanyName = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
 };
 
@@ -1525,26 +1513,8 @@ proto.eganow.api.merchant.AuthMerchantResponse.prototype.getBusinessName = funct
  * @param {string} value
  * @return {!proto.eganow.api.merchant.AuthMerchantResponse} returns this
  */
-proto.eganow.api.merchant.AuthMerchantResponse.prototype.setBusinessName = function(value) {
+proto.eganow.api.merchant.AuthMerchantResponse.prototype.setCompanyName = function(value) {
   return jspb.Message.setProto3StringField(this, 5, value);
-};
-
-
-/**
- * optional string merchant_id = 7;
- * @return {string}
- */
-proto.eganow.api.merchant.AuthMerchantResponse.prototype.getMerchantId = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.eganow.api.merchant.AuthMerchantResponse} returns this
- */
-proto.eganow.api.merchant.AuthMerchantResponse.prototype.setMerchantId = function(value) {
-  return jspb.Message.setProto3StringField(this, 7, value);
 };
 
 
