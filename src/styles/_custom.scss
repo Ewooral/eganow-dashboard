@@ -149,6 +149,16 @@ select {
 
 /* ************************************************************************************ */
 
+.hide-input {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none;
+  background-color: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+
 .card1 {
   display: block;
   top: 0px;
@@ -376,4 +386,9 @@ select {
 
 .modal-dialog {
   border-radius: 20px !important;
+}
+
+.hide-input {
+  background-color: red;
+  border: none;
 }
