@@ -17,8 +17,8 @@
 
 import * as grpcWeb from 'grpc-web';
 
-import * as eganow_api_merchant_common_payload_pb from '../../../eganow/api/merchant/common_payload_pb';
 import * as eganow_api_merchant_common_pb from '../../../eganow/api/merchant/common_pb';
+import * as eganow_api_merchant_common_payload_pb from '../../../eganow/api/merchant/common_payload_pb';
 
 
 export class MerchantCommonSvcClient {
@@ -83,72 +83,29 @@ export class MerchantCommonSvcClient {
     this.methodDescriptorGetActiveRegulators);
   }
 
-  methodDescriptorGetBusinessSectors = new grpcWeb.MethodDescriptor(
-    '/eganow.api.merchant.MerchantCommonSvc/GetBusinessSectors',
-    grpcWeb.MethodType.UNARY,
-    eganow_api_merchant_common_pb.MerchantEmpty,
-    eganow_api_merchant_common_payload_pb.MerchantBusinessSectorList,
-    (request: eganow_api_merchant_common_pb.MerchantEmpty) => {
-      return request.serializeBinary();
-    },
-    eganow_api_merchant_common_payload_pb.MerchantBusinessSectorList.deserializeBinary
-  );
-
-  getBusinessSectors(
-    request: eganow_api_merchant_common_pb.MerchantEmpty,
-    metadata: grpcWeb.Metadata | null): Promise<eganow_api_merchant_common_payload_pb.MerchantBusinessSectorList>;
-
-  getBusinessSectors(
-    request: eganow_api_merchant_common_pb.MerchantEmpty,
-    metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError,
-               response: eganow_api_merchant_common_payload_pb.MerchantBusinessSectorList) => void): grpcWeb.ClientReadableStream<eganow_api_merchant_common_payload_pb.MerchantBusinessSectorList>;
-
-  getBusinessSectors(
-    request: eganow_api_merchant_common_pb.MerchantEmpty,
-    metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError,
-               response: eganow_api_merchant_common_payload_pb.MerchantBusinessSectorList) => void) {
-    if (callback !== undefined) {
-      return this.client_.rpcCall(
-        this.hostname_ +
-          '/eganow.api.merchant.MerchantCommonSvc/GetBusinessSectors',
-        request,
-        metadata || {},
-        this.methodDescriptorGetBusinessSectors,
-        callback);
-    }
-    return this.client_.unaryCall(
-    this.hostname_ +
-      '/eganow.api.merchant.MerchantCommonSvc/GetBusinessSectors',
-    request,
-    metadata || {},
-    this.methodDescriptorGetBusinessSectors);
-  }
-
   methodDescriptorGetActiveIndustries = new grpcWeb.MethodDescriptor(
     '/eganow.api.merchant.MerchantCommonSvc/GetActiveIndustries',
     grpcWeb.MethodType.UNARY,
-    eganow_api_merchant_common_pb.MerchantStringValue,
+    eganow_api_merchant_common_pb.MerchantEmpty,
     eganow_api_merchant_common_payload_pb.MerchantIndustryList,
-    (request: eganow_api_merchant_common_pb.MerchantStringValue) => {
+    (request: eganow_api_merchant_common_pb.MerchantEmpty) => {
       return request.serializeBinary();
     },
     eganow_api_merchant_common_payload_pb.MerchantIndustryList.deserializeBinary
   );
 
   getActiveIndustries(
-    request: eganow_api_merchant_common_pb.MerchantStringValue,
+    request: eganow_api_merchant_common_pb.MerchantEmpty,
     metadata: grpcWeb.Metadata | null): Promise<eganow_api_merchant_common_payload_pb.MerchantIndustryList>;
 
   getActiveIndustries(
-    request: eganow_api_merchant_common_pb.MerchantStringValue,
+    request: eganow_api_merchant_common_pb.MerchantEmpty,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
                response: eganow_api_merchant_common_payload_pb.MerchantIndustryList) => void): grpcWeb.ClientReadableStream<eganow_api_merchant_common_payload_pb.MerchantIndustryList>;
 
   getActiveIndustries(
-    request: eganow_api_merchant_common_pb.MerchantStringValue,
+    request: eganow_api_merchant_common_pb.MerchantEmpty,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
                response: eganow_api_merchant_common_payload_pb.MerchantIndustryList) => void) {

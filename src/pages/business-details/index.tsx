@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import type { NextPageWithLayout } from '@/pages/_app'
 /* ICONS */
 import { FaEdit } from 'react-icons/fa'
+import { MdOutlineCancel } from 'react-icons/md'
 import { FaFilePdf, FaRegImages } from 'react-icons/fa6'
 /*  */
 import {
@@ -44,6 +45,7 @@ import { useForm } from 'react-hook-form'
 import { useQueries } from '@tanstack/react-query'
 import BusinessAccountSvc from '@/api/merchantAccountSvcGRPC'
 import MerchantCommonSvc from '@/api/merchantCommonSvcGRPC'
+import { useSnackbar } from '@/store'
 
 export const getServerSideProps = async ({ req }) => {
   const cookies = req.cookies[EGANOW_AUTH_COOKIE] ? JSON.parse(req.cookies[EGANOW_AUTH_COOKIE]) : {}
@@ -58,10 +60,14 @@ export const getServerSideProps = async ({ req }) => {
 const Entry: NextPageWithLayout = (props) => {
   const [activeKey, setActiveKey] = useState(1)
   const [type, setType] = useState('')
+  const [allowToEdit, setAllowToEdit] = useState(null)
+
+  //snackbar from zustand store
+  const showSnackbar = useSnackbar((state: any) => state.showSnackbar)
 
   //business info apis
   const { listBusinessContactPersons, getBusinessInfo } = BusinessAccountSvc()
-  const { getBusinessSectors, getBusinessRegulators, getBusinessIndustries } = MerchantCommonSvc()
+  const { getBusinessRegulators, getBusinessIndustries } = MerchantCommonSvc()
 
   //handles multiple queries
   const results = useQueries({
@@ -71,12 +77,27 @@ const Entry: NextPageWithLayout = (props) => {
         queryFn: () => listBusinessContactPersons(),
         staleTime: 5000,
       },
-      { queryKey: ['getBusinessSectors', 2], queryFn: () => getBusinessSectors() },
+      { queryKey: ['getBusinessIndustries', 2], queryFn: () => getBusinessIndustries() },
       { queryKey: ['getBusinessRegulators', 3], queryFn: () => getBusinessRegulators() },
-      { queryKey: ['getBusinessInfo', 3], queryFn: () => getBusinessInfo(), staleTime: 5000 },
+      { queryKey: ['getBusinessInfo', 4], queryFn: () => getBusinessInfo(), staleTime: 5000 },
     ],
   })
 
+  if (results[3].isError) {
+    showSnackbar({
+      type: 'danger',
+      title: 'User Management',
+      messages: results[3].error.message,
+      show: true,
+    })
+  }
+
+  useEffect(() => {
+    if (results[3].data) {
+      setAllowToEdit(true)
+      // results[3]?.data?.allowForEdit
+    }
+  }, [results[3].data])
 
   const { control } = useForm({
     mode: 'onChange',
@@ -119,16 +140,29 @@ const Entry: NextPageWithLayout = (props) => {
               <small>View/ reviewing customer information and business registration details</small>
             </div>
 
-            <div>
-              <CButton
-                onMouseUp={() => setType('edit')}
-                color="info"
-                className="d-flex justify-content-center align-items-center  gap-1 text-white"
-              >
-                <FaEdit style={{ fontSize: '1.2rem' }} />
-                Edit
-              </CButton>
-            </div>
+            {allowToEdit && (
+              <div>
+                {type === '' ? (
+                  <CButton
+                    onMouseUp={() => setType('edit')}
+                    color="info"
+                    className="d-flex justify-content-center align-items-center  gap-1 text-white"
+                  >
+                    <FaEdit style={{ fontSize: '1.2rem' }} />
+                    Edit
+                  </CButton>
+                ) : (
+                  <CButton
+                    onMouseUp={() => setType('')}
+                    color="info"
+                    className="d-flex justify-content-center align-items-center  gap-1 text-white"
+                  >
+                    <MdOutlineCancel style={{ fontSize: '1.2rem' }} />
+                    Cancel
+                  </CButton>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -254,7 +288,7 @@ const Entry: NextPageWithLayout = (props) => {
                 >
                   <BusinessInfo
                     businessInfoData={results[3]}
-                    sectors={results[1]?.data?.sectorsList}
+                    industries={results[1]?.data?.industriesList}
                     regulators={results[2]?.data?.regulatorsList}
                     type={type}
                     setType={setType}

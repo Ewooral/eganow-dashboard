@@ -35,12 +35,12 @@ const CustomerInfo = (props) => {
             <CFormLabel htmlFor="prospectiveCustomerNo" className="form-label">
               <strong>Business Address</strong>
             </CFormLabel>
-            <CFormTextarea id="exampleFormControlTextarea1" rows={3}></CFormTextarea>
+            <CFormTextarea className=''  id="exampleFormControlTextarea1" rows={3}></CFormTextarea>
 
             <CFormLabel htmlFor="companyName" className="form-label mt-3">
               <strong>City/ Town</strong>
             </CFormLabel>
-            <CFormInput type="text" id="companyName" placeholder="Enter company name." />
+            <CFormInput type="text" id="companyName"  placeholder="Enter company name." />
 
             <CFormLabel htmlFor="typeOfCompany" className="form-label mt-3">
               <strong>State/ Province/ Region</strong>

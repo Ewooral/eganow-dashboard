@@ -16,6 +16,5 @@ export const validationSchema = yup
     taxIdentificationNumber: yup.string().required(),
     tradingName: yup.string().required(),
     vatNumber: yup.string().required(),
-    sectors: yup.string().required(),
   })
   .required()

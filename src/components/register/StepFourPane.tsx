@@ -154,10 +154,12 @@ const StepFourPane = (props: any) => {
           </CButton>
         </CCol>
         <CCol xs="auto">
-          <CButton className="text-white" color="success" onMouseUp={handleSubmitClick}>
+        {props.loading ? (
+            <CSpinner component="span" size="sm" aria-hidden="true" className="ms-2" />
+          ) :  <CButton className="text-white" color="success" onMouseUp={handleSubmitClick}>
             <FormattedMessage id="send" defaultMessage="Send" />
             <FaTelegramPlane className="ms-2 mb-1" />
-          </CButton>
+          </CButton>}
         </CCol>
       </CRow>
     </>
