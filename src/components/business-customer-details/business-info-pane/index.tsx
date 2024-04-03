@@ -137,6 +137,9 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
         vatNumber,
       } = props?.businessInfoData?.data
 
+      console.log('props?.businessInfoData?.data', props?.businessInfoData?.data);
+      
+
       setValue('registrationNumber', companyRegistrationNumber)
       setValue('registrationType', companyRegistrationType)
       setValue('dateOfIncorporation', dateOfIncorporation)
@@ -323,7 +326,7 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                           : false
                       }
                       invalid={!!formState.errors?.registrationType && true}
-                      value={getValues('registrationType')}
+                      // value={getValues('registrationType')}
                     />
                   )}
 

@@ -53,6 +53,11 @@ export class DirectorShareholderIDInfo extends jspb.Message {
   getIdBackImage_asB64(): string;
   setIdBackImage(value: Uint8Array | string): DirectorShareholderIDInfo;
 
+  getPortraitImage(): Uint8Array | string;
+  getPortraitImage_asU8(): Uint8Array;
+  getPortraitImage_asB64(): string;
+  setPortraitImage(value: Uint8Array | string): DirectorShareholderIDInfo;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): DirectorShareholderIDInfo.AsObject;
   static toObject(includeInstance: boolean, msg: DirectorShareholderIDInfo): DirectorShareholderIDInfo.AsObject;
@@ -69,6 +74,7 @@ export namespace DirectorShareholderIDInfo {
     idType: eganow_api_merchant_onboarding_entity_pb.CustomerIDTypes,
     idFrontImage: Uint8Array | string,
     idBackImage: Uint8Array | string,
+    portraitImage: Uint8Array | string,
   }
 }
 
@@ -393,8 +399,8 @@ export namespace AddBusinessContactPersonRequest {
 }
 
 export class UpdateBusinessContactPersonRequest extends jspb.Message {
-  getContactId(): number;
-  setContactId(value: number): UpdateBusinessContactPersonRequest;
+  getContactId(): string;
+  setContactId(value: string): UpdateBusinessContactPersonRequest;
 
   getFirstName(): string;
   setFirstName(value: string): UpdateBusinessContactPersonRequest;
@@ -421,7 +427,7 @@ export class UpdateBusinessContactPersonRequest extends jspb.Message {
 
 export namespace UpdateBusinessContactPersonRequest {
   export type AsObject = {
-    contactId: number,
+    contactId: string,
     firstName: string,
     lastName: string,
     position: eganow_api_merchant_onboarding_entity_pb.DirectorPosition,
@@ -533,8 +539,8 @@ export namespace AddDirectorShareholderRequest {
 }
 
 export class UpdateDirectorShareholderRequest extends jspb.Message {
-  getDirectorId(): number;
-  setDirectorId(value: number): UpdateDirectorShareholderRequest;
+  getDirectorId(): string;
+  setDirectorId(value: string): UpdateDirectorShareholderRequest;
 
   getFirstName(): string;
   setFirstName(value: string): UpdateDirectorShareholderRequest;
@@ -569,7 +575,7 @@ export class UpdateDirectorShareholderRequest extends jspb.Message {
 
 export namespace UpdateDirectorShareholderRequest {
   export type AsObject = {
-    directorId: number,
+    directorId: string,
     firstName: string,
     lastName: string,
     mobileNumber: string,
@@ -599,8 +605,8 @@ export class DirectorShareholderPayload extends jspb.Message {
   getDirectorShareholderType(): eganow_api_merchant_onboarding_entity_pb.DirectorOrShareholderOrOtherType;
   setDirectorShareholderType(value: eganow_api_merchant_onboarding_entity_pb.DirectorOrShareholderOrOtherType): DirectorShareholderPayload;
 
-  getIdInfo(): DirectorShareholderIDInfo | undefined;
-  setIdInfo(value?: DirectorShareholderIDInfo): DirectorShareholderPayload;
+  getIdInfo(): DirectorShareholderPayload.DirectorShareholderIDInfoPayload | undefined;
+  setIdInfo(value?: DirectorShareholderPayload.DirectorShareholderIDInfoPayload): DirectorShareholderPayload;
   hasIdInfo(): boolean;
   clearIdInfo(): DirectorShareholderPayload;
 
@@ -626,10 +632,53 @@ export namespace DirectorShareholderPayload {
     email: string,
     position: eganow_api_merchant_onboarding_entity_pb.DirectorPosition,
     directorShareholderType: eganow_api_merchant_onboarding_entity_pb.DirectorOrShareholderOrOtherType,
-    idInfo?: DirectorShareholderIDInfo.AsObject,
+    idInfo?: DirectorShareholderPayload.DirectorShareholderIDInfoPayload.AsObject,
     directorId: string,
     passedAmlCheck: boolean,
   }
+
+  export class DirectorShareholderIDInfoPayload extends jspb.Message {
+    getIdNumber(): string;
+    setIdNumber(value: string): DirectorShareholderIDInfoPayload;
+
+    getIdExpiryDate(): string;
+    setIdExpiryDate(value: string): DirectorShareholderIDInfoPayload;
+
+    getPlaceOfIssue(): string;
+    setPlaceOfIssue(value: string): DirectorShareholderIDInfoPayload;
+
+    getIdType(): eganow_api_merchant_onboarding_entity_pb.CustomerIDTypes;
+    setIdType(value: eganow_api_merchant_onboarding_entity_pb.CustomerIDTypes): DirectorShareholderIDInfoPayload;
+
+    getIdFrontImage(): string;
+    setIdFrontImage(value: string): DirectorShareholderIDInfoPayload;
+
+    getIdBackImage(): string;
+    setIdBackImage(value: string): DirectorShareholderIDInfoPayload;
+
+    getPortraitImage(): string;
+    setPortraitImage(value: string): DirectorShareholderIDInfoPayload;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): DirectorShareholderIDInfoPayload.AsObject;
+    static toObject(includeInstance: boolean, msg: DirectorShareholderIDInfoPayload): DirectorShareholderIDInfoPayload.AsObject;
+    static serializeBinaryToWriter(message: DirectorShareholderIDInfoPayload, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): DirectorShareholderIDInfoPayload;
+    static deserializeBinaryFromReader(message: DirectorShareholderIDInfoPayload, reader: jspb.BinaryReader): DirectorShareholderIDInfoPayload;
+  }
+
+  export namespace DirectorShareholderIDInfoPayload {
+    export type AsObject = {
+      idNumber: string,
+      idExpiryDate: string,
+      placeOfIssue: string,
+      idType: eganow_api_merchant_onboarding_entity_pb.CustomerIDTypes,
+      idFrontImage: string,
+      idBackImage: string,
+      portraitImage: string,
+    }
+  }
+
 }
 
 export class DirectorShareholderListResponse extends jspb.Message {

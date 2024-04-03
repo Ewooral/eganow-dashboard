@@ -73,7 +73,7 @@ const AddEditContactPerson = (props: UserProps) => {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.data, props.data?.type])
+  }, [props?.data, props.data?.type])
 
   function generateContactPersonPositionsOptions() {
     const formattedEnum = formatEnum_util(DirectorPosition, 2)
@@ -307,14 +307,16 @@ const AddEditContactPerson = (props: UserProps) => {
                 >
                   <strong>Position</strong>
                 </CFormLabel>
-                {/* <select name="" id="" {...register('position')}>
-                 
-                  {contactPersonPositionOptions.map((item)=>{
-                  return <option value={item.value}>{item.label}</option>
+                {/** this select is just here4 to trigger the core ui select to display on edit */}
+                 <select className="d-none" name="" id="" {...register('position')}>
+                  {contactPersonPositionOptions.map((item) => {
+                    return <option value={item.value}>{item.label}</option>
                   })}
-                </select> */}
+                </select> 
                 <CFormSelect
+                  type="text"
                   {...register('position')}
+                  id="position"
                   valid={
                     formState.dirtyFields?.position && !!!formState.errors?.position ? true : false
                   }
