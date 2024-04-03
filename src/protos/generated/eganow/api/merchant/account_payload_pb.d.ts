@@ -399,8 +399,8 @@ export namespace AddBusinessContactPersonRequest {
 }
 
 export class UpdateBusinessContactPersonRequest extends jspb.Message {
-  getContactId(): number;
-  setContactId(value: number): UpdateBusinessContactPersonRequest;
+  getContactId(): string;
+  setContactId(value: string): UpdateBusinessContactPersonRequest;
 
   getFirstName(): string;
   setFirstName(value: string): UpdateBusinessContactPersonRequest;
@@ -427,7 +427,7 @@ export class UpdateBusinessContactPersonRequest extends jspb.Message {
 
 export namespace UpdateBusinessContactPersonRequest {
   export type AsObject = {
-    contactId: number,
+    contactId: string,
     firstName: string,
     lastName: string,
     position: eganow_api_merchant_onboarding_entity_pb.DirectorPosition,
@@ -539,8 +539,8 @@ export namespace AddDirectorShareholderRequest {
 }
 
 export class UpdateDirectorShareholderRequest extends jspb.Message {
-  getDirectorId(): number;
-  setDirectorId(value: number): UpdateDirectorShareholderRequest;
+  getDirectorId(): string;
+  setDirectorId(value: string): UpdateDirectorShareholderRequest;
 
   getFirstName(): string;
   setFirstName(value: string): UpdateDirectorShareholderRequest;
@@ -575,7 +575,7 @@ export class UpdateDirectorShareholderRequest extends jspb.Message {
 
 export namespace UpdateDirectorShareholderRequest {
   export type AsObject = {
-    directorId: number,
+    directorId: string,
     firstName: string,
     lastName: string,
     mobileNumber: string,

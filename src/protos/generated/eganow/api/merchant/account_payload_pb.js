@@ -3363,7 +3363,7 @@ proto.eganow.api.merchant.UpdateBusinessContactPersonRequest.prototype.toObject 
  */
 proto.eganow.api.merchant.UpdateBusinessContactPersonRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    contactId: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    contactId: jspb.Message.getFieldWithDefault(msg, 1, ""),
     firstName: jspb.Message.getFieldWithDefault(msg, 2, ""),
     lastName: jspb.Message.getFieldWithDefault(msg, 3, ""),
     position: jspb.Message.getFieldWithDefault(msg, 4, 0),
@@ -3406,7 +3406,7 @@ proto.eganow.api.merchant.UpdateBusinessContactPersonRequest.deserializeBinaryFr
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {number} */ (reader.readInt32());
+      var value = /** @type {string} */ (reader.readString());
       msg.setContactId(value);
       break;
     case 2:
@@ -3459,8 +3459,8 @@ proto.eganow.api.merchant.UpdateBusinessContactPersonRequest.prototype.serialize
 proto.eganow.api.merchant.UpdateBusinessContactPersonRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getContactId();
-  if (f !== 0) {
-    writer.writeInt32(
+  if (f.length > 0) {
+    writer.writeString(
       1,
       f
     );
@@ -3504,20 +3504,20 @@ proto.eganow.api.merchant.UpdateBusinessContactPersonRequest.serializeBinaryToWr
 
 
 /**
- * optional int32 contact_id = 1;
- * @return {number}
+ * optional string contact_id = 1;
+ * @return {string}
  */
 proto.eganow.api.merchant.UpdateBusinessContactPersonRequest.prototype.getContactId = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * @param {number} value
+ * @param {string} value
  * @return {!proto.eganow.api.merchant.UpdateBusinessContactPersonRequest} returns this
  */
 proto.eganow.api.merchant.UpdateBusinessContactPersonRequest.prototype.setContactId = function(value) {
-  return jspb.Message.setProto3IntField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
@@ -4414,7 +4414,7 @@ proto.eganow.api.merchant.UpdateDirectorShareholderRequest.prototype.toObject = 
  */
 proto.eganow.api.merchant.UpdateDirectorShareholderRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    directorId: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    directorId: jspb.Message.getFieldWithDefault(msg, 1, ""),
     firstName: jspb.Message.getFieldWithDefault(msg, 2, ""),
     lastName: jspb.Message.getFieldWithDefault(msg, 3, ""),
     mobileNumber: jspb.Message.getFieldWithDefault(msg, 4, ""),
@@ -4459,7 +4459,7 @@ proto.eganow.api.merchant.UpdateDirectorShareholderRequest.deserializeBinaryFrom
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {number} */ (reader.readInt32());
+      var value = /** @type {string} */ (reader.readString());
       msg.setDirectorId(value);
       break;
     case 2:
@@ -4521,8 +4521,8 @@ proto.eganow.api.merchant.UpdateDirectorShareholderRequest.prototype.serializeBi
 proto.eganow.api.merchant.UpdateDirectorShareholderRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getDirectorId();
-  if (f !== 0) {
-    writer.writeInt32(
+  if (f.length > 0) {
+    writer.writeString(
       1,
       f
     );
@@ -4581,20 +4581,20 @@ proto.eganow.api.merchant.UpdateDirectorShareholderRequest.serializeBinaryToWrit
 
 
 /**
- * optional int32 director_id = 1;
- * @return {number}
+ * optional string director_id = 1;
+ * @return {string}
  */
 proto.eganow.api.merchant.UpdateDirectorShareholderRequest.prototype.getDirectorId = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * @param {number} value
+ * @param {string} value
  * @return {!proto.eganow.api.merchant.UpdateDirectorShareholderRequest} returns this
  */
 proto.eganow.api.merchant.UpdateDirectorShareholderRequest.prototype.setDirectorId = function(value) {
-  return jspb.Message.setProto3IntField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
