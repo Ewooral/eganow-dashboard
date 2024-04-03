@@ -75,7 +75,6 @@ const DirectorsShareholders = (props) => {
   // ASSIGNING LIST OF DIRECTORS FROM PROPS
   const directorsList = props?.directors?.data?.directorsShareholdersList
 
-  console.log(directorsList);
   
   
   // TABLE COLUMNS

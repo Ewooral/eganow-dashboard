@@ -81,6 +81,8 @@ const Entry: NextPageWithLayout = (props) => {
       { queryKey: ['getBusinessIndustries', 2], queryFn: () => getBusinessIndustries() },
       { queryKey: ['getBusinessRegulators', 3], queryFn: () => getBusinessRegulators() },
       { queryKey: ['getBusinessInfo', 3], queryFn: () => getBusinessInfo(), staleTime: 5000 },
+      { queryKey: ['getBusinessContactInfo', 4], queryFn: () => getBusinessContactInfo() },
+      { queryKey: ['getDirectorList', 5], queryFn: () => getDirectorList() },
     ],
   })
 
