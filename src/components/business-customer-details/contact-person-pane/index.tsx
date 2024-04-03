@@ -12,34 +12,29 @@ import Snackbar from '@/components/Snackbar'
 /* import { validationSchema } from './validationSchema'
 import { defaultFormValues } from './defaultFormValues'
  */
-import {
-  CCol,
-  CRow,
-  CFormLabel,
-  CFormInput,
-  CDatePicker,
-  CLoadingButton,
-  CAvatar,
-  CFormTextarea,
-  CSmartTable,
-  CBadge,
-  CButton,
-  CCollapse,
-  CCardBody,
-} from '@coreui/react-pro'
+import { CCol, CRow, CSmartTable, CBadge, CButton } from '@coreui/react-pro'
 import { CONTACT_PERSON_POSITION } from '@/constants'
 import { useSnackbar } from '@/store'
 import { SnackbarDataType } from '@/types/UI'
 import MerchantAccountSvc from '@/api/merchantAccountSvcGRPC'
+import { DirectorPosition } from '@/protos/generated/eganow/api/merchant/onboarding_entity_pb'
+import { flipObject_util, formatEnum_util } from '@/util'
 /*
  *
  * Contact Person Component
  *
  */
 const ContactPerson = (props) => {
-  const [details, setDetails] = React.useState([])
+  // const [details, setDetails] = React.useState([])
+  const [showDirectorPositionsText, setShowDirectorPositionsText] = React.useState('')
 
   const [dynamicComponent, setDynamicComponent] = useState<FC | null>(null)
+
+  useEffect(() => {
+    const formattedEnum = formatEnum_util(DirectorPosition, 2)
+    const flippedEnum = flipObject_util(formattedEnum)
+    setShowDirectorPositionsText(flippedEnum)
+  }, [])
 
   //snackbar component from zustand store
   const { showSnackbar } = useSnackbar()
@@ -70,10 +65,10 @@ const ContactPerson = (props) => {
       key: 'position',
       _style: { width: '20%' },
     },
-    {
-      key: 'contactId',
-      _style: { width: '20%' },
-    },
+    // {
+    //   key: 'contactId',
+    //   _style: { width: '20%' },
+    // },
     {
       key: 'action',
       label: 'Action',
@@ -98,18 +93,18 @@ const ContactPerson = (props) => {
     }
   }
 
-  const toggleDetails = (index) => {
-    const position = details.indexOf(index)
-    let newDetails = details.slice()
-    if (position !== -1) {
-      newDetails.splice(position, 1)
-    } else {
-      newDetails = [...details, index]
-    }
-    setDetails(newDetails)
-  }
+  // const toggleDetails = (index) => {
+  //   const position = details.indexOf(index)
+  //   let newDetails = details.slice()
+  //   if (position !== -1) {
+  //     newDetails.splice(position, 1)
+  //   } else {
+  //     newDetails = [...details, index]
+  //   }
+  //   setDetails(newDetails)
+  // }
 
-  //seeting the contactlist data to contactPersons variable
+  //setting the contactlist data to contactPersons variable
   const contactPersons = props?.data?.data?.contactsList
 
   function handleModal() {
@@ -144,7 +139,7 @@ const ContactPerson = (props) => {
       //Open the AddEditUser component
 
       try {
-        const response = await deleteBusinessContactPerson(items.contactId)
+        const response = await deleteBusinessContactPerson(items)
         //Show response if error occurs and return error.
         if (!response) {
           //Throw response on error.
@@ -215,8 +210,8 @@ const ContactPerson = (props) => {
               scopedColumns={{
                 position: (item) => (
                   <td>
-                    <CBadge color={getBadge(CONTACT_PERSON_POSITION[item.position])}>
-                      {CONTACT_PERSON_POSITION[item.position]}
+                    <CBadge color={getBadge(showDirectorPositionsText[item.position])}>
+                      {showDirectorPositionsText[item.position]}
                     </CBadge>
                   </td>
                 ),
@@ -243,7 +238,7 @@ const ContactPerson = (props) => {
                         size="sm"
                         data-type="delete"
                         onClick={(e) => {
-                          handleClick(e, item)
+                          handleClick(e, item.contactId)
                         }}
                       >
                         Remove

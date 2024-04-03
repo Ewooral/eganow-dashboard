@@ -156,6 +156,20 @@ select {
   background-color: transparent !important;
   border: none !important;
   padding: 0 !important;
+  resize: none !important;
+ 
+
+}
+
+.hide-input::placeholder{
+  color: transparent !important;
+
+}
+
+
+.hide-input:focus {
+  resize: none !important;
+  outline: none !important;
 }
 
 

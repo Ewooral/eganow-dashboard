@@ -1,4 +1,4 @@
-//// @ts-nocheck
+// @ts-nocheck
 import { grpc } from '@improbable-eng/grpc-web'
 import { URL } from '@/constants'
 import { MerchantAccountSvcClient } from '@/protos/generated/eganow/api/merchant/Account_serviceServiceClientPb'
@@ -12,7 +12,7 @@ import {
   UpdateBusinessInfoRequest,
 } from '@/protos/generated/eganow/api/merchant/account_payload_pb'
 
-import { MerchantIntValue } from '@/protos/generated/eganow/api/merchant/common_pb'
+import { MerchantStringValue } from '@/protos/generated/eganow/api/merchant/common_pb'
 import { BusinessLicenseInfo } from '@/protos/generated/eganow/api/merchant/account_payload_pb'
 
 const MerchantAccountSvc = () => {
@@ -39,11 +39,11 @@ const MerchantAccountSvc = () => {
       throw new Error(error)
     }
   }
+
+  //update business info function
   function updateBusinessInfo(params) {
     try {
       const request = new UpdateBusinessInfoRequest()
-
-      
 
       request.setCompanyRegistrationNumber(params.registrationNumber)
       request.setCompanyRegistrationType(params.registrationType)
@@ -93,14 +93,14 @@ const MerchantAccountSvc = () => {
     }
   }
 
+  //add business contact person function
   function addBusinessContactPerson(params) {
     try {
       const request = new AddBusinessContactPersonRequest()
-
-      request.setEmail(params.email)
-      request.setFirstName(params.firstName)
-      request.setLastName(params.lastName)
-      request.setMobileNumber(params.mobileNumber)
+      request.setEmail(params?.email)
+      request.setFirstName(params?.firstName)
+      request.setLastName(params?.lastName)
+      request.setMobileNumber(params?.mobileNumber)
       request.setPosition(+params?.position)
 
       return new Promise((resolve, reject) => {
@@ -116,6 +116,7 @@ const MerchantAccountSvc = () => {
     }
   }
 
+  //edit business contact person function
   function updateBusinessContactPerson(params) {
     try {
       const request = new UpdateBusinessContactPersonRequest()
@@ -139,9 +140,11 @@ const MerchantAccountSvc = () => {
       throw new Error(error)
     }
   }
+
+  //delete business contact person function
   function deleteBusinessContactPerson(params) {
     try {
-      const request = new MerchantIntValue()
+      const request = new MerchantStringValue()
 
       request.setValue(params)
 

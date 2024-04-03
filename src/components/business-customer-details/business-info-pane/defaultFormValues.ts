@@ -13,5 +13,4 @@ export const defaultFormValues = {
   taxIdentificationNumber: '',
   tradingName: '',
   vatNumber: '',
-  sectors: ""
 }

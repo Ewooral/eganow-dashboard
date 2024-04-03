@@ -34,8 +34,8 @@ const StepFivePane = (props: any) => {
         <p>
           <FormattedMessage
             id="registration_successfully_created"
-            defaultMessage={`Thanks ${<span>{firstName} {lastName}</span>} , your registration process hassuccessfully been created. Please click Continue to login.`}
-            values={{ emailAddress: emailAddress }}
+            defaultMessage={`Thanks ${firstName + " " + lastName} , your registration process hassuccessfully been created. Please click Continue to login.`}
+            values={{ firstName, lastName}}
           />
         </p>
         <CButton color="primary" onMouseUp={props.handleLogin}>

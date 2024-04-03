@@ -40,5 +40,48 @@ export class MediaSvcClient {
     this.options_ = options;
   }
 
+  methodDescriptorUploadMedia = new grpcWeb.MethodDescriptor(
+    '/eganow.api.media.MediaSvc/UploadMedia',
+    grpcWeb.MethodType.UNARY,
+    eganow_api_media_media_payload_pb.MediaUploadRequest,
+    eganow_api_media_common_pb.MediaStringValue,
+    (request: eganow_api_media_media_payload_pb.MediaUploadRequest) => {
+      return request.serializeBinary();
+    },
+    eganow_api_media_common_pb.MediaStringValue.deserializeBinary
+  );
+
+  uploadMedia(
+    request: eganow_api_media_media_payload_pb.MediaUploadRequest,
+    metadata: grpcWeb.Metadata | null): Promise<eganow_api_media_common_pb.MediaStringValue>;
+
+  uploadMedia(
+    request: eganow_api_media_media_payload_pb.MediaUploadRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: eganow_api_media_common_pb.MediaStringValue) => void): grpcWeb.ClientReadableStream<eganow_api_media_common_pb.MediaStringValue>;
+
+  uploadMedia(
+    request: eganow_api_media_media_payload_pb.MediaUploadRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: eganow_api_media_common_pb.MediaStringValue) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/eganow.api.media.MediaSvc/UploadMedia',
+        request,
+        metadata || {},
+        this.methodDescriptorUploadMedia,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/eganow.api.media.MediaSvc/UploadMedia',
+    request,
+    metadata || {},
+    this.methodDescriptorUploadMedia);
+  }
+
 }
 
