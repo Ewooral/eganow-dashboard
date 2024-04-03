@@ -22,9 +22,6 @@ import {
   CRow,
 } from '@coreui/react-pro'
 
-import CIcon from '@coreui/icons-react'
-import { cilUserPlus } from '@coreui/icons'
-
 import { useEffect, useState } from 'react'
 import classNames from 'classnames'
 
@@ -32,13 +29,9 @@ import { GrSave } from 'react-icons/gr'
 import { useSnackbar } from '@/store'
 import MerchantAccountSvc from '@/api/merchantAccountSvcGRPC'
 import { DirectorPosition } from '@/protos/generated/eganow/api/merchant/onboarding_entity_pb'
-import { formatDate_util, formatEnum, formatEnum_util } from '@/util'
+import { formatEnum_util } from '@/util'
 import { generateOptions } from '@/helpers'
 
-const userRoleOptions = [
-  { label: 'Admin', value: 'admin' },
-  { label: 'Customer Service', value: 'customer_service' },
-]
 /*
  *
  * Add Edit User Component
@@ -50,7 +43,7 @@ const AddEditContactPerson = (props: UserProps) => {
 
   const showSnackbar = useSnackbar((state: any) => state.showSnackbar)
   /* UseForm */
-  const { register, reset, handleSubmit, setValue, formState } = useForm({
+  const { register, reset, handleSubmit, setValue, getValues, formState } = useForm({
     resolver: yupResolver(validationSchema),
     mode: 'onChange',
     defaultValues: defaultFormValues,
@@ -58,23 +51,18 @@ const AddEditContactPerson = (props: UserProps) => {
 
   const [contactPersonPositionOptions, setcontactPersonPositionsOptions] = useState<
     UserTypeOptionsType[]
-  >(generateContactPersonPositionsOptions())
+  >([])
 
   const { addBusinessContactPerson, updateBusinessContactPerson } = MerchantAccountSvc()
 
   useEffect(() => {
     if (props.data?.type === 'new') {
-      // setValue('createdbyupdatedbymail', userInfo.email)
-      // setValue('membertype', userInfo.membertype)
       setValue('userrole', 'customer_service')
       setValue('type', 'new')
-      // Setting Role Option
-      // createMemberTypeOptions(userInfo.membertype)
     }
 
     if (props.data?.type === 'edit') {
-      const { type, lastName, email, firstName, mobileNumber, position, userrole, membertype } =
-        props.data
+      const { type, lastName, email, firstName, mobileNumber, position } = props?.data
       //Assigning user data to useForm values
       setValue('type', type)
       setValue('lastName', lastName)
@@ -82,20 +70,22 @@ const AddEditContactPerson = (props: UserProps) => {
       setValue('email', email)
       setValue('mobileNumber', mobileNumber)
       setValue('position', position)
-      setValue('status', status)
-      setValue('membertype', membertype)
-      setValue('userrole', userrole)
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.data])
+  }, [props?.data, props.data?.type])
 
   function generateContactPersonPositionsOptions() {
     const formattedEnum = formatEnum_util(DirectorPosition, 2)
 
     const generatedOptions = generateOptions(formattedEnum)
 
-    return generatedOptions
+    setcontactPersonPositionsOptions(generatedOptions)
   }
+
+  useEffect(() => {
+    generateContactPersonPositionsOptions()
+  }, [])
 
   const onSubmit = async (values: UserType) => {
     try {
@@ -310,20 +300,27 @@ const AddEditContactPerson = (props: UserProps) => {
             <CRow className="mb-4">
               <CCol>
                 <CFormLabel
-                  htmlFor="membertype"
+                  htmlFor="position"
                   className={classNames({
                     'text-error': !!formState.errors?.position,
                   })}
                 >
                   <strong>Position</strong>
                 </CFormLabel>
+                {/** this select is just here4 to trigger the core ui select to display on edit */}
+                 <select className="d-none" name="" id="" {...register('position')}>
+                  {contactPersonPositionOptions.map((item) => {
+                    return <option value={item.value}>{item.label}</option>
+                  })}
+                </select> 
                 <CFormSelect
+                  type="text"
                   {...register('position')}
+                  id="position"
                   valid={
                     formState.dirtyFields?.position && !!!formState.errors?.position ? true : false
                   }
                   invalid={!!formState.errors?.position && true}
-                  defaultValue="hi"
                   options={contactPersonPositionOptions}
                 />
                 <CFormText

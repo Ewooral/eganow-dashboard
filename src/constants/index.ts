@@ -11,8 +11,8 @@ export const PASSWORD_REGEX =
   export const EGANOW_AUTH_COOKIE_NAME = 'eganow_customer_auth'
  */
 
-export const URL = 'https://merchant-web-proxy.uat.egadevapi.com/'
-// export const URL = 'http://192.168.1.57:1444/'
+// export const URL = 'https://merchant-web-proxy.uat.egadevapi.com/'
+export const URL = 'http://192.168.1.39:1444'
 
 /*  export const METADATA = {
     eganowappcustkey: 'keY-a6ee91c7-493a-4e0d-814d-06919674cea1-a0UoThthyys30a-Ey',
@@ -46,34 +46,4 @@ export const RPC_ERROR = {
   UNAUTHENTICATED: '16',
 }
 
-
-//list of contact person position
-export const CONTACT_PERSON_POSITION = {
-  '0': 'UNKNOWN',
-  '1': 'DIRECTOR',
-  '2': 'SHAREHOLDER',
-  '3': 'CEO',
-  '4': 'MANAGEMENT',
-  '5': 'ENGINEERING',
-  '6': 'MERCHANT OWN CARD MID',
-  '7': 'PRIMARY CONTACT',
-  '8': 'SECONDARY CONTACT',
-  '9': 'ACCOUNT SIGNATORY',
-}
-
-export const COMPANYREGISTRATIONTYPEOPTIONS = [
-  {
-    value: 0,
-    label: 'UNKNOWN',
-  },
-  {
-    value: 1,
-    label: 'BUSINESS',
-  },
-  {
-    value: 2,
-    label: 'PERSONAL',
-  },
-  
-]
 

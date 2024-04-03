@@ -22,8 +22,10 @@ var global =
     Function('return this')();
 
 goog.exportSymbol('proto.eganow.api.merchant.BusinessContactPerson', null, global);
+goog.exportSymbol('proto.eganow.api.merchant.BusinessCustomerPortalStatus', null, global);
 goog.exportSymbol('proto.eganow.api.merchant.CompanyRegistrationType', null, global);
 goog.exportSymbol('proto.eganow.api.merchant.CustomerIDTypes', null, global);
+goog.exportSymbol('proto.eganow.api.merchant.DirectorOrShareholderOrOtherType', null, global);
 goog.exportSymbol('proto.eganow.api.merchant.DirectorPosition', null, global);
 goog.exportSymbol('proto.eganow.api.merchant.MerchantAccount', null, global);
 goog.exportSymbol('proto.eganow.api.merchant.OfficeOwnership', null, global);
@@ -1011,7 +1013,7 @@ proto.eganow.api.merchant.BusinessContactPerson.prototype.toObject = function(op
  */
 proto.eganow.api.merchant.BusinessContactPerson.toObject = function(includeInstance, msg) {
   var f, obj = {
-    contid: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    recid: jspb.Message.getFieldWithDefault(msg, 1, ""),
     customerguidprospective: jspb.Message.getFieldWithDefault(msg, 2, ""),
     firstname: jspb.Message.getFieldWithDefault(msg, 3, ""),
     lastname: jspb.Message.getFieldWithDefault(msg, 4, ""),
@@ -1058,7 +1060,7 @@ proto.eganow.api.merchant.BusinessContactPerson.deserializeBinaryFromReader = fu
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setContid(value);
+      msg.setRecid(value);
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
@@ -1121,7 +1123,7 @@ proto.eganow.api.merchant.BusinessContactPerson.prototype.serializeBinary = func
  */
 proto.eganow.api.merchant.BusinessContactPerson.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getContid();
+  f = message.getRecid();
   if (f.length > 0) {
     writer.writeString(
       1,
@@ -1188,10 +1190,10 @@ proto.eganow.api.merchant.BusinessContactPerson.serializeBinaryToWriter = functi
 
 
 /**
- * optional string ContId = 1;
+ * optional string RecId = 1;
  * @return {string}
  */
-proto.eganow.api.merchant.BusinessContactPerson.prototype.getContid = function() {
+proto.eganow.api.merchant.BusinessContactPerson.prototype.getRecid = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -1200,7 +1202,7 @@ proto.eganow.api.merchant.BusinessContactPerson.prototype.getContid = function()
  * @param {string} value
  * @return {!proto.eganow.api.merchant.BusinessContactPerson} returns this
  */
-proto.eganow.api.merchant.BusinessContactPerson.prototype.setContid = function(value) {
+proto.eganow.api.merchant.BusinessContactPerson.prototype.setRecid = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -1355,7 +1357,8 @@ proto.eganow.api.merchant.BusinessContactPerson.prototype.setMakedate = function
 proto.eganow.api.merchant.CompanyRegistrationType = {
   COMPANY_REGISTRATION_TYPE_UNKNOWN: 0,
   COMPANY_REGISTRATION_TYPE_BUSINESS: 1,
-  COMPANY_REGISTRATION_TYPE_PERSONAL: 2
+  COMPANY_REGISTRATION_TYPE_PERSONAL: 2,
+  COMPANY_REGISTRATION_TYPE_LIMITED_LIABILITY: 3
 };
 
 /**
@@ -1367,10 +1370,13 @@ proto.eganow.api.merchant.DirectorPosition = {
   DIRECTOR_POSITION_SHAREHOLDER: 2,
   DIRECTOR_POSITION_CEO: 3,
   DIRECTOR_POSITION_MANAGEMENT: 4,
-  DIRECTOR_POSITION_ENGINEERING: 5,
+  DIRECTOR_POSITION_ENGINEER: 5,
   DIRECTOR_POSITION_MID: 6,
   DIRECTOR_POSITION_CONTACT: 7,
-  DIRECTOR_POSITION_SIGNATORY: 9
+  DIRECTOR_POSITION_SIGNATORY: 9,
+  DIRECTOR_POSITION_GENERAL_MANAGER: 10,
+  DIRECTOR_POSITION_DIRECTOR_SHAREHOLDER: 11,
+  DIRECTOR_POSITION_SALES_MANAGER: 12
 };
 
 /**
@@ -1380,7 +1386,7 @@ proto.eganow.api.merchant.CustomerIDTypes = {
   CUSTOMER_ID_TYPES_UNKNOWN: 0,
   CUSTOMER_ID_TYPES_PASSPORT: 1,
   CUSTOMER_ID_TYPES_DRIVERS_LICENSE: 2,
-  CUSTOMER_ID_TYPES_NATIOANL_ID: 3,
+  CUSTOMER_ID_TYPES_ID: 3,
   CUSTOMER_ID_TYPES_BANKID: 4
 };
 
@@ -1390,7 +1396,29 @@ proto.eganow.api.merchant.CustomerIDTypes = {
 proto.eganow.api.merchant.OfficeOwnership = {
   OFFICE_OWNERSHIP_UNKNOWN: 0,
   OFFICE_OWNERSHIP_OWNED: 1,
-  OFFICE_OWNERSHIP_RENTED: 2
+  OFFICE_OWNERSHIP_RENT: 2,
+  OFFICE_OWNERSHIP_LEASED: 3
+};
+
+/**
+ * @enum {number}
+ */
+proto.eganow.api.merchant.BusinessCustomerPortalStatus = {
+  BUSINESS_CUSTOMER_PORTAL_STATUS_UNKNOWN: 0,
+  BUSINESS_CUSTOMER_PORTAL_STATUS_EDITING: 1,
+  BUSINESS_CUSTOMER_PORTAL_STATUS_REVIEWING: 2,
+  BUSINESS_CUSTOMER_PORTAL_STATUS_COMPLIANCE_PASSED: 3,
+  BUSINESS_CUSTOMER_PORTAL_STATUS_ACTIVE: 4
+};
+
+/**
+ * @enum {number}
+ */
+proto.eganow.api.merchant.DirectorOrShareholderOrOtherType = {
+  DIRECTOR_OR_SHAREHOLDER_OR_OTHER_TYPE_UNKNOWN: 0,
+  DIRECTOR_OR_SHAREHOLDER_OR_OTHER_TYPE_CONTACT_PERSON: 1,
+  DIRECTOR_OR_SHAREHOLDER_OR_OTHER_TYPE_SHAREHOLDER: 2,
+  DIRECTOR_OR_SHAREHOLDER_OR_OTHER_TYPE_DIRECTOR: 3
 };
 
 goog.object.extend(exports, proto.eganow.api.merchant);

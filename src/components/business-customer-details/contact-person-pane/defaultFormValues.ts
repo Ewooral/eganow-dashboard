@@ -4,7 +4,7 @@ export const defaultFormValues = {
   firstName: '',
   lastName: '',
   mobileNumber: '',
-  position: 'select a position',
+  position: '',
   membertype: '',
   userrole: '',
   status: '',
