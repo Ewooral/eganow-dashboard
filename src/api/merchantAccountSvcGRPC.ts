@@ -3,7 +3,7 @@ import { grpc } from '@improbable-eng/grpc-web'
 import { URL } from '@/constants'
 import { MerchantAccountSvcClient } from '@/protos/generated/eganow/api/merchant/Account_serviceServiceClientPb'
 import { Metadata } from '@/helpers'
-import { MerchantEmpty } from '@/protos/generated/eganow/api/merchant/common_pb'
+import { MerchantEmpty, MerchantIntValue } from '@/protos/generated/eganow/api/merchant/common_pb'
 import {
   AddBusinessContactInfoRequest,
   AddBusinessContactPersonRequest,
@@ -11,7 +11,8 @@ import {
   UpdateBusinessContactInfoRequest,
   UpdateBusinessContactPersonRequest,
   UpdateBusinessInfoRequest,
-  UpdateDirectorShareholderRequest
+  UpdateDirectorShareholderRequest,
+  AddBusinessDocumentRequest
 } from '@/protos/generated/eganow/api/merchant/account_payload_pb'
 
 import { MerchantStringValue } from '@/protos/generated/eganow/api/merchant/common_pb'
@@ -26,7 +27,7 @@ const MerchantAccountSvc = () => {
 
   const metadata = Metadata()
 
-  let imgString = ``
+ 
 
   //get business info function
   function getBusinessInfo() {
@@ -355,6 +356,70 @@ function deleteDirector(params) {
   }
 }
 
+
+ //list business documents
+ function listBusinessDocuments() {
+  try {
+    const request = new MerchantEmpty()
+
+    console.log(client);
+    
+
+    return new Promise((resolve, reject) => {
+      client.listBusinessDocuments(request, metadata, (err, res) => {
+        if (err) {
+          reject(err)
+        }
+        resolve(res?.toObject())
+      })
+    })
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+//add business document
+function addBusinessDocument(params) {
+  try {
+    const request = new AddBusinessDocumentRequest()
+
+    request.setDocImage(params.document)
+    request.setName(params.fileName)
+
+    return new Promise((resolve, reject) => {
+      client.addBusinessDocument(request, metadata, (err, res) => {
+        if (err) {
+          reject(err)
+        }
+        resolve(res?.toObject())
+      })
+    })
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+//delete business document
+function deleteBusinessDocument(params) {
+  try {
+    const request = new MerchantIntValue()
+
+    request.setValue(params)
+
+    return new Promise((resolve, reject) => {
+      client.deleteBusinessDocument(request, metadata, (err, res) => {
+        if (err) {
+          reject(err)
+        }
+        resolve(res?.toObject())
+      })
+    })
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+
   
   return {
     getBusinessInfo,
@@ -366,11 +431,13 @@ function deleteDirector(params) {
     addBusinessContactInfo,
     updateBusinessContactInfo,
     getBusinessContactInfo,
-
+    listBusinessDocuments,
     addDirectorOrShareholder,
     getDirectorList,
     deleteDirector,
-    updateDirectorOrShareholder
+    updateDirectorOrShareholder,
+    addBusinessDocument,
+    deleteBusinessDocument
   }
 
 

@@ -701,3 +701,101 @@ export namespace DirectorShareholderListResponse {
   }
 }
 
+export class AddBusinessDocumentRequest extends jspb.Message {
+  getDocImage(): Uint8Array | string;
+  getDocImage_asU8(): Uint8Array;
+  getDocImage_asB64(): string;
+  setDocImage(value: Uint8Array | string): AddBusinessDocumentRequest;
+
+  getName(): string;
+  setName(value: string): AddBusinessDocumentRequest;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): AddBusinessDocumentRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: AddBusinessDocumentRequest): AddBusinessDocumentRequest.AsObject;
+  static serializeBinaryToWriter(message: AddBusinessDocumentRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): AddBusinessDocumentRequest;
+  static deserializeBinaryFromReader(message: AddBusinessDocumentRequest, reader: jspb.BinaryReader): AddBusinessDocumentRequest;
+}
+
+export namespace AddBusinessDocumentRequest {
+  export type AsObject = {
+    docImage: Uint8Array | string,
+    name: string,
+  }
+}
+
+export class UpdateBusinessDocumentRequest extends jspb.Message {
+  getDocId(): number;
+  setDocId(value: number): UpdateBusinessDocumentRequest;
+
+  getDocImage(): Uint8Array | string;
+  getDocImage_asU8(): Uint8Array;
+  getDocImage_asB64(): string;
+  setDocImage(value: Uint8Array | string): UpdateBusinessDocumentRequest;
+
+  getName(): string;
+  setName(value: string): UpdateBusinessDocumentRequest;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): UpdateBusinessDocumentRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: UpdateBusinessDocumentRequest): UpdateBusinessDocumentRequest.AsObject;
+  static serializeBinaryToWriter(message: UpdateBusinessDocumentRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): UpdateBusinessDocumentRequest;
+  static deserializeBinaryFromReader(message: UpdateBusinessDocumentRequest, reader: jspb.BinaryReader): UpdateBusinessDocumentRequest;
+}
+
+export namespace UpdateBusinessDocumentRequest {
+  export type AsObject = {
+    docId: number,
+    docImage: Uint8Array | string,
+    name: string,
+  }
+}
+
+export class BusinessDocumentPayload extends jspb.Message {
+  getUrl(): string;
+  setUrl(value: string): BusinessDocumentPayload;
+
+  getName(): string;
+  setName(value: string): BusinessDocumentPayload;
+
+  getDocId(): number;
+  setDocId(value: number): BusinessDocumentPayload;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): BusinessDocumentPayload.AsObject;
+  static toObject(includeInstance: boolean, msg: BusinessDocumentPayload): BusinessDocumentPayload.AsObject;
+  static serializeBinaryToWriter(message: BusinessDocumentPayload, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): BusinessDocumentPayload;
+  static deserializeBinaryFromReader(message: BusinessDocumentPayload, reader: jspb.BinaryReader): BusinessDocumentPayload;
+}
+
+export namespace BusinessDocumentPayload {
+  export type AsObject = {
+    url: string,
+    name: string,
+    docId: number,
+  }
+}
+
+export class BusinessDocumentListResponse extends jspb.Message {
+  getDocumentsList(): Array<BusinessDocumentPayload>;
+  setDocumentsList(value: Array<BusinessDocumentPayload>): BusinessDocumentListResponse;
+  clearDocumentsList(): BusinessDocumentListResponse;
+  addDocuments(value?: BusinessDocumentPayload, index?: number): BusinessDocumentPayload;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): BusinessDocumentListResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: BusinessDocumentListResponse): BusinessDocumentListResponse.AsObject;
+  static serializeBinaryToWriter(message: BusinessDocumentListResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): BusinessDocumentListResponse;
+  static deserializeBinaryFromReader(message: BusinessDocumentListResponse, reader: jspb.BinaryReader): BusinessDocumentListResponse;
+}
+
+export namespace BusinessDocumentListResponse {
+  export type AsObject = {
+    documentsList: Array<BusinessDocumentPayload.AsObject>,
+  }
+}
+

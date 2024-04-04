@@ -66,9 +66,14 @@ const Entry: NextPageWithLayout = (props) => {
   const showSnackbar = useSnackbar((state: any) => state.showSnackbar)
 
   //business info apis
-  const { listBusinessContactPersons, getBusinessInfo,getBusinessContactInfo,getDirectorList } = BusinessAccountSvc()
-  const { getBusinessSectors, getBusinessRegulators, getBusinessIndustries, } = MerchantCommonSvc()
-
+  const {
+    listBusinessContactPersons,
+    getBusinessInfo,
+    getBusinessContactInfo,
+    getDirectorList,
+    listBusinessDocuments,
+  } = BusinessAccountSvc()
+  const { getBusinessRegulators, getBusinessIndustries } = MerchantCommonSvc()
 
   //handles multiple queries
   const results = useQueries({
@@ -80,25 +85,41 @@ const Entry: NextPageWithLayout = (props) => {
       },
       { queryKey: ['getBusinessIndustries', 2], queryFn: () => getBusinessIndustries() },
       { queryKey: ['getBusinessRegulators', 3], queryFn: () => getBusinessRegulators() },
-      { queryKey: ['getBusinessInfo', 3], queryFn: () => getBusinessInfo(), staleTime: 5000 },
-      { queryKey: ['getBusinessContactInfo', 4], queryFn: () => getBusinessContactInfo() },
-      { queryKey: ['getDirectorList', 5], queryFn: () => getDirectorList() },
+      { queryKey: ['getBusinessInfo', 4], queryFn: () => getBusinessInfo(), staleTime: 5000 },
+      { queryKey: ['getBusinessContactInfo', 5], queryFn: () => getBusinessContactInfo() },
+      { queryKey: ['getDirectorList', 6], queryFn: () => getDirectorList() },
+      {
+        queryKey: ['getBusinessDocuments', 7],
+        queryFn: () => listBusinessDocuments(),
+        staleTime: 5000,
+      },
     ],
   })
 
-  if (results[3].isError) {
-    showSnackbar({
-      type: 'danger',
-      title: 'User Management',
-      messages: results[3].error.message,
-      show: true,
-    })
-  }
+  useEffect(() => {
+    if (allowToEdit) {
+      showSnackbar({
+        type: 'warning',
+        title: 'User Management',
+        messages: 'Please update your info to complete your registration',
+        show: true,
+      })
+    }
+  }, [allowToEdit])
 
   useEffect(() => {
     if (results[3].data) {
       setAllowToEdit(true)
       // results[3]?.data?.allowForEdit
+    }
+
+    if (results[3]?.error?.code === 2) {
+      showSnackbar({
+        type: 'danger',
+        title: 'User Management',
+        messages: 'network error',
+        show: true,
+      })
     }
   }, [results[3].data])
 
@@ -177,7 +198,7 @@ const Entry: NextPageWithLayout = (props) => {
               <CRow className="justify-content-center p-4">
                 <div className="company-logo position-relative">
                   <CIcon icon={cilIndustry} style={{ height: '100px', width: 'auto' }} />
-                  <FaEdit
+                  {/* <FaEdit
                     className="position-absolute bg-white p-1 rounded-circle fs-2 border-2 border-light"
                     style={{
                       bottom: 0,
@@ -188,7 +209,7 @@ const Entry: NextPageWithLayout = (props) => {
                       height: '34px',
                     }}
                     onMouseUp={handleLogoUpload}
-                  />
+                  /> */}
                 </div>
 
                 <div className="mt-4">
@@ -221,7 +242,7 @@ const Entry: NextPageWithLayout = (props) => {
                     <h6 className="mb-4 fw-normal">
                       Count::{' '}
                       <CBadge color="secondary" shape="rounded-circle">
-                        3
+                        {results[6]?.data?.documentsList.length || 0}
                       </CBadge>
                     </h6>
                   </div>
@@ -299,11 +320,12 @@ const Entry: NextPageWithLayout = (props) => {
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="profile-tab" visible={activeKey === 2}>
-                  <CustomerInfo control={control} 
+                  <CustomerInfo
+                    control={control}
                     type={type}
                     contactInfo={results[4]}
                     setType={setType}
-                    />
+                  />
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 3}>
@@ -311,14 +333,11 @@ const Entry: NextPageWithLayout = (props) => {
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 4}>
-                  <DirectorsShareholders 
-                  type={type}
-                  directors={results[5]}
-                  setType={setType} />
+                  <DirectorsShareholders type={type} directors={results[5]} setType={setType} />
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 5}>
-                  <Attachments control={control} />
+                  <Attachments control={control} data={results[6]} />
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 6}>
