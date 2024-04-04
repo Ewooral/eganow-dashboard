@@ -12,6 +12,7 @@ export const PASSWORD_REGEX =
  */
 
 // export const URL = 'https://merchant-web-proxy.uat.egadevapi.com/'
+
 export const URL = 'http://192.168.1.28:1444'
 
 /*  export const METADATA = {

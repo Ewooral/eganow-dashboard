@@ -66,8 +66,9 @@ const Entry: NextPageWithLayout = (props) => {
   const showSnackbar = useSnackbar((state: any) => state.showSnackbar)
 
   //business info apis
-  const { listBusinessContactPersons, getBusinessInfo } = BusinessAccountSvc()
-  const { getBusinessRegulators, getBusinessIndustries } = MerchantCommonSvc()
+  const { listBusinessContactPersons, getBusinessInfo,getBusinessContactInfo,getDirectorList } = BusinessAccountSvc()
+  const { getBusinessSectors, getBusinessRegulators, getBusinessIndustries, } = MerchantCommonSvc()
+
 
   //handles multiple queries
   const results = useQueries({
@@ -79,7 +80,9 @@ const Entry: NextPageWithLayout = (props) => {
       },
       { queryKey: ['getBusinessIndustries', 2], queryFn: () => getBusinessIndustries() },
       { queryKey: ['getBusinessRegulators', 3], queryFn: () => getBusinessRegulators() },
-      { queryKey: ['getBusinessInfo', 4], queryFn: () => getBusinessInfo(), staleTime: 5000 },
+      { queryKey: ['getBusinessInfo', 3], queryFn: () => getBusinessInfo(), staleTime: 5000 },
+      { queryKey: ['getBusinessContactInfo', 4], queryFn: () => getBusinessContactInfo() },
+      { queryKey: ['getDirectorList', 5], queryFn: () => getDirectorList() },
     ],
   })
 
@@ -296,7 +299,11 @@ const Entry: NextPageWithLayout = (props) => {
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="profile-tab" visible={activeKey === 2}>
-                  <CustomerInfo control={control} />
+                  <CustomerInfo control={control} 
+                    type={type}
+                    contactInfo={results[4]}
+                    setType={setType}
+                    />
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 3}>
@@ -304,7 +311,10 @@ const Entry: NextPageWithLayout = (props) => {
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 4}>
-                  <DirectorsShareholders control={control} />
+                  <DirectorsShareholders 
+                  type={type}
+                  directors={results[5]}
+                  setType={setType} />
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 5}>

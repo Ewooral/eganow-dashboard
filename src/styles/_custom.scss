@@ -406,3 +406,36 @@ select {
   background-color: red;
   border: none;
 }
+
+.imgOverlay{
+  border: 2px dashed ;
+  min-height: 200px;
+
+}
+
+.imgOverlay:hover {
+  background: rgba(22, 22, 22, 0.641) !important;
+  z-index: 999;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f100;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 12px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
