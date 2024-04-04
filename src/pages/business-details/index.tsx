@@ -148,8 +148,9 @@ const Entry: NextPageWithLayout = (props) => {
                 {type === '' ? (
                   <CButton
                     onMouseUp={() => setType('edit')}
-                    color="info"
-                    className="d-flex justify-content-center align-items-center  gap-1 text-white"
+                    color="danger"
+                    className="d-flex justify-content-center align-items-center bg-white text-black  gap-1"
+                    // style={{background:'red'}}
                   >
                     <FaEdit style={{ fontSize: '1.2rem' }} />
                     Edit

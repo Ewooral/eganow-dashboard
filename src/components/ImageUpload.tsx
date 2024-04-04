@@ -7,7 +7,9 @@ import { FaTrashAlt } from "react-icons/fa";
 
 function ImageUpload(props) {
     const [imageFile, setImageFile] = useState(null)
-    const [showIcons, setShowIcons] = useState(true)
+    const [showIcons, setShowIcons] = useState(false)
+    const [showUploadIcon, setShowUploadIcons] = useState(true)
+
 
     // HANDLE IMAGE UPLOADER
     function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>): void {
@@ -60,15 +62,34 @@ function ImageUpload(props) {
         setImageFile(null)
     }
 
+   
+
     return (
-        <div className='position-relative imgOverlay'
-            onMouseOver={() => setShowIcons(true)}
-            onMouseLeave={() => setShowIcons(false)}
+        <div className='position-relative imgBox'
+            onMouseOver={() => {
+                if (imageFile) {
+                    setShowIcons(true)
+                    setShowUploadIcons(true)
+
+                } else {
+                    setShowUploadIcons(true)
+                }
+            }}
+            onMouseLeave={() => {
+                if (imageFile) {
+
+                    setShowIcons(false)
+                    setShowUploadIcons(false)
+                } else {
+                    setShowUploadIcons(true)
+
+                }
+            }}
         >
             <CImage src={imageFile ? imageFile : props.imgUrl} width={'100%'} rounded />
-            <div className='position-absolute top-0 w-100 h-100 imgBox p-3 imgOverlay'>
+            <div className='position-absolute top-0 w-100 h-100 p-3 imgOverlay'>
                 {
-                    showIcons &&
+                    showUploadIcon &&
                     <CButton
                         color="info"
                         className="fs-5 rounded-2 shadow position-absolute top-50 start-50 translate-middle"
@@ -78,7 +99,7 @@ function ImageUpload(props) {
                     </CButton>
                 }
 
-                {showIcons && imageFile ? <CButton size="sm" className="position-absolute bg-danger text-white fs-5 m-2 top-0 end-0" onMouseUp={removeImage}>
+                {showIcons ? <CButton size="sm" className="position-absolute bg-danger text-white fs-5 m-2 top-0 end-0" onMouseUp={removeImage}>
                     <FaTrashAlt className="fs-4 text-white" />
                 </CButton> : null}
             </div>

@@ -21,7 +21,6 @@ const StepFivePane = (props: any) => {
 
       <div className="text text-center">
         {/* Error MSG */}
-        {console.log(props.errors?.stepFour)}
         {props.errors?.stepFour && (
           <CAlert color="danger">
             <CIcon icon={cilBurn} className="flex-shrink-0 me-2" width={24} height={24} />

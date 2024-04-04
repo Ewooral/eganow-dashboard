@@ -453,7 +453,7 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
                   </CFormLabel>
                   <CDatePicker
                     id="expiryDate"
-                    date={getValues('expiryDate')}
+                    date={''}
                     locale="en-US"
                     {...register('expiryDate')}
                     onDateChange={handleDateChange}

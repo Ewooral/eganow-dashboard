@@ -10,6 +10,8 @@ import MerchantAccountSvc from '@/api/merchantAccountSvcGRPC'
 
 import { useSnackbar } from '@/store'
 
+import {isEmpty_util} from '@/util'
+
 /* Components */
 const AddEditDirectorsShareholders = dynamic(
   () =>
@@ -18,6 +20,9 @@ const AddEditDirectorsShareholders = dynamic(
     ),
 )
 import Snackbar from '@/components/Snackbar'
+
+import { DirectorOrShareholderOrOtherType, DirectorPosition, CustomerIDTypes } from '@/protos/generated/eganow/api/merchant/onboarding_entity_pb'
+import { flipObject_util, formatEnum_util } from '@/util'
 
 // CORE UI IMPORTS
 import {
@@ -40,7 +45,7 @@ import {
   CDropdownMenu,
   CDropdownItem,
 } from '@coreui/react-pro'
-import { log } from 'console'
+
 
 // ID IMAGE COMPONENT
 export const IDImageColumn = (cardname: string) => {
@@ -48,7 +53,7 @@ export const IDImageColumn = (cardname: string) => {
     <td className="text-center">
       <Zoom>
         <Image
-          src={cardname}
+          src={isEmpty_util(cardname) ? '/images/imageplaceholder.jpg' : cardname}
           width={70}
           height={40}
           alt={cardname.length}
@@ -64,7 +69,8 @@ export const IDImageColumn = (cardname: string) => {
  *
  */
 const DirectorsShareholders = (props) => {
-  const [details, setDetails] = React.useState([])
+  const [idTypeText, setIdTypeText] = React.useState('')
+  const [positionColumn, setPositionColumn] = React.useState('')
   const [dynamicComponent, setDynamicComponent] = useState<FC | null>(null)
 
   const { deleteDirector } = MerchantAccountSvc()
@@ -75,8 +81,29 @@ const DirectorsShareholders = (props) => {
   // ASSIGNING LIST OF DIRECTORS FROM PROPS
   const directorsList = props?.directors?.data?.directorsShareholdersList
 
-  
-  
+
+  // HANDLE ID TYPE VALUE
+  const idTypeName = () => {
+    let formatEnum = formatEnum_util(CustomerIDTypes, 3)
+    const flippedEnum = flipObject_util(formatEnum)
+    setIdTypeText(flippedEnum)
+  }
+
+  // HANDLE DIRECTOR POSITION VALUE
+  const positionCol = () => {
+    let formatEnum = formatEnum_util(DirectorPosition, 2)
+    const flippedEnum = flipObject_util(formatEnum)
+    setPositionColumn(flippedEnum)
+  }
+
+
+  useEffect(() => {
+    idTypeName()
+    positionCol()
+  }, [])
+
+
+
   // TABLE COLUMNS
   const columns = [
     {
@@ -99,41 +126,20 @@ const DirectorsShareholders = (props) => {
     },
     {
       key: 'position',
+      label: 'Position',
       _style: { width: '5%', minWidth: '10rem' },
     },
     {
       key: 'idType',
-      label : 'Id Type',
+      label: 'Id Type',
       _style: { width: '5%', minWidth: '10rem' },
     },
-    // {
-    //   key: 'idExpiryDate',
-    //   _style: { width: '8%', minWidth: '10rem' },
-    // },
     {
       key: 'idImage',
       _style: { width: '2%', minWidth: '6rem' },
       filter: false,
       sorter: false,
     },
-    // {
-    //   key: 'idPlaceOfIssue',
-    //   _style: { width: '8%', minWidth: '12rem' },
-    // },
-    // {
-    //   key: 'passportImage',
-    //   _style: { width: '2%', minWidth: '9rem' },
-    //   filter: false,
-    //   sorter: false,
-    // },
-    {
-      key: 'directorShareholderType',
-      _style: { width: '10%', minWidth: '14rem' },
-    },
-    // {
-    //   key: 'amlStatusCheck',
-    //   _style: { width: '9%', minWidth: '12rem' },
-    // },
     {
       key: 'action',
       label: 'Action',
@@ -143,7 +149,7 @@ const DirectorsShareholders = (props) => {
     },
   ]
 
-  
+
   const getBadge = (status) => {
     switch (status) {
       case 'GENERAL_MANAGER':
@@ -178,7 +184,7 @@ const DirectorsShareholders = (props) => {
   // HANDLE EDIT OR DELETE EVENTS
   async function handleClick(e: React.ChangeEvent<HTMLInputElement>, items): void {
     const { type } = e.currentTarget.dataset
-    
+
     /*  Editing Users */
     if (type === 'edit') {
       //Setting default data      
@@ -222,7 +228,7 @@ const DirectorsShareholders = (props) => {
           show: true,
         } as SnackbarDataType)
       }
-      
+
       setDynamicComponent(<Snackbar modalClose={modalClose} />)
     }
   }
@@ -250,15 +256,15 @@ const DirectorsShareholders = (props) => {
               aria-label="Button group with nested dropdown"
               className="float-end"
             >
-              <CButton onMouseUp={handleModal} color="info">
+              <CButton onMouseUp={handleModal} color="info" className='text-white rounded-pill'>
                 Add new
               </CButton>
-              <CDropdown variant="btn-group">
+              {/* <CDropdown variant="btn-group">
                 <CDropdownToggle color="info"></CDropdownToggle>
                 <CDropdownMenu>
                   <CDropdownItem href="#">Batch Remove</CDropdownItem>
                 </CDropdownMenu>
-              </CDropdown>
+              </CDropdown> */}
             </CButtonGroup>
 
             <CSmartTable
@@ -276,20 +282,20 @@ const DirectorsShareholders = (props) => {
               scopedColumns={{
                 position: (item) => (
                   <td>
-                    <CBadge color={getBadge(item.position)}>{item.position}</CBadge>
+                    <CBadge color={getBadge(positionColumn[item.position])}>{positionColumn[item.position]}</CBadge>
                   </td>
                 ),
                 idImage: (items) => IDImageColumn(items.idInfo.idFrontImage),
-                idType : (items)=>{
+                idType: (items) => {
                   return (
                     <td>
-                      {items.idInfo.idType}
+                      <CBadge color={getBadge(idTypeText[items.idInfo.idType])}>{idTypeText[items.idInfo.idType]}</CBadge>
                     </td>
                   )
-                } ,
+                },
                 action: (item) => {
                   return (
-                    <td className="py-2 d-flex">
+                    <td className="py-3 d-flex">
                       <CButton
                         className="me-1"
                         color="primary"
@@ -298,7 +304,7 @@ const DirectorsShareholders = (props) => {
                         size="sm"
                         data-type='edit'
                         onClick={(e) => {
-                          handleClick(e,item)
+                          handleClick(e, item)
                         }}
                       >
                         Edit
@@ -310,7 +316,7 @@ const DirectorsShareholders = (props) => {
                         size="sm"
                         data-type='delete'
                         onClick={(e) => {
-                          handleClick(e,item?.directorId)
+                          handleClick(e, item?.directorId)
                         }}
                       >
                         Remove
