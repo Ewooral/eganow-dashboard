@@ -457,6 +457,9 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
                     locale="en-US"
                     {...register('expiryDate')}
                     onDateChange={handleDateChange}
+                    inputReadOnly
+                    invalid={!!formState.errors?.expiryDate}
+                    
                   />
                   <CFormText
                     component="span"
