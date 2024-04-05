@@ -45,7 +45,7 @@ import {
   CDropdownMenu,
   CDropdownItem,
 } from '@coreui/react-pro'
-
+import { log } from 'console'
 
 // ID IMAGE COMPONENT
 export const IDImageColumn = (cardname: string) => {
@@ -103,7 +103,6 @@ const DirectorsShareholders = (props) => {
   }, [])
 
 
-
   // TABLE COLUMNS
   const columns = [
     {
@@ -134,12 +133,23 @@ const DirectorsShareholders = (props) => {
       label: 'Id Type',
       _style: { width: '5%', minWidth: '10rem' },
     },
+
     {
       key: 'idImage',
       _style: { width: '2%', minWidth: '6rem' },
       filter: false,
       sorter: false,
     },
+    // {
+    //   key: 'idPlaceOfIssue',
+    //   _style: { width: '8%', minWidth: '12rem' },
+    // },
+    // {
+    //   key: 'passportImage',
+    //   _style: { width: '2%', minWidth: '9rem' },
+    //   filter: false,
+    //   sorter: false,
+    // },
     {
       key: 'action',
       label: 'Action',
@@ -148,8 +158,6 @@ const DirectorsShareholders = (props) => {
       sorter: false,
     },
   ]
-
-
   const getBadge = (status) => {
     switch (status) {
       case 'GENERAL_MANAGER':
@@ -228,7 +236,6 @@ const DirectorsShareholders = (props) => {
           show: true,
         } as SnackbarDataType)
       }
-
       setDynamicComponent(<Snackbar modalClose={modalClose} />)
     }
   }

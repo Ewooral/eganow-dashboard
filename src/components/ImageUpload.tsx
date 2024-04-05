@@ -61,9 +61,7 @@ function ImageUpload(props) {
     function removeImage() {
         setImageFile(null)
     }
-
    
-
     return (
         <div className='position-relative imgBox'
             onMouseOver={() => {
@@ -100,6 +98,7 @@ function ImageUpload(props) {
                 }
 
                 {showIcons ? <CButton size="sm" className="position-absolute bg-danger text-white fs-5 m-2 top-0 end-0" onMouseUp={removeImage}>
+
                     <FaTrashAlt className="fs-4 text-white" />
                 </CButton> : null}
             </div>
