@@ -139,8 +139,20 @@ const ForgotPassword = () => {
                         defaultMessage="Enter your sign up email"
                       />
                     </p>
+                    {/* {errors?.message && (
+                      <CAlert color="danger" className=''>
+                        <CIcon
+                          icon={cilFire}
+                          className="flex-shrink-0 me-2"
+                          width={24}
+                          height={24}
+                        />
+                        {errors?.message}
+                      </CAlert>
+                    )} */}
+                    <CForm className="px-4" noValidate onSubmit={handleSubmit(onSubmit)}>
                     {errors?.message && (
-                      <CAlert color="danger">
+                      <CAlert color="danger" className=''>
                         <CIcon
                           icon={cilFire}
                           className="flex-shrink-0 me-2"
@@ -150,7 +162,6 @@ const ForgotPassword = () => {
                         {errors?.message}
                       </CAlert>
                     )}
-                    <CForm className="px-4" noValidate onSubmit={handleSubmit(onSubmit)}>
                       <CInputGroup className="mb-3">
                         <CInputGroupText style={{ width: '50px' }}>
                           <CIcon icon={cilEnvelopeClosed} />
