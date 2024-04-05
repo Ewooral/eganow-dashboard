@@ -41,7 +41,7 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
   const showSnackbar = useSnackbar((state: any) => state.showSnackbar)
 
   /* UseForm */
-  const { register, reset, getValues, handleSubmit, setValue, formState } = useForm({
+  const { register, reset, getValues, handleSubmit, setValue,trigger, formState } = useForm({
     resolver: yupResolver(validationSchema),
     mode: 'onChange',
     defaultValues: defaultFormValues,
@@ -51,6 +51,8 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
   const { updateBusinessInfo } = MerchantAccountSvc()
 
   const onSubmit = async (values: BusinessInfoFormData) => {
+    console.log(values);
+    
     try {
       if (props.type === 'edit') {
         //Getting all the param
@@ -88,9 +90,12 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
 
   // Function to handle changes in the DatePicker
   const handleDateChange = (name: string, date: object) => {
+  
+
+    
     const dateValue = date?.toISOString()
     const formattedDate = dateValue?.split('T')[0]
-    setValue(name, formattedDate)
+    setValue(name, formattedDate, { shouldValidate: true })
   }
 
   //this function shows the company type text with the id received from the api
@@ -137,7 +142,6 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
         vatNumber,
       } = props?.businessInfoData?.data
 
-      console.log('props?.businessInfoData?.data', props?.businessInfoData?.data);
       
 
       setValue('registrationNumber', companyRegistrationNumber)
@@ -157,6 +161,8 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
     }
     generateCompanyRegistrationTypeOptions()
   }, [props?.businessInfoData?.data, props?.type])
+
+
 
   return (
     <div className="">
@@ -500,6 +506,7 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                     </p>
                   ) : (
                     <CDatePicker
+                    inputReadOnly 
                       id="dateOfIncorporation"
                       date={
                         getValues('dateOfIncorporation') === 'N/A'
@@ -522,6 +529,8 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                       invalid={!!formState.errors?.dateOfIncorporation && true}
                     />
                   )}
+
+
                   <CFormText
                     component="span"
                     className={classNames({
@@ -532,6 +541,7 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                     Date is required.
                   </CFormText>
                 </CCol>
+                
               </fieldset>
             </CCol>
 
@@ -734,8 +744,10 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                       </p>
                     ) : (
                       <CDatePicker
+                      inputReadOnly
                         {...register('licenseIssueDate')}
                         onDateChange={(date) => handleDateChange('licenseIssueDate', date)}
+
                         disabled={props.type === ''}
                         date={
                           getValues('licenseIssueDate') === 'N/A'
@@ -759,7 +771,7 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                         'text-error': true,
                         'd-none': !!formState.errors?.licenseIssueDate ? false : true,
                       })}
-                      n
+                      
                     >
                       License issued date is required.
                     </CFormText>
@@ -785,6 +797,7 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                       </p>
                     ) : (
                       <CDatePicker
+                      inputReadOnly
                         {...register('licenseExpiryDate')}
                         onDateChange={(date) => handleDateChange('licenseExpiryDate', date)}
                         disabled={props.type === ''}
