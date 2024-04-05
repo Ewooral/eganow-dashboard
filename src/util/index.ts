@@ -250,7 +250,7 @@ export function formatEnum_util(obj: any, n: number) {
       if (Object.prototype.hasOwnProperty.call(obj, key)) {
           const keyArray = key.split('_'); // Split the key into an array of characters
           keyArray.splice(0, n); // Remove the first n characters
-          const newKey = keyArray.join(''); // Join the characters back into a string
+          const newKey = keyArray.join(' '); // Join the characters back into a string
           newObj[newKey] = obj[key];
       }
   }

@@ -9,6 +9,9 @@ import { GrCloudUpload } from 'react-icons/gr'
 /* COMPONENTS */
 import Snackbar from '@/components/Snackbar'
 
+/* API */
+import MerchantAccountSvc from '@/api/merchantAccountSvcGRPC'
+
 import {
   CCol,
   CRow,
@@ -22,7 +25,11 @@ import {
   CBadge,
   CButton,
   CCollapse,
+  CSpinner,
+  CProgress,
+  CProgressBar,
 } from '@coreui/react-pro'
+import { useSnackbar } from '@/store'
 
 export const FileIconColumn = (ext) => {
   return (
@@ -41,6 +48,13 @@ export const FileIconColumn = (ext) => {
  *
  */
 const Attachments = (props) => {
+  const { addBusinessDocument, deleteBusinessDocument } = MerchantAccountSvc()
+  const [isUploading, setIsUploading] = useState(false)
+  // const [progress, setProgress] = useState(0)
+
+  //snackbar from zustand store
+  const showSnackbar = useSnackbar((state: any) => state.showSnackbar)
+
   const columns = [
     {
       key: 'fileType',
@@ -50,7 +64,7 @@ const Attachments = (props) => {
       sorter: false,
     },
     {
-      key: 'fileName',
+      key: 'name',
       _style: { width: '50%' },
       filter: false,
       sorter: false,
@@ -64,25 +78,8 @@ const Attachments = (props) => {
     },
   ]
 
-  const data = [
-    {
-      id: 1,
-      fileType: 'pdf',
-      fileName: 'ddgfgfdgfdgfdgfdgfgfg',
-    },
-    {
-      id: 1,
-      fileType: 'pdf',
-      fileName: 'fgfgfdgdfgfgfgfgfg',
-    },
-    {
-      id: 1,
-      fileType: 'png',
-      fileName: 'dfdfdf dfdfd dfdf dfdf',
-    },
-  ]
-
-  function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>): void {
+  //function to handle file upload
+  async function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>): void {
     const fileInputType = document.createElement('input')
     fileInputType.setAttribute('type', 'file')
     fileInputType.setAttribute('accept', 'image/x-png,image/jpg,image/jpeg, application/pdf')
@@ -96,7 +93,90 @@ const Attachments = (props) => {
       fileInputType.click()
     }
 
-    fileInputType.addEventListener('change', () => {}, false)
+    fileInputType.addEventListener('change', test, false)
+  }
+
+  async function test(e) {
+    const selectedFile = e.target.files[0]
+
+    // Do something with the selected file, such as uploading it or processing it
+    if (selectedFile) {
+      const reader = new FileReader()
+      reader.onload = async (e) => {
+        // Find the index of the comma
+        const base64String = e.target.result
+        const commaIndex = base64String?.indexOf(',')
+
+        // Remove the prefix including the comma
+        const base64WithoutPrefix = base64String.substring(commaIndex + 1)
+
+        if (base64String) {
+          setIsUploading(true)
+
+          try {
+            const response = await addBusinessDocument({
+              document: base64WithoutPrefix,
+              fileName: selectedFile.name,
+            })
+            if (response) {
+              setIsUploading(false)
+
+              props.data.refetch()
+            }
+            showSnackbar({
+              type: 'success',
+              title: 'User Management',
+              messages: response.value,
+              show: true,
+            })
+          } catch (error) {
+            setIsUploading(false)
+
+            showSnackbar({
+              type: 'danger',
+              title: 'User Management',
+              messages: error.message,
+              show: true,
+            })
+          }
+        }
+      }
+      reader.readAsDataURL(selectedFile)
+    }
+  }
+
+  //function to delete document
+  async function handleClick(e: React.ChangeEvent<HTMLInputElement>, items): void {
+    const { type } = e.currentTarget.dataset
+
+    // /*  Deleting Users */
+    if (type === 'delete') {
+      //Open the AddEditUser component
+
+      try {
+        const response = await deleteBusinessDocument(items)
+        //Show response if error occurs and return error.
+        if (!response) {
+          //Throw response on error.
+          throw new Error(response.message)
+        }
+        //Show response on success.
+        showSnackbar({
+          type: 'success',
+          title: 'User Management',
+          messages: response.value,
+          show: true,
+        } as SnackbarDataType)
+        props.data.refetch()
+      } catch (error) {
+        showSnackbar({
+          type: 'danger',
+          title: 'User Management',
+          messages: error.message,
+          show: true,
+        } as SnackbarDataType)
+      }
+    }
   }
 
   return (
@@ -109,14 +189,29 @@ const Attachments = (props) => {
             </legend>
 
             <div className="text-center">
-              <CButton
-                color="info"
-                className="fs-3 rounded-5 shadow"
-                onMouseUp={handleFileUpload}
-                style={{ outline: '2px dashed #fff' }}
-              >
-                <GrCloudUpload className="fs-1" /> Upload Files
-              </CButton>
+              {isUploading ? (
+                <div className="d-flex justify-content-center">
+                  <CProgress
+                    className="w-25"
+                    height={28}
+                    color="info"
+                    value={100}
+                    variant="striped"
+                    animated
+                  >
+                    <p className="m-0 fs-6"> uploading your document</p>
+                  </CProgress>
+                </div>
+              ) : (
+                <CButton
+                  color="info"
+                  className="fs-5 rounded-5 shadow text-white"
+                  onMouseUp={handleFileUpload}
+                  style={{ outline: '2px dashed #fff' }}
+                >
+                  <GrCloudUpload className="fs-3  text-white" /> Upload Files
+                </CButton>
+              )}
             </div>
 
             <div>
@@ -126,12 +221,12 @@ const Attachments = (props) => {
                 columns={columns}
                 columnSorter
                 footer
-                items={data}
+                items={props?.data?.data?.documentsList}
                 itemsPerPageSelect
                 itemsPerPage={5}
                 pagination
                 scopedColumns={{
-                  fileType: (items) => FileIconColumn(items.fileType),
+                  fileType: (items) => FileIconColumn(items.name.split('.').pop()),
                   action: (item) => {
                     return (
                       <td className="py-2 d-flex">
@@ -140,7 +235,10 @@ const Attachments = (props) => {
                           variant="outline"
                           shape="square"
                           size="sm"
-                          onClick={() => {}}
+                          data-type="delete"
+                          onClick={(e) => {
+                            handleClick(e, item.docId)
+                          }}
                         >
                           Remove
                         </CButton>
