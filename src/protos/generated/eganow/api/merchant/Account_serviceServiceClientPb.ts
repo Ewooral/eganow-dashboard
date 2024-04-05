@@ -40,47 +40,47 @@ export class MerchantAccountSvcClient {
     this.options_ = options;
   }
 
-  methodDescriptorAddBusinessInfo = new grpcWeb.MethodDescriptor(
-    '/eganow.api.merchant.MerchantAccountSvc/AddBusinessInfo',
+  methodDescriptorGetBusinessInfo = new grpcWeb.MethodDescriptor(
+    '/eganow.api.merchant.MerchantAccountSvc/GetBusinessInfo',
     grpcWeb.MethodType.UNARY,
-    eganow_api_merchant_account_payload_pb.AddBusinessInfoRequest,
-    eganow_api_merchant_common_pb.MerchantStringValue,
-    (request: eganow_api_merchant_account_payload_pb.AddBusinessInfoRequest) => {
+    eganow_api_merchant_common_pb.MerchantEmpty,
+    eganow_api_merchant_account_payload_pb.BusinessInfoResponse,
+    (request: eganow_api_merchant_common_pb.MerchantEmpty) => {
       return request.serializeBinary();
     },
-    eganow_api_merchant_common_pb.MerchantStringValue.deserializeBinary
+    eganow_api_merchant_account_payload_pb.BusinessInfoResponse.deserializeBinary
   );
 
-  addBusinessInfo(
-    request: eganow_api_merchant_account_payload_pb.AddBusinessInfoRequest,
-    metadata: grpcWeb.Metadata | null): Promise<eganow_api_merchant_common_pb.MerchantStringValue>;
+  getBusinessInfo(
+    request: eganow_api_merchant_common_pb.MerchantEmpty,
+    metadata: grpcWeb.Metadata | null): Promise<eganow_api_merchant_account_payload_pb.BusinessInfoResponse>;
 
-  addBusinessInfo(
-    request: eganow_api_merchant_account_payload_pb.AddBusinessInfoRequest,
+  getBusinessInfo(
+    request: eganow_api_merchant_common_pb.MerchantEmpty,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: eganow_api_merchant_common_pb.MerchantStringValue) => void): grpcWeb.ClientReadableStream<eganow_api_merchant_common_pb.MerchantStringValue>;
+               response: eganow_api_merchant_account_payload_pb.BusinessInfoResponse) => void): grpcWeb.ClientReadableStream<eganow_api_merchant_account_payload_pb.BusinessInfoResponse>;
 
-  addBusinessInfo(
-    request: eganow_api_merchant_account_payload_pb.AddBusinessInfoRequest,
+  getBusinessInfo(
+    request: eganow_api_merchant_common_pb.MerchantEmpty,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: eganow_api_merchant_common_pb.MerchantStringValue) => void) {
+               response: eganow_api_merchant_account_payload_pb.BusinessInfoResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/eganow.api.merchant.MerchantAccountSvc/AddBusinessInfo',
+          '/eganow.api.merchant.MerchantAccountSvc/GetBusinessInfo',
         request,
         metadata || {},
-        this.methodDescriptorAddBusinessInfo,
+        this.methodDescriptorGetBusinessInfo,
         callback);
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/eganow.api.merchant.MerchantAccountSvc/AddBusinessInfo',
+      '/eganow.api.merchant.MerchantAccountSvc/GetBusinessInfo',
     request,
     metadata || {},
-    this.methodDescriptorAddBusinessInfo);
+    this.methodDescriptorGetBusinessInfo);
   }
 
   methodDescriptorUpdateBusinessInfo = new grpcWeb.MethodDescriptor(
@@ -126,115 +126,115 @@ export class MerchantAccountSvcClient {
     this.methodDescriptorUpdateBusinessInfo);
   }
 
-  methodDescriptorDeleteBusinessInfo = new grpcWeb.MethodDescriptor(
-    '/eganow.api.merchant.MerchantAccountSvc/DeleteBusinessInfo',
+  methodDescriptorUpdateBusinessContactInfo = new grpcWeb.MethodDescriptor(
+    '/eganow.api.merchant.MerchantAccountSvc/UpdateBusinessContactInfo',
     grpcWeb.MethodType.UNARY,
-    eganow_api_merchant_common_pb.MerchantIntValue,
+    eganow_api_merchant_account_payload_pb.UpdateBusinessContactInfoRequest,
     eganow_api_merchant_common_pb.MerchantStringValue,
-    (request: eganow_api_merchant_common_pb.MerchantIntValue) => {
+    (request: eganow_api_merchant_account_payload_pb.UpdateBusinessContactInfoRequest) => {
       return request.serializeBinary();
     },
     eganow_api_merchant_common_pb.MerchantStringValue.deserializeBinary
   );
 
-  deleteBusinessInfo(
-    request: eganow_api_merchant_common_pb.MerchantIntValue,
+  updateBusinessContactInfo(
+    request: eganow_api_merchant_account_payload_pb.UpdateBusinessContactInfoRequest,
     metadata: grpcWeb.Metadata | null): Promise<eganow_api_merchant_common_pb.MerchantStringValue>;
 
-  deleteBusinessInfo(
-    request: eganow_api_merchant_common_pb.MerchantIntValue,
+  updateBusinessContactInfo(
+    request: eganow_api_merchant_account_payload_pb.UpdateBusinessContactInfoRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
                response: eganow_api_merchant_common_pb.MerchantStringValue) => void): grpcWeb.ClientReadableStream<eganow_api_merchant_common_pb.MerchantStringValue>;
 
-  deleteBusinessInfo(
-    request: eganow_api_merchant_common_pb.MerchantIntValue,
+  updateBusinessContactInfo(
+    request: eganow_api_merchant_account_payload_pb.UpdateBusinessContactInfoRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
                response: eganow_api_merchant_common_pb.MerchantStringValue) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/eganow.api.merchant.MerchantAccountSvc/DeleteBusinessInfo',
+          '/eganow.api.merchant.MerchantAccountSvc/UpdateBusinessContactInfo',
         request,
         metadata || {},
-        this.methodDescriptorDeleteBusinessInfo,
+        this.methodDescriptorUpdateBusinessContactInfo,
         callback);
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/eganow.api.merchant.MerchantAccountSvc/DeleteBusinessInfo',
+      '/eganow.api.merchant.MerchantAccountSvc/UpdateBusinessContactInfo',
     request,
     metadata || {},
-    this.methodDescriptorDeleteBusinessInfo);
+    this.methodDescriptorUpdateBusinessContactInfo);
   }
 
-  methodDescriptorGetBusinessInfo = new grpcWeb.MethodDescriptor(
-    '/eganow.api.merchant.MerchantAccountSvc/GetBusinessInfo',
+  methodDescriptorGetBusinessContactInfo = new grpcWeb.MethodDescriptor(
+    '/eganow.api.merchant.MerchantAccountSvc/GetBusinessContactInfo',
     grpcWeb.MethodType.UNARY,
     eganow_api_merchant_common_pb.MerchantEmpty,
-    eganow_api_merchant_account_payload_pb.BusinessInfoResponse,
+    eganow_api_merchant_account_payload_pb.BusinessContactInfoResponse,
     (request: eganow_api_merchant_common_pb.MerchantEmpty) => {
       return request.serializeBinary();
     },
-    eganow_api_merchant_account_payload_pb.BusinessInfoResponse.deserializeBinary
+    eganow_api_merchant_account_payload_pb.BusinessContactInfoResponse.deserializeBinary
   );
 
-  getBusinessInfo(
+  getBusinessContactInfo(
     request: eganow_api_merchant_common_pb.MerchantEmpty,
-    metadata: grpcWeb.Metadata | null): Promise<eganow_api_merchant_account_payload_pb.BusinessInfoResponse>;
+    metadata: grpcWeb.Metadata | null): Promise<eganow_api_merchant_account_payload_pb.BusinessContactInfoResponse>;
 
-  getBusinessInfo(
+  getBusinessContactInfo(
     request: eganow_api_merchant_common_pb.MerchantEmpty,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: eganow_api_merchant_account_payload_pb.BusinessInfoResponse) => void): grpcWeb.ClientReadableStream<eganow_api_merchant_account_payload_pb.BusinessInfoResponse>;
+               response: eganow_api_merchant_account_payload_pb.BusinessContactInfoResponse) => void): grpcWeb.ClientReadableStream<eganow_api_merchant_account_payload_pb.BusinessContactInfoResponse>;
 
-  getBusinessInfo(
+  getBusinessContactInfo(
     request: eganow_api_merchant_common_pb.MerchantEmpty,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: eganow_api_merchant_account_payload_pb.BusinessInfoResponse) => void) {
+               response: eganow_api_merchant_account_payload_pb.BusinessContactInfoResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/eganow.api.merchant.MerchantAccountSvc/GetBusinessInfo',
+          '/eganow.api.merchant.MerchantAccountSvc/GetBusinessContactInfo',
         request,
         metadata || {},
-        this.methodDescriptorGetBusinessInfo,
+        this.methodDescriptorGetBusinessContactInfo,
         callback);
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/eganow.api.merchant.MerchantAccountSvc/GetBusinessInfo',
+      '/eganow.api.merchant.MerchantAccountSvc/GetBusinessContactInfo',
     request,
     metadata || {},
-    this.methodDescriptorGetBusinessInfo);
+    this.methodDescriptorGetBusinessContactInfo);
   }
 
   methodDescriptorAddBusinessContactPerson = new grpcWeb.MethodDescriptor(
     '/eganow.api.merchant.MerchantAccountSvc/AddBusinessContactPerson',
     grpcWeb.MethodType.UNARY,
-    eganow_api_merchant_account_payload_pb.AddBusinessContactRequest,
+    eganow_api_merchant_account_payload_pb.AddBusinessContactPersonRequest,
     eganow_api_merchant_common_pb.MerchantStringValue,
-    (request: eganow_api_merchant_account_payload_pb.AddBusinessContactRequest) => {
+    (request: eganow_api_merchant_account_payload_pb.AddBusinessContactPersonRequest) => {
       return request.serializeBinary();
     },
     eganow_api_merchant_common_pb.MerchantStringValue.deserializeBinary
   );
 
   addBusinessContactPerson(
-    request: eganow_api_merchant_account_payload_pb.AddBusinessContactRequest,
+    request: eganow_api_merchant_account_payload_pb.AddBusinessContactPersonRequest,
     metadata: grpcWeb.Metadata | null): Promise<eganow_api_merchant_common_pb.MerchantStringValue>;
 
   addBusinessContactPerson(
-    request: eganow_api_merchant_account_payload_pb.AddBusinessContactRequest,
+    request: eganow_api_merchant_account_payload_pb.AddBusinessContactPersonRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
                response: eganow_api_merchant_common_pb.MerchantStringValue) => void): grpcWeb.ClientReadableStream<eganow_api_merchant_common_pb.MerchantStringValue>;
 
   addBusinessContactPerson(
-    request: eganow_api_merchant_account_payload_pb.AddBusinessContactRequest,
+    request: eganow_api_merchant_account_payload_pb.AddBusinessContactPersonRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
                response: eganow_api_merchant_common_pb.MerchantStringValue) => void) {
@@ -258,26 +258,26 @@ export class MerchantAccountSvcClient {
   methodDescriptorUpdateBusinessContactPerson = new grpcWeb.MethodDescriptor(
     '/eganow.api.merchant.MerchantAccountSvc/UpdateBusinessContactPerson',
     grpcWeb.MethodType.UNARY,
-    eganow_api_merchant_account_payload_pb.UpdateBusinessContactRequest,
+    eganow_api_merchant_account_payload_pb.UpdateBusinessContactPersonRequest,
     eganow_api_merchant_common_pb.MerchantStringValue,
-    (request: eganow_api_merchant_account_payload_pb.UpdateBusinessContactRequest) => {
+    (request: eganow_api_merchant_account_payload_pb.UpdateBusinessContactPersonRequest) => {
       return request.serializeBinary();
     },
     eganow_api_merchant_common_pb.MerchantStringValue.deserializeBinary
   );
 
   updateBusinessContactPerson(
-    request: eganow_api_merchant_account_payload_pb.UpdateBusinessContactRequest,
+    request: eganow_api_merchant_account_payload_pb.UpdateBusinessContactPersonRequest,
     metadata: grpcWeb.Metadata | null): Promise<eganow_api_merchant_common_pb.MerchantStringValue>;
 
   updateBusinessContactPerson(
-    request: eganow_api_merchant_account_payload_pb.UpdateBusinessContactRequest,
+    request: eganow_api_merchant_account_payload_pb.UpdateBusinessContactPersonRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
                response: eganow_api_merchant_common_pb.MerchantStringValue) => void): grpcWeb.ClientReadableStream<eganow_api_merchant_common_pb.MerchantStringValue>;
 
   updateBusinessContactPerson(
-    request: eganow_api_merchant_account_payload_pb.UpdateBusinessContactRequest,
+    request: eganow_api_merchant_account_payload_pb.UpdateBusinessContactPersonRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
                response: eganow_api_merchant_common_pb.MerchantStringValue) => void) {
@@ -301,26 +301,26 @@ export class MerchantAccountSvcClient {
   methodDescriptorDeleteBusinessContactPerson = new grpcWeb.MethodDescriptor(
     '/eganow.api.merchant.MerchantAccountSvc/DeleteBusinessContactPerson',
     grpcWeb.MethodType.UNARY,
-    eganow_api_merchant_common_pb.MerchantIntValue,
     eganow_api_merchant_common_pb.MerchantStringValue,
-    (request: eganow_api_merchant_common_pb.MerchantIntValue) => {
+    eganow_api_merchant_common_pb.MerchantStringValue,
+    (request: eganow_api_merchant_common_pb.MerchantStringValue) => {
       return request.serializeBinary();
     },
     eganow_api_merchant_common_pb.MerchantStringValue.deserializeBinary
   );
 
   deleteBusinessContactPerson(
-    request: eganow_api_merchant_common_pb.MerchantIntValue,
+    request: eganow_api_merchant_common_pb.MerchantStringValue,
     metadata: grpcWeb.Metadata | null): Promise<eganow_api_merchant_common_pb.MerchantStringValue>;
 
   deleteBusinessContactPerson(
-    request: eganow_api_merchant_common_pb.MerchantIntValue,
+    request: eganow_api_merchant_common_pb.MerchantStringValue,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
                response: eganow_api_merchant_common_pb.MerchantStringValue) => void): grpcWeb.ClientReadableStream<eganow_api_merchant_common_pb.MerchantStringValue>;
 
   deleteBusinessContactPerson(
-    request: eganow_api_merchant_common_pb.MerchantIntValue,
+    request: eganow_api_merchant_common_pb.MerchantStringValue,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
                response: eganow_api_merchant_common_pb.MerchantStringValue) => void) {
@@ -382,6 +382,350 @@ export class MerchantAccountSvcClient {
     request,
     metadata || {},
     this.methodDescriptorListBusinessContactPersons);
+  }
+
+  methodDescriptorAddDirectorShareholder = new grpcWeb.MethodDescriptor(
+    '/eganow.api.merchant.MerchantAccountSvc/AddDirectorShareholder',
+    grpcWeb.MethodType.UNARY,
+    eganow_api_merchant_account_payload_pb.AddDirectorShareholderRequest,
+    eganow_api_merchant_common_pb.MerchantStringValue,
+    (request: eganow_api_merchant_account_payload_pb.AddDirectorShareholderRequest) => {
+      return request.serializeBinary();
+    },
+    eganow_api_merchant_common_pb.MerchantStringValue.deserializeBinary
+  );
+
+  addDirectorShareholder(
+    request: eganow_api_merchant_account_payload_pb.AddDirectorShareholderRequest,
+    metadata: grpcWeb.Metadata | null): Promise<eganow_api_merchant_common_pb.MerchantStringValue>;
+
+  addDirectorShareholder(
+    request: eganow_api_merchant_account_payload_pb.AddDirectorShareholderRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: eganow_api_merchant_common_pb.MerchantStringValue) => void): grpcWeb.ClientReadableStream<eganow_api_merchant_common_pb.MerchantStringValue>;
+
+  addDirectorShareholder(
+    request: eganow_api_merchant_account_payload_pb.AddDirectorShareholderRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: eganow_api_merchant_common_pb.MerchantStringValue) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/eganow.api.merchant.MerchantAccountSvc/AddDirectorShareholder',
+        request,
+        metadata || {},
+        this.methodDescriptorAddDirectorShareholder,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/eganow.api.merchant.MerchantAccountSvc/AddDirectorShareholder',
+    request,
+    metadata || {},
+    this.methodDescriptorAddDirectorShareholder);
+  }
+
+  methodDescriptorUpdateDirectorShareholder = new grpcWeb.MethodDescriptor(
+    '/eganow.api.merchant.MerchantAccountSvc/UpdateDirectorShareholder',
+    grpcWeb.MethodType.UNARY,
+    eganow_api_merchant_account_payload_pb.UpdateDirectorShareholderRequest,
+    eganow_api_merchant_common_pb.MerchantStringValue,
+    (request: eganow_api_merchant_account_payload_pb.UpdateDirectorShareholderRequest) => {
+      return request.serializeBinary();
+    },
+    eganow_api_merchant_common_pb.MerchantStringValue.deserializeBinary
+  );
+
+  updateDirectorShareholder(
+    request: eganow_api_merchant_account_payload_pb.UpdateDirectorShareholderRequest,
+    metadata: grpcWeb.Metadata | null): Promise<eganow_api_merchant_common_pb.MerchantStringValue>;
+
+  updateDirectorShareholder(
+    request: eganow_api_merchant_account_payload_pb.UpdateDirectorShareholderRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: eganow_api_merchant_common_pb.MerchantStringValue) => void): grpcWeb.ClientReadableStream<eganow_api_merchant_common_pb.MerchantStringValue>;
+
+  updateDirectorShareholder(
+    request: eganow_api_merchant_account_payload_pb.UpdateDirectorShareholderRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: eganow_api_merchant_common_pb.MerchantStringValue) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/eganow.api.merchant.MerchantAccountSvc/UpdateDirectorShareholder',
+        request,
+        metadata || {},
+        this.methodDescriptorUpdateDirectorShareholder,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/eganow.api.merchant.MerchantAccountSvc/UpdateDirectorShareholder',
+    request,
+    metadata || {},
+    this.methodDescriptorUpdateDirectorShareholder);
+  }
+
+  methodDescriptorDeleteDirectorShareholder = new grpcWeb.MethodDescriptor(
+    '/eganow.api.merchant.MerchantAccountSvc/DeleteDirectorShareholder',
+    grpcWeb.MethodType.UNARY,
+    eganow_api_merchant_common_pb.MerchantStringValue,
+    eganow_api_merchant_common_pb.MerchantStringValue,
+    (request: eganow_api_merchant_common_pb.MerchantStringValue) => {
+      return request.serializeBinary();
+    },
+    eganow_api_merchant_common_pb.MerchantStringValue.deserializeBinary
+  );
+
+  deleteDirectorShareholder(
+    request: eganow_api_merchant_common_pb.MerchantStringValue,
+    metadata: grpcWeb.Metadata | null): Promise<eganow_api_merchant_common_pb.MerchantStringValue>;
+
+  deleteDirectorShareholder(
+    request: eganow_api_merchant_common_pb.MerchantStringValue,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: eganow_api_merchant_common_pb.MerchantStringValue) => void): grpcWeb.ClientReadableStream<eganow_api_merchant_common_pb.MerchantStringValue>;
+
+  deleteDirectorShareholder(
+    request: eganow_api_merchant_common_pb.MerchantStringValue,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: eganow_api_merchant_common_pb.MerchantStringValue) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/eganow.api.merchant.MerchantAccountSvc/DeleteDirectorShareholder',
+        request,
+        metadata || {},
+        this.methodDescriptorDeleteDirectorShareholder,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/eganow.api.merchant.MerchantAccountSvc/DeleteDirectorShareholder',
+    request,
+    metadata || {},
+    this.methodDescriptorDeleteDirectorShareholder);
+  }
+
+  methodDescriptorListDirectorShareholders = new grpcWeb.MethodDescriptor(
+    '/eganow.api.merchant.MerchantAccountSvc/ListDirectorShareholders',
+    grpcWeb.MethodType.UNARY,
+    eganow_api_merchant_common_pb.MerchantEmpty,
+    eganow_api_merchant_account_payload_pb.DirectorShareholderListResponse,
+    (request: eganow_api_merchant_common_pb.MerchantEmpty) => {
+      return request.serializeBinary();
+    },
+    eganow_api_merchant_account_payload_pb.DirectorShareholderListResponse.deserializeBinary
+  );
+
+  listDirectorShareholders(
+    request: eganow_api_merchant_common_pb.MerchantEmpty,
+    metadata: grpcWeb.Metadata | null): Promise<eganow_api_merchant_account_payload_pb.DirectorShareholderListResponse>;
+
+  listDirectorShareholders(
+    request: eganow_api_merchant_common_pb.MerchantEmpty,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: eganow_api_merchant_account_payload_pb.DirectorShareholderListResponse) => void): grpcWeb.ClientReadableStream<eganow_api_merchant_account_payload_pb.DirectorShareholderListResponse>;
+
+  listDirectorShareholders(
+    request: eganow_api_merchant_common_pb.MerchantEmpty,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: eganow_api_merchant_account_payload_pb.DirectorShareholderListResponse) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/eganow.api.merchant.MerchantAccountSvc/ListDirectorShareholders',
+        request,
+        metadata || {},
+        this.methodDescriptorListDirectorShareholders,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/eganow.api.merchant.MerchantAccountSvc/ListDirectorShareholders',
+    request,
+    metadata || {},
+    this.methodDescriptorListDirectorShareholders);
+  }
+
+  methodDescriptorAddBusinessDocument = new grpcWeb.MethodDescriptor(
+    '/eganow.api.merchant.MerchantAccountSvc/AddBusinessDocument',
+    grpcWeb.MethodType.UNARY,
+    eganow_api_merchant_account_payload_pb.AddBusinessDocumentRequest,
+    eganow_api_merchant_common_pb.MerchantStringValue,
+    (request: eganow_api_merchant_account_payload_pb.AddBusinessDocumentRequest) => {
+      return request.serializeBinary();
+    },
+    eganow_api_merchant_common_pb.MerchantStringValue.deserializeBinary
+  );
+
+  addBusinessDocument(
+    request: eganow_api_merchant_account_payload_pb.AddBusinessDocumentRequest,
+    metadata: grpcWeb.Metadata | null): Promise<eganow_api_merchant_common_pb.MerchantStringValue>;
+
+  addBusinessDocument(
+    request: eganow_api_merchant_account_payload_pb.AddBusinessDocumentRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: eganow_api_merchant_common_pb.MerchantStringValue) => void): grpcWeb.ClientReadableStream<eganow_api_merchant_common_pb.MerchantStringValue>;
+
+  addBusinessDocument(
+    request: eganow_api_merchant_account_payload_pb.AddBusinessDocumentRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: eganow_api_merchant_common_pb.MerchantStringValue) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/eganow.api.merchant.MerchantAccountSvc/AddBusinessDocument',
+        request,
+        metadata || {},
+        this.methodDescriptorAddBusinessDocument,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/eganow.api.merchant.MerchantAccountSvc/AddBusinessDocument',
+    request,
+    metadata || {},
+    this.methodDescriptorAddBusinessDocument);
+  }
+
+  methodDescriptorUpdateBusinessDocument = new grpcWeb.MethodDescriptor(
+    '/eganow.api.merchant.MerchantAccountSvc/UpdateBusinessDocument',
+    grpcWeb.MethodType.UNARY,
+    eganow_api_merchant_account_payload_pb.UpdateBusinessDocumentRequest,
+    eganow_api_merchant_common_pb.MerchantStringValue,
+    (request: eganow_api_merchant_account_payload_pb.UpdateBusinessDocumentRequest) => {
+      return request.serializeBinary();
+    },
+    eganow_api_merchant_common_pb.MerchantStringValue.deserializeBinary
+  );
+
+  updateBusinessDocument(
+    request: eganow_api_merchant_account_payload_pb.UpdateBusinessDocumentRequest,
+    metadata: grpcWeb.Metadata | null): Promise<eganow_api_merchant_common_pb.MerchantStringValue>;
+
+  updateBusinessDocument(
+    request: eganow_api_merchant_account_payload_pb.UpdateBusinessDocumentRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: eganow_api_merchant_common_pb.MerchantStringValue) => void): grpcWeb.ClientReadableStream<eganow_api_merchant_common_pb.MerchantStringValue>;
+
+  updateBusinessDocument(
+    request: eganow_api_merchant_account_payload_pb.UpdateBusinessDocumentRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: eganow_api_merchant_common_pb.MerchantStringValue) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/eganow.api.merchant.MerchantAccountSvc/UpdateBusinessDocument',
+        request,
+        metadata || {},
+        this.methodDescriptorUpdateBusinessDocument,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/eganow.api.merchant.MerchantAccountSvc/UpdateBusinessDocument',
+    request,
+    metadata || {},
+    this.methodDescriptorUpdateBusinessDocument);
+  }
+
+  methodDescriptorDeleteBusinessDocument = new grpcWeb.MethodDescriptor(
+    '/eganow.api.merchant.MerchantAccountSvc/DeleteBusinessDocument',
+    grpcWeb.MethodType.UNARY,
+    eganow_api_merchant_common_pb.MerchantIntValue,
+    eganow_api_merchant_common_pb.MerchantStringValue,
+    (request: eganow_api_merchant_common_pb.MerchantIntValue) => {
+      return request.serializeBinary();
+    },
+    eganow_api_merchant_common_pb.MerchantStringValue.deserializeBinary
+  );
+
+  deleteBusinessDocument(
+    request: eganow_api_merchant_common_pb.MerchantIntValue,
+    metadata: grpcWeb.Metadata | null): Promise<eganow_api_merchant_common_pb.MerchantStringValue>;
+
+  deleteBusinessDocument(
+    request: eganow_api_merchant_common_pb.MerchantIntValue,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: eganow_api_merchant_common_pb.MerchantStringValue) => void): grpcWeb.ClientReadableStream<eganow_api_merchant_common_pb.MerchantStringValue>;
+
+  deleteBusinessDocument(
+    request: eganow_api_merchant_common_pb.MerchantIntValue,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: eganow_api_merchant_common_pb.MerchantStringValue) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/eganow.api.merchant.MerchantAccountSvc/DeleteBusinessDocument',
+        request,
+        metadata || {},
+        this.methodDescriptorDeleteBusinessDocument,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/eganow.api.merchant.MerchantAccountSvc/DeleteBusinessDocument',
+    request,
+    metadata || {},
+    this.methodDescriptorDeleteBusinessDocument);
+  }
+
+  methodDescriptorListBusinessDocuments = new grpcWeb.MethodDescriptor(
+    '/eganow.api.merchant.MerchantAccountSvc/ListBusinessDocuments',
+    grpcWeb.MethodType.UNARY,
+    eganow_api_merchant_common_pb.MerchantEmpty,
+    eganow_api_merchant_account_payload_pb.BusinessDocumentListResponse,
+    (request: eganow_api_merchant_common_pb.MerchantEmpty) => {
+      return request.serializeBinary();
+    },
+    eganow_api_merchant_account_payload_pb.BusinessDocumentListResponse.deserializeBinary
+  );
+
+  listBusinessDocuments(
+    request: eganow_api_merchant_common_pb.MerchantEmpty,
+    metadata: grpcWeb.Metadata | null): Promise<eganow_api_merchant_account_payload_pb.BusinessDocumentListResponse>;
+
+  listBusinessDocuments(
+    request: eganow_api_merchant_common_pb.MerchantEmpty,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: eganow_api_merchant_account_payload_pb.BusinessDocumentListResponse) => void): grpcWeb.ClientReadableStream<eganow_api_merchant_account_payload_pb.BusinessDocumentListResponse>;
+
+  listBusinessDocuments(
+    request: eganow_api_merchant_common_pb.MerchantEmpty,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: eganow_api_merchant_account_payload_pb.BusinessDocumentListResponse) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/eganow.api.merchant.MerchantAccountSvc/ListBusinessDocuments',
+        request,
+        metadata || {},
+        this.methodDescriptorListBusinessDocuments,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/eganow.api.merchant.MerchantAccountSvc/ListBusinessDocuments',
+    request,
+    metadata || {},
+    this.methodDescriptorListBusinessDocuments);
   }
 
 }

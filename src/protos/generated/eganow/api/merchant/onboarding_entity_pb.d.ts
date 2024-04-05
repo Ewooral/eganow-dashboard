@@ -125,8 +125,8 @@ export namespace MerchantAccount {
 }
 
 export class BusinessContactPerson extends jspb.Message {
-  getContid(): string;
-  setContid(value: string): BusinessContactPerson;
+  getRecid(): string;
+  setRecid(value: string): BusinessContactPerson;
 
   getCustomerguidprospective(): string;
   setCustomerguidprospective(value: string): BusinessContactPerson;
@@ -162,7 +162,7 @@ export class BusinessContactPerson extends jspb.Message {
 
 export namespace BusinessContactPerson {
   export type AsObject = {
-    contid: string,
+    recid: string,
     customerguidprospective: string,
     firstname: string,
     lastname: string,
@@ -178,6 +178,7 @@ export enum CompanyRegistrationType {
   COMPANY_REGISTRATION_TYPE_UNKNOWN = 0,
   COMPANY_REGISTRATION_TYPE_BUSINESS = 1,
   COMPANY_REGISTRATION_TYPE_PERSONAL = 2,
+  COMPANY_REGISTRATION_TYPE_LIMITED_LIABILITY = 3,
 }
 export enum DirectorPosition { 
   DIRECTOR_POSITION_UNKNOWN = 0,
@@ -185,21 +186,42 @@ export enum DirectorPosition {
   DIRECTOR_POSITION_SHAREHOLDER = 2,
   DIRECTOR_POSITION_CEO = 3,
   DIRECTOR_POSITION_MANAGEMENT = 4,
-  DIRECTOR_POSITION_ENGINEERING = 5,
-  DIRECTOR_POSITION_MERCHANT_OWN_CARD_MID = 6,
-  DIRECTOR_POSITION_PRIMARY_CONTACT = 7,
-  DIRECTOR_POSITION_SECONDARY_CONTACT = 8,
-  DIRECTOR_POSITION_ACCOUNT_SIGNATORY = 9,
+  DIRECTOR_POSITION_ENGINEER = 5,
+  DIRECTOR_POSITION_MID = 6,
+  DIRECTOR_POSITION_CONTACT = 7,
+  DIRECTOR_POSITION_SIGNATORY = 9,
+  DIRECTOR_POSITION_GENERAL_MANAGER = 10,
+  DIRECTOR_POSITION_DIRECTOR_SHAREHOLDER = 11,
+  DIRECTOR_POSITION_SALES_MANAGER = 12,
 }
 export enum CustomerIDTypes { 
   CUSTOMER_ID_TYPES_UNKNOWN = 0,
   CUSTOMER_ID_TYPES_PASSPORT = 1,
   CUSTOMER_ID_TYPES_DRIVERS_LICENSE = 2,
-  CUSTOMER_ID_TYPES_NATIOANL_ID = 3,
+  CUSTOMER_ID_TYPES_ID = 3,
   CUSTOMER_ID_TYPES_BANKID = 4,
 }
 export enum OfficeOwnership { 
   OFFICE_OWNERSHIP_UNKNOWN = 0,
   OFFICE_OWNERSHIP_OWNED = 1,
-  OFFICE_OWNERSHIP_RENTED = 2,
+  OFFICE_OWNERSHIP_RENT = 2,
+  OFFICE_OWNERSHIP_LEASED = 3,
+}
+export enum BusinessCustomerPortalStatus { 
+  BUSINESS_CUSTOMER_PORTAL_STATUS_UNKNOWN = 0,
+  BUSINESS_CUSTOMER_PORTAL_STATUS_EDITING = 1,
+  BUSINESS_CUSTOMER_PORTAL_STATUS_REVIEWING = 2,
+  BUSINESS_CUSTOMER_PORTAL_STATUS_COMPLIANCE_PASSED = 3,
+  BUSINESS_CUSTOMER_PORTAL_STATUS_ACTIVE = 4,
+}
+export enum DirectorOrShareholderOrOtherType { 
+  DIRECTOR_OR_SHAREHOLDER_OR_OTHER_TYPE_UNKNOWN = 0,
+  DIRECTOR_OR_SHAREHOLDER_OR_OTHER_TYPE_CONTACT_PERSON = 1,
+  DIRECTOR_OR_SHAREHOLDER_OR_OTHER_TYPE_SHAREHOLDER = 2,
+  DIRECTOR_OR_SHAREHOLDER_OR_OTHER_TYPE_DIRECTOR = 3,
+}
+export enum CustomerStatus { 
+  CUSTOMER_STATUS_UNKNOWN = 0,
+  CUSTOMER_STATUS_ACTIVE = 1,
+  CUSTOMER_STATUS_PENDING = 2,
 }

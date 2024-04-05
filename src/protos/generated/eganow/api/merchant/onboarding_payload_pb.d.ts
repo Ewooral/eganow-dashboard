@@ -1,6 +1,7 @@
 import * as jspb from 'google-protobuf'
 
 import * as google_api_field_behavior_pb from '../../../google/api/field_behavior_pb';
+import * as eganow_api_merchant_onboarding_entity_pb from '../../../eganow/api/merchant/onboarding_entity_pb';
 
 
 export class CreateMerchantRequest extends jspb.Message {
@@ -160,11 +161,8 @@ export class AuthMerchantResponse extends jspb.Message {
   getLastName(): string;
   setLastName(value: string): AuthMerchantResponse;
 
-  getBusinessName(): string;
-  setBusinessName(value: string): AuthMerchantResponse;
-
-  getMerchantId(): string;
-  setMerchantId(value: string): AuthMerchantResponse;
+  getCompanyName(): string;
+  setCompanyName(value: string): AuthMerchantResponse;
 
   getProfilePicture(): string;
   setProfilePicture(value: string): AuthMerchantResponse;
@@ -174,6 +172,9 @@ export class AuthMerchantResponse extends jspb.Message {
 
   getMobileNumber(): string;
   setMobileNumber(value: string): AuthMerchantResponse;
+
+  getStatus(): eganow_api_merchant_onboarding_entity_pb.CustomerStatus;
+  setStatus(value: eganow_api_merchant_onboarding_entity_pb.CustomerStatus): AuthMerchantResponse;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): AuthMerchantResponse.AsObject;
@@ -189,11 +190,11 @@ export namespace AuthMerchantResponse {
     fullName: string,
     firstName: string,
     lastName: string,
-    businessName: string,
-    merchantId: string,
+    companyName: string,
     profilePicture: string,
     email: string,
     mobileNumber: string,
+    status: eganow_api_merchant_onboarding_entity_pb.CustomerStatus,
   }
 }
 

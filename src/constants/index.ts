@@ -13,7 +13,7 @@ export const PASSWORD_REGEX =
 
 
   //export const URL = 'https://merchant-web-proxy.uat.egadevapi.com/'
-  export const URL = 'http://192.168.1.57:1444/'
+  export const URL = 'http://192.168.1.49:1444/'
   
  /*  export const METADATA = {
     eganowappcustkey: 'keY-a6ee91c7-493a-4e0d-814d-06919674cea1-a0UoThthyys30a-Ey',

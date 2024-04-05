@@ -82,6 +82,7 @@ const Attachments = (props) => {
     },
   ]
 
+  const [pdfFile, setPdfFile] = useState(null)
   function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>): void {
     const fileInputType = document.createElement('input')
     fileInputType.setAttribute('type', 'file')
@@ -96,7 +97,31 @@ const Attachments = (props) => {
       fileInputType.click()
     }
 
-    fileInputType.addEventListener('change', () => {}, false)
+    fileInputType.addEventListener(
+      'change',
+      (event) => {
+        const fr = new FileReader()
+
+        fr.onerror = (e): void => {
+          console.log(fr.error)
+        }
+
+        fr.onload = (e): void => {
+          /* const rs = (fr as any).resultString
+          const str: string = rs != null ? rs : fr.result
+          const result = new Uint8Array(str.length)
+          for (let i = 0; i < str.length; i++) {
+            result[i] = str.charCodeAt(i)
+          } */
+          console.log(fr.resultString)
+         setPdfFile(e.target.result)
+        }
+
+        //fr.readAsArrayBuffer(event.target.files[0])
+        fr.readAsDataURL(event.target.files[0])
+      },
+      false,
+    )
   }
 
   return (
@@ -118,6 +143,10 @@ const Attachments = (props) => {
                 <GrCloudUpload className="fs-1" /> Upload Files
               </CButton>
             </div>
+            
+            {pdfFile ? (
+              <iframe src={pdfFile} style={{ width: '1000px', height: '500px' }}></iframe>
+            ) : null}
 
             <div>
               <CSmartTable
