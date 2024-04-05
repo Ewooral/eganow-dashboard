@@ -1,6 +1,7 @@
 import * as jspb from 'google-protobuf'
 
 import * as google_api_field_behavior_pb from '../../../google/api/field_behavior_pb';
+import * as eganow_api_merchant_onboarding_entity_pb from '../../../eganow/api/merchant/onboarding_entity_pb';
 
 
 export class CreateMerchantRequest extends jspb.Message {
@@ -172,6 +173,9 @@ export class AuthMerchantResponse extends jspb.Message {
   getMobileNumber(): string;
   setMobileNumber(value: string): AuthMerchantResponse;
 
+  getStatus(): eganow_api_merchant_onboarding_entity_pb.CustomerStatus;
+  setStatus(value: eganow_api_merchant_onboarding_entity_pb.CustomerStatus): AuthMerchantResponse;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): AuthMerchantResponse.AsObject;
   static toObject(includeInstance: boolean, msg: AuthMerchantResponse): AuthMerchantResponse.AsObject;
@@ -190,6 +194,7 @@ export namespace AuthMerchantResponse {
     profilePicture: string,
     email: string,
     mobileNumber: string,
+    status: eganow_api_merchant_onboarding_entity_pb.CustomerStatus,
   }
 }
 

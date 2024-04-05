@@ -25,6 +25,7 @@ goog.exportSymbol('proto.eganow.api.merchant.BusinessContactPerson', null, globa
 goog.exportSymbol('proto.eganow.api.merchant.BusinessCustomerPortalStatus', null, global);
 goog.exportSymbol('proto.eganow.api.merchant.CompanyRegistrationType', null, global);
 goog.exportSymbol('proto.eganow.api.merchant.CustomerIDTypes', null, global);
+goog.exportSymbol('proto.eganow.api.merchant.CustomerStatus', null, global);
 goog.exportSymbol('proto.eganow.api.merchant.DirectorOrShareholderOrOtherType', null, global);
 goog.exportSymbol('proto.eganow.api.merchant.DirectorPosition', null, global);
 goog.exportSymbol('proto.eganow.api.merchant.MerchantAccount', null, global);
@@ -1419,6 +1420,15 @@ proto.eganow.api.merchant.DirectorOrShareholderOrOtherType = {
   DIRECTOR_OR_SHAREHOLDER_OR_OTHER_TYPE_CONTACT_PERSON: 1,
   DIRECTOR_OR_SHAREHOLDER_OR_OTHER_TYPE_SHAREHOLDER: 2,
   DIRECTOR_OR_SHAREHOLDER_OR_OTHER_TYPE_DIRECTOR: 3
+};
+
+/**
+ * @enum {number}
+ */
+proto.eganow.api.merchant.CustomerStatus = {
+  CUSTOMER_STATUS_UNKNOWN: 0,
+  CUSTOMER_STATUS_ACTIVE: 1,
+  CUSTOMER_STATUS_PENDING: 2
 };
 
 goog.object.extend(exports, proto.eganow.api.merchant);
