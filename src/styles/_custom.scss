@@ -61,7 +61,7 @@ select {
   background-color: #ccc;
   font-size: 30px;
   color: var(--eganow-red);
-  
+
   height: 130px;
   width: 130px;
   padding: 30px;
@@ -149,6 +149,30 @@ select {
 
 /* ************************************************************************************ */
 
+.hide-input {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none;
+  background-color: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  resize: none !important;
+ 
+
+}
+
+.hide-input::placeholder{
+  color: transparent !important;
+
+}
+
+
+.hide-input:focus {
+  resize: none !important;
+  outline: none !important;
+}
+
+
 .card1 {
   display: block;
   top: 0px;
@@ -206,6 +230,26 @@ select {
 }
 
 .card1:hover {
+  .go-corner {
+    margin-right: -46px;
+  }
+  .go-arrow {
+    opacity: 1;
+  }
+}
+
+.card1-selected {
+  background-color: #484a4a;
+  border: 1px solid var(--cui-red) !important;
+  box-shadow: 5px 12px 20px rgba(36, 37, 38, 0.13);
+  .card-title {
+    color: #f2f8f9;
+  }
+
+  p {
+    color: #f2f8f9;
+  }
+
   .go-corner {
     margin-right: -46px;
   }
@@ -336,13 +380,12 @@ select {
   visibility: hidden;
 }
 
-.profile-banner-color {  
+.profile-banner-color {
   position: relative;
   height: 160px;
   background-image: linear-gradient(220deg, #1f8fff 8%, #954a8d 64%, #e11e43);
   //background-image: linear-gradient(220deg, rgba(31, 143, 255,.5) 8%, rgba(149, 74, 141,.5) 64%, rgba(225, 30, 67,.5));
   background-size: cover;
- 
 }
 
 .profile-banner-img {
@@ -355,6 +398,49 @@ select {
   left: 0px;
 }
 
-.modal-dialog{
+.modal-dialog {
   border-radius: 20px !important;
+}
+
+.hide-input {
+  background-color: red;
+  border: none;
+}
+
+.imgBox{
+  border: 2px dashed ;
+  min-height: 200px;
+  background-image: url('https://secureservercdn.net/166.62.110.60/h65.3a1.myftpupload.com/wp-content/uploads/2021/09/variable-placeholder-product-31.jpg?time=1644500349');
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+
+}
+
+.imgOverlay:hover {
+  background: rgba(22, 22, 22, 0.769) !important;
+
+  z-index: 999;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f100;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 12px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

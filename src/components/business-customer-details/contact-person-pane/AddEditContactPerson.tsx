@@ -22,18 +22,16 @@ import {
   CRow,
 } from '@coreui/react-pro'
 
-import CIcon from '@coreui/icons-react'
-import { cilUserPlus } from '@coreui/icons'
-
 import { useEffect, useState } from 'react'
 import classNames from 'classnames'
 
 import { GrSave } from 'react-icons/gr'
+import { useSnackbar } from '@/store'
+import MerchantAccountSvc from '@/api/merchantAccountSvcGRPC'
+import { DirectorPosition } from '@/protos/generated/eganow/api/merchant/onboarding_entity_pb'
+import { formatEnum_util } from '@/util'
+import { generateOptions } from '@/helpers'
 
-const userRoleOptions = [
-  { label: 'Admin', value: 'admin' },
-  { label: 'Customer Service', value: 'customer_service' },
-]
 /*
  *
  * Add Edit User Component
@@ -41,80 +39,91 @@ const userRoleOptions = [
  */
 const AddEditContactPerson = (props: UserProps) => {
   /* const { createUser, updateCustomer } = customerAccountGRPC()
-  const userInfo = useCustomerInfoStore((state) => state.customerInfo)
-  const showSnackbar = useSnackbar((state: any) => state.showSnackbar) */
+  const userInfo = useCustomerInfoStore((state) => state.customerInfo)*/
+
+  const showSnackbar = useSnackbar((state: any) => state.showSnackbar)
   /* UseForm */
-  const { register, reset, handleSubmit, setValue, formState } = useForm({
+  const { register, reset, handleSubmit, setValue, getValues, formState } = useForm({
     resolver: yupResolver(validationSchema),
     mode: 'onChange',
     defaultValues: defaultFormValues,
   })
 
-  const [memberTypeOptions, setMemberTypeOptions] = useState<UserTypeOptionsType[]>([])
+  const [contactPersonPositionOptions, setcontactPersonPositionsOptions] = useState<
+    UserTypeOptionsType[]
+  >([])
 
-  /*   useEffect(() => {
+  const { addBusinessContactPerson, updateBusinessContactPerson } = MerchantAccountSvc()
+
+  useEffect(() => {
     if (props.data?.type === 'new') {
-      setValue('createdbyupdatedbymail', userInfo.emailaddress)
-      setValue('membertype', userInfo.membertype)
       setValue('userrole', 'customer_service')
-      // Setting Role Option
-      createMemberTypeOptions(userInfo.membertype)
+      setValue('type', 'new')
     }
 
     if (props.data?.type === 'edit') {
-      const { type, fullname, emailaddress, status, userrole, membertype } = props.data
+      const { type, lastName, email, firstName, mobileNumber, position } = props?.data
       //Assigning user data to useForm values
       setValue('type', type)
-      setValue('fullname', fullname)
-      setValue('emailaddress', emailaddress)
-      setValue('status', status)
-      setValue('membertype', membertype)
-      setValue('userrole', userrole)
-      setValue('createdbyupdatedbymail', userInfo.emailaddress)
-      //Creating the customer option
-      createMemberTypeOptions(membertype)
+      setValue('lastName', lastName)
+      setValue('firstName', firstName)
+      setValue('email', email)
+      setValue('mobileNumber', mobileNumber)
+      setValue('position', position)
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.data, userInfo.userrole, userInfo.emailaddress])
- */
-  function createMemberTypeOptions(value) {
-    // Setting Role Option
-    setMemberTypeOptions([
-      {
-        label: value,
-        value: value,
-      },
-    ])
+  }, [props?.data, props.data?.type])
+
+  function generateContactPersonPositionsOptions() {
+    const formattedEnum = formatEnum_util(DirectorPosition, 2)
+
+    const generatedOptions = generateOptions(formattedEnum)
+
+    setcontactPersonPositionsOptions(generatedOptions)
   }
 
+  useEffect(() => {
+    generateContactPersonPositionsOptions()
+  }, [])
+
   const onSubmit = async (values: UserType) => {
-    /*  try {
+    try {
       if (values.type === 'new') {
         //Getting all the param
-        const response = await createUser(values)
+        const response = await addBusinessContactPerson(values)
+
         //Show response if error occurs and return error.
-        if (!response.status) {
+        if (!response) {
           //Throw response on error.
           throw new Error(response.message)
         }
+
         //Show response on success.
         showSnackbar({
           type: 'success',
           title: 'User Management',
-          messages: response.message,
+          messages: response.value,
           show: true,
         } as SnackbarDataType)
         //Resetting the form
         reset(defaultFormValues)
         //Refetch users
         props.callback()
+
+        //Close modal after creating new user
+        props.modalClose()
       }
 
       if (values.type === 'edit') {
-        //Getting all the param
-        const response = await updateCustomer(values)
+        const editedData = {
+          contactId: props?.data?.contactId,
+          ...values,
+        }
+        // Getting all the param
+        const response = await updateBusinessContactPerson(editedData)
         //Show response if error occurs and return error.
-        if (!response.status) {
+        if (!response) {
           //Throw response on error.
           throw new Error(response.message)
         }
@@ -122,7 +131,7 @@ const AddEditContactPerson = (props: UserProps) => {
         showSnackbar({
           type: 'success',
           title: 'User Management',
-          messages: response.message,
+          messages: response.value,
           show: true,
         } as SnackbarDataType)
         //Refetch users
@@ -132,13 +141,14 @@ const AddEditContactPerson = (props: UserProps) => {
       }
     } catch (err) {
       //Show response on error.
+
       showSnackbar({
         type: 'danger',
         title: 'User Management',
         messages: err.message,
         show: true,
       } as SnackbarDataType)
-    } */
+    }
   }
   /* *************************************************************************************** */
 
@@ -168,58 +178,60 @@ const AddEditContactPerson = (props: UserProps) => {
             <CRow className="g-3">
               <CCol xs={12} sm={6} className="mb-4">
                 <CFormLabel
-                  htmlFor="fullname"
+                  htmlFor="firstName"
                   className={classNames({
-                    'text-error': !!formState.errors?.fullname,
+                    'text-error': !!formState.errors?.firstName,
                   })}
                 >
                   <strong> First Name</strong>
                 </CFormLabel>
                 <CFormInput
-                  id="fullname"
-                  placeholder="Enter your full name."
-                  {...register('fullname')}
+                  id="firstName"
+                  placeholder="Enter your first name."
+                  {...register('firstName')}
                   valid={
-                    formState.dirtyFields?.fullname && !!!formState.errors?.fullname ? true : false
+                    formState.dirtyFields?.firstName && !!!formState.errors?.firstName
+                      ? true
+                      : false
                   }
-                  invalid={!!formState.errors?.fullname && true}
+                  invalid={!!formState.errors?.firstName && true}
                 />
                 <CFormText
                   component="span"
                   className={classNames({
                     'text-error': true,
-                    'd-none': !!formState.errors?.fullname ? false : true,
+                    'd-none': !!formState.errors?.firstName ? false : true,
                   })}
                 >
-                  Full name is required.
+                  First name is required.
                 </CFormText>
               </CCol>
               <CCol xs={12} sm={6} className="mb-4">
                 <CFormLabel
-                  htmlFor="fullname"
+                  htmlFor="lastName"
                   className={classNames({
-                    'text-error': !!formState.errors?.fullname,
+                    'text-error': !!formState.errors?.lastName,
                   })}
                 >
-                  <strong> First Name</strong>
+                  <strong> Last Name</strong>
                 </CFormLabel>
                 <CFormInput
-                  id="fullname"
-                  placeholder="Enter your full name."
-                  {...register('fullname')}
+                  id="lastName"
+                  placeholder="Enter your last name."
+                  {...register('lastName')}
                   valid={
-                    formState.dirtyFields?.fullname && !!!formState.errors?.fullname ? true : false
+                    formState.dirtyFields?.lastName && !!!formState.errors?.lastName ? true : false
                   }
-                  invalid={!!formState.errors?.fullname && true}
+                  invalid={!!formState.errors?.lastName && true}
                 />
                 <CFormText
                   component="span"
                   className={classNames({
                     'text-error': true,
-                    'd-none': !!formState.errors?.fullname ? false : true,
+                    'd-none': !!formState.errors?.lastName ? false : true,
                   })}
                 >
-                  Full name is required.
+                  Last name is required.
                 </CFormText>
               </CCol>
             </CRow>
@@ -227,31 +239,27 @@ const AddEditContactPerson = (props: UserProps) => {
             <CRow className="g-3">
               <CCol xs={12} sm={6} className="mb-4">
                 <CFormLabel
-                  htmlFor="emailaddress"
+                  htmlFor="email"
                   className={classNames({
-                    'text-error': !!formState.errors?.emailaddress,
+                    'text-error': !!formState.errors?.email,
                   })}
                 >
                   <strong> Email Address</strong>
                 </CFormLabel>
                 <CFormInput
                   type="email"
-                  id="emailaddress"
+                  id="email"
                   placeholder="Enter email address here."
-                  {...register('emailaddress')}
-                  valid={
-                    formState.dirtyFields?.emailaddress && !!!formState.errors?.emailaddress
-                      ? true
-                      : false
-                  }
-                  invalid={!!formState.errors?.emailaddress && true}
+                  {...register('email')}
+                  valid={formState.dirtyFields?.email && !!!formState.errors?.email ? true : false}
+                  invalid={!!formState.errors?.email && true}
                 />
 
                 <CFormText
                   component="span"
                   className={classNames({
                     'text-error': true,
-                    'd-none': !!formState.errors?.emailaddress ? false : true,
+                    'd-none': !!formState.errors?.email ? false : true,
                   })}
                 >
                   Email address is required.
@@ -259,30 +267,32 @@ const AddEditContactPerson = (props: UserProps) => {
               </CCol>
               <CCol xs={12} sm={6} className="mb-4">
                 <CFormLabel
-                  htmlFor="fullname"
+                  htmlFor="lastName"
                   className={classNames({
-                    'text-error': !!formState.errors?.fullname,
+                    'text-error': !!formState.errors?.mobileNumber,
                   })}
                 >
                   <strong> Mobile No.</strong>
                 </CFormLabel>
                 <CFormInput
-                  id="fullname"
-                  placeholder="Enter your full name."
-                  {...register('fullname')}
+                  id="lastName"
+                  placeholder="Enter your mobile no."
+                  {...register('mobileNumber')}
                   valid={
-                    formState.dirtyFields?.fullname && !!!formState.errors?.fullname ? true : false
+                    formState.dirtyFields?.mobileNumber && !!!formState.errors?.mobileNumber
+                      ? true
+                      : false
                   }
-                  invalid={!!formState.errors?.fullname && true}
+                  invalid={!!formState.errors?.mobileNumber && true}
                 />
                 <CFormText
                   component="span"
                   className={classNames({
                     'text-error': true,
-                    'd-none': !!formState.errors?.fullname ? false : true,
+                    'd-none': !!formState.errors?.mobileNumber ? false : true,
                   })}
                 >
-                  Full name is required.
+                  Mobile no is required.
                 </CFormText>
               </CCol>
             </CRow>
@@ -290,31 +300,37 @@ const AddEditContactPerson = (props: UserProps) => {
             <CRow className="mb-4">
               <CCol>
                 <CFormLabel
-                  htmlFor="membertype"
+                  htmlFor="position"
                   className={classNames({
-                    'text-error': !!formState.errors?.membertype,
+                    'text-error': !!formState.errors?.position,
                   })}
                 >
                   <strong>Position</strong>
                 </CFormLabel>
+                {/** this select is just here4 to trigger the core ui select to display on edit */}
+                 <select className="d-none" name="" id="" {...register('position')}>
+                  {contactPersonPositionOptions.map((item) => {
+                    return <option value={item.value}>{item.label}</option>
+                  })}
+                </select> 
                 <CFormSelect
-                  {...register('membertype')}
+                  type="text"
+                  {...register('position')}
+                  id="position"
                   valid={
-                    formState.dirtyFields?.membertype && !!!formState.errors?.membertype
-                      ? true
-                      : false
+                    formState.dirtyFields?.position && !!!formState.errors?.position ? true : false
                   }
-                  invalid={!!formState.errors?.membertype && true}
-                  options={memberTypeOptions}
+                  invalid={!!formState.errors?.position && true}
+                  options={contactPersonPositionOptions}
                 />
                 <CFormText
                   component="span"
                   className={classNames({
                     'text-error': true,
-                    'd-none': !!formState.errors?.membertype ? false : true,
+                    'd-none': !!formState.errors?.position ? false : true,
                   })}
                 >
-                  Member type is required.
+                  Position is required.
                 </CFormText>
               </CCol>
             </CRow>
@@ -325,6 +341,7 @@ const AddEditContactPerson = (props: UserProps) => {
         <CButton
           color="info"
           shape="rounded-pill"
+          className="text-white"
           onMouseUp={handleSubmit(onSubmit)}
           disabled={formState.isSubmitting}
         >

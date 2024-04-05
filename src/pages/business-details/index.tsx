@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import type { NextPageWithLayout } from '@/pages/_app'
 /* ICONS */
 import { FaEdit } from 'react-icons/fa'
+import { MdOutlineCancel } from 'react-icons/md'
 import { FaFilePdf, FaRegImages } from 'react-icons/fa6'
 /*  */
 import {
@@ -41,6 +42,10 @@ import {
 } from '@/components/business-customer-details'
 /* HOOKS */
 import { useForm } from 'react-hook-form'
+import { useQueries } from '@tanstack/react-query'
+import BusinessAccountSvc from '@/api/merchantAccountSvcGRPC'
+import MerchantCommonSvc from '@/api/merchantCommonSvcGRPC'
+import { useSnackbar } from '@/store'
 
 export const getServerSideProps = async ({ req }) => {
   const cookies = req.cookies[EGANOW_AUTH_COOKIE] ? JSON.parse(req.cookies[EGANOW_AUTH_COOKIE]) : {}
@@ -54,6 +59,69 @@ export const getServerSideProps = async ({ req }) => {
 
 const Entry: NextPageWithLayout = (props) => {
   const [activeKey, setActiveKey] = useState(1)
+  const [type, setType] = useState('')
+  const [allowToEdit, setAllowToEdit] = useState(null)
+
+  //snackbar from zustand store
+  const showSnackbar = useSnackbar((state: any) => state.showSnackbar)
+
+  //business info apis
+  const {
+    listBusinessContactPersons,
+    getBusinessInfo,
+    getBusinessContactInfo,
+    getDirectorList,
+    listBusinessDocuments,
+  } = BusinessAccountSvc()
+  const { getBusinessRegulators, getBusinessIndustries } = MerchantCommonSvc()
+
+  //handles multiple queries
+  const results = useQueries({
+    queries: [
+      {
+        queryKey: ['listbusinesscontactpersons', 1],
+        queryFn: () => listBusinessContactPersons(),
+        staleTime: 5000,
+      },
+      { queryKey: ['getBusinessIndustries', 2], queryFn: () => getBusinessIndustries() },
+      { queryKey: ['getBusinessRegulators', 3], queryFn: () => getBusinessRegulators() },
+      { queryKey: ['getBusinessInfo', 4], queryFn: () => getBusinessInfo(), staleTime: 5000 },
+      { queryKey: ['getBusinessContactInfo', 5], queryFn: () => getBusinessContactInfo() },
+      { queryKey: ['getDirectorList', 6], queryFn: () => getDirectorList() },
+      {
+        queryKey: ['getBusinessDocuments', 7],
+        queryFn: () => listBusinessDocuments(),
+        staleTime: 5000,
+      },
+    ],
+  })
+
+  useEffect(() => {
+    if (allowToEdit) {
+      showSnackbar({
+        type: 'warning',
+        title: 'User Management',
+        messages: 'Please update your info to complete your registration',
+        show: true,
+      })
+    }
+  }, [allowToEdit])
+
+  useEffect(() => {
+    if (results[3].data) {
+      setAllowToEdit(true)
+      // results[3]?.data?.allowForEdit
+    }
+
+    if (results[3]?.error?.code === 2) {
+      showSnackbar({
+        type: 'danger',
+        title: 'User Management',
+        messages: 'network error',
+        show: true,
+      })
+    }
+  }, [results[3].data])
 
   const { control } = useForm({
     mode: 'onChange',
@@ -96,11 +164,30 @@ const Entry: NextPageWithLayout = (props) => {
               <small>View/ reviewing customer information and business registration details</small>
             </div>
 
-            <div>
-              <CButton color="info" className="justify-content-center">
-                <FaEdit style={{ fontSize: '1.2rem' }} />
-              </CButton>
-            </div>
+            {allowToEdit && (
+              <div>
+                {type === '' ? (
+                  <CButton
+                    onMouseUp={() => setType('edit')}
+                    color="danger"
+                    className="d-flex justify-content-center align-items-center bg-white text-black  gap-1"
+                    // style={{background:'red'}}
+                  >
+                    <FaEdit style={{ fontSize: '1.2rem' }} />
+                    Edit
+                  </CButton>
+                ) : (
+                  <CButton
+                    onMouseUp={() => setType('')}
+                    color="info"
+                    className="d-flex justify-content-center align-items-center  gap-1 text-white"
+                  >
+                    <MdOutlineCancel style={{ fontSize: '1.2rem' }} />
+                    Cancel
+                  </CButton>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -112,7 +199,7 @@ const Entry: NextPageWithLayout = (props) => {
               <CRow className="justify-content-center p-4">
                 <div className="company-logo position-relative">
                   <CIcon icon={cilIndustry} style={{ height: '100px', width: 'auto' }} />
-                  <FaEdit
+                  {/* <FaEdit
                     className="position-absolute bg-white p-1 rounded-circle fs-2 border-2 border-light"
                     style={{
                       bottom: 0,
@@ -123,44 +210,46 @@ const Entry: NextPageWithLayout = (props) => {
                       height: '34px',
                     }}
                     onMouseUp={handleLogoUpload}
-                  />
+                  /> */}
                 </div>
 
                 <div className="mt-4">
                   <div>
-                    <em>Current User</em>
-                    <h5 style={{ color: '#e55353' }} className="mb-4">
+                    <h6 className="fw-bold">Current User</h6>
+                    <h6 style={{ color: '#e55353' }} className="mb-4 fw-normal">
                       {props.cookies.fullName}
-                    </h5>
+                    </h6>
                   </div>
 
                   <div>
-                    <em>Company Name</em>
-                    <h5 className="mb-4">{props.cookies.businessName}</h5>
+                    <h6 className="fw-bold">Company Name</h6>
+                    <h6 className="mb-4 fw-normal">{results[3]?.data?.companyName}</h6>
                   </div>
 
                   <div>
-                    <em>Registration Number</em>
-                    <h5 className="mb-4">TG466565</h5>
+                    <h6 className="fw-bold">Registration Number</h6>
+                    <h6 className="mb-4 fw-normal">
+                      {results[3]?.data?.companyRegistrationNumber}
+                    </h6>
                   </div>
 
                   <div>
-                    <em>TIN</em>
-                    <h5 className="mb-4">CFRT55555</h5>
+                    <h6 className="fw-bold">TIN</h6>
+                    <h6 className="mb-4 fw-normal">{results[3]?.data?.taxIdentificationNumber}</h6>
                   </div>
 
                   <div>
-                    <em>Attachments</em>
-                    <h5 className="mb-4">
+                    <h6 className="fw-bold">Attachments</h6>
+                    <h6 className="mb-4 fw-normal">
                       Count::{' '}
                       <CBadge color="secondary" shape="rounded-circle">
-                        3
+                        {results[6]?.data?.documentsList.length || 0}
                       </CBadge>
-                    </h5>
+                    </h6>
                   </div>
 
                   <div className="mb-4">
-                    <em>Country</em>
+                    <h6 className="fw-bold">Country</h6>
                     <CountryInput
                       className="mb-3"
                       name="country"
@@ -174,7 +263,7 @@ const Entry: NextPageWithLayout = (props) => {
             </CCard>
           </CCol>
 
-          <CCol lg={9} >
+          <CCol lg={9}>
             <CCard className="px-0 pt-4 border me-1 rounded-0" style={{ minHeight: '100vh' }}>
               <div className="w-100 overflow-y-hidden overflow-x-auto">
                 <CNav variant="underline" className="mb-4 w-100">
@@ -222,23 +311,34 @@ const Entry: NextPageWithLayout = (props) => {
                   aria-labelledby="business-info-tab"
                   visible={activeKey === 1}
                 >
-                  <BusinessInfo control={control} />
+                  <BusinessInfo
+                    businessInfoData={results[3]}
+                    industries={results[1]?.data?.industriesList}
+                    regulators={results[2]?.data?.regulatorsList}
+                    type={type}
+                    setType={setType}
+                  />
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="profile-tab" visible={activeKey === 2}>
-                  <CustomerInfo control={control} />
+                  <CustomerInfo
+                    control={control}
+                    type={type}
+                    contactInfo={results[4]}
+                    setType={setType}
+                  />
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 3}>
-                  <ContactPerson control={control} />
+                  <ContactPerson control={control} data={results[0]} />
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 4}>
-                  <DirectorsShareholders control={control} />
+                  <DirectorsShareholders type={type} directors={results[5]} setType={setType} />
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 5}>
-                  <Attachments control={control} />
+                  <Attachments control={control} data={results[6]} />
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 6}>

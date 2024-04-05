@@ -1,7 +1,10 @@
 export const defaultFormValues = {
-  type: 'new',
-  fullname: '',
-  emailaddress: '',
+  type: '',
+  email: '',
+  firstName: '',
+  lastName: '',
+  mobileNumber: '',
+  position: '',
   membertype: '',
   userrole: '',
   status: '',

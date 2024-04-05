@@ -71,7 +71,7 @@ const features = [
 
 export const getServerSideProps = async ({ req }) => {
   const cookies = JSON.parse(req.cookies[EGANOW_AUTH_COOKIE])
-  
+
   //Response
   return {
     props: {
@@ -83,6 +83,7 @@ export const getServerSideProps = async ({ req }) => {
 const Entry: NextPageWithLayout = (props) => {
   const [mostUsedFeature, setMostUsedFeature] = useState({})
   const [highestFeatureValue, setHighestFeatureValue] = useState(null)
+  const [isFeatureHovered, setIsFeatureHovered] = useState(false)
 
   //Gets the most used feature object from local storage
   useEffect(() => {
@@ -95,6 +96,9 @@ const Entry: NextPageWithLayout = (props) => {
   }, [mostUsedFeature])
 
 
+  const removeUsedFeatureSelect = ()=>{
+    setIsFeatureHovered(true);
+  }
 
   return (
     <EntryLayout {...props} features={features}>
@@ -114,18 +118,19 @@ const Entry: NextPageWithLayout = (props) => {
                     {`${props.cookies.fullName}`}
                   </span>
                 </p>
-                <h3 className="text-medium-emphasis">{props.cookies.businessName}</h3>
+                <h3 className="text-medium-emphasis">{props.cookies.companyName}</h3>
               </div>
             </CCol>
             <CCol className="">
-              {highestFeatureValue && <div className="d-flex justify-content-sm-end align-items-center gap-2  mx-auto mx-lg-0">
-                <p className="m-0">
-                  <em>Your most used feature::</em>{' '}
-                </p>
-                <MostUsedFeature features={features} highestFeatureValue={highestFeatureValue} />
-              </div>}
+              {highestFeatureValue && (
+                <div className="d-flex justify-content-sm-end align-items-center gap-2  mx-auto mx-lg-0">
+                  <p className="m-0">
+                    <em>Your most used feature::</em>{' '}
+                  </p>
+                  <MostUsedFeature features={features} highestFeatureValue={highestFeatureValue} />
+                </div>
+              )}
             </CCol>
-
           </CRow>
         </div>
 
@@ -134,9 +139,9 @@ const Entry: NextPageWithLayout = (props) => {
         <CRow xs={{ gutterY: 4, gutterX: 4 }}>
           {features?.map((obj, index) => {
             if (!!obj.title) {
-              return <Features key={index} data={obj} />
+              return <Features key={index} data={obj} highestFeatureValue={highestFeatureValue} isFeatureHovered={isFeatureHovered} removeUsedFeatureSelect={removeUsedFeatureSelect}/>
             }
-            return <FeaturesPlaceholder key={index} />
+            return <FeaturesPlaceholder key={index}  removeUsedFeatureSelect={removeUsedFeatureSelect}/>
           })}
         </CRow>
       </CContainer>

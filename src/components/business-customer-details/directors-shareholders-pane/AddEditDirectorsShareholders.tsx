@@ -5,6 +5,9 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { validationSchema } from './validationSchema'
 import { defaultFormValues } from './defaultFormValues'
 
+import { BiErrorCircle } from "react-icons/bi";
+
+
 import {
   CButton,
   CModal,
@@ -30,78 +33,118 @@ import {
   CTabContent,
 } from '@coreui/react-pro'
 
-import CIcon from '@coreui/icons-react'
-import { cilUserPlus } from '@coreui/icons'
 
 import { useEffect, useState } from 'react'
 import classNames from 'classnames'
 
 import { GrSave } from 'react-icons/gr'
 
-const userRoleOptions = [
-  { label: 'Admin', value: 'admin' },
-  { label: 'Customer Service', value: 'customer_service' },
-]
+import { DirectorOrShareholderOrOtherType, DirectorPosition, CustomerIDTypes } from '@/protos/generated/eganow/api/merchant/onboarding_entity_pb'
+import { formatEnum_util } from '@/util'
+import { generateOptions } from '@/helpers'
+
+// IMPORT APi
+import MerchantAccountSvc from '@/api/merchantAccountSvcGRPC'
+
+import { useSnackbar } from '@/store'
+
+// IMPORTING THE IMAGE UPLOAD BUTTON
+import ImageUpload from '@/components/ImageUpload'
 /*
  *
  * Add Edit User Component
  *
  */
+
 const AddEditDirectorsShareholders = (props: UserProps) => {
-   const [activeKey, setActiveKey] = useState(1)
-  /* const { createUser, updateCustomer } = customerAccountGRPC()
-  const userInfo = useCustomerInfoStore((state) => state.customerInfo)
-  const showSnackbar = useSnackbar((state: any) => state.showSnackbar) */
-  /* UseForm */
-  const { register, reset, handleSubmit, setValue, formState } = useForm({
+  const [activeKey, setActiveKey] = useState(1)
+
+  // ADD AND UPDATE DIRECTORS APIs INIT 
+  const { addDirectorOrShareholder, updateDirectorOrShareholder } = MerchantAccountSvc()
+
+  //snackbar component from zustand store
+  const { showSnackbar } = useSnackbar()
+
+  // USERFORM OBJECT
+  const { register, reset, handleSubmit, setValue, formState, getValues } = useForm({
     resolver: yupResolver(validationSchema),
     mode: 'onChange',
     defaultValues: defaultFormValues,
   })
 
-  const [memberTypeOptions, setMemberTypeOptions] = useState<UserTypeOptionsType[]>([])
 
-  /*   useEffect(() => {
-    if (props.data?.type === 'new') {
-      setValue('createdbyupdatedbymail', userInfo.emailaddress)
-      setValue('membertype', userInfo.membertype)
-      setValue('userrole', 'customer_service')
-      // Setting Role Option
-      createMemberTypeOptions(userInfo.membertype)
-    }
+  // ENUM ARRAY LIST FORMATTED FOR ID TYPE
+  const idTypesList = () => {
+    let formatEnum = formatEnum_util(CustomerIDTypes, 3)
+    let enums = generateOptions(formatEnum)
+    return enums
+  }
+  // ENUM ARRAY LIST FORMATTED FOR DIRECTOR POSITIONS
+  const directorPositionList = () => {
+    let formatEnum = formatEnum_util(DirectorPosition, 2)
+    let enums = generateOptions(formatEnum)
+    return enums
+  }
+  // ENUM ARRAY LIST FORMATTED FOR DIRECTOR SHARE HOLDER 
+  const directorShareholderList = () => {
+    let formatEnum = formatEnum_util(DirectorOrShareholderOrOtherType, 6)
+    let enums = generateOptions(formatEnum)
+    return enums
+  }
 
+
+  // FUNCTION TO HANDLE CHANGES IN THE DATE PICKER
+  const handleDateChange = (date) => {
+    const dateValue = date?.toISOString(); //CONVERT DATE OBJECT TO STRING 
+    const formattedDate = dateValue?.split("T")[0]; //REMOVE TIMESTAMP FROM STRING
+    setValue('expiryDate', formattedDate, { shouldValidate: true });
+  };
+
+
+  useEffect(() => {
     if (props.data?.type === 'edit') {
-      const { type, fullname, emailaddress, status, userrole, membertype } = props.data
+      const { type, firstName, lastName, email, mobileNumber, idInfo: { idNumber, idExpiryDate, placeOfIssue, idType, idFrontImage, idBackImage, portraitImage }, position, directorShareholderType, directorId } = props.data
+
       //Assigning user data to useForm values
       setValue('type', type)
-      setValue('fullname', fullname)
-      setValue('emailaddress', emailaddress)
-      setValue('status', status)
-      setValue('membertype', membertype)
-      setValue('userrole', userrole)
-      setValue('createdbyupdatedbymail', userInfo.emailaddress)
-      //Creating the customer option
-      createMemberTypeOptions(membertype)
+      setValue('firstName', firstName)
+      setValue('lastName', lastName)
+      setValue('emailAddress', email)
+      setValue('mobileNumber', mobileNumber)
+      setValue('idType', idType)
+      setValue('idNumber', idNumber)
+      setValue('expiryDate', idExpiryDate)
+      setValue('placeOfIssue', placeOfIssue)
+      setValue('position', position)
+      setValue('stakeHolderType', directorShareholderType)
+      setValue('directorId', directorId)
+      setValue('frontImage', idFrontImage)
+      setValue('backImage', idBackImage)
+      setValue('portraitImage', portraitImage)
+
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.data, userInfo.userrole, userInfo.emailaddress])
- */
-  
-  const onSubmit = async (values: UserType) => {
-    /*  try {
+
+  }, [props?.data])
+
+
+  // HANDLE FORM SUBMIT ( ADDING NEW RECORD OR UPDATING EXISTING RECORD)
+  const onSubmit = async (values) => {
+
+    try {
+      // IF ADD NEW BUTTON IS CLICKED
       if (values.type === 'new') {
         //Getting all the param
-        const response = await createUser(values)
+        const response = await addDirectorOrShareholder(values)
         //Show response if error occurs and return error.
-        if (!response.status) {
+        if (!response) {
           //Throw response on error.
-          throw new Error(response.message)
+          throw new Error(response.value)
         }
         //Show response on success.
         showSnackbar({
           type: 'success',
           title: 'User Management',
-          messages: response.message,
+          messages: response.value,
           show: true,
         } as SnackbarDataType)
         //Resetting the form
@@ -110,11 +153,12 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
         props.callback()
       }
 
+      // IF THE EDIT BUTTON IS CLICKED
       if (values.type === 'edit') {
-        //Getting all the param
-        const response = await updateCustomer(values)
+        //PASSING VALUES TO API
+        const response = await updateDirectorOrShareholder(values)
         //Show response if error occurs and return error.
-        if (!response.status) {
+        if (!response) {
           //Throw response on error.
           throw new Error(response.message)
         }
@@ -122,7 +166,7 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
         showSnackbar({
           type: 'success',
           title: 'User Management',
-          messages: response.message,
+          messages: response.value,
           show: true,
         } as SnackbarDataType)
         //Refetch users
@@ -131,6 +175,8 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
         props.modalClose()
       }
     } catch (err) {
+      console.log();
+
       //Show response on error.
       showSnackbar({
         type: 'danger',
@@ -138,7 +184,7 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
         messages: err.message,
         show: true,
       } as SnackbarDataType)
-    } */
+    }
   }
   /* *************************************************************************************** */
 
@@ -151,6 +197,7 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
       aria-labelledby="VerticallyCenteredExample"
       size="lg"
       className='rounded-5'
+      scrollable
     >
       <CModalHeader>
         <CModalTitle id="VerticallyCenteredExample">
@@ -171,387 +218,445 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
               <strong>Director/ Shareholder</strong>
             </CNavLink>
           </CNavItem>
-          <CNavItem>
-            <CNavLink href="#" active={activeKey === 2} onClick={() => setActiveKey(2)}>
-              <strong>Passport & ID Card</strong>
+          <CNavItem >
+
+            <CNavLink className={classNames({
+              'text-error': formState.errors?.backImage ? true : false,
+              'd-flex' : true,
+              'align-items-center' : true,
+              'gap-1': true,
+
+            })} href="#" active={activeKey === 2} onClick={() => setActiveKey(2)}>
+              {formState.errors?.backImage && <BiErrorCircle />}
+              <strong >Passport & ID Card</strong>
             </CNavLink>
           </CNavItem>
         </CNav>
 
         <CTabContent className="border border-top-0 p-4">
+
           <CTabPane
             role="tabpanel"
             aria-labelledby="director-shareholder-tab"
             visible={activeKey === 1}
           >
-              <CForm noValidate>
-                <CRow className="g-3">
-                  <CCol xs={12} sm={6} className="mb-4">
-                    <CFormLabel
-                      htmlFor="fullname"
-                      className={classNames({
-                        'text-error': !!formState.errors?.fullname,
-                      })}
-                    >
-                      <strong> First Name</strong>
-                    </CFormLabel>
-                    <CFormInput
-                      id="fullname"
-                      placeholder="Enter your full name."
-                      {...register('fullname')}
-                      valid={
-                        formState.dirtyFields?.fullname && !!!formState.errors?.fullname
-                          ? true
-                          : false
-                      }
-                      invalid={!!formState.errors?.fullname && true}
-                    />
-                    <CFormText
-                      component="span"
-                      className={classNames({
-                        'text-error': true,
-                        'd-none': !!formState.errors?.fullname ? false : true,
-                      })}
-                    >
-                      Full name is required.
-                    </CFormText>
-                  </CCol>
-                  <CCol xs={12} sm={6} className="mb-4">
-                    <CFormLabel
-                      htmlFor="fullname"
-                      className={classNames({
-                        'text-error': !!formState.errors?.fullname,
-                      })}
-                    >
-                      <strong> First Name</strong>
-                    </CFormLabel>
-                    <CFormInput
-                      id="fullname"
-                      placeholder="Enter your full name."
-                      {...register('fullname')}
-                      valid={
-                        formState.dirtyFields?.fullname && !!!formState.errors?.fullname
-                          ? true
-                          : false
-                      }
-                      invalid={!!formState.errors?.fullname && true}
-                    />
-                    <CFormText
-                      component="span"
-                      className={classNames({
-                        'text-error': true,
-                        'd-none': !!formState.errors?.fullname ? false : true,
-                      })}
-                    >
-                      Full name is required.
-                    </CFormText>
-                  </CCol>
-                </CRow>
+            <CForm noValidate>
+              <CRow className="g-3">
+                {/* FIRST NAME */}
+                <CCol xs={12} sm={6} className="mb-4">
+                  <CFormLabel
+                    htmlFor="firstName"
+                    className={classNames({
+                      'text-error': !!formState.errors?.firstName,
+                    })}
+                  >
+                    <strong> First Name</strong>
+                  </CFormLabel>
+                  <CFormInput
+                    id="firstName"
+                    placeholder="Enter your first name."
+                    {...register('firstName')}
+                    valid={
+                      formState.dirtyFields?.firstName && !!!formState.errors?.firstName
+                        ? true
+                        : false
+                    }
+                    invalid={!!formState.errors?.firstName && true}
+                  />
+                  <CFormText
+                    component="span"
+                    className={classNames({
+                      'text-error': true,
+                      'd-none': !!formState.errors?.firstName ? false : true,
+                    })}
+                  >
+                    First name is required.
+                  </CFormText>
+                </CCol>
 
-                <CRow className="g-3">
-                  <CCol xs={12} sm={6} className="mb-4">
-                    <CFormLabel
-                      htmlFor="emailaddress"
-                      className={classNames({
-                        'text-error': !!formState.errors?.emailaddress,
-                      })}
-                    >
-                      <strong> Email Address</strong>
-                    </CFormLabel>
-                    <CFormInput
-                      type="email"
-                      id="emailaddress"
-                      placeholder="Enter email address here."
-                      {...register('emailaddress')}
-                      valid={
-                        formState.dirtyFields?.emailaddress && !!!formState.errors?.emailaddress
-                          ? true
-                          : false
-                      }
-                      invalid={!!formState.errors?.emailaddress && true}
-                    />
+                {/* LAST NAME */}
+                <CCol xs={12} sm={6} className="mb-4">
+                  <CFormLabel
+                    htmlFor="lastName"
+                    className={classNames({
+                      'text-error': !!formState.errors?.lastName,
+                    })}
+                  >
+                    <strong> Last Name</strong>
+                  </CFormLabel>
+                  <CFormInput
+                    id="lastName"
+                    placeholder="Enter your last name."
+                    {...register('lastName')}
+                    valid={
+                      formState.dirtyFields?.lastName && !!!formState.errors?.lastName
+                        ? true
+                        : false
+                    }
+                    invalid={!!formState.errors?.lastName && true}
+                  />
+                  <CFormText
+                    component="span"
+                    className={classNames({
+                      'text-error': true,
+                      'd-none': !!formState.errors?.lastName ? false : true,
+                    })}
+                  >
+                    Last name is required.
+                  </CFormText>
+                </CCol>
+              </CRow>
 
-                    <CFormText
-                      component="span"
-                      className={classNames({
-                        'text-error': true,
-                        'd-none': !!formState.errors?.emailaddress ? false : true,
-                      })}
-                    >
-                      Email address is required.
-                    </CFormText>
-                  </CCol>
-                  <CCol xs={12} sm={6} className="mb-4">
-                    <CFormLabel
-                      htmlFor="fullname"
-                      className={classNames({
-                        'text-error': !!formState.errors?.fullname,
-                      })}
-                    >
-                      <strong> Mobile No.</strong>
-                    </CFormLabel>
-                    <CFormInput
-                      id="fullname"
-                      placeholder="Enter your full name."
-                      {...register('fullname')}
-                      valid={
-                        formState.dirtyFields?.fullname && !!!formState.errors?.fullname
-                          ? true
-                          : false
-                      }
-                      invalid={!!formState.errors?.fullname && true}
-                    />
-                    <CFormText
-                      component="span"
-                      className={classNames({
-                        'text-error': true,
-                        'd-none': !!formState.errors?.fullname ? false : true,
-                      })}
-                    >
-                      Full name is required.
-                    </CFormText>
-                  </CCol>
-                </CRow>
+              <CRow className="g-3">
+                {/* EMAIL */}
+                <CCol xs={12} sm={6} className="mb-4">
+                  <CFormLabel
+                    htmlFor="emailAddress"
+                    className={classNames({
+                      'text-error': !!formState.errors?.emailAddress,
+                    })}
+                  >
+                    <strong> Email Address</strong>
+                  </CFormLabel>
+                  <CFormInput
+                    type="email"
+                    id="emailAddress"
+                    placeholder="Enter email address here."
+                    {...register('emailAddress')}
+                    valid={
+                      formState.dirtyFields?.emailAddress && !!!formState.errors?.emailAddress
+                        ? true
+                        : false
+                    }
+                    invalid={!!formState.errors?.emailAddress && true}
+                  />
 
-                <CRow className="g-3">
-                  <CCol xs={12} sm={6} className="mb-4">
-                    <CFormLabel
-                      htmlFor="membertype"
-                      className={classNames({
-                        'text-error': !!formState.errors?.membertype,
-                      })}
-                    >
-                      <strong>ID Type</strong>
-                    </CFormLabel>
-                    <CFormSelect
-                      {...register('membertype')}
-                      valid={
-                        formState.dirtyFields?.membertype && !!!formState.errors?.membertype
-                          ? true
-                          : false
-                      }
-                      invalid={!!formState.errors?.membertype && true}
-                      options={memberTypeOptions}
-                    />
-                    <CFormText
-                      component="span"
-                      className={classNames({
-                        'text-error': true,
-                        'd-none': !!formState.errors?.membertype ? false : true,
-                      })}
-                    >
-                      Member type is required.
-                    </CFormText>
-                  </CCol>
-                  <CCol xs={12} sm={6} className="mb-4">
-                    <CFormLabel
-                      htmlFor="membertype"
-                      className={classNames({
-                        'text-error': !!formState.errors?.membertype,
-                      })}
-                    >
-                      <strong>ID Number</strong>
-                    </CFormLabel>
-                    <CFormInput
-                      id="fullname"
-                      placeholder="Enter your full name."
-                      {...register('fullname')}
-                      valid={
-                        formState.dirtyFields?.fullname && !!!formState.errors?.fullname
-                          ? true
-                          : false
-                      }
-                      invalid={!!formState.errors?.fullname && true}
-                    />
-                    <CFormText
-                      component="span"
-                      className={classNames({
-                        'text-error': true,
-                        'd-none': !!formState.errors?.membertype ? false : true,
-                      })}
-                    >
-                      Member type is required.
-                    </CFormText>
-                  </CCol>
-                </CRow>
+                  <CFormText
+                    component="span"
+                    className={classNames({
+                      'text-error': true,
+                      'd-none': !!formState.errors?.emailAddress ? false : true,
+                    })}
+                  >
+                    Email address is required.
+                  </CFormText>
+                </CCol>
 
-                <CRow className="g-3">
-                  <CCol xs={12} sm={6} className="mb-4">
-                    <CFormLabel
-                      htmlFor="membertype"
-                      className={classNames({
-                        'text-error': !!formState.errors?.membertype,
-                      })}
-                    >
-                      <strong>ID Expiry Date</strong>
-                    </CFormLabel>
-                    <CDatePicker
-                      id="licenseIssuedDate"
-                      date="2022/2/16"
-                      label="Date"
-                      locale="en-US"
-                    />
-                    <CFormText
-                      component="span"
-                      className={classNames({
-                        'text-error': true,
-                        'd-none': !!formState.errors?.membertype ? false : true,
-                      })}
-                    >
-                      Member type is required.
-                    </CFormText>
-                  </CCol>
-                  <CCol xs={12} sm={6} className="mb-4">
-                    <CFormLabel
-                      htmlFor="membertype"
-                      className={classNames({
-                        'text-error': !!formState.errors?.membertype,
-                      })}
-                    >
-                      <strong>ID Place Of Issue</strong>
-                    </CFormLabel>
-                    <CFormInput
-                      id="fullname"
-                      placeholder="Enter your full name."
-                      {...register('fullname')}
-                      valid={
-                        formState.dirtyFields?.fullname && !!!formState.errors?.fullname
-                          ? true
-                          : false
-                      }
-                      invalid={!!formState.errors?.fullname && true}
-                    />
-                    <CFormText
-                      component="span"
-                      className={classNames({
-                        'text-error': true,
-                        'd-none': !!formState.errors?.membertype ? false : true,
-                      })}
-                    >
-                      Member type is required.
-                    </CFormText>
-                  </CCol>
-                </CRow>
+                {/* MOBILE NUMBER */}
+                <CCol xs={12} sm={6} className="mb-4">
+                  <CFormLabel
+                    htmlFor="mobileNumber"
+                    className={classNames({
+                      'text-error': !!formState.errors?.mobileNumber,
+                    })}
+                  >
+                    <strong> Mobile No.</strong>
+                  </CFormLabel>
+                  <CFormInput
+                    id="mobileNumber"
+                    placeholder="Enter your full name."
+                    {...register('mobileNumber')}
+                    valid={
+                      formState.dirtyFields?.mobileNumber && !!!formState.errors?.mobileNumber
+                        ? true
+                        : false
+                    }
+                    invalid={!!formState.errors?.mobileNumber && true}
+                  />
+                  <CFormText
+                    component="span"
+                    className={classNames({
+                      'text-error': true,
+                      'd-none': !!formState.errors?.mobileNumber ? false : true,
+                    })}
+                  >
+                    Phone number is required.
+                  </CFormText>
+                </CCol>
+              </CRow>
 
-                <CRow className="g-3">
-                  <CCol xs={12} sm={6} className="mb-4">
-                    <CFormLabel
-                      htmlFor="membertype"
-                      className={classNames({
-                        'text-error': !!formState.errors?.membertype,
-                      })}
-                    >
-                      <strong>Director Or Shareholder (BO)</strong>
-                    </CFormLabel>
-                    <CFormSelect
-                      {...register('membertype')}
-                      valid={
-                        formState.dirtyFields?.membertype && !!!formState.errors?.membertype
-                          ? true
-                          : false
-                      }
-                      invalid={!!formState.errors?.membertype && true}
-                      options={memberTypeOptions}
-                    />
-                    <CFormText
-                      component="span"
-                      className={classNames({
-                        'text-error': true,
-                        'd-none': !!formState.errors?.membertype ? false : true,
-                      })}
-                    >
-                      Member type is required.
-                    </CFormText>
-                  </CCol>
-                  <CCol xs={12} sm={6} className="mb-4">
-                    <CFormLabel
-                      htmlFor="membertype"
-                      className={classNames({
-                        'text-error': !!formState.errors?.membertype,
-                      })}
-                    >
-                      <strong>AML Status Check</strong>
-                    </CFormLabel>
-                    <CFormInput
-                      id="fullname"
-                      placeholder="Enter your full name."
-                      {...register('fullname')}
-                      valid={
-                        formState.dirtyFields?.fullname && !!!formState.errors?.fullname
-                          ? true
-                          : false
-                      }
-                      invalid={!!formState.errors?.fullname && true}
-                    />
-                    <CFormText
-                      component="span"
-                      className={classNames({
-                        'text-error': true,
-                        'd-none': !!formState.errors?.membertype ? false : true,
-                      })}
-                    >
-                      Member type is required.
-                    </CFormText>
-                  </CCol>
-                </CRow>
-              </CForm>
+              <CRow className="g-3">
+                {/*SELECT ID TYPE */}
+                <CCol xs={12} sm={6} className="mb-4">
+                  <CFormLabel
+                    htmlFor="idType"
+                    className={classNames({
+                      'text-error': !!formState.errors?.idType,
+                    })}
+                  >
+                    <strong>ID Type</strong>
+                  </CFormLabel>
+                  <CFormSelect
+                    {...register('idType')}
+                    valid={
+                      formState.dirtyFields?.idType && !!!formState.errors?.idType
+                        ? true
+                        : false
+                    }
+                    invalid={!!formState.errors?.idType && true}
+                    options={idTypesList()}
+                  />
+                  <CFormText
+                    component="span"
+                    className={classNames({
+                      'text-error': true,
+                      'd-none': !!formState.errors?.idType ? false : true,
+                    })}
+                  >
+                    ID type is required.
+                  </CFormText>
+                </CCol>
+
+                {/* ID NUMBER  */}
+                <CCol xs={12} sm={6} className="mb-4">
+                  <CFormLabel
+                    htmlFor="id_Number"
+                    className={classNames({
+                      'text-error': !!formState.errors?.idNumber,
+                    })}
+                  >
+                    <strong>ID Number</strong>
+                  </CFormLabel>
+                  <CFormInput
+                    id="idNumber"
+                    placeholder="Enter your Id number."
+                    {...register('idNumber')}
+                    valid={
+                      formState.dirtyFields?.idNumber && !!!formState.errors?.idNumber
+                        ? true
+                        : false
+                    }
+                    invalid={!!formState.errors?.idNumber && true}
+                  />
+                  <CFormText
+                    component="span"
+                    className={classNames({
+                      'text-error': true,
+                      'd-none': !!formState.errors?.idNumber ? false : true,
+                    })}
+                  >
+                    Id number is required.
+                  </CFormText>
+                </CCol>
+              </CRow>
+
+              <CRow className="g-3">
+                {/* EXPIRY DATE OF ID */}
+                <CCol xs={12} sm={6} className="mb-4">
+                  <CFormLabel
+                    htmlFor="expiryDate"
+                    className={classNames({
+                      'text-error': !!formState.errors?.expiryDate,
+                    })}
+                  >
+                    <strong>ID Expiry Date</strong>
+                  </CFormLabel>
+                  <CDatePicker
+                    id="expiryDate"
+                    date={''}
+                    locale="en-US"
+                    {...register('expiryDate')}
+                    onDateChange={handleDateChange}
+                  />
+                  <CFormText
+                    component="span"
+                    className={classNames({
+                      'text-error': true,
+                      'd-none': !!formState.errors?.expiryDate ? false : true,
+                    })}
+                  >
+                    Expiry date is required.
+                  </CFormText>
+                </CCol>
+
+                {/* PLACE OF ISSUE */}
+                <CCol xs={12} sm={6} className="mb-4">
+                  <CFormLabel
+                    htmlFor="placeOfIssue"
+                    className={classNames({
+                      'text-error': !!formState.errors?.placeOfIssue,
+                    })}
+                  >
+                    <strong>ID Place Of Issue</strong>
+                  </CFormLabel>
+                  <CFormInput
+                    id="placeOfIssue"
+                    placeholder="Enter your full name."
+                    {...register('placeOfIssue')}
+                    valid={
+                      formState.dirtyFields?.placeOfIssue && !!!formState.errors?.placeOfIssue
+                        ? true
+                        : false
+                    }
+                    invalid={!!formState.errors?.placeOfIssue && true}
+                  />
+                  <CFormText
+                    component="span"
+                    className={classNames({
+                      'text-error': true,
+                      'd-none': !!formState.errors?.placeOfIssue ? false : true,
+                    })}
+                  >
+                    Member type is required.
+                  </CFormText>
+                </CCol>
+              </CRow>
+
+              <CRow className="g-3">
+                {/* DIRECTOR POSITION */}
+                <CCol xs={12} sm={6} className="mb-4">
+                  <CFormLabel
+                    htmlFor="position"
+                    className={classNames({
+                      'text-error': !!formState.errors?.position,
+                    })}
+                  >
+                    <strong>Position</strong>
+                  </CFormLabel>
+                  <CFormSelect
+                    {...register('position')}
+                    valid={
+                      formState.dirtyFields?.position && !!!formState.errors?.position
+                        ? true
+                        : false
+                    }
+                    invalid={!!formState.errors?.position && true}
+                    options={directorPositionList()}
+                  />
+                  <CFormText
+                    component="span"
+                    className={classNames({
+                      'text-error': true,
+                      'd-none': !!formState.errors?.position ? false : true,
+                    })}
+                  >
+                    Position is required.
+                  </CFormText>
+                </CCol>
+
+                <CCol xs={12} sm={6} className="mb-4">
+                  <CFormLabel
+                    htmlFor="stakeHolderType"
+                    className={classNames({
+                      'text-error': !!formState.errors?.stakeHolderType,
+                    })}
+                  >
+                    <strong>Director Or Shareholder (BO)</strong>
+                  </CFormLabel>
+                  <CFormSelect
+                    {...register('stakeHolderType')}
+                    valid={
+                      formState.dirtyFields?.stakeHolderType && !!!formState.errors?.stakeHolderType
+                        ? true
+                        : false
+                    }
+                    invalid={!!formState.errors?.stakeHolderType && true}
+                    options={directorShareholderList()}
+                  />
+                  <CFormText
+                    component="span"
+                    className={classNames({
+                      'text-error': true,
+                      'd-none': !!formState.errors?.stakeHolderType ? false : true,
+                    })}
+                  >
+                    Type is required.
+                  </CFormText>
+                </CCol>
+              </CRow>
+
+            </CForm>
           </CTabPane>
 
+
+          {/* IMAGE UPLOAD TAB */}
           <CTabPane
             role="tabpanel"
             aria-labelledby="passport-id-card-tab"
             visible={activeKey === 2}
           >
-              <CForm noValidate>
-                <CRow className="g-3">
-                  <CCol xs={12} sm={6} className="mb-4">
-                    <CFormLabel
-                      htmlFor="membertype"
-                      className={classNames({
-                        'text-error': !!formState.errors?.membertype,
-                      })}
-                    >
-                      <strong>Passport Image</strong>
-                    </CFormLabel>
+            <CForm noValidate>
+              <CRow className="g-3">
+                {/* FRONT IMAGE */}
+                <CCol xs={12} sm={6} className="mb-4">
+                  <CFormLabel
+                    htmlFor="membertype"
+                    className={classNames({
+                      'text-error': !!formState.errors?.frontImage,
+                    })}
+                  >
+                    <strong>Front Image</strong>
+                  </CFormLabel>
 
-                    <div>
-                      <CImage rounded thumbnail src="/images/passport.png" />
-                    </div>
+                  {/* FRONT IMAGE */}
+                  <ImageUpload imgUrl={props?.data?.idInfo?.idFrontImage} setValue={setValue} fieldName={'frontImage'} />
 
-                    <CFormText
-                      component="span"
-                      className={classNames({
-                        'text-error': true,
-                        'd-none': !!formState.errors?.membertype ? false : true,
-                      })}
-                    >
-                      Member type is required.
-                    </CFormText>
-                  </CCol>
-                  <CCol xs={12} sm={6} className="mb-4">
-                    <CFormLabel
-                      htmlFor="membertype"
-                      className={classNames({
-                        'text-error': !!formState.errors?.membertype,
-                      })}
-                    >
-                      <strong>ID Card Image</strong>
-                    </CFormLabel>
-                    <div>
-                      <CImage rounded thumbnail src="/images/id-card.jpg" />
-                    </div>
-                    <CFormText
-                      component="span"
-                      className={classNames({
-                        'text-error': true,
-                        'd-none': !!formState.errors?.membertype ? false : true,
-                      })}
-                    >
-                      Member type is required.
-                    </CFormText>
-                  </CCol>
-                </CRow>
-              </CForm>
+                  <CFormText
+                    component="span"
+                    className={classNames({
+                      'text-error': true,
+                      'd-none': !!formState.errors?.frontImage ? false : true,
+                    })}
+                  >
+                    Front is required.
+                  </CFormText>
+                </CCol>
+
+
+                {/* BACK IMAGE */}
+                <CCol xs={12} sm={6} className="mb-4">
+                  <CFormLabel
+                    htmlFor="membertype"
+                    className={classNames({
+                      'text-error': !!formState.errors?.backImage,
+                    })}
+                  >
+                    <strong>Back Image</strong>
+                  </CFormLabel>
+                  <div>
+                    {/* BACK IMAGE */}
+                    <ImageUpload imgUrl={props?.data?.idInfo?.idBackImage} setValue={setValue} fieldName={'backImage'} />
+
+                  </div>
+                  <CFormText
+                    component="span"
+                    className={classNames({
+                      'text-error': true,
+                      'd-none': !!formState.errors?.backImage ? false : true,
+                    })}
+                  >
+                    Back image is required.
+                  </CFormText>
+                </CCol>
+
+
+                {/* PORTRAIT IMAGE */}
+                <CCol xs={12} sm={6} className="mb-4">
+                  <CFormLabel
+                    htmlFor="membertype"
+                    className={classNames({
+                      'text-error': !!formState.errors?.portraitImage,
+                    })}
+                  >
+                    <strong>Portrait Image</strong>
+                  </CFormLabel>
+                  <div>
+                    {/* PORTRAIT IMAGE  */}
+                    <ImageUpload imgUrl={props?.data?.idInfo?.portraitImage} setValue={setValue} fieldName={'portraitImage'} />
+
+                  </div>
+                  <CFormText
+                    component="span"
+                    className={classNames({
+                      'text-error': true,
+                      'd-none': !!formState.errors?.portraitImage ? false : true,
+                    })}
+                  >
+                    Portrait image is required.
+                  </CFormText>
+                </CCol>
+              </CRow>
+            </CForm>
           </CTabPane>
         </CTabContent>
       </CModalBody>
@@ -559,6 +664,7 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
       <CModalFooter>
         <CButton
           color="info"
+          className='text-white'
           shape="rounded-pill"
           onMouseUp={handleSubmit(onSubmit)}
           disabled={formState.isSubmitting}

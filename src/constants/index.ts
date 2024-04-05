@@ -11,11 +11,10 @@ export const PASSWORD_REGEX =
   export const EGANOW_AUTH_COOKIE_NAME = 'eganow_customer_auth'
  */
 
+export const URL = 'https://merchant-web-proxy.uat.egadevapi.com/'
+// export const URL = 'http://192.168.1.22:1444'
 
-  //export const URL = 'https://merchant-web-proxy.uat.egadevapi.com/'
-  export const URL = 'http://192.168.1.49:1444/'
-  
- /*  export const METADATA = {
+/*  export const METADATA = {
     eganowappcustkey: 'keY-a6ee91c7-493a-4e0d-814d-06919674cea1-a0UoThthyys30a-Ey',
     eganowapppassword: 'passW-5e4cd4d1-515b-4047-aa63-288be83e44ff-x001223Th76x-Word',
   } */
@@ -46,3 +45,5 @@ export const RPC_ERROR = {
   DATA_LOSS: '15',
   UNAUTHENTICATED: '16',
 }
+
+

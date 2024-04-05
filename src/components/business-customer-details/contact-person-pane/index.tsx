@@ -12,29 +12,35 @@ import Snackbar from '@/components/Snackbar'
 /* import { validationSchema } from './validationSchema'
 import { defaultFormValues } from './defaultFormValues'
  */
-import {
-  CCol,
-  CRow,
-  CFormLabel,
-  CFormInput,
-  CDatePicker,
-  CLoadingButton,
-  CAvatar,
-  CFormTextarea,
-  CSmartTable,
-  CBadge,
-  CButton,
-  CCollapse,
-  CCardBody,
-} from '@coreui/react-pro'
+import { CCol, CRow, CSmartTable, CBadge, CButton } from '@coreui/react-pro'
+import { CONTACT_PERSON_POSITION } from '@/constants'
+import { useSnackbar } from '@/store'
+import { SnackbarDataType } from '@/types/UI'
+import MerchantAccountSvc from '@/api/merchantAccountSvcGRPC'
+import { DirectorPosition } from '@/protos/generated/eganow/api/merchant/onboarding_entity_pb'
+import { flipObject_util, formatEnum_util } from '@/util'
 /*
  *
  * Contact Person Component
  *
  */
 const ContactPerson = (props) => {
-  const [details, setDetails] = React.useState([])
+  // const [details, setDetails] = React.useState([])
+  const [showDirectorPositionsText, setShowDirectorPositionsText] = React.useState('')
+
   const [dynamicComponent, setDynamicComponent] = useState<FC | null>(null)
+
+  useEffect(() => {
+    const formattedEnum = formatEnum_util(DirectorPosition, 2)
+    const flippedEnum = flipObject_util(formattedEnum)
+    setShowDirectorPositionsText(flippedEnum)
+  }, [])
+
+  //snackbar component from zustand store
+  const { showSnackbar } = useSnackbar()
+
+  //api for delete business contact person
+  const { deleteBusinessContactPerson } = MerchantAccountSvc()
 
   const columns = [
     {
@@ -48,21 +54,21 @@ const ContactPerson = (props) => {
       _style: { width: '20%', minWidth: '15rem' },
     },
     {
-      key: 'mobileNo',
+      key: 'mobileNumber',
       _style: { width: '20%', minWidth: '10rem' },
     },
     {
-      key: 'emailAddress',
+      key: 'email',
       _style: { width: '20%' },
     },
     {
       key: 'position',
       _style: { width: '20%' },
     },
-    {
-      key: 'contact',
-      _style: { width: '20%' },
-    },
+    // {
+    //   key: 'contactId',
+    //   _style: { width: '20%' },
+    // },
     {
       key: 'action',
       label: 'Action',
@@ -72,95 +78,40 @@ const ContactPerson = (props) => {
     },
   ]
 
-  const usersData = [
-    {
-      id: 1,
-      firstName: 'Ben',
-      lastName: 'Doe',
-      mobileNo: '0246174487',
-      emailAddress: 'member@gmail.com',
-      position: 'GENERAL_MANAGER',
-      contact: 'CONTACT_PERSONS',
-    },
-    {
-      id: 2,
-      firstName: 'Samppa',
-      lastName: 'Nori',
-      mobileNo: '21548458',
-      emailAddress: 'member@gmail.com',
-      position: 'CEO',
-      contact: 'CONTACT_PERSONS',
-    },
-    {
-      id: 3,
-      firstName: 'Samppa',
-      lastName: 'Nori',
-      mobileNo: '21548458',
-      emailAddress: 'member@gmail.com',
-      position: 'SALES_MANAGER',
-      contact: 'CONTACT_PERSONS',
-      _selected: true,
-    },
-    {
-      id: 1,
-      firstName: 'Samppa',
-      lastName: 'Nori',
-      mobileNo: '21548458',
-      emailAddress: 'member@gmail.com',
-      position: 'GENERAL_MANAGER',
-      contact: 'CONTACT_PERSONS',
-    },
-    {
-      id: 2,
-      firstName: 'Samppa',
-      lastName: 'Nori',
-      mobileNo: '21548458',
-      emailAddress: 'member@gmail.com',
-      position: 'CEO',
-      contact: 'CONTACT_PERSONS',
-    },
-    {
-      id: 3,
-      firstName: 'Samppa',
-      lastName: 'Nori',
-      mobileNo: '21548458',
-      emailAddress: 'member@gmail.com',
-      position: 'SALES_MANAGER',
-      contact: 'CONTACT_PERSONS',
-      _selected: true,
-    },
-  ]
-
   const getBadge = (status) => {
     switch (status) {
-      case 'GENERAL_MANAGER':
+      case 'SHAREHOLDER':
         return 'success'
-      case 'SALES_PERSON':
+      case 'DIRECTOR':
         return 'secondary'
-      case 'SALES_MANAGER':
-        return 'warning'
       case 'CEO':
+        return 'warning'
+      case 'MANAGEMENT':
         return 'danger'
       default:
         return 'primary'
     }
   }
 
-  const toggleDetails = (index) => {
-    const position = details.indexOf(index)
-    let newDetails = details.slice()
-    if (position !== -1) {
-      newDetails.splice(position, 1)
-    } else {
-      newDetails = [...details, index]
-    }
-    setDetails(newDetails)
-  }
+  // const toggleDetails = (index) => {
+  //   const position = details.indexOf(index)
+  //   let newDetails = details.slice()
+  //   if (position !== -1) {
+  //     newDetails.splice(position, 1)
+  //   } else {
+  //     newDetails = [...details, index]
+  //   }
+  //   setDetails(newDetails)
+  // }
+
+  //setting the contactlist data to contactPersons variable
+  const contactPersons = props?.data?.data?.contactsList
 
   function handleModal() {
-    //Setting default data
+    //Setting default data & spreading the contact persons data
     const userData = {
       type: 'new',
+      ...contactPersons,
     }
     //Open the AddEditUser component
     setDynamicComponent(
@@ -168,8 +119,9 @@ const ContactPerson = (props) => {
     )
   }
 
-  function handleClick(e: React.ChangeEvent<HTMLInputElement>, items): void {
-    const { type } = e.target.dataset
+  async function handleClick(e: React.ChangeEvent<HTMLInputElement>, items): void {
+    const { type } = e.currentTarget.dataset
+
     /*  Editing Users */
     if (type === 'edit') {
       //Setting default data
@@ -185,6 +137,33 @@ const ContactPerson = (props) => {
     /*  Deleting Users */
     if (type === 'delete') {
       //Open the AddEditUser component
+
+      try {
+        const response = await deleteBusinessContactPerson(items)
+        //Show response if error occurs and return error.
+        if (!response) {
+          //Throw response on error.
+          throw new Error(response.message)
+        }
+        //Show response on success.
+        showSnackbar({
+          type: 'success',
+          title: 'User Management',
+          messages: response.value,
+          show: true,
+        } as SnackbarDataType)
+        handleRefresh()
+      } catch (error) {
+        console.log(error)
+
+        showSnackbar({
+          type: 'danger',
+          title: 'User Management',
+          messages: error.message,
+          show: true,
+        } as SnackbarDataType)
+      }
+
       setDynamicComponent(<Snackbar modalClose={modalClose} />)
     }
   }
@@ -195,7 +174,7 @@ const ContactPerson = (props) => {
 
   function handleRefresh() {
     //Rehydrating users
-    //refetch()
+    props.data.refetch()
   }
 
   return (
@@ -210,7 +189,7 @@ const ContactPerson = (props) => {
             <CButton
               color="info"
               shape="rounded-pill"
-              className="float-end"
+              className="float-end text-white"
               onMouseUp={handleModal}
             >
               Add new
@@ -224,14 +203,16 @@ const ContactPerson = (props) => {
               columnFilter
               columnSorter
               footer
-              items={usersData}
+              items={contactPersons}
               itemsPerPageSelect
               itemsPerPage={5}
               pagination
               scopedColumns={{
                 position: (item) => (
                   <td>
-                    <CBadge color={getBadge(item.position)}>{item.position}</CBadge>
+                    <CBadge color={getBadge(showDirectorPositionsText[item.position])}>
+                      {showDirectorPositionsText[item.position]}
+                    </CBadge>
                   </td>
                 ),
                 action: (item) => {
@@ -243,8 +224,9 @@ const ContactPerson = (props) => {
                         variant="outline"
                         shape="square"
                         size="sm"
-                        onClick={() => {
-                          toggleDetails(item.id)
+                        data-type="edit"
+                        onClick={(e) => {
+                          handleClick(e, item)
                         }}
                       >
                         Edit
@@ -254,8 +236,9 @@ const ContactPerson = (props) => {
                         variant="outline"
                         shape="square"
                         size="sm"
-                        onClick={() => {
-                          toggleDetails(item.id)
+                        data-type="delete"
+                        onClick={(e) => {
+                          handleClick(e, item.contactId)
                         }}
                       >
                         Remove

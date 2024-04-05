@@ -1,9 +1,10 @@
 // @ts-nocheck
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { CButton, CCard, CCardBody, CCardText, CCardTitle, CCol, CLink } from '@coreui/react-pro'
 import type { FeaturePropsType } from '@/types/Features'
 import { useFeatureStore } from '@/store'
+import classNames from 'classnames';
 
 export default function Features(props: FeaturePropsType) {
   const { incrementFeatureCount } = useFeatureStore()
@@ -13,9 +14,15 @@ export default function Features(props: FeaturePropsType) {
     incrementFeatureCount(featureTitle)
   }
 
+  
   return (
     <CCol sm={6} lg={3}>
-      <CCard className="card1 text-center w-100 pt-3 rounded-4">
+      <CCard
+        className={classNames('card1', 'text-center', 'w-100', 'pt-3', 'rounded-4', {
+          'card1-selected': props.data.title === props.highestFeatureValue && !props.isFeatureHovered
+        })}
+        onMouseOver={props.removeUsedFeatureSelect}
+      >
         <div className="go-corner" href="#">
           <div className="go-arrow">→</div>
         </div>

@@ -12,7 +12,7 @@ import {
   CDropdownMenu,
   CDropdownToggle,
 } from '@coreui/react-pro'
-import { cilLockLocked, cilSettings, cilUser } from '@coreui/icons'
+import { cilBriefcase, cilLockLocked, cilSettings, cilUser } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import { cilAccountLogout } from '@coreui/icons'
 /* HOOKS */
@@ -23,6 +23,7 @@ import { EGANOW_AUTH_COOKIE } from '@/constants'
 import { getInitialsForAvatar_util } from '@/util'
 /* TYPE */
 import { UserInfoType } from '@/types/Users'
+import { MdOutlineBusinessCenter } from 'react-icons/md'
 /* 
 
 
@@ -62,7 +63,7 @@ const AppHeaderDropdown = (props: UserInfoType) => {
       <CDropdownMenu
         className="pt-0"
         style={{
-          minWidth: '250px',
+          minWidth: '235px',
         }}
       >
         <CDropdownHeader className="bg-light dark:bg-dark dark:bg-opacity-10 fw-semibold py-2">
@@ -84,6 +85,10 @@ const AppHeaderDropdown = (props: UserInfoType) => {
         <CDropdownItem href="#">
           <CIcon icon={cilUser} className="me-2" />
           User Management
+        </CDropdownItem>
+        <CDropdownItem href="/business-details">
+          <CIcon icon={cilBriefcase} className="me-2" />
+          Business Details
         </CDropdownItem>
         <CDropdownItem href="#">
           <CIcon icon={cilLockLocked} className="me-2" />

@@ -108,6 +108,7 @@ const Register = () => {
           handleForm={handleForm}
           handleBackClick={back_click}
           handleNextClick={next_click}
+          loading={loading}
         />
       ),
     },
@@ -123,6 +124,8 @@ const Register = () => {
           handleBackClick={back_click}
           handleSubmitClick={submit_click}
           errors={errors}
+          loading={loading}
+
         />
       ),
     },
@@ -249,7 +252,10 @@ const Register = () => {
       //Start loading
       setLoading(true)
       //Creating the merchant account
-      await createMerchantAccount(values)
+      let creatingAcc = await createMerchantAccount(values)
+
+      console.log(creatingAcc);
+      
       //Stop loading
       setLoading(false)
       //Resetting the error if any
@@ -283,6 +289,7 @@ const Register = () => {
       setLoading(true)
       //Log merchant in
       const response = await loginMerchant({ email, password })
+      
       //If accessToken exist on success then log user in.
       if (response.accessToken) {
         //Storing login authentication in cookie
