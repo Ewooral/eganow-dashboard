@@ -46,7 +46,7 @@ function ImageUpload(props) {
 
                     if (typeof props.setValue === 'function') {
                         // SETTING VALUE TO FORMATTED BASE64
-                        props.setValue(props.fieldName, base64WithoutPrefix)
+                        props.setValue(props.fieldName, base64WithoutPrefix,{shouldValidate:true})
                     }
                 }
                 //fr.readAsArrayBuffer(event.target.files[0])
