@@ -407,14 +407,19 @@ select {
   border: none;
 }
 
-.imgOverlay{
+.imgBox{
   border: 2px dashed ;
   min-height: 200px;
+  background-image: url('https://secureservercdn.net/166.62.110.60/h65.3a1.myftpupload.com/wp-content/uploads/2021/09/variable-placeholder-product-31.jpg?time=1644500349');
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
 
 }
 
 .imgOverlay:hover {
-  background: rgba(22, 22, 22, 0.641) !important;
+  background: rgba(22, 22, 22, 0.769) !important;
+
   z-index: 999;
 }
 

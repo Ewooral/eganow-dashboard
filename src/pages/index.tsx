@@ -118,7 +118,7 @@ const Entry: NextPageWithLayout = (props) => {
                     {`${props.cookies.fullName}`}
                   </span>
                 </p>
-                <h3 className="text-medium-emphasis">{props.cookies.businessName}</h3>
+                <h3 className="text-medium-emphasis">{props.cookies.companyName}</h3>
               </div>
             </CCol>
             <CCol className="">

@@ -3,7 +3,7 @@ import Image from 'next/image'
 import CIcon from '@coreui/icons-react'
 import { cilBurn } from '@coreui/icons'
 import { cilIndustry } from '@coreui/icons'
-import { CRow, CCol, CFormLabel, CFormInput, CFormText, CButton, CAlert } from '@coreui/react-pro'
+import { CRow, CCol, CFormLabel, CFormInput, CFormText, CButton, CAlert, CSpinner } from '@coreui/react-pro'
 import classNames from 'classnames'
 import { FaChevronLeft, FaTelegramPlane } from 'react-icons/fa'
 import logo_compact from '@/public/brand/eganow.png'
@@ -17,7 +17,8 @@ const StepFourPane = (props: any) => {
   const { register, formState } = props.handleForm
   const handleBackClick = props.handleBackClick
   const handleSubmitClick = props.handleSubmitClick
-  const {formatMessage} = useIntl()
+  const { formatMessage } = useIntl()
+
 
   return (
     <>
@@ -36,7 +37,7 @@ const StepFourPane = (props: any) => {
           />
         </CCol>
         <CCol xs={10} className="mx-auto">
-        <h3 className="mx-auto">
+          <h3 className="mx-auto">
             <FormattedMessage id="customer_registration" defaultMessage="Customer Registration" />
           </h3>
         </CCol>
@@ -66,7 +67,7 @@ const StepFourPane = (props: any) => {
           <CFormInput
             type="text"
             id="businessName"
-            placeholder={formatMessage({id:'business_name_placeholder', defaultMessage: 'Enter your business name here'})}
+            placeholder={formatMessage({ id: 'business_name_placeholder', defaultMessage: 'Enter your business name here' })}
             {...register('businessName')}
             valid={
               formState.dirtyFields?.businessName && !!!formState.errors?.businessName
@@ -82,7 +83,7 @@ const StepFourPane = (props: any) => {
               'd-none': !!formState.errors?.businessName ? false : true,
             })}
           >
-             <FormattedMessage id="business_name_is_required" defaultMessage="Business name is required" />
+            <FormattedMessage id="business_name_is_required" defaultMessage="Business name is required" />
           </CFormText>
         </CCol>
       </CRow>
@@ -95,13 +96,13 @@ const StepFourPane = (props: any) => {
               'text-error': !!formState.errors?.tradingName,
             })}
           >
-         <FormattedMessage id="trading_name" defaultMessage="Trading Name" />
+            <FormattedMessage id="trading_name" defaultMessage="Trading Name" />
 
           </CFormLabel>
           <CFormInput
             type="text"
             id="tradingName"
-            placeholder={formatMessage({id:'business_trading_name_placeholder', defaultMessage: 'Enter your business trading name here'})}
+            placeholder={formatMessage({ id: 'business_trading_name_placeholder', defaultMessage: 'Enter your business trading name here' })}
             {...register('tradingName')}
             valid={
               formState.dirtyFields?.tradingName && !!!formState.errors?.tradingName ? true : false
@@ -154,12 +155,15 @@ const StepFourPane = (props: any) => {
           </CButton>
         </CCol>
         <CCol xs="auto">
-        {props.loading ? (
-            <CSpinner component="span" size="sm" aria-hidden="true" className="ms-2" />
-          ) :  <CButton className="text-white" color="success" onMouseUp={handleSubmitClick}>
+          <CButton className="text-white" color="success" disabled={props.loading} onMouseUp={handleSubmitClick}>
             <FormattedMessage id="send" defaultMessage="Send" />
-            <FaTelegramPlane className="ms-2 mb-1" />
-          </CButton>}
+            {props.loading ? (
+              <CSpinner component="span" size="sm" aria-hidden="true" className="ms-2" />
+            ) :
+                <FaTelegramPlane className="ms-2 mb-1" />
+            }
+          </CButton>
+
         </CCol>
       </CRow>
     </>
