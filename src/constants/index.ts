@@ -11,8 +11,8 @@ export const PASSWORD_REGEX =
   export const EGANOW_AUTH_COOKIE_NAME = 'eganow_customer_auth'
  */
 
-export const URL = 'https://merchant-web-proxy.uat.egadevapi.com/'
-// export const URL = 'http://192.168.1.29:1444'
+// export const URL = 'https://merchant-web-proxy.uat.egadevapi.com/'
+export const URL = 'http://192.168.1.61:1444'
 
 // export const URL = 'http://192.168.1.22:1444'
 
