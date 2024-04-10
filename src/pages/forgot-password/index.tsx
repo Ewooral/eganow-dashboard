@@ -125,7 +125,7 @@ const ForgotPassword = () => {
                 ) : (
                   //Request password reset form
                   <CCardBody className=" p-0 m-0">
-                    <h4 className="text-center font">
+                    <h4 className="text-center my-2">
                       {/*//TODO - add id to languages folder*/}
                       <FormattedMessage
                         id="reset_account_password"
@@ -151,17 +151,17 @@ const ForgotPassword = () => {
                       </CAlert>
                     )} */}
                     <CForm className="px-4" noValidate onSubmit={handleSubmit(onSubmit)}>
-                    {errors?.message && (
-                      <CAlert color="danger" className=''>
-                        <CIcon
-                          icon={cilFire}
-                          className="flex-shrink-0 me-2"
-                          width={24}
-                          height={24}
-                        />
-                        {errors?.message}
-                      </CAlert>
-                    )}
+                      {errors?.message && (
+                        <CAlert color="danger" className="">
+                          <CIcon
+                            icon={cilFire}
+                            className="flex-shrink-0 me-2"
+                            width={24}
+                            height={24}
+                          />
+                          {errors?.message}
+                        </CAlert>
+                      )}
                       <CInputGroup className="mb-3">
                         <CInputGroupText style={{ width: '50px' }}>
                           <CIcon icon={cilEnvelopeClosed} />
@@ -198,11 +198,16 @@ const ForgotPassword = () => {
                         </CCol>
                       </CRow>
                     </CForm>
-                  
-                    <Link  href="/login" className=" ">
+
+                    <Link href="/login" className=" ">
                       <p
                         className=" p-0"
-                        style={{ cursor: 'pointer', textDecoration: 'underline', width: '200px', marginLeft: "25px" }}
+                        style={{
+                          cursor: 'pointer',
+                          textDecoration: 'underline',
+                          width: '200px',
+                          marginLeft: '25px',
+                        }}
                       >
                         Back to login
                       </p>

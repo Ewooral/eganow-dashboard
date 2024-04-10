@@ -3,10 +3,10 @@ import AppBreadcrumb from './AppBreadcrumb'
 import AppFooter from './AppFooter'
 import AppHeader from './header/AppHeader'
 import AppSidebar from './AppSidebar'
-import DashboardLayout from './layouts/DashboardLayout'
+import DashboardLayout from './header/layouts/DashboardLayout'
 /* Added by Maclean */
-import GeneralLayout from './layouts/GeneralLayout'
-import EntryLayout from './layouts/EntryLayout'
+import GeneralLayout from './header/layouts/GeneralLayout'
+import EntryLayout from './header/layouts/EntryLayout'
 
 import AppEntryHeader from './header/AppEntryHeader'
 import GlobalLoader from './GlobalLoader'

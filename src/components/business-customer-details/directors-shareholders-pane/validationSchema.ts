@@ -11,7 +11,7 @@ export const validationSchema = yup
     expiryDate: yup.string().required(),
     placeOfIssue: yup.string().required(),
     position: yup.string().required(),
-    stakeHolderType: yup.string().required(),
+    // stakeHolderType: yup.string().required(),
     frontImage : yup.string().required(),
     backImage : yup.string().required(),
     portraitImage : yup.string().required(),

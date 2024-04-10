@@ -74,7 +74,7 @@ function ImageUpload(props) {
 
    
     return (
-        <div className='position-relative imgBox'
+        <div className='position-relative imgBox  '
             onMouseOver={() => {
                 if (imageFile) {
                     setShowIcons(true)
