@@ -790,6 +790,7 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                     ) : (
                       <CDatePicker
                         inputReadOnly
+                        minDate={new Date()}
                         {...register('licenseExpiryDate')}
                         onDateChange={(date) => handleDateChange('licenseExpiryDate', date)}
                         disabled={props.type === ''}
