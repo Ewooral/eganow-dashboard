@@ -11,6 +11,15 @@ function ImageUpload(props) {
     const [showUploadIcon, setShowUploadIcons] = useState(true)
 
 
+    // useEffect to clear image state when formSubmitted changes
+    useEffect(() => {
+        if (props.formSubmitted) {
+            setImageFile(null)
+            setShowUploadIcons(true)
+        }
+    }, [props.formSubmitted]);
+
+
     // HANDLE IMAGE UPLOADER
     function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>): void {
         setShowIcons(false)
@@ -60,7 +69,9 @@ function ImageUpload(props) {
     // REMOVE SELECTED IMAGE FILE
     function removeImage() {
         setImageFile(null)
+        setShowIcons(false)
     }
+
    
     return (
         <div className='position-relative imgBox'
