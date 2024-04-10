@@ -105,7 +105,7 @@ const Entry: NextPageWithLayout = (props) => {
         show: true,
       })
     }
-  }, [allowToEdit])
+  }, [allowToEdit, showSnackbar])
 
   useEffect(() => {
     if (results[3].data) {

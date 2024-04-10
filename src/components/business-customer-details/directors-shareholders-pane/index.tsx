@@ -81,21 +81,19 @@ const DirectorsShareholders = (props) => {
   // ASSIGNING LIST OF DIRECTORS FROM PROPS
   const directorsList = props?.directors?.data?.directorsShareholdersList
 
-
   // HANDLE ID TYPE VALUE
   const idTypeName = () => {
-    let formatEnum = formatEnum_util(CustomerIDTypes, 3)
+    const formatEnum = formatEnum_util(CustomerIDTypes, 3)
     const flippedEnum = flipObject_util(formatEnum)
     setIdTypeText(flippedEnum)
   }
 
   // HANDLE DIRECTOR POSITION VALUE
   const positionCol = () => {
-    let formatEnum = formatEnum_util(DirectorPosition, 2)
+    const formatEnum = formatEnum_util(DirectorPosition, 2)
     const flippedEnum = flipObject_util(formatEnum)
     setPositionColumn(flippedEnum)
   }
-
 
   useEffect(() => {
     idTypeName()
@@ -158,6 +156,7 @@ const DirectorsShareholders = (props) => {
       sorter: false,
     },
   ]
+  
   const getBadge = (status) => {
     switch (status) {
       case 'GENERAL_MANAGER':

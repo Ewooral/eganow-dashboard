@@ -362,9 +362,6 @@ function deleteDirector(params) {
   try {
     const request = new MerchantEmpty()
 
-    console.log(client);
-    
-
     return new Promise((resolve, reject) => {
       client.listBusinessDocuments(request, metadata, (err, res) => {
         if (err) {

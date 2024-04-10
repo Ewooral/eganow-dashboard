@@ -79,7 +79,7 @@ const Attachments = (props) => {
   ]
 
   //function to handle file upload
-  async function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>): void {
+  function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>): void {
     const fileInputType = document.createElement('input')
     fileInputType.setAttribute('type', 'file')
     fileInputType.setAttribute('accept', 'image/x-png,image/jpg,image/jpeg, application/pdf')
@@ -96,7 +96,7 @@ const Attachments = (props) => {
     fileInputType.addEventListener('change', test, false)
   }
 
-  async function test(e) {
+  function test(e) {
     const selectedFile = e.target.files[0]
 
     // Do something with the selected file, such as uploading it or processing it
@@ -152,7 +152,6 @@ const Attachments = (props) => {
     // /*  Deleting Users */
     if (type === 'delete') {
       //Open the AddEditUser component
-
       try {
         const response = await deleteBusinessDocument(items)
         //Show response if error occurs and return error.
@@ -213,10 +212,6 @@ const Attachments = (props) => {
                 </CButton>
               )}
             </div>
-            
-            {pdfFile ? (
-              <iframe src={pdfFile} style={{ width: '1000px', height: '500px' }}></iframe>
-            ) : null}
 
             <div>
               <CSmartTable

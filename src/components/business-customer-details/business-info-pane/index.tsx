@@ -20,7 +20,7 @@ import {
 } from '@coreui/react-pro'
 import classNames from 'classnames'
 import { useEffect, useState } from 'react'
-import { flipObject_util, formatDate_to_text_util, formatEnum_util } from '@/util'
+import { flipObject_util, formatDate_to_text_util, formatDate_util, formatEnum_util } from '@/util'
 import MerchantAccountSvc from '@/api/merchantAccountSvcGRPC'
 import { useSnackbar } from '@/store'
 import { generateOptions } from '@/helpers'
@@ -494,8 +494,9 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                         ? props?.businessInfoData?.data?.dateOfIncorporation
                         : props?.businessInfoData?.data?.dateOfIncorporation === undefined
                         ? ''
-                        : formatDate_to_text_util(
+                        : formatDate_util(
                             props?.businessInfoData?.data?.dateOfIncorporation,
+                            'MMMM d, yyyy',
                           )}
                     </p>
                   ) : (

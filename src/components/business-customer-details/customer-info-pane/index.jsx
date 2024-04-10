@@ -52,8 +52,8 @@ const CustomerInfo = (props) => {
 
   // ENUM ARRAY LIST FORMATTER
   const ownerOfficeList = () => {
-    let formatEnum = formatEnum_util(OfficeOwnership, 2)
-    let enums = generateOptions(formatEnum)
+    const formatEnum = formatEnum_util(OfficeOwnership, 2)
+    const enums = generateOptions(formatEnum)
     return enums
   }
 
