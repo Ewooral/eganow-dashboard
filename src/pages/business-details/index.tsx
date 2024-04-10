@@ -25,6 +25,7 @@ import {
   CCard,
 } from '@coreui/react-pro'
 import CIcon from '@coreui/icons-react'
+
 import { cilIndustry } from '@coreui/icons'
 /* CONSTANCE */
 import { EGANOW_AUTH_COOKIE } from '@/constants'
@@ -76,18 +77,38 @@ const Entry: NextPageWithLayout = (props) => {
   const { getBusinessRegulators, getBusinessIndustries } = MerchantCommonSvc()
 
   //handles multiple queries
-  const results = useQueries({
+  const [
+    businessContactPersons,
+    businessIndustries,
+    businessRegulators,
+    businessInfo,
+    businessContactInfo,
+    directorsList,
+    businessDocuments,
+  ] = useQueries({
     queries: [
       {
         queryKey: ['listbusinesscontactpersons', 1],
         queryFn: () => listBusinessContactPersons(),
         staleTime: 5000,
       },
-      { queryKey: ['getBusinessIndustries', 2], queryFn: () => getBusinessIndustries() },
-      { queryKey: ['getBusinessRegulators', 3], queryFn: () => getBusinessRegulators() },
+      {
+        queryKey: ['getBusinessIndustries', 2],
+        queryFn: () => getBusinessIndustries(),
+        staleTime: 5000,
+      },
+      {
+        queryKey: ['getBusinessRegulators', 3],
+        queryFn: () => getBusinessRegulators(),
+        staleTime: 5000,
+      },
       { queryKey: ['getBusinessInfo', 4], queryFn: () => getBusinessInfo(), staleTime: 5000 },
-      { queryKey: ['getBusinessContactInfo', 5], queryFn: () => getBusinessContactInfo() },
-      { queryKey: ['getDirectorList', 6], queryFn: () => getDirectorList() },
+      {
+        queryKey: ['getBusinessContactInfo', 5],
+        queryFn: () => getBusinessContactInfo(),
+        staleTime: 5000,
+      },
+      { queryKey: ['getDirectorList', 6], queryFn: () => getDirectorList(), staleTime: 5000 },
       {
         queryKey: ['getBusinessDocuments', 7],
         queryFn: () => listBusinessDocuments(),
@@ -108,12 +129,15 @@ const Entry: NextPageWithLayout = (props) => {
   }, [allowToEdit, showSnackbar])
 
   useEffect(() => {
-    if (results[3].data) {
+    if (businessInfo.data) {
       setAllowToEdit(true)
       // results[3]?.data?.allowForEdit
     }
 
-    if (results[3]?.error?.code === 2) {
+    
+    
+
+    if (businessInfo?.error?.code === 2) {
       showSnackbar({
         type: 'danger',
         title: 'User Management',
@@ -121,7 +145,7 @@ const Entry: NextPageWithLayout = (props) => {
         show: true,
       })
     }
-  }, [results[3].data])
+  }, [businessInfo.data])
 
   const { control } = useForm({
     mode: 'onChange',
@@ -151,6 +175,11 @@ const Entry: NextPageWithLayout = (props) => {
     fileInputType.addEventListener('change', () => {}, false)
   }
 
+  //function to toggle edit mode
+  function toggleEdit() {
+    type === '' ? setType('edit') : setType('')
+  }
+
   return (
     <GeneralLayout {...props}>
       <div className="profile-banner-color">
@@ -166,26 +195,23 @@ const Entry: NextPageWithLayout = (props) => {
 
             {allowToEdit && (
               <div>
-                {type === '' ? (
-                  <CButton
-                    onMouseUp={() => setType('edit')}
-                    color="danger"
-                    className="d-flex justify-content-center align-items-center bg-white text-black  gap-1"
-                    // style={{background:'red'}}
-                  >
-                    <FaEdit style={{ fontSize: '1.2rem' }} />
-                    Edit
-                  </CButton>
-                ) : (
-                  <CButton
-                    onMouseUp={() => setType('')}
-                    color="info"
-                    className="d-flex justify-content-center align-items-center  gap-1 text-white"
-                  >
-                    <MdOutlineCancel style={{ fontSize: '1.2rem' }} />
-                    Cancel
-                  </CButton>
-                )}
+                <CButton
+                  onMouseUp={toggleEdit}
+                  color="danger"
+                  className="d-flex justify-content-center align-items-center bg-white text-black  gap-1"
+                >
+                  {type === '' ? (
+                    <div className="d-flex align-items-center gap-2">
+                      <FaEdit style={{ fontSize: '1.2rem' }} />
+                      Edit
+                    </div>
+                  ) : (
+                    <div className="d-flex align-items-center gap-2">
+                      <MdOutlineCancel style={{ fontSize: '1.2rem' }} />
+                      Cancel
+                    </div>
+                  )}
+                </CButton>
               </div>
             )}
           </div>
@@ -223,19 +249,21 @@ const Entry: NextPageWithLayout = (props) => {
 
                   <div>
                     <h6 className="fw-bold">Company Name</h6>
-                    <h6 className="mb-4 fw-normal">{results[3]?.data?.companyName}</h6>
+                    <h6 className="mb-4 fw-normal">{businessInfo?.data?.companyName}</h6>
                   </div>
 
                   <div>
                     <h6 className="fw-bold">Registration Number</h6>
                     <h6 className="mb-4 fw-normal">
-                      {results[3]?.data?.companyRegistrationNumber}
+                      {businessInfo?.data?.companyRegistrationNumber}
                     </h6>
                   </div>
 
                   <div>
                     <h6 className="fw-bold">TIN</h6>
-                    <h6 className="mb-4 fw-normal">{results[3]?.data?.taxIdentificationNumber}</h6>
+                    <h6 className="mb-4 fw-normal">
+                      {businessInfo?.data?.taxIdentificationNumber}
+                    </h6>
                   </div>
 
                   <div>
@@ -243,7 +271,7 @@ const Entry: NextPageWithLayout = (props) => {
                     <h6 className="mb-4 fw-normal">
                       Count::{' '}
                       <CBadge color="secondary" shape="rounded-circle">
-                        {results[6]?.data?.documentsList.length || 0}
+                        {businessDocuments?.data?.documentsList?.length || 0}
                       </CBadge>
                     </h6>
                   </div>
@@ -263,7 +291,7 @@ const Entry: NextPageWithLayout = (props) => {
             </CCard>
           </CCol>
 
-          <CCol lg={9}>
+          <CCol lg={9} className="">
             <CCard className="px-0 pt-4 border me-1 rounded-0" style={{ minHeight: '100vh' }}>
               <div className="w-100 overflow-y-hidden overflow-x-auto">
                 <CNav variant="underline" className="mb-4 w-100">
@@ -292,7 +320,7 @@ const Entry: NextPageWithLayout = (props) => {
                       <strong>Attachments</strong>
                     </CNavLink>
                   </CNavItem>
-                  <CNavItem>
+                  {/* <CNavItem>
                     <CNavLink href="#" active={activeKey === 6} onClick={() => setActiveKey(6)}>
                       <strong>Note</strong>
                     </CNavLink>
@@ -301,7 +329,7 @@ const Entry: NextPageWithLayout = (props) => {
                     <CNavLink href="#" active={activeKey === 7} onClick={() => setActiveKey(7)}>
                       <strong>Message</strong>
                     </CNavLink>
-                  </CNavItem>
+                  </CNavItem> */}
                 </CNav>
               </div>
 
@@ -312,9 +340,9 @@ const Entry: NextPageWithLayout = (props) => {
                   visible={activeKey === 1}
                 >
                   <BusinessInfo
-                    businessInfoData={results[3]}
-                    industries={results[1]?.data?.industriesList}
-                    regulators={results[2]?.data?.regulatorsList}
+                    businessInfoData={businessInfo}
+                    industries={businessIndustries?.data?.industriesList}
+                    regulators={businessRegulators?.data?.regulatorsList}
                     type={type}
                     setType={setType}
                   />
@@ -324,21 +352,21 @@ const Entry: NextPageWithLayout = (props) => {
                   <CustomerInfo
                     control={control}
                     type={type}
-                    contactInfo={results[4]}
+                    contactInfo={businessContactInfo}
                     setType={setType}
                   />
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 3}>
-                  <ContactPerson control={control} data={results[0]} />
+                  <ContactPerson control={control} data={businessContactPersons} allowToEdit={allowToEdit} />
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 4}>
-                  <DirectorsShareholders type={type} directors={results[5]} setType={setType} />
+                  <DirectorsShareholders type={type} directors={directorsList} setType={setType} allowToEdit={allowToEdit}/>
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 5}>
-                  <Attachments control={control} data={results[6]} />
+                  <Attachments control={control} data={businessDocuments}  allowToEdit={allowToEdit}/>
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 6}>

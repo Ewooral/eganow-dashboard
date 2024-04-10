@@ -58,6 +58,7 @@ import ImageUpload from '@/components/ImageUpload'
 
 const AddEditDirectorsShareholders = (props: UserProps) => {
   const [activeKey, setActiveKey] = useState(1)
+  
 
   // ADD AND UPDATE DIRECTORS APIs INIT 
   const { addDirectorOrShareholder, updateDirectorOrShareholder } = MerchantAccountSvc()
@@ -457,6 +458,9 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
                     locale="en-US"
                     {...register('expiryDate')}
                     onDateChange={handleDateChange}
+                    inputReadOnly
+                    invalid={!!formState.errors?.expiryDate}
+                    
                   />
                   <CFormText
                     component="span"
@@ -534,7 +538,7 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
                   </CFormText>
                 </CCol>
 
-                <CCol xs={12} sm={6} className="mb-4">
+                {/* <CCol xs={12} sm={6} className="mb-4">
                   <CFormLabel
                     htmlFor="stakeHolderType"
                     className={classNames({
@@ -562,7 +566,7 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
                   >
                     Type is required.
                   </CFormText>
-                </CCol>
+                </CCol> */}
               </CRow>
 
             </CForm>

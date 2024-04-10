@@ -436,7 +436,7 @@ const CustomerInfo = (props) => {
                   <div>
                     <CDatePicker
                       {...register('firstOccupancyDate')}
-                      id="licenseIssuedDate" date="2022/2/16"
+                      id="licenseIssuedDate" date=""
                       onDateChange={handleDateChange}
                       format='yyyy/MM/dd'
                       locale="en-US"

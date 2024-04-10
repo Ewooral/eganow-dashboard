@@ -257,7 +257,7 @@ const DirectorsShareholders = (props) => {
               List of Directors & Shareholders
             </legend>
 
-            <CButtonGroup
+          {props?.allowToEdit && <CButtonGroup
               role="group"
               aria-label="Button group with nested dropdown"
               className="float-end"
@@ -271,7 +271,7 @@ const DirectorsShareholders = (props) => {
                   <CDropdownItem href="#">Batch Remove</CDropdownItem>
                 </CDropdownMenu>
               </CDropdown> */}
-            </CButtonGroup>
+            </CButtonGroup>}
 
             <CSmartTable
               activePage={1}
@@ -301,7 +301,9 @@ const DirectorsShareholders = (props) => {
                 },
                 action: (item) => {
                   return (
-                    <td className="py-3 d-flex">
+                    <td >
+                    {props?.allowToEdit ?  <div className="py-3 d-flex">
+
                       <CButton
                         className="me-1"
                         color="primary"
@@ -327,6 +329,7 @@ const DirectorsShareholders = (props) => {
                       >
                         Remove
                       </CButton>
+                      </div> : "N/A"}
                     </td>
                   )
                 },

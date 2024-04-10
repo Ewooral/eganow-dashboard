@@ -46,7 +46,7 @@ function ImageUpload(props) {
 
                     if (typeof props.setValue === 'function') {
                         // SETTING VALUE TO FORMATTED BASE64
-                        props.setValue(props.fieldName, base64WithoutPrefix)
+                        props.setValue(props.fieldName, base64WithoutPrefix,{shouldValidate:true})
                     }
                 }
                 //fr.readAsArrayBuffer(event.target.files[0])
@@ -63,7 +63,7 @@ function ImageUpload(props) {
     }
    
     return (
-        <div className='position-relative imgBox'
+        <div className='position-relative imgBox  '
             onMouseOver={() => {
                 if (imageFile) {
                     setShowIcons(true)

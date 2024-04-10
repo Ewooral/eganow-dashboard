@@ -187,7 +187,7 @@ const Attachments = (props) => {
               List of Documents Uploaded
             </legend>
 
-            <div className="text-center">
+           {props?.allowToEdit && <div className="text-center">
               {isUploading ? (
                 <div className="d-flex justify-content-center">
                   <CProgress
@@ -211,7 +211,7 @@ const Attachments = (props) => {
                   <GrCloudUpload className="fs-3  text-white" /> Upload Files
                 </CButton>
               )}
-            </div>
+            </div>}
 
             <div>
               <CSmartTable
@@ -228,8 +228,8 @@ const Attachments = (props) => {
                   fileType: (items) => FileIconColumn(items.name.split('.').pop()),
                   action: (item) => {
                     return (
-                      <td className="py-2 d-flex">
-                        <CButton
+                      <td className="py-2 ">
+                      {props?.allowToEdit &&  <CButton
                           color="danger"
                           variant="outline"
                           shape="square"
@@ -240,7 +240,7 @@ const Attachments = (props) => {
                           }}
                         >
                           Remove
-                        </CButton>
+                        </CButton>}
                       </td>
                     )
                   },

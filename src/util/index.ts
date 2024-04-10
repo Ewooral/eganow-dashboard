@@ -245,18 +245,17 @@ export const getMaxValueKey = (data: object) => {
  * This function removes separate a string
  */
 export function formatEnum_util(obj: any, n: number) {
-  const newObj = {};
+  const newObj = {}
   for (const key in obj) {
-      if (Object.prototype.hasOwnProperty.call(obj, key)) {
-          const keyArray = key.split('_'); // Split the key into an array of characters
-          keyArray.splice(0, n); // Remove the first n characters
-          const newKey = keyArray.join(' '); // Join the characters back into a string
-          newObj[newKey] = obj[key];
-      }
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      const keyArray = key.split('_') // Split the key into an array of characters
+      keyArray.splice(0, n) // Remove the first n characters
+      const newKey = keyArray.join(' ') // Join the characters back into a string
+      newObj[newKey] = obj[key]
+    }
   }
 
-  
-  return   newObj;
+  return newObj
 }
 
 /**
@@ -270,41 +269,6 @@ export function flipObject_util(obj) {
     flippedObj[value] = key
   }
   return flippedObj
-}
-
-/**
- * @param {string}
- * this function changes date to text format
- */
-export function formatDate_to_text_util(dateStr) {
-  // Create a Date object from the input date string
-  var dateObj = new Date(dateStr)
-
-  // Define month names
-  var monthNames = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ]
-
-  // Extract components
-  var year = dateObj.getFullYear()
-  var month = dateObj.getMonth() // Month is zero-based
-  var day = dateObj.getDate()
-
-  // Construct the textual representation
-  var textDate = monthNames[month] + ' ' + day + ', ' + year
-
-  return textDate
 }
 
 /**
