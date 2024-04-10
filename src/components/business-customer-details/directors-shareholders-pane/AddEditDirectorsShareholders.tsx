@@ -60,6 +60,8 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
   const [activeKey, setActiveKey] = useState(1)
   const [formSubmitted, setFormSubmitted] = useState(false);
 
+  const currentDate = new Date()
+
 
   // ADD AND UPDATE DIRECTORS APIs INIT 
   const { addDirectorOrShareholder, updateDirectorOrShareholder } = MerchantAccountSvc()
@@ -464,7 +466,7 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
                     onDateChange={handleDateChange}
                     inputReadOnly
                     invalid={!!formState.errors?.expiryDate}
-                    minDate={new Date()}
+                    minDate={currentDate}
                     
                     
                   />
