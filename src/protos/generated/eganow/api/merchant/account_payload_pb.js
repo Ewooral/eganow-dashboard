@@ -4176,7 +4176,6 @@ proto.eganow.api.merchant.AddDirectorShareholderRequest.toObject = function(incl
     mobileNumber: jspb.Message.getFieldWithDefault(msg, 3, ""),
     email: jspb.Message.getFieldWithDefault(msg, 4, ""),
     position: jspb.Message.getFieldWithDefault(msg, 5, 0),
-    directorShareholderType: jspb.Message.getFieldWithDefault(msg, 6, 0),
     idInfo: (f = msg.getIdInfo()) && proto.eganow.api.merchant.DirectorShareholderIDInfo.toObject(includeInstance, f)
   };
 
@@ -4233,10 +4232,6 @@ proto.eganow.api.merchant.AddDirectorShareholderRequest.deserializeBinaryFromRea
     case 5:
       var value = /** @type {!proto.eganow.api.merchant.DirectorPosition} */ (reader.readEnum());
       msg.setPosition(value);
-      break;
-    case 6:
-      var value = /** @type {!proto.eganow.api.merchant.DirectorOrShareholderOrOtherType} */ (reader.readEnum());
-      msg.setDirectorShareholderType(value);
       break;
     case 7:
       var value = new proto.eganow.api.merchant.DirectorShareholderIDInfo;
@@ -4304,13 +4299,6 @@ proto.eganow.api.merchant.AddDirectorShareholderRequest.serializeBinaryToWriter 
   if (f !== 0.0) {
     writer.writeEnum(
       5,
-      f
-    );
-  }
-  f = message.getDirectorShareholderType();
-  if (f !== 0.0) {
-    writer.writeEnum(
-      6,
       f
     );
   }
@@ -4416,24 +4404,6 @@ proto.eganow.api.merchant.AddDirectorShareholderRequest.prototype.setPosition = 
 
 
 /**
- * optional DirectorOrShareholderOrOtherType director_shareholder_type = 6;
- * @return {!proto.eganow.api.merchant.DirectorOrShareholderOrOtherType}
- */
-proto.eganow.api.merchant.AddDirectorShareholderRequest.prototype.getDirectorShareholderType = function() {
-  return /** @type {!proto.eganow.api.merchant.DirectorOrShareholderOrOtherType} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
-};
-
-
-/**
- * @param {!proto.eganow.api.merchant.DirectorOrShareholderOrOtherType} value
- * @return {!proto.eganow.api.merchant.AddDirectorShareholderRequest} returns this
- */
-proto.eganow.api.merchant.AddDirectorShareholderRequest.prototype.setDirectorShareholderType = function(value) {
-  return jspb.Message.setProto3EnumField(this, 6, value);
-};
-
-
-/**
  * optional DirectorShareholderIDInfo id_info = 7;
  * @return {?proto.eganow.api.merchant.DirectorShareholderIDInfo}
  */
@@ -4508,7 +4478,6 @@ proto.eganow.api.merchant.UpdateDirectorShareholderRequest.toObject = function(i
     mobileNumber: jspb.Message.getFieldWithDefault(msg, 4, ""),
     email: jspb.Message.getFieldWithDefault(msg, 5, ""),
     position: jspb.Message.getFieldWithDefault(msg, 6, 0),
-    directorShareholderType: jspb.Message.getFieldWithDefault(msg, 7, 0),
     idInfo: (f = msg.getIdInfo()) && proto.eganow.api.merchant.DirectorShareholderIDInfo.toObject(includeInstance, f)
   };
 
@@ -4569,10 +4538,6 @@ proto.eganow.api.merchant.UpdateDirectorShareholderRequest.deserializeBinaryFrom
     case 6:
       var value = /** @type {!proto.eganow.api.merchant.DirectorPosition} */ (reader.readEnum());
       msg.setPosition(value);
-      break;
-    case 7:
-      var value = /** @type {!proto.eganow.api.merchant.DirectorOrShareholderOrOtherType} */ (reader.readEnum());
-      msg.setDirectorShareholderType(value);
       break;
     case 8:
       var value = new proto.eganow.api.merchant.DirectorShareholderIDInfo;
@@ -4647,13 +4612,6 @@ proto.eganow.api.merchant.UpdateDirectorShareholderRequest.serializeBinaryToWrit
   if (f !== 0.0) {
     writer.writeEnum(
       6,
-      f
-    );
-  }
-  f = message.getDirectorShareholderType();
-  if (f !== 0.0) {
-    writer.writeEnum(
-      7,
       f
     );
   }
@@ -4773,24 +4731,6 @@ proto.eganow.api.merchant.UpdateDirectorShareholderRequest.prototype.getPosition
  */
 proto.eganow.api.merchant.UpdateDirectorShareholderRequest.prototype.setPosition = function(value) {
   return jspb.Message.setProto3EnumField(this, 6, value);
-};
-
-
-/**
- * optional DirectorOrShareholderOrOtherType director_shareholder_type = 7;
- * @return {!proto.eganow.api.merchant.DirectorOrShareholderOrOtherType}
- */
-proto.eganow.api.merchant.UpdateDirectorShareholderRequest.prototype.getDirectorShareholderType = function() {
-  return /** @type {!proto.eganow.api.merchant.DirectorOrShareholderOrOtherType} */ (jspb.Message.getFieldWithDefault(this, 7, 0));
-};
-
-
-/**
- * @param {!proto.eganow.api.merchant.DirectorOrShareholderOrOtherType} value
- * @return {!proto.eganow.api.merchant.UpdateDirectorShareholderRequest} returns this
- */
-proto.eganow.api.merchant.UpdateDirectorShareholderRequest.prototype.setDirectorShareholderType = function(value) {
-  return jspb.Message.setProto3EnumField(this, 7, value);
 };
 
 

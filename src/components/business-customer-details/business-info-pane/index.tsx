@@ -20,7 +20,7 @@ import {
 } from '@coreui/react-pro'
 import classNames from 'classnames'
 import { useEffect, useState } from 'react'
-import { flipObject_util, formatDate_to_text_util, formatEnum_util } from '@/util'
+import { flipObject_util,  formatDate_util, formatEnum_util } from '@/util'
 import MerchantAccountSvc from '@/api/merchantAccountSvcGRPC'
 import { useSnackbar } from '@/store'
 import { generateOptions } from '@/helpers'
@@ -41,7 +41,7 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
   const showSnackbar = useSnackbar((state: any) => state.showSnackbar)
 
   /* UseForm */
-  const { register, reset, getValues, handleSubmit, setValue, formState } = useForm({
+  const { register, reset, getValues, handleSubmit, setValue, clearErrors, formState } = useForm({
     resolver: yupResolver(validationSchema),
     mode: 'onChange',
     defaultValues: defaultFormValues,
@@ -90,7 +90,7 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
   const handleDateChange = (name: string, date: object) => {
     const dateValue = date?.toISOString()
     const formattedDate = dateValue?.split('T')[0]
-    setValue(name, formattedDate)
+    setValue(name, formattedDate, { shouldValidate: true })
   }
 
   //this function shows the company type text with the id received from the api
@@ -137,9 +137,6 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
         vatNumber,
       } = props?.businessInfoData?.data
 
-      console.log('props?.businessInfoData?.data', props?.businessInfoData?.data);
-      
-
       setValue('registrationNumber', companyRegistrationNumber)
       setValue('registrationType', companyRegistrationType)
       setValue('dateOfIncorporation', dateOfIncorporation)
@@ -153,9 +150,11 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
       setValue('taxIdentificationNumber', taxIdentificationNumber)
       setValue('tradingName', tradingName)
       setValue('vatNumber', vatNumber)
-      setValue('type', 'completed')
+      // setValue('type', 'completed')
     }
     generateCompanyRegistrationTypeOptions()
+
+    clearErrors()
   }, [props?.businessInfoData?.data, props?.type])
 
   return (
@@ -494,12 +493,14 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                         ? props?.businessInfoData?.data?.dateOfIncorporation
                         : props?.businessInfoData?.data?.dateOfIncorporation === undefined
                         ? ''
-                        : formatDate_to_text_util(
+                        : formatDate_util(
                             props?.businessInfoData?.data?.dateOfIncorporation,
+                            'MMMM dd, yyyy',
                           )}
                     </p>
                   ) : (
                     <CDatePicker
+                      inputReadOnly
                       id="dateOfIncorporation"
                       date={
                         getValues('dateOfIncorporation') === 'N/A'
@@ -522,6 +523,7 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                       invalid={!!formState.errors?.dateOfIncorporation && true}
                     />
                   )}
+
                   <CFormText
                     component="span"
                     className={classNames({
@@ -680,7 +682,7 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                     <strong>License Number</strong>
                   </CFormLabel>
                   {props.type === '' ? (
-                    <p className=" m-0 pb-1">
+                    <p className=" m-0 ">
                       {props?.businessInfoData?.data?.licenseInfo.licenseNumber}
                     </p>
                   ) : (
@@ -712,7 +714,7 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                   </CFormText>
                 </CCol>
 
-                <CRow className="g-3 mt-3">
+                <CRow className=" mt-3">
                   <CCol xs={12} sm={6}>
                     <CFormLabel
                       htmlFor="licenseIssueDate"
@@ -728,12 +730,14 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                           ? props?.businessInfoData?.data?.licenseInfo.issuedDate
                           : props?.businessInfoData?.data?.licenseInfo.issuedDate === undefined
                           ? ''
-                          : formatDate_to_text_util(
+                          : formatDate_util(
                               props?.businessInfoData?.data?.licenseInfo.issuedDate,
+                              'MMMM dd, yyyy',
                             )}
                       </p>
                     ) : (
                       <CDatePicker
+                        inputReadOnly
                         {...register('licenseIssueDate')}
                         onDateChange={(date) => handleDateChange('licenseIssueDate', date)}
                         disabled={props.type === ''}
@@ -759,7 +763,6 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                         'text-error': true,
                         'd-none': !!formState.errors?.licenseIssueDate ? false : true,
                       })}
-                      n
                     >
                       License issued date is required.
                     </CFormText>
@@ -779,12 +782,15 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                           ? props?.businessInfoData?.data?.licenseInfo.expiryDate
                           : props?.businessInfoData?.data?.licenseInfo.expiryDate === undefined
                           ? ''
-                          : formatDate_to_text_util(
+                          : formatDate_util(
                               props?.businessInfoData?.data?.licenseInfo.expiryDate,
+                              'MMMM dd, yyyy',
                             )}
                       </p>
                     ) : (
                       <CDatePicker
+                        inputReadOnly
+                        minDate={new Date()}
                         {...register('licenseExpiryDate')}
                         onDateChange={(date) => handleDateChange('licenseExpiryDate', date)}
                         disabled={props.type === ''}
@@ -818,36 +824,26 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
               </fieldset>
             </CCol>
           </CRow>
-
-          <CFooter
-            className="position-sticky bg-white dark:bg-dark w-100 float-right justify-content-end p-4"
-            style={{
-              left: '0',
-              bottom: '0',
-            }}
-          >
-            {/* <CLoadingButton color="info" shape="rounded-pill" timeout={2000}>
-          Save Changes
-        </CLoadingButton> */}
-
-            {props.type === 'edit' && (
-              <CButton
-                color="info"
-                type="button"
-                shape="rounded-pill"
-                className="text-white"
-                onClick={handleSubmit(onSubmit)}
-                disabled={formState.isSubmitting}
-              >
-                {/* {props.data?.type === 'new' ? 'Save' : 'Save Changes'} */}
-                {formState.isSubmitting ? (
-                  <CSpinner component="span" size="sm" aria-hidden="true" className="ms-2" />
-                ) : (
-                  'save changes'
-                )}
-              </CButton>
-            )}
-          </CFooter>
+          {props.type === 'edit' && (
+            <CFooter className="  w-100 float-right justify-content-end p-4">
+              {props.type === 'edit' && (
+                <CButton
+                  color="info"
+                  type="button"
+                  shape="rounded-pill"
+                  className="text-white"
+                  onClick={handleSubmit(onSubmit)}
+                  disabled={formState.isSubmitting}
+                >
+                  {formState.isSubmitting ? (
+                    <CSpinner component="span" size="sm" aria-hidden="true" className="ms-2" />
+                  ) : (
+                    'save changes'
+                  )}
+                </CButton>
+              )}
+            </CFooter>
+          )}
         </CForm>
       )}
     </div>
