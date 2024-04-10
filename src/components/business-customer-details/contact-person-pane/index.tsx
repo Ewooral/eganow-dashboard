@@ -186,15 +186,16 @@ const ContactPerson = (props) => {
               List of Contact Persons
             </legend>
 
-            <CButton
-              color="info"
-              shape="rounded-pill"
-              className="float-end text-white"
-              onMouseUp={handleModal}
-            >
-              Add new
-            </CButton>
-
+            {props?.allowToEdit && (
+              <CButton
+                color="info"
+                shape="rounded-pill"
+                className="float-end text-white"
+                onMouseUp={handleModal}
+              >
+                Add new
+              </CButton>
+            )}
             <CSmartTable
               activePage={1}
               cleaner
@@ -217,32 +218,38 @@ const ContactPerson = (props) => {
                 ),
                 action: (item) => {
                   return (
-                    <td className="py-2 d-flex">
-                      <CButton
-                        className="me-1"
-                        color="primary"
-                        variant="outline"
-                        shape="square"
-                        size="sm"
-                        data-type="edit"
-                        onClick={(e) => {
-                          handleClick(e, item)
-                        }}
-                      >
-                        Edit
-                      </CButton>
-                      <CButton
-                        color="danger"
-                        variant="outline"
-                        shape="square"
-                        size="sm"
-                        data-type="delete"
-                        onClick={(e) => {
-                          handleClick(e, item.contactId)
-                        }}
-                      >
-                        Remove
-                      </CButton>
+                    <td className="">
+                      {props?.allowToEdit ? (
+                        <div className='"py-2 d-flex'>
+                          <CButton
+                            className="me-1"
+                            color="primary"
+                            variant="outline"
+                            shape="square"
+                            size="sm"
+                            data-type="edit"
+                            onClick={(e) => {
+                              handleClick(e, item)
+                            }}
+                          >
+                            Edit
+                          </CButton>
+                          <CButton
+                            color="danger"
+                            variant="outline"
+                            shape="square"
+                            size="sm"
+                            data-type="delete"
+                            onClick={(e) => {
+                              handleClick(e, item.contactId)
+                            }}
+                          >
+                            Remove
+                          </CButton>
+                        </div>
+                      ) : (
+                        "N/A"
+                      )}
                     </td>
                   )
                 },
