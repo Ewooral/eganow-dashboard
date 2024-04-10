@@ -58,7 +58,10 @@ import ImageUpload from '@/components/ImageUpload'
 
 const AddEditDirectorsShareholders = (props: UserProps) => {
   const [activeKey, setActiveKey] = useState(1)
-  
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
+  const currentDate = new Date()
+
 
   // ADD AND UPDATE DIRECTORS APIs INIT 
   const { addDirectorOrShareholder, updateDirectorOrShareholder } = MerchantAccountSvc()
@@ -100,6 +103,7 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
     const formattedDate = dateValue?.split("T")[0]; //REMOVE TIMESTAMP FROM STRING
     setValue('expiryDate', formattedDate, { shouldValidate: true });
   };
+
 
 
   useEffect(() => {
@@ -150,6 +154,9 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
         } as SnackbarDataType)
         //Resetting the form
         reset(defaultFormValues)
+        setFormSubmitted(true)
+        setActiveKey(1)
+        
         //Refetch users
         props.callback()
       }
@@ -176,7 +183,6 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
         props.modalClose()
       }
     } catch (err) {
-      console.log();
 
       //Show response on error.
       showSnackbar({
@@ -460,6 +466,8 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
                     onDateChange={handleDateChange}
                     inputReadOnly
                     invalid={!!formState.errors?.expiryDate}
+                    minDate={currentDate}
+                    
                     
                   />
                   <CFormText
@@ -501,7 +509,7 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
                       'd-none': !!formState.errors?.placeOfIssue ? false : true,
                     })}
                   >
-                    Member type is required.
+                    Place of issue is required.
                   </CFormText>
                 </CCol>
               </CRow>
@@ -593,7 +601,7 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
                   </CFormLabel>
 
                   {/* FRONT IMAGE */}
-                  <ImageUpload imgUrl={props?.data?.idInfo?.idFrontImage} setValue={setValue} fieldName={'frontImage'} />
+                  <ImageUpload imgUrl={props?.data?.idInfo?.idFrontImage} setValue={setValue} fieldName={'frontImage'} formSubmitted={formSubmitted} />
 
                   <CFormText
                     component="span"
@@ -619,7 +627,7 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
                   </CFormLabel>
                   <div>
                     {/* BACK IMAGE */}
-                    <ImageUpload imgUrl={props?.data?.idInfo?.idBackImage} setValue={setValue} fieldName={'backImage'} />
+                    <ImageUpload imgUrl={props?.data?.idInfo?.idBackImage} setValue={setValue} fieldName={'backImage'} formSubmitted={formSubmitted} />
 
                   </div>
                   <CFormText
@@ -646,7 +654,7 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
                   </CFormLabel>
                   <div>
                     {/* PORTRAIT IMAGE  */}
-                    <ImageUpload imgUrl={props?.data?.idInfo?.portraitImage} setValue={setValue} fieldName={'portraitImage'} />
+                    <ImageUpload imgUrl={props?.data?.idInfo?.portraitImage} setValue={setValue} fieldName={'portraitImage'} formSubmitted={formSubmitted} />
 
                   </div>
                   <CFormText
