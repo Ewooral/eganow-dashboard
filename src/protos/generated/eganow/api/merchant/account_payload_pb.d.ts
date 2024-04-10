@@ -510,9 +510,6 @@ export class AddDirectorShareholderRequest extends jspb.Message {
   getPosition(): eganow_api_merchant_onboarding_entity_pb.DirectorPosition;
   setPosition(value: eganow_api_merchant_onboarding_entity_pb.DirectorPosition): AddDirectorShareholderRequest;
 
-  getDirectorShareholderType(): eganow_api_merchant_onboarding_entity_pb.DirectorOrShareholderOrOtherType;
-  setDirectorShareholderType(value: eganow_api_merchant_onboarding_entity_pb.DirectorOrShareholderOrOtherType): AddDirectorShareholderRequest;
-
   getIdInfo(): DirectorShareholderIDInfo | undefined;
   setIdInfo(value?: DirectorShareholderIDInfo): AddDirectorShareholderRequest;
   hasIdInfo(): boolean;
@@ -533,7 +530,6 @@ export namespace AddDirectorShareholderRequest {
     mobileNumber: string,
     email: string,
     position: eganow_api_merchant_onboarding_entity_pb.DirectorPosition,
-    directorShareholderType: eganow_api_merchant_onboarding_entity_pb.DirectorOrShareholderOrOtherType,
     idInfo?: DirectorShareholderIDInfo.AsObject,
   }
 }
@@ -557,9 +553,6 @@ export class UpdateDirectorShareholderRequest extends jspb.Message {
   getPosition(): eganow_api_merchant_onboarding_entity_pb.DirectorPosition;
   setPosition(value: eganow_api_merchant_onboarding_entity_pb.DirectorPosition): UpdateDirectorShareholderRequest;
 
-  getDirectorShareholderType(): eganow_api_merchant_onboarding_entity_pb.DirectorOrShareholderOrOtherType;
-  setDirectorShareholderType(value: eganow_api_merchant_onboarding_entity_pb.DirectorOrShareholderOrOtherType): UpdateDirectorShareholderRequest;
-
   getIdInfo(): DirectorShareholderIDInfo | undefined;
   setIdInfo(value?: DirectorShareholderIDInfo): UpdateDirectorShareholderRequest;
   hasIdInfo(): boolean;
@@ -581,7 +574,6 @@ export namespace UpdateDirectorShareholderRequest {
     mobileNumber: string,
     email: string,
     position: eganow_api_merchant_onboarding_entity_pb.DirectorPosition,
-    directorShareholderType: eganow_api_merchant_onboarding_entity_pb.DirectorOrShareholderOrOtherType,
     idInfo?: DirectorShareholderIDInfo.AsObject,
   }
 }
