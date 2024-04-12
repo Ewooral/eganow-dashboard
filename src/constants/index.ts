@@ -2,6 +2,13 @@ export const NUMBER_ONLY_REGEX = /^[0-9]+$/
 export const PASSWORD_REGEX =
   /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/
 
+  export const PLACEHOLDER = '---- ----'
+
+  export const MONEY_FORMAT = '0,0.00'
+  export const NUMBER_FORMAT = '0,0.[00]'
+
+  export const DATE_FORMAT = 'dd-MM-yyyy'
+  export const CURRENCY = 'GHS'
 /* 
   export const URL = 'https://egamaingrpcapiforeganowappsv1.azurewebsites.net/'
   export const METADATA = {

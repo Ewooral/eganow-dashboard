@@ -31,7 +31,6 @@ import MerchantAccountSvc from '@/api/merchantAccountSvcGRPC'
 import { DirectorPosition } from '@/protos/generated/eganow/api/merchant/onboarding_entity_pb'
 import { formatEnum_util } from '@/util'
 import { generateOptions } from '@/helpers'
-import { Each } from '@/components/Each'
 /*
  *
  * Add Edit User Component
@@ -316,10 +315,6 @@ const AddEditContactPerson = (props: UserProps) => {
                       </option>
                     )
                   })}
-                  {/* <Each
-                    of={contactPersonPositionOptions}
-                    render={(item) => <option value={item.value}>{item.label}</option>}
-                  /> */}
                 </select>
                 <CFormSelect
                   type="text"

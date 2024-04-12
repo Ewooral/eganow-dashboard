@@ -1,10 +1,8 @@
 /**
  * @type {import('next').NextConfig}
  **/
-/* const { i18n } = require('next-i18next') */
 
-const nextConfig = {
-  /*  i18n, */
+/* const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
 
@@ -16,6 +14,21 @@ const nextConfig = {
       },
     ],
   },
+}
+
+module.exports = nextConfig */
+
+const nextConfig = {
+  reactStrictMode: true,
+  swcMinify: true,
+  images: {
+    unoptimized: true,
+  },
+  /* typescript: {
+    ignoreBuildErrors: true,
+  }, */
+
+  /* pageExtensions: ['defaultFormValues.ts', 'validationSchema.ts', 'page.ts', 'page.ts'], */
 }
 
 module.exports = nextConfig
