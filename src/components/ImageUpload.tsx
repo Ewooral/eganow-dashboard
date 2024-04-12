@@ -16,21 +16,14 @@ function ImageUpload(props) {
     fileInputType.setAttribute('type', 'file')
     fileInputType.setAttribute('accept', 'image/x-png,image/jpg,image/jpeg')
 
-    // useEffect to clear image state when formSubmitted changes
-    useEffect(() => {
-        if (props.formSubmitted) {
-            setImageFile(null)
-            setShowUploadIcons(true)
-        }
-    }, [props.formSubmitted]);
-
-
-    // HANDLE IMAGE UPLOADER
-    function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>): void {
-        setShowIcons(false)
-        const fileInputType = document.createElement('input')
-        fileInputType.setAttribute('type', 'file')
-        fileInputType.setAttribute('accept', 'image/x-png,image/jpg,image/jpeg')
+    if (document.createEvent) {
+      //for the sake of browser compatibility
+      const event = document.createEvent('MouseEvents')
+      event.initEvent('click', true, true)
+      fileInputType.dispatchEvent(event)
+    } else {
+      fileInputType.click()
+    }
 
     fileInputType.addEventListener(
       'change',
@@ -49,71 +42,15 @@ function ImageUpload(props) {
           const base64WithoutPrefix = base64String.substring(commaIndex + 1)
           setImageFile(e.target.result) //BASE64 FILE TO DISPLAY
 
-                    // Remove the prefix including the comma
-                    const base64WithoutPrefix = base64String.substring(commaIndex + 1);
-                    setImageFile(e.target.result) //BASE64 FILE TO DISPLAY
-
-                    if (typeof props.setValue === 'function') {
-                        // SETTING VALUE TO FORMATTED BASE64
-                        props.setValue(props.fieldName, base64WithoutPrefix,{shouldValidate:true})
-                    }
-                }
-                //fr.readAsArrayBuffer(event.target.files[0])
-                fr.readAsDataURL(event.target.files[0])
-            },
-            false,
-        )
-    }
-
-
-    // REMOVE SELECTED IMAGE FILE
-    function removeImage() {
-        setImageFile(null)
-        setShowIcons(false)
-    }
-
-   
-    return (
-        <div className='position-relative imgBox  '
-            onMouseOver={() => {
-                if (imageFile) {
-                    setShowIcons(true)
-                    setShowUploadIcons(true)
-
-                } else {
-                    setShowUploadIcons(true)
-                }
-            }}
-            onMouseLeave={() => {
-                if (imageFile) {
-
-                    setShowIcons(false)
-                    setShowUploadIcons(false)
-                } else {
-                    setShowUploadIcons(true)
-
-                }
-            }}
-        >
-            <CImage src={imageFile ? imageFile : props.imgUrl} width={'100%'} rounded />
-            <div className='position-absolute top-0 w-100 h-100 p-3 imgOverlay'>
-                {
-                    showUploadIcon &&
-                    <CButton
-                        color="info"
-                        className="fs-5 rounded-2 shadow position-absolute top-50 start-50 translate-middle"
-                        onMouseUp={handleFileUpload}
-                    >
-                        <GrCloudUpload className="fs-4 text-white" />
-                    </CButton>
-                }
-
-                {showIcons ? <CButton size="sm" className="position-absolute bg-danger text-white fs-5 m-2 top-0 end-0" onMouseUp={removeImage}>
-
-                    <FaTrashAlt className="fs-4 text-white" />
-                </CButton> : null}
-            </div>
-        </div>
+          if (typeof props.setValue === 'function') {
+            // SETTING VALUE TO FORMATTED BASE64
+            props.setValue(props.fieldName, base64WithoutPrefix, { shouldValidate: true })
+          }
+        }
+        //fr.readAsArrayBuffer(event.target.files[0])
+        fr.readAsDataURL(event.target.files[0])
+      },
+      false,
     )
   }
 

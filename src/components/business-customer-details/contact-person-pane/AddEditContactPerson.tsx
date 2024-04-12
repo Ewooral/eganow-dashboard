@@ -309,17 +309,17 @@ const AddEditContactPerson = (props: UserProps) => {
                 </CFormLabel>
                 {/** this select is just here4 to trigger the core ui select to display on edit */}
                 <select className="d-none" name="" id="" {...register('position')}>
-                  {/* {contactPersonPositionOptions.map((item) => {
+                  {contactPersonPositionOptions.map((item) => {
                     return (
                       <option key={item.value} value={item.value}>
                         {item.label}
                       </option>
                     )
-                  })} */}
-                  <Each
+                  })}
+                  {/* <Each
                     of={contactPersonPositionOptions}
                     render={(item) => <option value={item.value}>{item.label}</option>}
-                  />
+                  /> */}
                 </select>
                 <CFormSelect
                   type="text"
