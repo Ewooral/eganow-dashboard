@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { cilEnvelopeClosed, cilFire, cilLockLocked } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import {
@@ -89,7 +90,7 @@ export default function ResetPassword(props) {
 
   const onSubmit = async (data: object) => {
     try {
-      const response: any = await resetPassword({emailAddress: emailValue,...data})
+      const response: any = await resetPassword({ emailAddress: emailValue, ...data })
       //If accessToken exist on success then log user in.
       if (response.accessToken) {
         //Storing login authentication in cookie

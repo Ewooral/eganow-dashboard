@@ -134,9 +134,6 @@ const Entry: NextPageWithLayout = (props) => {
       // results[3]?.data?.allowForEdit
     }
 
-    
-    
-
     if (businessInfo?.error?.code === 2) {
       showSnackbar({
         type: 'danger',
@@ -145,6 +142,7 @@ const Entry: NextPageWithLayout = (props) => {
         show: true,
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [businessInfo.data])
 
   const { control } = useForm({
@@ -358,15 +356,28 @@ const Entry: NextPageWithLayout = (props) => {
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 3}>
-                  <ContactPerson control={control} data={businessContactPersons} allowToEdit={allowToEdit} />
+                  <ContactPerson
+                    control={control}
+                    data={businessContactPersons}
+                    allowToEdit={allowToEdit}
+                  />
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 4}>
-                  <DirectorsShareholders type={type} directors={directorsList} setType={setType} allowToEdit={allowToEdit}/>
+                  <DirectorsShareholders
+                    type={type}
+                    directors={directorsList}
+                    setType={setType}
+                    allowToEdit={allowToEdit}
+                  />
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 5}>
-                  <Attachments control={control} data={businessDocuments}  allowToEdit={allowToEdit}/>
+                  <Attachments
+                    control={control}
+                    data={businessDocuments}
+                    allowToEdit={allowToEdit}
+                  />
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 6}>

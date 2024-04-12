@@ -31,7 +31,7 @@ import MerchantAccountSvc from '@/api/merchantAccountSvcGRPC'
 import { DirectorPosition } from '@/protos/generated/eganow/api/merchant/onboarding_entity_pb'
 import { formatEnum_util } from '@/util'
 import { generateOptions } from '@/helpers'
-
+import { Each } from '@/components/Each'
 /*
  *
  * Add Edit User Component
@@ -308,11 +308,19 @@ const AddEditContactPerson = (props: UserProps) => {
                   <strong>Position</strong>
                 </CFormLabel>
                 {/** this select is just here4 to trigger the core ui select to display on edit */}
-                 <select className="d-none" name="" id="" {...register('position')}>
-                  {contactPersonPositionOptions.map((item) => {
-                    return <option value={item.value}>{item.label}</option>
-                  })}
-                </select> 
+                <select className="d-none" name="" id="" {...register('position')}>
+                  {/* {contactPersonPositionOptions.map((item) => {
+                    return (
+                      <option key={item.value} value={item.value}>
+                        {item.label}
+                      </option>
+                    )
+                  })} */}
+                  <Each
+                    of={contactPersonPositionOptions}
+                    render={(item) => <option value={item.value}>{item.label}</option>}
+                  />
+                </select>
                 <CFormSelect
                   type="text"
                   {...register('position')}

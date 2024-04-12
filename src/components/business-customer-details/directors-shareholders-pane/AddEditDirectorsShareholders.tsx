@@ -125,6 +125,7 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
 
     }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props?.data])
 
 

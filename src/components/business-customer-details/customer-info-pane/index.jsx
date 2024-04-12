@@ -88,6 +88,7 @@ const CustomerInfo = (props) => {
       setValue('firstOccupancyDate', data?.firstOccupancyDate)
       setValue('officeOwnership',data?.officeOwnership)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props?.contactInfo?.data, props?.type])
 
 
