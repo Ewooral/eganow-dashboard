@@ -35,7 +35,7 @@ import CountryInput from '@/components/country/CountryInput'
 import clsx from 'clsx'
 import { useEffect } from 'react'
 import { type } from 'os'
-import { flipObject_util, formatEnum_util } from '@/util'
+import { flipObject_util, formatDate_util, formatEnum_util } from '@/util'
 /*
  *
  * Customer Info Component
@@ -433,7 +433,7 @@ const CustomerInfo = (props) => {
                 <strong>First Occupancy Date</strong>
               </CFormLabel>
               {
-                !props.type ? <p>{props?.contactInfo?.data?.firstOccupancyDate}</p> :
+                !props.type ? <p>{formatDate_util(props?.contactInfo?.data?.firstOccupancyDate,'MMMM dd, yyyy')}</p> :
                   <div>
                     <CDatePicker
                       {...register('firstOccupancyDate')}
@@ -449,7 +449,7 @@ const CustomerInfo = (props) => {
                       readOnly={props.type === '' ? true : false}
                       plainText={props.type === '' ? true : false}
                       inputReadOnly={true}
-                      visible
+                      placeholder={props?.contactInfo?.data?.firstOccupancyDate}
                       disabled={props.type === ''}
                     />
                     <CFormText

@@ -251,6 +251,7 @@ const ContactPerson = (props) => {
                           </CButton>
                           <CButton
                             color="danger"
+                            
                             variant="outline"
                             shape="square"
                             size="sm"
