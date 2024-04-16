@@ -94,14 +94,27 @@ const Attachments = (props) => {
       fileInputType.click()
     }
 
-    fileInputType.addEventListener('change', test, false)
+    fileInputType.addEventListener('change', uploadDocument, false)
   }
 
-  function test(e) {
+  function uploadDocument(e) {
     const selectedFile = e.target.files[0]
 
     // Do something with the selected file, such as uploading it or processing it
     if (selectedFile) {
+      //checks to see if correct file type3 is being uploaded
+      const fileName = selectedFile.name
+      const fileExtension = fileName.split('.').pop()
+      if (!['png', 'jpg', 'jpeg', 'pdf'].includes(fileExtension.toLowerCase())) {      
+        showSnackbar({
+          type: 'danger',
+          title: 'User Management',
+          messages: 'Invalid file type',
+          show: true,
+        })
+        return
+      }
+
       const reader = new FileReader()
       reader.onload = async (e) => {
         // Find the index of the comma
