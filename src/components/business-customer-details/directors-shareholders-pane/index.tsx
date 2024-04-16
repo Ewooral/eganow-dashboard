@@ -46,6 +46,7 @@ import {
   CDropdownItem,
 } from '@coreui/react-pro'
 import { log } from 'console'
+import DeleteModal from '@/components/DeleteModal'
 
 // ID IMAGE COMPONENT
 export const IDImageColumn = (cardname: string) => {
@@ -210,33 +211,43 @@ const DirectorsShareholders = (props) => {
     }
     /*  Deleting Users */
     if (type === 'delete') {
-      //Open the AddEditUser component
-      try {
-        const response = await deleteDirector(items)
-        //Show response if error occurs and return error.
-        if (!response) {
-          //Throw response on error.
-          throw new Error(response.message)
-        }
-        //Show response on success.
-        showSnackbar({
-          type: 'success',
-          title: 'User Management',
-          messages: response.value,
-          show: true,
-        } as SnackbarDataType)
-        handleRefresh()
-
-      } catch (error) {
-        showSnackbar({
-          type: 'danger',
-          title: 'User Management',
-          messages: error.message,
-          show: true,
-        } as SnackbarDataType)
-      }
-      setDynamicComponent(<Snackbar modalClose={modalClose} />)
+      setDynamicComponent(
+        <DeleteModal
+          handleDelete={handleDelete}
+          item={items}
+          modalClose={modalClose}
+      
+        />,
+      )
     }
+  }
+
+  async function handleDelete(items) {
+    try {
+      const response = await deleteDirector(items)
+      //Show response if error occurs and return error.
+      if (!response) {
+        //Throw response on error.
+        throw new Error(response.message)
+      }
+      //Show response on success.
+      showSnackbar({
+        type: 'success',
+        title: 'User Management',
+        messages: response.value,
+        show: true,
+      } as SnackbarDataType)
+      handleRefresh()
+
+    } catch (error) {
+      showSnackbar({
+        type: 'danger',
+        title: 'User Management',
+        messages: error.message,
+        show: true,
+      } as SnackbarDataType)
+    }
+    setDynamicComponent(<Snackbar modalClose={modalClose} />)
   }
 
   function modalClose() {
@@ -302,7 +313,7 @@ const DirectorsShareholders = (props) => {
                 action: (item) => {
                   return (
                     <td >
-                    {props?.allowToEdit ?  <div className="py-3 d-flex">
+                    {props?.allowToEdit ?  <div className="d-flex">
 
                       <CButton
                         className="me-1"

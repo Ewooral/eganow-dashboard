@@ -30,6 +30,7 @@ import {
   CProgressBar,
 } from '@coreui/react-pro'
 import { useSnackbar } from '@/store'
+import DeleteModal from '@/components/DeleteModal'
 
 export const FileIconColumn = (ext) => {
   return (
@@ -50,7 +51,7 @@ export const FileIconColumn = (ext) => {
 const Attachments = (props) => {
   const { addBusinessDocument, deleteBusinessDocument } = MerchantAccountSvc()
   const [isUploading, setIsUploading] = useState(false)
-  // const [progress, setProgress] = useState(0)
+  const [dynamicComponent, setDynamicComponent] = useState<FC | null>(null)
 
   //snackbar from zustand store
   const showSnackbar = useSnackbar((state: any) => state.showSnackbar)
@@ -146,36 +147,53 @@ const Attachments = (props) => {
   }
 
   //function to delete document
-  async function handleClick(e: React.ChangeEvent<HTMLInputElement>, items): void {
+  function handleClick(e: React.ChangeEvent<HTMLInputElement>, items): void {
     const { type } = e.currentTarget.dataset
 
     // /*  Deleting Users */
     if (type === 'delete') {
       //Open the AddEditUser component
-      try {
-        const response = await deleteBusinessDocument(items)
-        //Show response if error occurs and return error.
-        if (!response) {
-          //Throw response on error.
-          throw new Error(response.message)
-        }
-        //Show response on success.
-        showSnackbar({
-          type: 'success',
-          title: 'User Management',
-          messages: response.value,
-          show: true,
-        } as SnackbarDataType)
-        props.data.refetch()
-      } catch (error) {
-        showSnackbar({
-          type: 'danger',
-          title: 'User Management',
-          messages: error.message,
-          show: true,
-        } as SnackbarDataType)
-      }
+      setDynamicComponent(
+        <DeleteModal
+          handleDelete={handleDelete}
+          item={items}
+          modalClose={modalClose}
+          // isLoading={isLoading}
+        />,
+      )
     }
+  }
+
+  async function handleDelete(items) {
+    try {
+      const response = await deleteBusinessDocument(items)
+      //Show response if error occurs and return error.
+      if (!response) {
+        //Throw response on error.
+        throw new Error(response.message)
+      }
+      //Show response on success.
+      showSnackbar({
+        type: 'success',
+        title: 'User Management',
+        messages: response.value,
+        show: true,
+      } as SnackbarDataType)
+      props.data.refetch()
+    } catch (error) {
+      showSnackbar({
+        type: 'danger',
+        title: 'User Management',
+        messages: error.message,
+        show: true,
+      } as SnackbarDataType)
+    }
+
+    setDynamicComponent(<Snackbar modalClose={modalClose} />)
+  }
+
+  function modalClose() {
+    setDynamicComponent(null)
   }
 
   return (
@@ -187,31 +205,33 @@ const Attachments = (props) => {
               List of Documents Uploaded
             </legend>
 
-           {props?.allowToEdit && <div className="text-center">
-              {isUploading ? (
-                <div className="d-flex justify-content-center">
-                  <CProgress
-                    className="w-25"
-                    height={28}
+            {props?.allowToEdit && (
+              <div className="text-center">
+                {isUploading ? (
+                  <div className="d-flex justify-content-center">
+                    <CProgress
+                      className="w-25"
+                      height={28}
+                      color="info"
+                      value={100}
+                      variant="striped"
+                      animated
+                    >
+                      <p className="m-0 fs-6"> uploading your document</p>
+                    </CProgress>
+                  </div>
+                ) : (
+                  <CButton
                     color="info"
-                    value={100}
-                    variant="striped"
-                    animated
+                    className="fs-5 rounded-5 shadow text-white"
+                    onMouseUp={handleFileUpload}
+                    style={{ outline: '2px dashed #fff' }}
                   >
-                    <p className="m-0 fs-6"> uploading your document</p>
-                  </CProgress>
-                </div>
-              ) : (
-                <CButton
-                  color="info"
-                  className="fs-5 rounded-5 shadow text-white"
-                  onMouseUp={handleFileUpload}
-                  style={{ outline: '2px dashed #fff' }}
-                >
-                  <GrCloudUpload className="fs-3  text-white" /> Upload Files
-                </CButton>
-              )}
-            </div>}
+                    <GrCloudUpload className="fs-3  text-white" /> Upload Files
+                  </CButton>
+                )}
+              </div>
+            )}
 
             <div>
               <CSmartTable
@@ -229,18 +249,20 @@ const Attachments = (props) => {
                   action: (item) => {
                     return (
                       <td className="py-2 ">
-                      {props?.allowToEdit &&  <CButton
-                          color="danger"
-                          variant="outline"
-                          shape="square"
-                          size="sm"
-                          data-type="delete"
-                          onClick={(e) => {
-                            handleClick(e, item.docId)
-                          }}
-                        >
-                          Remove
-                        </CButton>}
+                        {props?.allowToEdit && (
+                          <CButton
+                            color="danger"
+                            variant="outline"
+                            shape="square"
+                            size="sm"
+                            data-type="delete"
+                            onClick={(e) => {
+                              handleClick(e, item.docId)
+                            }}
+                          >
+                            Remove
+                          </CButton>
+                        )}
                       </td>
                     )
                   },
@@ -261,6 +283,8 @@ const Attachments = (props) => {
           </fieldset>
         </CCol>
       </CRow>
+      {/* Dynamic Modal Component */}
+      {dynamicComponent}
     </>
   )
 }

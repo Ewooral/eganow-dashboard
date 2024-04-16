@@ -19,6 +19,7 @@ import { SnackbarDataType } from '@/types/UI'
 import MerchantAccountSvc from '@/api/merchantAccountSvcGRPC'
 import { DirectorPosition } from '@/protos/generated/eganow/api/merchant/onboarding_entity_pb'
 import { flipObject_util, formatEnum_util } from '@/util'
+import DeleteModal from '@/components/DeleteModal'
 /*
  *
  * Contact Person Component
@@ -27,6 +28,7 @@ import { flipObject_util, formatEnum_util } from '@/util'
 const ContactPerson = (props) => {
   // const [details, setDetails] = React.useState([])
   const [showDirectorPositionsText, setShowDirectorPositionsText] = React.useState('')
+  const [isLoading, setIsLoading] = useState(null)
 
   const [dynamicComponent, setDynamicComponent] = useState<FC | null>(null)
 
@@ -138,34 +140,47 @@ const ContactPerson = (props) => {
     if (type === 'delete') {
       //Open the AddEditUser component
 
-      try {
-        const response = await deleteBusinessContactPerson(items)
-        //Show response if error occurs and return error.
-        if (!response) {
-          //Throw response on error.
-          throw new Error(response.message)
-        }
-        //Show response on success.
-        showSnackbar({
-          type: 'success',
-          title: 'User Management',
-          messages: response.value,
-          show: true,
-        } as SnackbarDataType)
-        handleRefresh()
-      } catch (error) {
-        console.log(error)
+      setDynamicComponent(
+        <DeleteModal
+          handleDelete={handleDelete}
+          item={items}
+          modalClose={modalClose}
+          isLoading={isLoading}
+        />,
+      )
+    }
+  }
 
-        showSnackbar({
-          type: 'danger',
-          title: 'User Management',
-          messages: error.message,
-          show: true,
-        } as SnackbarDataType)
+  async function handleDelete(items) {
+    try {
+      const response = await deleteBusinessContactPerson(items)
+      //Show response if error occurs and return error.
+      if (!response) {
+        //Throw response on error.
+        throw new Error(response.message)
       }
 
-      setDynamicComponent(<Snackbar modalClose={modalClose} />)
+      //Show response on success.
+      showSnackbar({
+        type: 'success',
+        title: 'User Management',
+        messages: response.value,
+        show: true,
+      } as SnackbarDataType)
+      handleRefresh()
+    } catch (error) {
+      console.log(error)
+      setIsLoading(false)
+
+      showSnackbar({
+        type: 'danger',
+        title: 'User Management',
+        messages: error.message,
+        show: true,
+      } as SnackbarDataType)
     }
+
+    setDynamicComponent(<Snackbar modalClose={modalClose} />)
   }
 
   function modalClose() {
@@ -248,7 +263,7 @@ const ContactPerson = (props) => {
                           </CButton>
                         </div>
                       ) : (
-                        "N/A"
+                        'N/A'
                       )}
                     </td>
                   )
