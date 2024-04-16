@@ -10,7 +10,7 @@ import MerchantAccountSvc from '@/api/merchantAccountSvcGRPC'
 
 import { useSnackbar } from '@/store'
 
-import {isEmpty_util} from '@/util'
+import { isEmpty_util } from '@/util'
 
 /* Components */
 const AddEditDirectorsShareholders = dynamic(
@@ -21,7 +21,11 @@ const AddEditDirectorsShareholders = dynamic(
 )
 import Snackbar from '@/components/Snackbar'
 
-import { DirectorOrShareholderOrOtherType, DirectorPosition, CustomerIDTypes } from '@/protos/generated/eganow/api/merchant/onboarding_entity_pb'
+import {
+  DirectorOrShareholderOrOtherType,
+  DirectorPosition,
+  CustomerIDTypes,
+} from '@/protos/generated/eganow/api/merchant/onboarding_entity_pb'
 import { flipObject_util, formatEnum_util } from '@/util'
 
 // CORE UI IMPORTS
@@ -101,7 +105,6 @@ const DirectorsShareholders = (props) => {
     positionCol()
   }, [])
 
-
   // TABLE COLUMNS
   const columns = [
     {
@@ -157,7 +160,7 @@ const DirectorsShareholders = (props) => {
       sorter: false,
     },
   ]
-  
+
   const getBadge = (status) => {
     switch (status) {
       case 'GENERAL_MANAGER':
@@ -172,7 +175,6 @@ const DirectorsShareholders = (props) => {
         return 'primary'
     }
   }
-
 
   function handleModal() {
     //Setting default data
@@ -195,7 +197,7 @@ const DirectorsShareholders = (props) => {
 
     /*  Editing Users */
     if (type === 'edit') {
-      //Setting default data      
+      //Setting default data
       const userData = {
         type: 'edit',
         ...items,
@@ -212,12 +214,7 @@ const DirectorsShareholders = (props) => {
     /*  Deleting Users */
     if (type === 'delete') {
       setDynamicComponent(
-        <DeleteModal
-          handleDelete={handleDelete}
-          item={items}
-          modalClose={modalClose}
-      
-        />,
+        <DeleteModal handleDelete={handleDelete} item={items} modalClose={modalClose} />,
       )
     }
   }
@@ -238,7 +235,6 @@ const DirectorsShareholders = (props) => {
         show: true,
       } as SnackbarDataType)
       handleRefresh()
-
     } catch (error) {
       showSnackbar({
         type: 'danger',
@@ -268,21 +264,23 @@ const DirectorsShareholders = (props) => {
               List of Directors & Shareholders
             </legend>
 
-          {props?.allowToEdit && <CButtonGroup
-              role="group"
-              aria-label="Button group with nested dropdown"
-              className="float-end"
-            >
-              <CButton onMouseUp={handleModal} color="info" className='text-white rounded-pill'>
-                Add new
-              </CButton>
-              {/* <CDropdown variant="btn-group">
+            {props?.allowToEdit && (
+              <CButtonGroup
+                role="group"
+                aria-label="Button group with nested dropdown"
+                className="float-end"
+              >
+                <CButton onMouseUp={handleModal} color="info" className="text-white rounded-pill">
+                  Add new
+                </CButton>
+                {/* <CDropdown variant="btn-group">
                 <CDropdownToggle color="info"></CDropdownToggle>
                 <CDropdownMenu>
                   <CDropdownItem href="#">Batch Remove</CDropdownItem>
                 </CDropdownMenu>
               </CDropdown> */}
-            </CButtonGroup>}
+              </CButtonGroup>
+            )}
 
             <CSmartTable
               activePage={1}
@@ -299,48 +297,55 @@ const DirectorsShareholders = (props) => {
               scopedColumns={{
                 position: (item) => (
                   <td>
-                    <CBadge color={getBadge(positionColumn[item.position])}>{positionColumn[item.position]}</CBadge>
+                    {/* <CBadge color={getBadge(positionColumn[item.position])}> */}
+                      {positionColumn[item.position]}
+                    {/* </CBadge> */}
                   </td>
                 ),
                 idImage: (items) => IDImageColumn(items.idInfo.idFrontImage),
                 idType: (items) => {
                   return (
                     <td>
-                      <CBadge color={getBadge(idTypeText[items.idInfo.idType])}>{idTypeText[items.idInfo.idType]}</CBadge>
+                      {/* <CBadge color={getBadge(idTypeText[items.idInfo.idType])}> */}
+                        {idTypeText[items.idInfo.idType]}
+                      {/* </CBadge> */}
                     </td>
                   )
                 },
                 action: (item) => {
                   return (
-                    <td >
-                    {props?.allowToEdit ?  <div className="d-flex">
-
-                      <CButton
-                        className="me-1"
-                        color="primary"
-                        variant="outline"
-                        shape="square"
-                        size="sm"
-                        data-type='edit'
-                        onClick={(e) => {
-                          handleClick(e, item)
-                        }}
-                      >
-                        Edit
-                      </CButton>
-                      <CButton
-                        color="danger"
-                        variant="outline"
-                        shape="square"
-                        size="sm"
-                        data-type='delete'
-                        onClick={(e) => {
-                          handleClick(e, item?.directorId)
-                        }}
-                      >
-                        Remove
-                      </CButton>
-                      </div> : "N/A"}
+                    <td>
+                      {props?.allowToEdit ? (
+                        <div className="d-flex">
+                          <CButton
+                            className="me-1"
+                            color="primary"
+                            variant="outline"
+                            shape="square"
+                            size="sm"
+                            data-type="edit"
+                            onClick={(e) => {
+                              handleClick(e, item)
+                            }}
+                          >
+                            Edit
+                          </CButton>
+                          <CButton
+                            color="danger"
+                            variant="outline"
+                            shape="square"
+                            size="sm"
+                            data-type="delete"
+                            onClick={(e) => {
+                              handleClick(e, item?.directorId)
+                            }}
+                          >
+                            Remove
+                          </CButton>
+                        </div>
+                      ) : (
+                        'N/A'
+                      )}
                     </td>
                   )
                 },

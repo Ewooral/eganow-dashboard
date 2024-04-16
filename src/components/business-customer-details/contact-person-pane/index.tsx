@@ -226,9 +226,9 @@ const ContactPerson = (props) => {
               scopedColumns={{
                 position: (item) => (
                   <td>
-                    <CBadge color={getBadge(showDirectorPositionsText[item.position])}>
+                    {/* <CBadge color={getBadge(showDirectorPositionsText[item.position])}> */}
                       {showDirectorPositionsText[item.position]}
-                    </CBadge>
+                    {/* </CBadge> */}
                   </td>
                 ),
                 action: (item) => {
