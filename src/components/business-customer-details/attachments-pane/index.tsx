@@ -32,6 +32,7 @@ import {
 import { useSnackbar } from '@/store'
 import DeleteModal from '@/components/DeleteModal'
 import Confirm from '@/components/Confirm'
+import { get } from 'http'
 
 export const FileIconColumn = (ext) => {
   return (
@@ -205,6 +206,14 @@ const Attachments = (props) => {
     setDynamicComponent(null)
   }
 
+  function getExtension(items) {
+    if (typeof items.name === 'string' && items.name.includes('.')) {
+     return items.name.split('.').pop();
+    } else {
+      // If there's an error, do nothing
+    }
+  }
+
   return (
     <>
       <CRow className="mb-4 px-4">
@@ -255,7 +264,7 @@ const Attachments = (props) => {
                 itemsPerPage={5}
                 pagination
                 scopedColumns={{
-                  fileType: (items) => FileIconColumn(items.name.split('.').pop()),
+                  fileType: (items) => FileIconColumn(getExtension(items)),
                   action: (item) => {
                     return (
                       <td className="py-2 ">

@@ -154,7 +154,7 @@ const CustomerInfo = (props) => {
                 <strong>Business Address</strong>
               </CFormLabel>
               {
-                !props.type ? <p>{props?.contactInfo?.data?.streetAddress}</p> :
+                !props.type ? <p className='m-0'>{props?.contactInfo?.data?.streetAddress}</p> :
                   <div>
                     <CFormTextarea id="streetAddress"
                       {...register('streetAddress')}
@@ -190,7 +190,7 @@ const CustomerInfo = (props) => {
                 <strong>City/ Town</strong>
               </CFormLabel>
               {
-                !props.type ? <p>{props?.contactInfo?.data?.city}</p> :
+                !props.type ? <p className='m-0'>{props?.contactInfo?.data?.city}</p> :
                   <div>
                     <CFormInput type="text" {...register('city')}
                       id="companyName" placeholder="Enter city or town"
@@ -228,7 +228,7 @@ const CustomerInfo = (props) => {
                 <strong>State/ Province/ Region</strong>
               </CFormLabel>
               {
-                !props.type ? <p>{props?.contactInfo?.data?.provinceState}</p> :
+                !props.type ? <p className='m-0'>{props?.contactInfo?.data?.provinceState}</p> :
                   <div>
                     <CFormInput type="text" id="state"
                       {...register('state')} placeholder="Enter state/province/region"
@@ -266,7 +266,7 @@ const CustomerInfo = (props) => {
                 <strong>Postal/ Zip Code</strong>
               </CFormLabel>
               {
-                !props.type ? <p>{props?.contactInfo?.data?.postalZipCode}</p> :
+                !props.type ? <p className='m-0'>{props?.contactInfo?.data?.postalZipCode}</p> :
                   <div>
                     <CFormInput
                       type="text"
@@ -307,7 +307,7 @@ const CustomerInfo = (props) => {
                 <strong>Digital Address</strong>
               </CFormLabel>
               {
-                !props.type ? <p>{props?.contactInfo?.data?.digitalAddress}</p> :
+                !props.type ? <p className='m-0'>{props?.contactInfo?.data?.digitalAddress}</p> :
                   <div>
                     <CFormInput
                       type="text"
@@ -347,7 +347,7 @@ const CustomerInfo = (props) => {
                 <strong>Postal Address</strong>
               </CFormLabel>
               {
-                !props.type ? <p>{props?.contactInfo?.data?.postalAddress}</p> :
+                !props.type ? <p className='m-0'>{props?.contactInfo?.data?.postalAddress}</p> :
                   <div>
                     <CFormTextarea
                       id="postalAddress" {...register('postalAddress')} rows={3}
@@ -393,7 +393,7 @@ const CustomerInfo = (props) => {
                 <strong>Office Ownership</strong>
               </CFormLabel>
               {
-                !props.type ? <p>{getOfficeOwner(props?.contactInfo?.data?.officeOwnership)}</p> :
+                !props.type ? <p className='m-0'>{getOfficeOwner(props?.contactInfo?.data?.officeOwnership)}</p> :
                   <div>
                     <CFormSelect
                       {...register('officeOwnership')}
@@ -433,7 +433,7 @@ const CustomerInfo = (props) => {
                 <strong>First Occupancy Date</strong>
               </CFormLabel>
               {
-                !props.type ? <p>{formatDate_util(props?.contactInfo?.data?.firstOccupancyDate,'MMMM dd, yyyy')}</p> :
+                !props.type ? <p className='m-0'>{formatDate_util(props?.contactInfo?.data?.firstOccupancyDate,'MMMM dd, yyyy')}</p> :
                   <div>
                     <CDatePicker
                       {...register('firstOccupancyDate')}
@@ -472,7 +472,7 @@ const CustomerInfo = (props) => {
                 <strong>Office Telephone/ Mobile Number</strong>
               </CFormLabel>
               {
-                !props.type ? <p>{props?.contactInfo?.data?.mobileNumber}</p> :
+                !props.type ? <p className='m-0'>{props?.contactInfo?.data?.mobileNumber}</p> :
                   <div>
                     <CFormInput type="text" {...register('officeMobileNumber')}
                       id="mobileNumber" placeholder="Enter mobile number."
