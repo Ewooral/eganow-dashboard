@@ -51,6 +51,7 @@ import {
 } from '@coreui/react-pro'
 import { log } from 'console'
 import DeleteModal from '@/components/DeleteModal'
+import Confirm from '@/components/Confirm'
 
 // ID IMAGE COMPONENT
 export const IDImageColumn = (cardname: string) => {
@@ -85,8 +86,6 @@ const DirectorsShareholders = (props) => {
 
   // ASSIGNING LIST OF DIRECTORS FROM PROPS
   const directorsList = props?.directors?.data?.directorsShareholdersList
-
-  
 
   // HANDLE ID TYPE VALUE
   const idTypeName = () => {
@@ -215,13 +214,19 @@ const DirectorsShareholders = (props) => {
     }
     /*  Deleting Users */
     if (type === 'delete') {
+      const message = `Are you sure want to remove ${items.firstName} ${items.lastName} ?`
       setDynamicComponent(
-        <DeleteModal handleDelete={handleDelete} item={items} modalClose={modalClose} />,
+        <Confirm
+          onClick={handleDelete}
+          data={items?.directorId}
+          modalClose={modalClose}
+          message={message}
+        />,
       )
     }
   }
 
-  async function handleDelete(items) {
+  async function handleDelete(event, items) {
     try {
       const response = await deleteDirector(items)
       //Show response if error occurs and return error.
@@ -301,7 +306,7 @@ const DirectorsShareholders = (props) => {
                 position: (item) => (
                   <td>
                     {/* <CBadge color={getBadge(positionColumn[item.position])}> */}
-                      {positionColumn[item.position]}
+                    {positionColumn[item.position]}
                     {/* </CBadge> */}
                   </td>
                 ),
@@ -310,7 +315,7 @@ const DirectorsShareholders = (props) => {
                   return (
                     <td>
                       {/* <CBadge color={getBadge(idTypeText[items.idInfo.idType])}> */}
-                        {idTypeText[items.idInfo.idType]}
+                      {idTypeText[items.idInfo.idType]}
                       {/* </CBadge> */}
                     </td>
                   )
@@ -340,7 +345,7 @@ const DirectorsShareholders = (props) => {
                             size="sm"
                             data-type="delete"
                             onClick={(e) => {
-                              handleClick(e, item?.directorId)
+                              handleClick(e, item)
                             }}
                           >
                             Remove

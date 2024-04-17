@@ -20,6 +20,7 @@ import MerchantAccountSvc from '@/api/merchantAccountSvcGRPC'
 import { DirectorPosition } from '@/protos/generated/eganow/api/merchant/onboarding_entity_pb'
 import { flipObject_util, formatEnum_util } from '@/util'
 import DeleteModal from '@/components/DeleteModal'
+import Confirm from '@/components/Confirm'
 /*
  *
  * Contact Person Component
@@ -108,6 +109,7 @@ const ContactPerson = (props) => {
   //setting the contactlist data to contactPersons variable
   const contactPersons = props?.data?.data?.contactsList
 
+
   function handleModal() {
     //Setting default data & spreading the contact persons data
     const userData = {
@@ -139,13 +141,24 @@ const ContactPerson = (props) => {
     if (type === 'delete') {
       //Open the AddEditUser component
 
+      // setDynamicComponent(
+      //   <DeleteModal handleDelete={handleDelete} item={items} modalClose={modalClose} />,
+      // )
+
+      const message = `Are you sure want to remove ${items.firstName} ${items.lastName} ?`
+
       setDynamicComponent(
-        <DeleteModal handleDelete={handleDelete} item={items} modalClose={modalClose} />,
+        <Confirm
+          onClick={handleDelete}
+          data={items.contactId}
+          modalClose={modalClose}
+          message={message}
+        />,
       )
     }
   }
 
-  async function handleDelete(items) {
+  async function handleDelete(event, items) {
     try {
       const response = await deleteBusinessContactPerson(items)
       //Show response if error occurs and return error.
@@ -251,7 +264,7 @@ const ContactPerson = (props) => {
                             size="sm"
                             data-type="delete"
                             onClick={(e) => {
-                              handleClick(e, item.contactId)
+                              handleClick(e, item)
                             }}
                           >
                             Remove

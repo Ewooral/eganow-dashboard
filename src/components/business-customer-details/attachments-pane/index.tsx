@@ -31,6 +31,7 @@ import {
 } from '@coreui/react-pro'
 import { useSnackbar } from '@/store'
 import DeleteModal from '@/components/DeleteModal'
+import Confirm from '@/components/Confirm'
 
 export const FileIconColumn = (ext) => {
   return (
@@ -166,18 +167,13 @@ const Attachments = (props) => {
     // /*  Deleting Users */
     if (type === 'delete') {
       //Open the AddEditUser component
-      setDynamicComponent(
-        <DeleteModal
-          handleDelete={handleDelete}
-          item={items}
-          modalClose={modalClose}
-          // isLoading={isLoading}
-        />,
-      )
+      const message = `Are you sure want to remove ${items.name} ?`
+      setDynamicComponent(<Confirm onClick={handleDelete} data={items.docId} modalClose={modalClose} message={message}/>)
+
     }
   }
 
-  async function handleDelete(items) {
+  async function handleDelete(event,items) {
     try {
       const response = await deleteBusinessDocument(items)
       //Show response if error occurs and return error.
@@ -271,7 +267,7 @@ const Attachments = (props) => {
                             size="sm"
                             data-type="delete"
                             onClick={(e) => {
-                              handleClick(e, item.docId)
+                              handleClick(e, item)
                             }}
                           >
                             Remove

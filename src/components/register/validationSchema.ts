@@ -17,7 +17,7 @@ export const validationSchema = yup
     lastName: yup.string().required(),
     customerMobileNo: yup.object({
       dialCode: yup.string().required(),
-      dialNumber: yup.number().required(),
+      dialNumber: yup.number().min(10).required(),
     }),
 
     password: yup.string().required().matches(PASSWORD_REGEX),
@@ -28,7 +28,7 @@ export const validationSchema = yup
 
     businessMobileNo: yup.object({
       dialCode: yup.string().required(),
-      dialNumber: yup.number().required(),
+      dialNumber: yup.number().min(10).required(),
     }),
 
     businessName: yup.string().required(),

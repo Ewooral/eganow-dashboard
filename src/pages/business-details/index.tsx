@@ -120,7 +120,7 @@ const Entry: NextPageWithLayout = (props) => {
   useEffect(() => {
     if (allowToEdit) {
       showSnackbar({
-        type: 'warning',
+        type: 'primary font-black',
         title: 'User Management',
         messages: 'Please update your info to complete your registration',
         show: true,
@@ -199,7 +199,7 @@ const Entry: NextPageWithLayout = (props) => {
                   className="d-flex justify-content-center align-items-center bg-white text-black  gap-1"
                 >
                   {type === '' ? (
-                    <div className="d-flex align-items-center gap-2">
+                    <div className="d-flex align-items-center gap-2 link-black">
                       <FaEdit style={{ fontSize: '1.2rem' }} />
                       Edit
                     </div>
