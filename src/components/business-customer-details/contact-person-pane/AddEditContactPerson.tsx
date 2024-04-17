@@ -80,11 +80,17 @@ const AddEditContactPerson = (props: UserProps) => {
     const generatedOptions = generateOptions(formattedEnum)
 
     setcontactPersonPositionsOptions(generatedOptions)
+
+    return generatedOptions
   }
 
   useEffect(() => {
-    generateContactPersonPositionsOptions()
-  }, [])
+    const formattedEnum = formatEnum_util(DirectorPosition, 2)
+
+    const generatedOptions = generateOptions(formattedEnum)
+
+    setcontactPersonPositionsOptions(generatedOptions)
+  }, [contactPersonPositionOptions,setcontactPersonPositionsOptions,props?.data])
 
   const onSubmit = async (values: UserType) => {
     try {
@@ -186,6 +192,7 @@ const AddEditContactPerson = (props: UserProps) => {
                 </CFormLabel>
                 <CFormInput
                   id="firstName"
+                  type="text"
                   placeholder="Enter your first name."
                   {...register('firstName')}
                   valid={
@@ -306,7 +313,7 @@ const AddEditContactPerson = (props: UserProps) => {
                 >
                   <strong>Position</strong>
                 </CFormLabel>
-                {/** this select is just here4 to trigger the core ui select to display on edit */}
+                {/* * this select is just here4 to trigger the core ui select to display on edit */}
                 <select className="d-none" name="" id="" {...register('position')}>
                   {contactPersonPositionOptions.map((item) => {
                     return (
@@ -317,9 +324,7 @@ const AddEditContactPerson = (props: UserProps) => {
                   })}
                 </select>
                 <CFormSelect
-                  type="text"
                   {...register('position')}
-                  id="position"
                   valid={
                     formState.dirtyFields?.position && !!!formState.errors?.position ? true : false
                   }
