@@ -86,6 +86,8 @@ const DirectorsShareholders = (props) => {
   // ASSIGNING LIST OF DIRECTORS FROM PROPS
   const directorsList = props?.directors?.data?.directorsShareholdersList
 
+  
+
   // HANDLE ID TYPE VALUE
   const idTypeName = () => {
     const formatEnum = formatEnum_util(CustomerIDTypes, 3)
@@ -291,6 +293,7 @@ const DirectorsShareholders = (props) => {
               columnSorter
               footer
               items={directorsList}
+              loading={props.directors.isFetching}
               itemsPerPageSelect
               itemsPerPage={5}
               pagination

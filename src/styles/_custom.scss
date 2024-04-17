@@ -1,10 +1,18 @@
 // Here you can add other styles
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 // 1. Registration Interface
 
 * {
   padding: 0;
   margin: 0;
+}
+
+body{
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  // font-weight: <weight>;
+  font-style: normal;
 }
 
 input[type='text'],
@@ -383,7 +391,8 @@ select {
 .profile-banner-color {
   position: relative;
   height: 160px;
-  background-image: linear-gradient(220deg, #1f8fff 8%, #954a8d 64%, #e11e43);
+  background-color: #3c4b64;
+  // background-image: linear-gradient(220deg, #1f8fff 8%, #954a8d 64%, #e11e43);
   //background-image: linear-gradient(220deg, rgba(31, 143, 255,.5) 8%, rgba(149, 74, 141,.5) 64%, rgba(225, 30, 67,.5));
   background-size: cover;
 }

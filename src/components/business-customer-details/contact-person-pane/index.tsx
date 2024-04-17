@@ -28,7 +28,6 @@ import DeleteModal from '@/components/DeleteModal'
 const ContactPerson = (props) => {
   // const [details, setDetails] = React.useState([])
   const [showDirectorPositionsText, setShowDirectorPositionsText] = React.useState('')
-  const [isLoading, setIsLoading] = useState(null)
 
   const [dynamicComponent, setDynamicComponent] = useState<FC | null>(null)
 
@@ -141,12 +140,7 @@ const ContactPerson = (props) => {
       //Open the AddEditUser component
 
       setDynamicComponent(
-        <DeleteModal
-          handleDelete={handleDelete}
-          item={items}
-          modalClose={modalClose}
-          isLoading={isLoading}
-        />,
+        <DeleteModal handleDelete={handleDelete} item={items} modalClose={modalClose} />,
       )
     }
   }
@@ -216,6 +210,7 @@ const ContactPerson = (props) => {
               cleaner
               clickableRows
               columns={columns}
+              loading={props.data.isFetching}
               columnFilter
               columnSorter
               footer
@@ -227,7 +222,7 @@ const ContactPerson = (props) => {
                 position: (item) => (
                   <td>
                     {/* <CBadge color={getBadge(showDirectorPositionsText[item.position])}> */}
-                      {showDirectorPositionsText[item.position]}
+                    {showDirectorPositionsText[item.position]}
                     {/* </CBadge> */}
                   </td>
                 ),
@@ -251,7 +246,6 @@ const ContactPerson = (props) => {
                           </CButton>
                           <CButton
                             color="danger"
-                            
                             variant="outline"
                             shape="square"
                             size="sm"

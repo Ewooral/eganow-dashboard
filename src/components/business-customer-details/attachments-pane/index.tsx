@@ -253,6 +253,7 @@ const Attachments = (props) => {
                 columns={columns}
                 columnSorter
                 footer
+                loading={props.data.isFetching}
                 items={props?.data?.data?.documentsList}
                 itemsPerPageSelect
                 itemsPerPage={5}

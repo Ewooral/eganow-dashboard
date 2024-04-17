@@ -84,7 +84,7 @@ const AddEditContactPerson = (props: UserProps) => {
 
   useEffect(() => {
     generateContactPersonPositionsOptions()
-  }, [])
+  }, [props?.data])
 
   const onSubmit = async (values: UserType) => {
     try {
@@ -186,6 +186,7 @@ const AddEditContactPerson = (props: UserProps) => {
                 </CFormLabel>
                 <CFormInput
                   id="firstName"
+                  type='text'
                   placeholder="Enter your first name."
                   {...register('firstName')}
                   valid={
