@@ -5,7 +5,7 @@ export const validationSchema = yup
     emailAddress: yup.string().email().required(),
     firstName: yup.string().required(),
     lastName: yup.string().required(),
-    mobileNumber: yup.string().required(),
+    mobileNumber: yup.string().min(10).required(),
     idType: yup.string().required(),
     idNumber: yup.string().required(),
     expiryDate: yup.string().required(),
