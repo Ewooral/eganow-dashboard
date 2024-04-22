@@ -14,6 +14,8 @@ import {
   CFormText,
   CPopover,
   CFormSelect,
+  CInputGroup,
+  CInputGroupText,
 } from '@coreui/react-pro'
 import classNames from 'classnames'
 import { StepPropType } from './types'
@@ -21,6 +23,9 @@ import logo_compact from '@/public/brand/eganow.png'
 import DialCode from '../dial-code/DialCodeInput'
 /* HOOKS */
 import { FormattedMessage, useIntl } from 'react-intl'
+import { RiEyeCloseFill } from 'react-icons/ri'
+import { ImEye } from 'react-icons/im'
+import { useState } from 'react'
 /* 
 
 
@@ -49,6 +54,13 @@ const StepThreePane = (props: any) => {
   const handleBackClick = props.handleBackClick
   const handleNextClick = props.handleNextClick
   const { formatMessage } = useIntl()
+
+  const [showPassword, setShowPassword] = useState(false)
+
+  // Function to toggle password visibility
+  function togglePasswordVisibility() {
+    setShowPassword(!showPassword)
+  }
 
   return (
     <>
@@ -212,6 +224,7 @@ const StepThreePane = (props: any) => {
       </CRow>
 
       <CRow className="mb-3" xs={{ gutterY: 3, cols: 1 }} md={{ gutterY: 3, cols: 2 }}>
+
         <CCol>
           <CFormLabel
             htmlFor="password"
@@ -224,63 +237,83 @@ const StepThreePane = (props: any) => {
               <FormattedMessage id="password" defaultMessage="Password" />
             </span>
           </CFormLabel>
-          <CPopover
-            title="Password Format"
-            content="Password must contain at least 8 characters, one uppercase, one number and one special case character."
-            placement="top"
-            trigger={['hover', 'focus']}
-            style={customPopoverStyle}
-          >
-            <span>
-              <FaQuestionCircle tabIndex={0} style={{ outline: 'none' }} />
-            </span>
-          </CPopover>
-          <CFormInput
-            type="password"
-            id="password"
-            placeholder={formatMessage({
-              id: 'password_placholder',
-              defaultMessage: 'Enter password here.',
-            })}
-            {...register('password')}
-            valid={formState.dirtyFields?.password && !!!formState.errors?.password ? true : false}
+          <CInputGroup>
+            <CFormInput
+              type={showPassword ? 'text' : 'password'}
+              // placeholder={
+              //   intl.formatMessage({
+              //   id: 'password',
+              //   defaultMessage: 'Password',
+              // })}
+              autoComplete="current-password"
+              {...register('password', { required: true, minLength: 2, maxLength: 50 })}
+              required
+
+              valid={formState.dirtyFields?.password && !!!formState.errors?.password ? true : false}
             invalid={!!formState.errors?.password && true}
-          />
+            />
+            <CInputGroupText style={{ width: '40px' }}>
+              <RiEyeCloseFill
+                onClick={togglePasswordVisibility}
+                className={`eyeIcon position-absolute ${showPassword ? 'hiddenEyeIcon' : ''
+                  }`}
+                style={{ font: '50px' }}
+              />
+              <ImEye
+                onClick={togglePasswordVisibility}
+                className={`eyeIcon position-absolute ${showPassword ? '' : 'hiddenEyeIcon'
+                  }`}
+              />
+            </CInputGroupText>
+          </CInputGroup>
           <CFormText
             component="span"
             className={classNames({
               'text-error': true,
               'd-none': !!formState.errors?.password ? false : true,
             })}
+
           >
-            <FormattedMessage id="password_is_required" defaultMessage="Password is required" />
+            {/* <FormattedMessage 
+            id="password_is_required" 
+            defaultMessage='You have to enter a password' /> */}
+            <p style={{fontSize:'12px',marginTop:'2px'}}>{formState?.errors?.password?.message}</p>
           </CFormText>
         </CCol>
 
         <CCol>
           <CFormLabel
-            htmlFor="confirmPassword"
+            htmlFor="confirmpassword"
             className={classNames({
               'text-error': !!formState.errors?.confirmPassword,
+              'me-1': true,
             })}
           >
-            <FormattedMessage id="confirm_password" defaultMessage="Confirm Password" />
+            <span className="d-inline-block">
+              <FormattedMessage id="confirmpassword" defaultMessage="Confirm Password" />
+            </span>
           </CFormLabel>
-          <CFormInput
-            type="password"
-            id="confirmPassword"
-            placeholder={formatMessage({
-              id: 'confirm_password_placeholder',
-              defaultMessage: 'Confirm password here.',
-            })}
-            {...register('confirmPassword')}
-            valid={
-              formState.dirtyFields?.confirmPassword && !!!formState.errors?.confirmPassword
-                ? true
-                : false
-            }
-            invalid={!!formState.errors?.confirmPassword && true}
-          />
+
+          <CInputGroup>
+            <CFormInput
+              type={showPassword ? 'text' : 'password'}
+              // placeholder={
+              //   intl.formatMessage({
+              //   id: 'password',
+              //   defaultMessage: 'Password',
+              // })}
+              autoComplete="current-password"
+              {...register('confirmPassword', { required: true, minLength: 2, maxLength: 50 })}
+              required
+
+              valid={
+                formState.dirtyFields?.confirmPassword && !!!formState.errors?.confirmPassword
+                  ? true
+                  : false
+              }
+              invalid={!!formState.errors?.confirmPassword && true}
+            />
+          </CInputGroup>
           <CFormText
             component="span"
             className={classNames({
@@ -288,27 +321,26 @@ const StepThreePane = (props: any) => {
               'd-none': !!formState.errors?.confirmPassword ? false : true,
             })}
           >
-            <FormattedMessage
-              id="confirm_password_is_required"
-              defaultMessage="Confirm password is required"
-            />
+            {/* <FormattedMessage id="password_is_required" defaultMessage="Password is required" /> */}
+            <p style={{fontSize:'12px',marginTop:'2px'}}>{formState?.errors?.confirmPassword?.message}</p>
           </CFormText>
         </CCol>
+
       </CRow>
 
       <CRow className="row g-3 mt-4 buttons">
-        <CCol xs="auto">
-          <CButton color="dark" variant="outline" onMouseUp={handleBackClick}>
-            <FaChevronLeft className="me-2 mb-1" />
-            <FormattedMessage id="go_back" defaultMessage="Back" />
-          </CButton>
-        </CCol>
-        <CCol xs="auto">
-          <CButton color="primary" onMouseUp={handleNextClick}>
-            <FormattedMessage id="next_step" defaultMessage="Next" />
-            <FaChevronRight className="ms-2 mb-1" />
-          </CButton>
-        </CCol>
+       <CCol xs="auto">
+        <CButton color="dark" variant="outline" onMouseUp={handleBackClick}>
+         <FaChevronLeft className="me-2 mb-1" />
+          <FormattedMessage id="go_back" defaultMessage="Back" />
+         </CButton>
+       </CCol>
+       <CCol xs="auto">
+         <CButton color="primary" onMouseUp={handleNextClick}>
+           <FormattedMessage id="next_step" defaultMessage="Next" />
+           <FaChevronRight className="ms-2 mb-1" />
+         </CButton>
+       </CCol> 
       </CRow>
     </>
   )

@@ -79,7 +79,7 @@ export const formatDate_util = (date: string, pattern: string) => {
 
     return format(new Date(date), pattern)
   } catch (error) {
-    throw error
+    console.error(error);
   }
 }
 

@@ -20,11 +20,11 @@ export const validationSchema = yup
       dialNumber: yup.number().min(10).required(),
     }),
 
-    password: yup.string().required().matches(PASSWORD_REGEX),
+    password: yup.string().required().matches(PASSWORD_REGEX,'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'),
     confirmPassword: yup
       .string()
-      .required()
-      .oneOf([yup.ref('password')]),
+      .required('Confirm password is required')
+      .oneOf([yup.ref('password')],'Passwords must match'),
 
     businessMobileNo: yup.object({
       dialCode: yup.string().required(),
