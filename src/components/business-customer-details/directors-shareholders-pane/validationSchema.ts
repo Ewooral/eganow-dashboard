@@ -13,7 +13,7 @@ export const validationSchema = yup
     position: yup.string().required(),
     // stakeHolderType: yup.string().required(),
     frontImage : yup.string().required(),
-    backImage : yup.string().required(),
+    backImage : yup.string(),
     portraitImage : yup.string().required(),
   })
   .required()

@@ -8,8 +8,10 @@ import { cilIndustry } from '@coreui/icons'
 import { EntryLayout, Features, FeaturesPlaceholder } from '@/components'
 /* Images */
 /* import biz_collect from '@/public/images/biz-collect.png' */
-import biz_collect from '@/public/images/features/budget.png'
-import teamwork from '@/public/images/features/group-meeting.png'
+// import biz_collect from '@/public/images/features/budget.png'
+import biz_collect from '@/public/images/features/bixcol2.png'
+// import teamwork from '@/public/images/features/group-meeting.png'
+import teamwork from '@/public/images/features/groups2.png'
 /* CONSTANCE */
 import { EGANOW_AUTH_COOKIE } from '@/constants'
 import { useEffect, useState } from 'react'

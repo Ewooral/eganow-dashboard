@@ -29,10 +29,10 @@ export default function Features(props: FeaturePropsType) {
         <div
           className="d-flex justify-content-center mx-auto overflow-hidden"
           style={{
-            width: '140px',
-            height: '140px',
-            border: '4px solid rgba(255, 255, 255)',
-            borderRadius: '50%',
+            // width: '140px',
+            // height: '140px',
+            // border: '4px solid rgba(255, 255, 255)',
+            // borderRadius: '50%',
           }}
         >
           <Image
