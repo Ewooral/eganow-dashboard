@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { EmptyObject, useForm } from 'react-hook-form'
+import { Controller, EmptyObject, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import { validationSchema } from './validationSchema'
@@ -48,10 +48,13 @@ import { generateOptions } from '@/helpers'
 // IMPORT APi
 import MerchantAccountSvc from '@/api/merchantAccountSvcGRPC'
 
+
+
 import { useSnackbar } from '@/store'
 
 // IMPORTING THE IMAGE UPLOAD BUTTON
 import ImageUpload from '@/components/ImageUpload'
+import { log } from 'console'
 /*
  *
  * Add Edit User Component
@@ -64,6 +67,9 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
 
   const currentDate = new Date()
 
+  const [showBackImageUpload, setShowBackImageUpload] = useState(true)
+  const [selectedIdOption, setSelectedIdOption] = useState(0)
+
   // ADD AND UPDATE DIRECTORS APIs INIT
   const { addDirectorOrShareholder, updateDirectorOrShareholder } = MerchantAccountSvc()
 
@@ -71,7 +77,7 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
   const { showSnackbar } = useSnackbar()
 
   // USERFORM OBJECT
-  const { register, reset, handleSubmit, setValue, formState, getValues } = useForm({
+  const { register, reset, handleSubmit, setValue, formState, control, watch, unregister, getValues } = useForm({
     resolver: yupResolver(validationSchema),
     mode: 'onChange',
     defaultValues: defaultFormValues,
@@ -102,6 +108,11 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
     const formattedDate = dateValue?.split('T')[0] //REMOVE TIMESTAMP FROM STRING
     setValue('expiryDate', formattedDate, { shouldValidate: true })
   }
+
+  // const selectedIdOption = watch('idType')
+
+  // console.log(selectedIdOption)
+
 
   useEffect(() => {
     if (props.data?.type === 'edit') {
@@ -146,8 +157,11 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props?.data])
 
+
+
   // HANDLE FORM SUBMIT ( ADDING NEW RECORD OR UPDATING EXISTING RECORD)
   const onSubmit = async (values) => {
+
     try {
       // IF ADD NEW BUTTON IS CLICKED
       if (values.type === 'new') {
@@ -240,7 +254,7 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
           <CNavItem>
             <CNavLink
               className={classNames({
-                'text-error': formState.errors?.backImage ? true : false,
+                'text-error': formState.errors?.frontImage && formState.errors.portraitImage ? true : false,
                 'd-flex': true,
                 'align-items-center': true,
                 'gap-1': true,
@@ -250,7 +264,7 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
               onClick={() => setActiveKey(2)}
             >
               {formState.errors?.backImage && <BiErrorCircle />}
-              <strong>Passport & ID Card</strong>
+              <strong>UPLOAD IMAGES</strong>
             </CNavLink>
           </CNavItem>
         </CNav>
@@ -407,13 +421,29 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
                   >
                     <strong>ID Type</strong>
                   </CFormLabel>
-                  <CFormSelect
-                    {...register('idType')}
-                    valid={
-                      formState.dirtyFields?.idType && !!!formState.errors?.idType ? true : false
-                    }
-                    invalid={!!formState.errors?.idType && true}
-                    options={idTypesList()}
+                  <Controller
+                    name="idType"
+                    control={control}
+                    defaultValue=""
+                    render={({ field: { onChange, value } }) => (
+                      <CFormSelect
+                        type="idType"
+                        onChange={(e) => {
+                          onChange(e)
+                          setSelectedIdOption(e.target.value)
+                          setValue('backImage','no image')
+                        }}
+                        value={value}
+                        valid={
+                          formState.dirtyFields?.idType && !!!formState.errors?.idType
+                            ? true
+                            : false
+                        }
+                        invalid={!!formState.errors?.idType && true}
+                        options={idTypesList()}
+                      />
+
+                    )}
                   />
                   <CFormText
                     component="span"
@@ -526,6 +556,7 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
 
               <CRow className="g-3">
                 {/* DIRECTOR POSITION */}
+
                 <CCol xs={12} sm={6} className="mb-4">
                   <CFormLabel
                     htmlFor="position"
@@ -535,15 +566,25 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
                   >
                     <strong>Position</strong>
                   </CFormLabel>
-                  <CFormSelect
-                    {...register('position')}
-                    valid={
-                      formState.dirtyFields?.position && !!!formState.errors?.position
-                        ? true
-                        : false
-                    }
-                    invalid={!!formState.errors?.position && true}
-                    options={directorPositionList()}
+                  <Controller
+                    name="position"
+                    control={control}
+                    defaultValue=""
+                    render={({ field: { onChange, value } }) => (
+                      <CFormSelect
+                        type="position"
+                        onChange={onChange}
+                        value={value}
+                        valid={
+                          formState.dirtyFields?.position && !!!formState.errors?.position
+                            ? true
+                            : false
+                        }
+                        invalid={!!formState.errors?.position && true}
+                        options={directorPositionList()}
+                      />
+
+                    )}
                   />
                   <CFormText
                     component="span"
@@ -614,6 +655,7 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
                     setValue={setValue}
                     fieldName={'frontImage'}
                     formSubmitted={formSubmitted}
+                    clearError={unregister}
                   />
 
                   <CFormText
@@ -628,34 +670,43 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
                 </CCol>
 
                 {/* BACK IMAGE */}
-                <CCol xs={12} sm={6} className="mb-4">
-                  <CFormLabel
-                    htmlFor="membertype"
-                    className={classNames({
-                      'text-error': !!formState.errors?.backImage,
-                    })}
-                  >
-                    <strong>Back Image</strong>
-                  </CFormLabel>
-                  <div>
-                    {/* BACK IMAGE */}
-                    <ImageUpload
-                      imgUrl={props?.data?.idInfo?.idBackImage}
-                      setValue={setValue}
-                      fieldName={'backImage'}
-                      formSubmitted={formSubmitted}
-                    />
-                  </div>
-                  <CFormText
-                    component="span"
-                    className={classNames({
-                      'text-error': true,
-                      'd-none': !!formState.errors?.backImage ? false : true,
-                    })}
-                  >
-                    Back image is required.
-                  </CFormText>
-                </CCol>
+
+                {console.log(formState.errors)}
+                {
+                  selectedIdOption > 1 &&
+
+                  <CCol xs={12} sm={6} className={`mb-4`}>
+                    <CFormLabel
+                      htmlFor="membertype"
+                      className={classNames({
+                        'text-error': !!formState.errors?.backImage,
+                      })}
+                    >
+                      <strong>Back Image</strong>
+                    </CFormLabel>
+                    <div>
+                      {/* BACK IMAGE */}
+                      <ImageUpload
+                        imgUrl={props?.data?.idInfo?.idBackImage}
+                        setValue={setValue}
+                        fieldName={'backImage'}
+                        formSubmitted={formSubmitted}
+                        idTypeValue={selectedIdOption}
+                        clearError={unregister}
+                      />
+                    </div>
+                    <CFormText
+                      component="span"
+                      className={classNames({
+                        'text-error': true,
+                        'd-none': !!formState.errors?.backImage ? false : true,
+                      })}
+                    >
+                      Back image is required.
+                    </CFormText>
+                  </CCol>
+                }
+
 
                 {/* PORTRAIT IMAGE */}
                 <CCol xs={12} sm={6} className="mb-4">
@@ -665,7 +716,7 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
                       'text-error': !!formState.errors?.portraitImage,
                     })}
                   >
-                    <strong>Portrait Image</strong>
+                    <strong>Passport Picture</strong>
                   </CFormLabel>
                   <div>
                     {/* PORTRAIT IMAGE  */}
@@ -674,6 +725,7 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
                       setValue={setValue}
                       fieldName={'portraitImage'}
                       formSubmitted={formSubmitted}
+                      clearError={unregister}
                     />
                   </div>
                   <CFormText
