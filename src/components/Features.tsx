@@ -55,6 +55,7 @@ export default function Features(props: FeaturePropsType) {
           <CCardText >{props.data.content}</CCardText>
 
           <CButton
+          color="info text-white"
             onClick={() => handleFeatureClick(props.data.title)}
             href={props.data.route}
             shape="rounded-pill"
