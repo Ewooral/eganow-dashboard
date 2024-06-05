@@ -30,6 +30,9 @@ import {
   CProgressBar,
 } from '@coreui/react-pro'
 import { useSnackbar } from '@/store'
+import DeleteModal from '@/components/DeleteModal'
+import Confirm from '@/components/Confirm'
+import { get } from 'http'
 
 export const FileIconColumn = (ext) => {
   return (
@@ -50,7 +53,7 @@ export const FileIconColumn = (ext) => {
 const Attachments = (props) => {
   const { addBusinessDocument, deleteBusinessDocument } = MerchantAccountSvc()
   const [isUploading, setIsUploading] = useState(false)
-  // const [progress, setProgress] = useState(0)
+  const [dynamicComponent, setDynamicComponent] = useState<FC | null>(null)
 
   //snackbar from zustand store
   const showSnackbar = useSnackbar((state: any) => state.showSnackbar)
@@ -93,14 +96,27 @@ const Attachments = (props) => {
       fileInputType.click()
     }
 
-    fileInputType.addEventListener('change', test, false)
+    fileInputType.addEventListener('change', uploadDocument, false)
   }
 
-  function test(e) {
+  function uploadDocument(e) {
     const selectedFile = e.target.files[0]
 
     // Do something with the selected file, such as uploading it or processing it
     if (selectedFile) {
+      //checks to see if correct file type3 is being uploaded
+      const fileName = selectedFile.name
+      const fileExtension = fileName.split('.').pop()
+      if (!['png', 'jpg', 'jpeg', 'pdf'].includes(fileExtension.toLowerCase())) {      
+        showSnackbar({
+          type: 'danger',
+          title: 'User Management',
+          messages: 'Invalid file type',
+          show: true,
+        })
+        return
+      }
+
       const reader = new FileReader()
       reader.onload = async (e) => {
         // Find the index of the comma
@@ -146,35 +162,55 @@ const Attachments = (props) => {
   }
 
   //function to delete document
-  async function handleClick(e: React.ChangeEvent<HTMLInputElement>, items): void {
+  function handleClick(e: React.ChangeEvent<HTMLInputElement>, items): void {
     const { type } = e.currentTarget.dataset
 
     // /*  Deleting Users */
     if (type === 'delete') {
       //Open the AddEditUser component
-      try {
-        const response = await deleteBusinessDocument(items)
-        //Show response if error occurs and return error.
-        if (!response) {
-          //Throw response on error.
-          throw new Error(response.message)
-        }
-        //Show response on success.
-        showSnackbar({
-          type: 'success',
-          title: 'User Management',
-          messages: response.value,
-          show: true,
-        } as SnackbarDataType)
-        props.data.refetch()
-      } catch (error) {
-        showSnackbar({
-          type: 'danger',
-          title: 'User Management',
-          messages: error.message,
-          show: true,
-        } as SnackbarDataType)
+      const message = `Are you sure want to remove ${items.name} ?`
+      setDynamicComponent(<Confirm onClick={handleDelete} data={items.docId} modalClose={modalClose} message={message}/>)
+
+    }
+  }
+
+  async function handleDelete(event,items) {
+    try {
+      const response = await deleteBusinessDocument(items)
+      //Show response if error occurs and return error.
+      if (!response) {
+        //Throw response on error.
+        throw new Error(response.message)
       }
+      //Show response on success.
+      showSnackbar({
+        type: 'success',
+        title: 'User Management',
+        messages: response.value,
+        show: true,
+      } as SnackbarDataType)
+      props.data.refetch()
+    } catch (error) {
+      showSnackbar({
+        type: 'danger',
+        title: 'User Management',
+        messages: error.message,
+        show: true,
+      } as SnackbarDataType)
+    }
+
+    setDynamicComponent(<Snackbar modalClose={modalClose} />)
+  }
+
+  function modalClose() {
+    setDynamicComponent(null)
+  }
+
+  function getExtension(items) {
+    if (typeof items.name === 'string' && items.name.includes('.')) {
+     return items.name.split('.').pop();
+    } else {
+      // If there's an error, do nothing
     }
   }
 
@@ -187,31 +223,33 @@ const Attachments = (props) => {
               List of Documents Uploaded
             </legend>
 
-           {props?.allowToEdit && <div className="text-center">
-              {isUploading ? (
-                <div className="d-flex justify-content-center">
-                  <CProgress
-                    className="w-25"
-                    height={28}
+            {props?.allowToEdit && (
+              <div className="text-center">
+                {isUploading ? (
+                  <div className="d-flex justify-content-center">
+                    <CProgress
+                      className="w-25"
+                      height={28}
+                      color="info"
+                      value={100}
+                      variant="striped"
+                      animated
+                    >
+                      <p className="m-0 fs-6"> uploading your document</p>
+                    </CProgress>
+                  </div>
+                ) : (
+                  <CButton
                     color="info"
-                    value={100}
-                    variant="striped"
-                    animated
+                    className="fs-5 rounded-5 shadow text-white"
+                    onMouseUp={handleFileUpload}
+                    style={{ outline: '2px dashed #fff' }}
                   >
-                    <p className="m-0 fs-6"> uploading your document</p>
-                  </CProgress>
-                </div>
-              ) : (
-                <CButton
-                  color="info"
-                  className="fs-5 rounded-5 shadow text-white"
-                  onMouseUp={handleFileUpload}
-                  style={{ outline: '2px dashed #fff' }}
-                >
-                  <GrCloudUpload className="fs-3  text-white" /> Upload Files
-                </CButton>
-              )}
-            </div>}
+                    <GrCloudUpload className="fs-3  text-white" /> Upload Files
+                  </CButton>
+                )}
+              </div>
+            )}
 
             <div>
               <CSmartTable
@@ -220,27 +258,30 @@ const Attachments = (props) => {
                 columns={columns}
                 columnSorter
                 footer
+                loading={props.data.isFetching}
                 items={props?.data?.data?.documentsList}
                 itemsPerPageSelect
                 itemsPerPage={5}
                 pagination
                 scopedColumns={{
-                  fileType: (items) => FileIconColumn(items.name.split('.').pop()),
+                  fileType: (items) => FileIconColumn(getExtension(items)),
                   action: (item) => {
                     return (
                       <td className="py-2 ">
-                      {props?.allowToEdit &&  <CButton
-                          color="danger"
-                          variant="outline"
-                          shape="square"
-                          size="sm"
-                          data-type="delete"
-                          onClick={(e) => {
-                            handleClick(e, item.docId)
-                          }}
-                        >
-                          Remove
-                        </CButton>}
+                        {props?.allowToEdit && (
+                          <CButton
+                            color="danger"
+                            variant="outline"
+                            shape="square"
+                            size="sm"
+                            data-type="delete"
+                            onClick={(e) => {
+                              handleClick(e, item)
+                            }}
+                          >
+                            Remove
+                          </CButton>
+                        )}
                       </td>
                     )
                   },
@@ -261,6 +302,8 @@ const Attachments = (props) => {
           </fieldset>
         </CCol>
       </CRow>
+      {/* Dynamic Modal Component */}
+      {dynamicComponent}
     </>
   )
 }

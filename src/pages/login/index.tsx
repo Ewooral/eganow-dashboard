@@ -45,7 +45,7 @@ import { useLocale } from '@/store'
 /* CONSTANCE */
 import { EGANOW_AUTH_COOKIE, EGANOW_REMEMBER_ME_COOKIE, RPC_ERROR } from '@/constants'
 /* IMAGE */
-import lady from '@/public/images/lady.jpg'
+import loginImage from '@/public/images/loginImage.jpg'
 import logoIcon from '@/public/images/EganowLogo.png'
 import logoIconwhite from '@/public/images/eganowlogowhite.png'
 import CryptoJS from 'crypto-js'
@@ -221,7 +221,7 @@ const Login = (props) => {
                 <CCardBody className="text-center p-0 overflow-hidden position-relative h-100 ">
                   <div className="p-0 m-0 bg-info overflow-hidden h-100 d-none d-lg-block">
                     <Image
-                      src={lady}
+                      src={loginImage}
                       width="auto"
                       alt="lady"
                       style={{ objectFit: 'cover', height: '100%' }}

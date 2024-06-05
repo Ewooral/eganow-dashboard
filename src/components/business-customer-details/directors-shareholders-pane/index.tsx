@@ -10,7 +10,7 @@ import MerchantAccountSvc from '@/api/merchantAccountSvcGRPC'
 
 import { useSnackbar } from '@/store'
 
-import {isEmpty_util} from '@/util'
+import { isEmpty_util } from '@/util'
 
 /* Components */
 const AddEditDirectorsShareholders = dynamic(
@@ -21,7 +21,11 @@ const AddEditDirectorsShareholders = dynamic(
 )
 import Snackbar from '@/components/Snackbar'
 
-import { DirectorOrShareholderOrOtherType, DirectorPosition, CustomerIDTypes } from '@/protos/generated/eganow/api/merchant/onboarding_entity_pb'
+import {
+  DirectorOrShareholderOrOtherType,
+  DirectorPosition,
+  CustomerIDTypes,
+} from '@/protos/generated/eganow/api/merchant/onboarding_entity_pb'
 import { flipObject_util, formatEnum_util } from '@/util'
 
 // CORE UI IMPORTS
@@ -46,6 +50,8 @@ import {
   CDropdownItem,
 } from '@coreui/react-pro'
 import { log } from 'console'
+import DeleteModal from '@/components/DeleteModal'
+import Confirm from '@/components/Confirm'
 
 // ID IMAGE COMPONENT
 export const IDImageColumn = (cardname: string) => {
@@ -99,7 +105,6 @@ const DirectorsShareholders = (props) => {
     idTypeName()
     positionCol()
   }, [])
-
 
   // TABLE COLUMNS
   const columns = [
@@ -156,7 +161,7 @@ const DirectorsShareholders = (props) => {
       sorter: false,
     },
   ]
-  
+
   const getBadge = (status) => {
     switch (status) {
       case 'GENERAL_MANAGER':
@@ -171,7 +176,6 @@ const DirectorsShareholders = (props) => {
         return 'primary'
     }
   }
-
 
   function handleModal() {
     //Setting default data
@@ -194,7 +198,7 @@ const DirectorsShareholders = (props) => {
 
     /*  Editing Users */
     if (type === 'edit') {
-      //Setting default data      
+      //Setting default data
       const userData = {
         type: 'edit',
         ...items,
@@ -210,33 +214,43 @@ const DirectorsShareholders = (props) => {
     }
     /*  Deleting Users */
     if (type === 'delete') {
-      //Open the AddEditUser component
-      try {
-        const response = await deleteDirector(items)
-        //Show response if error occurs and return error.
-        if (!response) {
-          //Throw response on error.
-          throw new Error(response.message)
-        }
-        //Show response on success.
-        showSnackbar({
-          type: 'success',
-          title: 'User Management',
-          messages: response.value,
-          show: true,
-        } as SnackbarDataType)
-        handleRefresh()
-
-      } catch (error) {
-        showSnackbar({
-          type: 'danger',
-          title: 'User Management',
-          messages: error.message,
-          show: true,
-        } as SnackbarDataType)
-      }
-      setDynamicComponent(<Snackbar modalClose={modalClose} />)
+      const message = `Are you sure want to remove ${items.firstName} ${items.lastName} ?`
+      setDynamicComponent(
+        <Confirm
+          onClick={handleDelete}
+          data={items?.directorId}
+          modalClose={modalClose}
+          message={message}
+        />,
+      )
     }
+  }
+
+  async function handleDelete(event, items) {
+    try {
+      const response = await deleteDirector(items)
+      //Show response if error occurs and return error.
+      if (!response) {
+        //Throw response on error.
+        throw new Error(response.message)
+      }
+      //Show response on success.
+      showSnackbar({
+        type: 'success',
+        title: 'User Management',
+        messages: response.value,
+        show: true,
+      } as SnackbarDataType)
+      handleRefresh()
+    } catch (error) {
+      showSnackbar({
+        type: 'danger',
+        title: 'User Management',
+        messages: error.message,
+        show: true,
+      } as SnackbarDataType)
+    }
+    setDynamicComponent(<Snackbar modalClose={modalClose} />)
   }
 
   function modalClose() {
@@ -257,21 +271,23 @@ const DirectorsShareholders = (props) => {
               List of Directors & Shareholders
             </legend>
 
-          {props?.allowToEdit && <CButtonGroup
-              role="group"
-              aria-label="Button group with nested dropdown"
-              className="float-end"
-            >
-              <CButton onMouseUp={handleModal} color="info" className='text-white rounded-pill'>
-                Add new
-              </CButton>
-              {/* <CDropdown variant="btn-group">
+            {props?.allowToEdit && (
+              <CButtonGroup
+                role="group"
+                aria-label="Button group with nested dropdown"
+                className="float-end"
+              >
+                <CButton onMouseUp={handleModal} color="info" className="text-white rounded-pill">
+                  Add new
+                </CButton>
+                {/* <CDropdown variant="btn-group">
                 <CDropdownToggle color="info"></CDropdownToggle>
                 <CDropdownMenu>
                   <CDropdownItem href="#">Batch Remove</CDropdownItem>
                 </CDropdownMenu>
               </CDropdown> */}
-            </CButtonGroup>}
+              </CButtonGroup>
+            )}
 
             <CSmartTable
               activePage={1}
@@ -282,54 +298,62 @@ const DirectorsShareholders = (props) => {
               columnSorter
               footer
               items={directorsList}
+              loading={props.directors.isFetching}
               itemsPerPageSelect
               itemsPerPage={5}
               pagination
               scopedColumns={{
                 position: (item) => (
                   <td>
-                    <CBadge color={getBadge(positionColumn[item.position])}>{positionColumn[item.position]}</CBadge>
+                    {/* <CBadge color={getBadge(positionColumn[item.position])}> */}
+                    {positionColumn[item.position]}
+                    {/* </CBadge> */}
                   </td>
                 ),
                 idImage: (items) => IDImageColumn(items.idInfo.idFrontImage),
                 idType: (items) => {
                   return (
                     <td>
-                      <CBadge color={getBadge(idTypeText[items.idInfo.idType])}>{idTypeText[items.idInfo.idType]}</CBadge>
+                      {/* <CBadge color={getBadge(idTypeText[items.idInfo.idType])}> */}
+                      {idTypeText[items.idInfo.idType]}
+                      {/* </CBadge> */}
                     </td>
                   )
                 },
                 action: (item) => {
                   return (
-                    <td >
-                    {props?.allowToEdit ?  <div className="py-3 d-flex">
-
-                      <CButton
-                        className="me-1"
-                        color="primary"
-                        variant="outline"
-                        shape="square"
-                        size="sm"
-                        data-type='edit'
-                        onClick={(e) => {
-                          handleClick(e, item)
-                        }}
-                      >
-                        Edit
-                      </CButton>
-                      <CButton
-                        color="danger"
-                        variant="outline"
-                        shape="square"
-                        size="sm"
-                        data-type='delete'
-                        onClick={(e) => {
-                          handleClick(e, item?.directorId)
-                        }}
-                      >
-                        Remove
-                      </CButton>
-                      </div> : "N/A"}
+                    <td>
+                      {props?.allowToEdit ? (
+                        <div className="d-flex">
+                          <CButton
+                            className="me-1"
+                            color="primary"
+                            variant="outline"
+                            shape="square"
+                            size="sm"
+                            data-type="edit"
+                            onClick={(e) => {
+                              handleClick(e, item)
+                            }}
+                          >
+                            Edit
+                          </CButton>
+                          <CButton
+                            color="danger"
+                            variant="outline"
+                            shape="square"
+                            size="sm"
+                            data-type="delete"
+                            onClick={(e) => {
+                              handleClick(e, item)
+                            }}
+                          >
+                            Remove
+                          </CButton>
+                        </div>
+                      ) : (
+                        'N/A'
+                      )}
                     </td>
                   )
                 },

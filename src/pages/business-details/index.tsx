@@ -23,6 +23,8 @@ import {
   CTabContent,
   CBadge,
   CCard,
+  CPlaceholder,
+  CCardTitle,
 } from '@coreui/react-pro'
 import CIcon from '@coreui/icons-react'
 
@@ -120,7 +122,7 @@ const Entry: NextPageWithLayout = (props) => {
   useEffect(() => {
     if (allowToEdit) {
       showSnackbar({
-        type: 'warning',
+        type: 'primary font-black',
         title: 'User Management',
         messages: 'Please update your info to complete your registration',
         show: true,
@@ -199,7 +201,7 @@ const Entry: NextPageWithLayout = (props) => {
                   className="d-flex justify-content-center align-items-center bg-white text-black  gap-1"
                 >
                   {type === '' ? (
-                    <div className="d-flex align-items-center gap-2">
+                    <div className="d-flex align-items-center gap-2 link-black">
                       <FaEdit style={{ fontSize: '1.2rem' }} />
                       Edit
                     </div>
@@ -247,31 +249,55 @@ const Entry: NextPageWithLayout = (props) => {
 
                   <div>
                     <h6 className="fw-bold">Company Name</h6>
-                    <h6 className="mb-4 fw-normal">{businessInfo?.data?.companyName}</h6>
+                    {businessInfo?.data?.companyName ? (
+                      <h6 className="mb-4 fw-normal">{businessInfo?.data?.companyName}</h6>
+                    ) : (
+                      <CPlaceholder component={CCardTitle} animation="glow">
+                        <CPlaceholder xs={6} className='rounded bg-secondary'/>
+                      </CPlaceholder>
+                    )}
                   </div>
 
                   <div>
                     <h6 className="fw-bold">Registration Number</h6>
-                    <h6 className="mb-4 fw-normal">
-                      {businessInfo?.data?.companyRegistrationNumber}
-                    </h6>
+                    {businessInfo?.data?.companyRegistrationNumber ? (
+                      <h6 className="mb-4 fw-normal">
+                        {businessInfo?.data?.companyRegistrationNumber}
+                      </h6>
+                    ) : (
+                      <CPlaceholder component={CCardTitle} animation="glow">
+                      <CPlaceholder xs={6} className='rounded bg-secondary'/>
+                    </CPlaceholder>
+                    )}
                   </div>
 
                   <div>
                     <h6 className="fw-bold">TIN</h6>
-                    <h6 className="mb-4 fw-normal">
-                      {businessInfo?.data?.taxIdentificationNumber}
-                    </h6>
+                    {businessInfo?.data?.taxIdentificationNumber ? (
+                      <h6 className="mb-4 fw-normal">
+                        {businessInfo?.data?.taxIdentificationNumber}
+                      </h6>
+                    ) : (
+                      <CPlaceholder component={CCardTitle} animation="glow">
+                      <CPlaceholder xs={6} className='rounded bg-secondary'/>
+                    </CPlaceholder>
+                    )}
                   </div>
 
                   <div>
                     <h6 className="fw-bold">Attachments</h6>
-                    <h6 className="mb-4 fw-normal">
-                      Count::{' '}
-                      <CBadge color="secondary" shape="rounded-circle">
-                        {businessDocuments?.data?.documentsList?.length || 0}
-                      </CBadge>
-                    </h6>
+                    {businessDocuments?.data?.documentsList?.length ? (
+                      <h6 className="mb-4 fw-normal">
+                        Count::{' '}
+                        <CBadge color="secondary" shape="rounded-circle">
+                          {businessDocuments?.data?.documentsList?.length || 0}
+                        </CBadge>
+                      </h6>
+                    ) : (
+                      <CPlaceholder component={CCardTitle} animation="glow">
+                      <CPlaceholder xs={6} className='rounded bg-secondary'/>
+                    </CPlaceholder>
+                    )}
                   </div>
 
                   <div className="mb-4">

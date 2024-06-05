@@ -1,5 +1,5 @@
 
-const nextConfig = {
+/*const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
@@ -12,6 +12,17 @@ const nextConfig = {
     ],
   },
 
+module.exports = nextConfig */
+
+const nextConfig = {
+  reactStrictMode: true,
+  swcMinify: true,
+  images: {
+    unoptimized: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   /* typescript: {
     ignoreBuildErrors: true,
   }, */
