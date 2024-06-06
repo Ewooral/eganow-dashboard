@@ -72,32 +72,43 @@ const BizCollect: NextPageWithLayout = (props) => {
 
   return (
     <DashboardLayout {...props}>
-      <div className="d-flex justify-content-between flex-wrap bg-w">
+      <div className="d-flex justify-content-between flex-wrap  mb-4">
         <div className="flex-grow-1">
           <h3>Biz Collect</h3>
         </div>
 
-        <CFormSelect className="mb-3" style={{ maxWidth: '600px' }}>
+        {/* <CFormSelect className="mb-3" style={{ maxWidth: '200px' }}>
           <option value="1">Account One</option>
           <option value="2">Account Two</option>
           <option value="3">Account Three</option>
-        </CFormSelect>
+        </CFormSelect> */}
+
+        <CDropdown variant="btn-group" >
+          <CDropdownToggle className="bg-white text-black dark:bg-secondary dark:text-white shadow-none" size="md">
+            Account One
+          </CDropdownToggle>
+          <CDropdownMenu>
+            <CDropdownItem href="#">Account One</CDropdownItem>
+            <CDropdownItem href="#">Account Two</CDropdownItem>
+            <CDropdownItem href="#">Account Three</CDropdownItem>
+          </CDropdownMenu>
+        </CDropdown>
       </div>
 
-      <hr className="mt-0" />
+      {/* <hr className="mt-0" /> */}
 
       <CRow>
         <CCol sm={4}>
           <CWidgetStatsA
-            className="mb-4"
-            color="primary"
+            className="mb-4 shadow-none"
+            // color="white"
             value={
-              <>
+              <div className="text-black dark:text-white">
                 $9.000{' '}
-                <span className="fs-6 fw-normal">
+                <span className="fs-6 fw-normal text-black dark:text-white">
                   (40.9% <CIcon icon={cilArrowTop} />)
                 </span>
-              </>
+              </div>
             }
             title="Collection"
             chart={
@@ -110,8 +121,8 @@ const BizCollect: NextPageWithLayout = (props) => {
                     {
                       label: 'My First dataset',
                       backgroundColor: 'transparent',
-                      borderColor: 'rgba(255,255,255,.55)',
-                      pointBackgroundColor: '#321fdb',
+                      borderColor: '#304767',
+                      pointBackgroundColor: '#304767',
                       data: [65, 59, 84, 84, 51, 55, 40],
                     },
                   ],
@@ -164,8 +175,8 @@ const BizCollect: NextPageWithLayout = (props) => {
 
         <CCol sm={4}>
           <CWidgetStatsA
-            className="mb-4"
-            color="warning"
+            className="mb-4   shadow-none"
+            // color="warning"
             value={
               <>
                 $9.000{' '}
@@ -184,8 +195,8 @@ const BizCollect: NextPageWithLayout = (props) => {
                   datasets: [
                     {
                       label: 'My First dataset',
-                      backgroundColor: 'rgba(255,255,255,.2)',
-                      borderColor: 'rgba(255,255,255,.55)',
+                      borderColor: '#304767',
+                      pointBackgroundColor: '#304767',
                       data: [78, 81, 80, 45, 34, 12, 40],
                       fill: true,
                     },
@@ -223,10 +234,10 @@ const BizCollect: NextPageWithLayout = (props) => {
           />
         </CCol>
 
-        <CCol sm={4}>
+        <CCol className="" sm={4}>
           <CWidgetStatsA
-            className="mb-4"
-            color="danger"
+            className="mb-4 shadow-none"
+            // color="danger"
             value={
               <>
                 $9.000{' '}
@@ -262,8 +273,8 @@ const BizCollect: NextPageWithLayout = (props) => {
                   datasets: [
                     {
                       label: 'My First dataset',
-                      backgroundColor: 'rgba(255,255,255,.2)',
-                      borderColor: 'rgba(255,255,255,.55)',
+                      backgroundColor: '#304767',
+                      borderColor: '#304767',
                       data: [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
                       barPercentage: 0.6,
                     },
@@ -304,16 +315,19 @@ const BizCollect: NextPageWithLayout = (props) => {
         </CCol>
       </CRow>
 
-      <CContainer fluid className="p-3 bg-gradient mb-5 border">
-        <div className="d-flex justify-content-between mb-2">
+      <CContainer fluid className="p-3 bg-gradient mb-5 ">
+        <div className="d-flex justify-content-between mb-4 ">
           <div>
             <small>Select Date Range </small>
-            <div className="d-flex justify-content-between">
-              <CDateRangePicker footer locale="en-US" />
+            <div className="d-flex justify-content-between shadow-none">
+              <CDateRangePicker footer locale="en-US" className='shadow-none border-none' />
               <CButton
-                color="primary"
+                // color="black"
                 title="Search"
-                className="mx-1 rounded-50"
+                className="mx-1 rounded-50 dark:text-white"
+                style={{
+                  backgroundColor: '#304767',
+                }}
                 onMouseUp={() => {}}
               >
                 <CIcon icon={cilSearch} id="new" />
@@ -321,12 +335,13 @@ const BizCollect: NextPageWithLayout = (props) => {
             </div>
           </div>
           <CButton
-            color="primary"
+            color="text-white"
+            // className="bg-black text-white"
             title="Refresh list"
             variant="outline"
             className="mx-1 rounded-50"
             onMouseUp={() => {}}
-            style={{ marginTop: '24px' }}
+            style={{ marginTop: '24px', backgroundColor: '#304767' ,color: 'white' }} 
           >
             <CIcon
               icon={cilLoopCircular}
@@ -340,7 +355,7 @@ const BizCollect: NextPageWithLayout = (props) => {
 
         <CRow>
           <CCol sm={6}>
-            <CCard className="mb-4" style={{ overflow: 'auto' }}>
+            <CCard className="mb-4 shadow-none" style={{ overflow: 'auto' }}>
               <div className="pt-3 px-3">
                 <div className="card-title fs-5 fw-semibold ndc-green-text my-0">Total Counts</div>
               </div>
@@ -348,26 +363,26 @@ const BizCollect: NextPageWithLayout = (props) => {
               <CCardBody>
                 <CWidgetStatsF
                   style={{ border: '0px solid #857dcc' }}
-                  className="mb-3"
-                  color="primary"
-                  icon={<CIcon icon={cilChartPie} height={24} />}
+                  className="mb-3 border-dark shadow-none e"
+                  // color="black text-white"
+                  icon={<CIcon iblackcon={cilChartPie} height={24} />}
                   title="Collection"
-                  value="# 20.000"
+                  value="# 20,000"
                 />
                 <CWidgetStatsF
-                  style={{ border: '0px solid #d5a439' }}
-                  className="mb-3"
-                  color="warning"
+                  // style={{ border: '0px solid #d5a439' }}
+                  className="mb-3 border-dark shadow-none"
+                  color=""
                   icon={<CIcon icon={cilChartPie} height={24} />}
                   title="Payout"
-                  value="# 20.000"
+                  value="# 20,000"
                 />
               </CCardBody>
             </CCard>
           </CCol>
 
           <CCol sm={3}>
-            <CCard className="mb-4" style={{ overflow: 'auto', height: '295px' }}>
+            <CCard className="mb-4 shadow-none" style={{ overflow: 'auto', height: '295px' }}>
               <div className="pt-3 px-3">
                 <div className="card-title fs-5 fw-semibold ndc-green-text my-0">
                   Collection Statistics
@@ -378,7 +393,7 @@ const BizCollect: NextPageWithLayout = (props) => {
                   <CTableBody>
                     <CTableRow>
                       <CTableDataCell className="text-start align-middle">
-                        <CBadge shape="rounded-square" style={{ backgroundColor: '#20c997' }}>
+                        <CBadge shape="rounded-square" style={{ backgroundColor: '#4bb543' }}>
                           SUCCESSFUL
                         </CBadge>
                       </CTableDataCell>
@@ -386,7 +401,7 @@ const BizCollect: NextPageWithLayout = (props) => {
                     </CTableRow>
                     <CTableRow>
                       <CTableDataCell className="text-start align-middle">
-                        <CBadge shape="rounded-square" style={{ backgroundColor: '#c77171' }}>
+                        <CBadge shape="rounded-square" style={{ backgroundColor: '#dd032b' }}>
                           FAILED
                         </CBadge>
                       </CTableDataCell>
@@ -406,8 +421,8 @@ const BizCollect: NextPageWithLayout = (props) => {
             </CCard>
           </CCol>
 
-          <CCol sm={3}>
-            <CCard className="mb-4" style={{ overflow: 'auto', height: '295px' }}>
+          <CCol sm={3}> 
+            <CCard className="mb-4 shadow-none" style={{ overflow: 'auto', height: '295px' }}>
               <div className="pt-3 px-3">
                 <div className="card-title fs-5 fw-semibold ndc-green-text my-0">
                   Payout Statistics
@@ -418,7 +433,7 @@ const BizCollect: NextPageWithLayout = (props) => {
                   <CTableBody>
                     <CTableRow>
                       <CTableDataCell className="text-start align-middle">
-                        <CBadge shape="rounded-square" style={{ backgroundColor: '#20c997' }}>
+                        <CBadge shape="rounded-square" style={{ backgroundColor: '#4bb543' }}>
                           SUCCESSFUL
                         </CBadge>
                       </CTableDataCell>
@@ -428,7 +443,7 @@ const BizCollect: NextPageWithLayout = (props) => {
                       <CTableDataCell className="text-start align-middle">
                         <CBadge
                           shape="rounded-square align-middle"
-                          style={{ backgroundColor: '#c77171' }}
+                          style={{ backgroundColor: '#dd032b' }}
                         >
                           FAILED
                         </CBadge>
@@ -452,13 +467,15 @@ const BizCollect: NextPageWithLayout = (props) => {
 
         <CRow>
           <CCol sm={6}>
-            <CCard className="mb-4 h-auto">
+            <CCard className="mb-4 h-auto shadow-none">
               <div className="pt-3 px-3 d-flex justify-content-between">
                 <div className="card-title fs-5 fw-semibold ndc-green-text my-0">
                   Payment Methods
                 </div>
                 <CDropdown variant="btn-group">
-                  <CDropdownToggle size="sm">Collection</CDropdownToggle>
+                  <CDropdownToggle style={{backgroundColor: '#304767'}} className="k dark:bg-secondary dark:text-white" size="sm">
+                    Collection
+                  </CDropdownToggle>
                   <CDropdownMenu>
                     <CDropdownItem href="#">Collection</CDropdownItem>
                     <CDropdownItem href="#">Payout</CDropdownItem>
@@ -475,9 +492,9 @@ const BizCollect: NextPageWithLayout = (props) => {
                     data={{
                       datasets: [
                         {
-                          backgroundColor: ['#857dcc', '#20c997', '#c77171', '#d5a439'],
+                          backgroundColor: ['#A020F0', '#4bb543', '#dd032b', '#d5a439'],
                           data: [40, 20, 80, 10],
-                          borderColor: ['#857dcc', '#20c997', '#c77171', '#d5a439'],
+                          borderColor: ['#A020F0', '#4bb543', '#dd032b', '#d5a439'],
                           borderWidth: 1,
                         },
                       ],
@@ -500,7 +517,7 @@ const BizCollect: NextPageWithLayout = (props) => {
                     <CTableBody>
                       <CTableRow>
                         <CTableDataCell className="text-start align-middle">
-                          <CBadge shape="rounded-pill" style={{ backgroundColor: '#857dcc' }}>
+                          <CBadge shape="rounded-pill" style={{ backgroundColor: '#A020F0' }}>
                             MOMO
                           </CBadge>
                         </CTableDataCell>
@@ -510,7 +527,7 @@ const BizCollect: NextPageWithLayout = (props) => {
                       </CTableRow>
                       <CTableRow>
                         <CTableDataCell className="text-start align-middle">
-                          <CBadge shape="rounded-pill" style={{ backgroundColor: '#20c997' }}>
+                          <CBadge shape="rounded-pill" style={{ backgroundColor: '#4bb543' }}>
                             CARD
                           </CBadge>
                         </CTableDataCell>
@@ -520,7 +537,7 @@ const BizCollect: NextPageWithLayout = (props) => {
                       </CTableRow>
                       <CTableRow>
                         <CTableDataCell className="text-start align-middle">
-                          <CBadge shape="rounded-pill" style={{ backgroundColor: '#c77171' }}>
+                          <CBadge shape="rounded-pill" style={{ backgroundColor: '#dd032b' }}>
                             BANK
                           </CBadge>
                         </CTableDataCell>
@@ -546,7 +563,7 @@ const BizCollect: NextPageWithLayout = (props) => {
           </CCol>
 
           <CCol sm={6}>
-            <CCard className="mb-4">
+            <CCard className="mb-4 shadow-none">
               <div className="pt-4 px-3">
                 <div className="card-title fs-5 fw-semibold ndc-green-text my-0">Settlements</div>
                 <small className="card-subtitle text-disabled pt-0">Last 4 settlements</small>
@@ -573,8 +590,9 @@ const BizCollect: NextPageWithLayout = (props) => {
                       <CTableDataCell className="align-middle">
                         <CButton
                           data-type="viewTransactions"
-                          color="success"
+                          className=" dark:text-white dark:bg-secondary"
                           shape="square"
+                          style={{backgroundColor: '#304767'}}
                           onClick={() => {}}
                           title="View Transactions"
                         >
@@ -591,9 +609,11 @@ const BizCollect: NextPageWithLayout = (props) => {
                       <CTableDataCell className="align-middle">
                         <CButton
                           data-type="viewTransactions"
-                          color="success"
+                          // color="black -text-white"
                           shape="square"
                           onClick={() => {}}
+                          style={{backgroundColor: '#304767'}}
+                          className=" dark:text-white dark:bg-secondary"
                           title="View Transactions"
                         >
                           <FiEye data-type="viewTransactions" />
@@ -609,7 +629,8 @@ const BizCollect: NextPageWithLayout = (props) => {
                       <CTableDataCell className="align-middle">
                         <CButton
                           data-type="viewTransactions"
-                          color="success"
+                          style={{backgroundColor: '#304767'}}
+                          className=" dark:text-white dark:bg-secondary"
                           shape="square"
                           onClick={() => {}}
                           title="View Transactions"
@@ -627,7 +648,8 @@ const BizCollect: NextPageWithLayout = (props) => {
                       <CTableDataCell className="align-middle">
                         <CButton
                           data-type="viewTransactions"
-                          color="success"
+                          style={{backgroundColor: '#304767'}}
+                          className=" dark:text-white dark:bg-secondary"
                           shape="square"
                           onClick={() => {}}
                           title="View Transactions"
@@ -645,7 +667,7 @@ const BizCollect: NextPageWithLayout = (props) => {
 
         <CRow>
           <CCol>
-            <CCard className="mb-4 overflow-auto">
+            <CCard className="mb-4 overflow-auto shadow-none">
               <div className="pt-3 px-3">
                 <div className="card-title fs-5 fw-semibold ndc-green-text my-0">
                   Your Payment Trends

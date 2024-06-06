@@ -13,7 +13,7 @@ function DashboardLayout({
       <AppSidebar />
       <div className="wrapper d-flex flex-column min-vh-100 bg-light dark:bg-transparent">
         <AppHeader {...cookies} />
-        <div className="body flex-grow-1 py-4 px-2 px-lg-5">{children}</div>
+        <div className="body flex-grow-1 py-4 px-2 px-lg-5 ">{children}</div>
         <AppFooter />
       </div>
       <AppAside />
