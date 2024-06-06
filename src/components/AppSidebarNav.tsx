@@ -2,7 +2,6 @@ import React, { ReactNode } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-
 import { CBadge } from '@coreui/react-pro'
 import CIcon from '@coreui/icons-react'
 
@@ -14,54 +13,67 @@ interface AppSidebarNavProps {
 
 export default function AppSidebarNav({ items }: AppSidebarNavProps) {
   const location = usePathname()
+
   const navLink = (
     name: string | JSX.Element,
     icon: string | ReactNode,
-    badge?: Badge,
+    // badge?: Badge,
+    title?: string | JSX.Element | undefined,
   ) => {
     return (
       <>
         {icon && typeof icon === 'string' ? (
-          <CIcon icon={icon} customClassName="nav-icon" />
+          <CIcon icon={icon} customClassName="nav-icon " />
         ) : (
           icon
         )}
-        {name && name}
-        {badge && (
+        {/* <p className="nav-bullet my-0"></p> */}
+        {name ? (
+          <div className="d-flex align-items-center gap-2">
+            <p className="nav-bullet m-0"></p>
+            {name}
+          </div>
+        ) : (
+          title
+        )}
+        {/* {badge && (
           <CBadge color={badge.color} className="ms-auto">
             {badge.text}
           </CBadge>
-        )}
+        )} */}
       </>
     )
   }
 
   const navItem = (item: NavItem, index: number) => {
-    const { component, name, badge, icon, ...rest } = item
+    const { component, name, title, badge, icon, ...rest } = item
+
     const Component = component
     return (
       <Component
+        // className="rounded"
         {...(rest.href &&
           !rest.items && {
             active: location === rest.href,
-            component: Link
+            component: Link,
           })}
         key={index}
         {...rest}
       >
-        {navLink(name, icon, badge)}
+        {navLink(name, icon, title)}
       </Component>
     )
   }
   const navGroup = (item: NavItem, index: number) => {
-    const { component, name, icon, href, ...rest } = item
+    const { component, name, icon, href, title, ...rest } = item
     const Component = component
+
     return (
       <Component
         idx={String(index)}
         key={index}
-        toggler={navLink(name, icon)}
-        {...href && {visible: location && location.startsWith(href)}}
+        toggler={navLink(name, icon, title)}
+        {...(href && { visible: location && location.startsWith(href) })}
         {...rest}
       >
         {item.items?.map((item: NavItem, index: number) =>
@@ -72,11 +84,11 @@ export default function AppSidebarNav({ items }: AppSidebarNavProps) {
   }
 
   return (
-    <React.Fragment>
+    <div>
       {items &&
-        items.map((item: NavItem, index: number) =>
-          item.items ? navGroup(item, index) : navItem(item, index),
-        )}
-    </React.Fragment>
+        items.map((item: NavItem, index: number) => {
+          return item.items ? navGroup(item, index) : navItem(item, index)
+        })}
+    </div>
   )
 }

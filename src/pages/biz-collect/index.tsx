@@ -72,7 +72,7 @@ const BizCollect: NextPageWithLayout = (props) => {
 
   return (
     <DashboardLayout {...props}>
-      <div className="d-flex justify-content-between flex-wrap">
+      <div className="d-flex justify-content-between flex-wrap bg-w">
         <div className="flex-grow-1">
           <h3>Biz Collect</h3>
         </div>

@@ -122,7 +122,7 @@ const Entry: NextPageWithLayout = (props) => {
   useEffect(() => {
     if (allowToEdit) {
       showSnackbar({
-        type: 'primary font-black',
+        type: 'info font-black',
         title: 'User Management',
         messages: 'Please update your info to complete your registration',
         show: true,

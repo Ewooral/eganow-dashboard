@@ -56,7 +56,7 @@ const AppHeaderDropdown = (props: UserInfoType) => {
     <CDropdown variant="nav-item" alignment="end" placement="bottom-end" className="ms-auto">
       <CDropdownToggle className="py-0" caret={false}>
         <span className="d-none d-md-inline">{props?.fullName} </span>
-        <CAvatar color="primary" textColor="white" size="md">
+        <CAvatar color="info" textColor="white" size="md">
           {avatarInitials}
         </CAvatar>
       </CDropdownToggle>
@@ -74,7 +74,7 @@ const AppHeaderDropdown = (props: UserInfoType) => {
           className="bg-light dark:bg-dark flex text-center p-6 pt-4 text-body-secondary "
           onMouseUp={handleLink}
         >
-          <CAvatar color="primary" textColor="white" size="xl">
+          <CAvatar color="info" textColor="white" size="xl">
             {avatarInitials}
           </CAvatar>
           <p className="p-2 dark:text-white">{props?.fullName} </p>
