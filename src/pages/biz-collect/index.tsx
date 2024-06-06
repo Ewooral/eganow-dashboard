@@ -361,18 +361,18 @@ const BizCollect: NextPageWithLayout = (props) => {
               </div>
 
               <CCardBody>
-                <CWidgetStatsF
-                  style={{ border: '0px solid #857dcc' }}
-                  className="mb-3 border-dark shadow-none e"
-                  // color="black text-white"
-                  icon={<CIcon iblackcon={cilChartPie} height={24} />}
+              <CWidgetStatsF
+                  style={{ border: '1px solid #304767' }}
+                  className="mb-3  shadow-none"
+                  color="black"
+                  icon={<CIcon icon={cilChartPie} height={24} />}
                   title="Collection"
-                  value="# 20,000"
+                  value="# 20.000"
                 />
                 <CWidgetStatsF
-                  // style={{ border: '0px solid #d5a439' }}
-                  className="mb-3 border-dark shadow-none"
-                  color=""
+                  style={{ border: '1px solid #304767' }}
+                  className="mb-3  shadow-none"
+                  color="black"
                   icon={<CIcon icon={cilChartPie} height={24} />}
                   title="Payout"
                   value="# 20,000"
