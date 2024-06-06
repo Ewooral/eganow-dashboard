@@ -23,7 +23,7 @@ export default function AppSidebarNav({ items }: AppSidebarNavProps) {
     return (
       <>
         {icon && typeof icon === 'string' ? (
-          <CIcon icon={icon} customClassName="nav-icon " />
+          <CIcon icon={icon} customClassName="nav-icon text-center" />
         ) : (
           icon
         )}
@@ -34,7 +34,8 @@ export default function AppSidebarNav({ items }: AppSidebarNavProps) {
             {name}
           </div>
         ) : (
-          title
+          <div>{title}</div>
+          
         )}
         {/* {badge && (
           <CBadge color={badge.color} className="ms-auto">
@@ -51,7 +52,7 @@ export default function AppSidebarNav({ items }: AppSidebarNavProps) {
     const Component = component
     return (
       <Component
-        // className="rounded"
+        className="rounded"
         {...(rest.href &&
           !rest.items && {
             active: location === rest.href,
@@ -84,7 +85,10 @@ export default function AppSidebarNav({ items }: AppSidebarNavProps) {
   }
 
   return (
-    <div>
+    <div style={{
+      width: '95%',
+      margin: '0 auto',
+    }} className=' '>
       {items &&
         items.map((item: NavItem, index: number) => {
           return item.items ? navGroup(item, index) : navItem(item, index)
