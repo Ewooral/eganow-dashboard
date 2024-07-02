@@ -48,16 +48,16 @@ const ContactPerson = (props) => {
     {
       key: 'firstName',
       label: 'First Name',
-      _style: { width: '20%', minWidth: '15rem' },
+      _style: { width: '20%', minWidth: '100px' },
     },
     {
       key: 'lastName',
       label: 'Last Name',
-      _style: { width: '20%', minWidth: '15rem' },
+      _style: { width: '20%', minWidth: '100px' },
     },
     {
       key: 'mobileNumber',
-      _style: { width: '20%', minWidth: '10rem' },
+      _style: { width: '20%', minWidth: '100px' },
     },
     {
       key: 'email',

@@ -111,30 +111,30 @@ const DirectorsShareholders = (props) => {
     {
       key: 'firstName',
       label: 'First Name',
-      _style: { width: '20%', minWidth: '15rem' },
+      _style: { width: '20%', minWidth: '100px' },
     },
     {
       key: 'lastName',
       label: 'Last Name',
-      _style: { width: '20%', minWidth: '15rem' },
+      _style: { width: '20%', minWidth: '100px' },
     },
     {
       key: 'mobileNumber',
-      _style: { width: '5%', minWidth: '10rem' },
+      _style: { width: '5%', minWidth: '100px' },
     },
     {
       key: 'email',
-      _style: { width: '5%', minWidth: '10rem' },
+      _style: { width: '5%', minWidth: '100px' },
     },
     {
       key: 'position',
       label: 'Position',
-      _style: { width: '5%', minWidth: '10rem' },
+      _style: { width: '5%', minWidth: '100px' },
     },
     {
       key: 'idType',
       label: 'Id Type',
-      _style: { width: '5%', minWidth: '10rem' },
+      _style: { width: '5%', minWidth: '100px' },
     },
 
     {
