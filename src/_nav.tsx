@@ -30,6 +30,7 @@ export type Badge = {
 export type NavItem = {
   component: string | ElementType
   name: string | JSX.Element
+  title?: string | JSX.Element | undefined,
   icon?: string | JSX.Element
   badge?: Badge
   href?: string
@@ -39,9 +40,9 @@ export type NavItem = {
 const _nav = [
   {
     component: CNavItem,
-    name: 'Back to Features',
+    title: 'Back to Features',
     href: '/',
-    icon: <CIcon icon={cilHandPointLeft} customClassName="nav-icon text-danger" />,
+    icon: <CIcon icon={cilHandPointLeft} customClassName="nav-icon   dark:text-white" />,
     badge: {
       color: 'info-gradient',
     },
@@ -49,14 +50,14 @@ const _nav = [
 
   {
     component: CNavTitle,
-    name: 'Menus',
+    title: 'Menus',
   },
 
   {
     component: CNavItem,
-    name: 'Dashboard',
+    title: 'Dashboard',
     href: '/biz-collect',
-    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon text-warning" />,
+    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon bg-transparent dark:text-white " />,
     badge: {
       color: 'info-gradient',
     },
@@ -64,9 +65,9 @@ const _nav = [
 
   {
     component: CNavGroup,
-    name: 'Transactions',
+    title: 'Transactions',
     href: '/components/icons',
-    icon: <CIcon icon={cilNotes} customClassName="nav-icon text-primary" />,
+    icon: <CIcon icon={cilNotes} customClassName="nav-icon bg-transparent dark:text-white" />,
     items: [
       {
         component: CNavItem,
@@ -75,12 +76,17 @@ const _nav = [
       },
       {
         component: CNavItem,
-        name: 'Acct to Acct Transactions',
+        name: 'One-time Payment',
         href: '/components/icons/brands',
       },
       {
         component: CNavItem,
         name: 'Fund Transfer',
+        href: '/components/icons/brands',
+      },
+      {
+        component: CNavItem,
+        name: 'Bulk Transfer',
         href: '/components/icons/brands',
       },
       {
@@ -98,9 +104,9 @@ const _nav = [
 
   {
     component: CNavGroup,
-    name: 'Payment Link',
+    title: 'Payment Link',
     href: '/components/icons',
-    icon: <CIcon icon={cilEnvelopeOpen} customClassName="nav-icon text-info" />,
+    icon: <CIcon icon={cilEnvelopeOpen} customClassName="nav-icon bg-transparent dark:text-white" />,
     items: [
       {
         component: CNavItem,
@@ -117,8 +123,8 @@ const _nav = [
 
   {
     component: CNavGroup,
-    name: 'Merchant',
-    icon: <CIcon icon={cilSpreadsheet} customClassName="nav-icon text-success" />,
+    title: 'Merchant',
+    icon: <CIcon icon={cilSpreadsheet} customClassName="nav-icon bg-transparent dark:text-white" />,
     items: [
       {
         component: CNavItem,

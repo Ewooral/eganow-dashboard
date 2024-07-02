@@ -36,7 +36,7 @@ const AppHeader = (props: UserInfoType): JSX.Element => {
   const setSidebarShow = useUI((state) => state.setSidebarShow)
 
   return (
-    <CHeader position="sticky">
+    <CHeader position="sticky" className='shadow-none'>
       <CContainer fluid>
         <CHeaderToggler className="ps-1" onClick={() => setSidebarShow(!sidebarShow)}>
           <CIcon icon={cilMenu} size="lg" />
@@ -44,9 +44,9 @@ const AppHeader = (props: UserInfoType): JSX.Element => {
 
         <CHeaderNav className="d-none d-md-flex me-auto">
           <CNavItem>
-            <CNavLink href="/" component={Link}>
+            {/* <CNavLink href="/" component={Link}>
               Main
-            </CNavLink>
+            </CNavLink> */}
           </CNavItem>
         </CHeaderNav>
         <CHeaderNav>

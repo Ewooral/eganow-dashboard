@@ -36,7 +36,7 @@ const ContactPerson = (props) => {
     const formattedEnum = formatEnum_util(DirectorPosition, 2)
     const flippedEnum = flipObject_util(formattedEnum)
     setShowDirectorPositionsText(flippedEnum)
-  }, [])
+  }, [props?.data?.data?.contactsList])
 
   //snackbar component from zustand store
   const { showSnackbar } = useSnackbar()
@@ -108,7 +108,6 @@ const ContactPerson = (props) => {
 
   //setting the contactlist data to contactPersons variable
   const contactPersons = props?.data?.data?.contactsList
-
 
   function handleModal() {
     //Setting default data & spreading the contact persons data

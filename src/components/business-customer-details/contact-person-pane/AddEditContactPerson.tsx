@@ -74,15 +74,15 @@ const AddEditContactPerson = (props: UserProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props?.data, props.data?.type])
 
-  function generateContactPersonPositionsOptions() {
-    const formattedEnum = formatEnum_util(DirectorPosition, 2)
+  // function generateContactPersonPositionsOptions() {
+  //   const formattedEnum = formatEnum_util(DirectorPosition, 2)
 
-    const generatedOptions = generateOptions(formattedEnum)
+  //   const generatedOptions = generateOptions(formattedEnum)
 
-    setcontactPersonPositionsOptions(generatedOptions)
+  //   setcontactPersonPositionsOptions(generatedOptions)
 
-    return generatedOptions
-  }
+  //   // return generatedOptions
+  // }
 
   useEffect(() => {
     const formattedEnum = formatEnum_util(DirectorPosition, 2)
@@ -90,7 +90,7 @@ const AddEditContactPerson = (props: UserProps) => {
     const generatedOptions = generateOptions(formattedEnum)
 
     setcontactPersonPositionsOptions(generatedOptions)
-  }, [contactPersonPositionOptions,setcontactPersonPositionsOptions,props?.data])
+  }, [setcontactPersonPositionsOptions,DirectorPosition])
 
   const onSubmit = async (values: UserType) => {
     try {
@@ -314,7 +314,7 @@ const AddEditContactPerson = (props: UserProps) => {
                   <strong>Position</strong>
                 </CFormLabel>
                 {/* * this select is just here4 to trigger the core ui select to display on edit */}
-                <select className="d-none" name="" id="" {...register('position')}>
+                {/* <select className="d-none" name="" id="" {...register('position')}>
                   {contactPersonPositionOptions.map((item) => {
                     return (
                       <option key={item.value} value={item.value}>
@@ -322,7 +322,7 @@ const AddEditContactPerson = (props: UserProps) => {
                       </option>
                     )
                   })}
-                </select>
+                </select> */}
                 <CFormSelect
                   {...register('position')}
                   valid={
