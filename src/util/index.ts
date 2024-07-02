@@ -79,7 +79,7 @@ export const formatDate_util = (date: string, pattern: string) => {
 
     return format(new Date(date), pattern)
   } catch (error) {
-    throw error
+    console.error(error);
   }
 }
 
@@ -242,7 +242,7 @@ export const getMaxValueKey = (data: object) => {
 /**
  * @param {enum} obj
  * @param {int} n
- * this function removes separate a string
+ * This function removes separate a string
  */
 export function formatEnum_util(obj: any, n: number) {
   const newObj = {}

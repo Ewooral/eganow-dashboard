@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
@@ -17,15 +18,18 @@ import {
   CButton,
   CSpinner,
   CFormText,
+  CPlaceholder,
+  CCardTitle,
 } from '@coreui/react-pro'
 import classNames from 'classnames'
 import { useEffect, useState } from 'react'
-import { flipObject_util,  formatDate_util, formatEnum_util } from '@/util'
+import { flipObject_util, formatDate_util, formatEnum_util } from '@/util'
 import MerchantAccountSvc from '@/api/merchantAccountSvcGRPC'
 import { useSnackbar } from '@/store'
 import { generateOptions } from '@/helpers'
 import { CompanyRegistrationType } from '@/protos/generated/eganow/api/merchant/onboarding_entity_pb'
 import { BusinessInfoFormData, BusinessInfoPaneProps } from '@/types/BusinessInfo'
+import Placeholder from './Placeholder'
 /*
  *
  * Business Info Component
@@ -155,14 +159,13 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
     generateCompanyRegistrationTypeOptions()
 
     clearErrors()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props?.businessInfoData?.data, props?.type])
 
   return (
     <div className="">
       {props.businessInfoData.isLoading ? (
-        <div className=" d-flex justify-content-center">
-          <CSpinner component="span" size="sm" aria-hidden="true" className="ms-2 " />
-        </div>
+        <Placeholder />
       ) : (
         <CForm noValidate>
           <CRow className="mb-4 px-4">
@@ -618,7 +621,6 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                       'text-error': true,
                       'd-none': !!formState.errors?.vatNumber ? false : true,
                     })}
-                    n
                   >
                     VAT is required.
                   </CFormText>

@@ -252,9 +252,7 @@ const Register = () => {
       //Start loading
       setLoading(true)
       //Creating the merchant account
-      let creatingAcc = await createMerchantAccount(values)
-
-      console.log(creatingAcc);
+      await createMerchantAccount(values)
       
       //Stop loading
       setLoading(false)

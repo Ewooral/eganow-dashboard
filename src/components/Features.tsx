@@ -29,10 +29,11 @@ export default function Features(props: FeaturePropsType) {
         <div
           className="d-flex justify-content-center mx-auto overflow-hidden"
           style={{
-            width: '140px',
-            height: '140px',
-            border: '4px solid rgba(255, 255, 255)',
-            borderRadius: '50%',
+            width: '200px',
+            // maxHeight: '200px',
+            // border: '4px solid rgba(255, 255, 255)',
+            // borderRadius: '50%',
+            
           }}
         >
           <Image
@@ -51,9 +52,10 @@ export default function Features(props: FeaturePropsType) {
             <strong>{props.data.title}</strong>
           </CCardTitle>
 
-          <CCardText>{props.data.content}</CCardText>
+          <CCardText >{props.data.content}</CCardText>
 
           <CButton
+          color="info text-white"
             onClick={() => handleFeatureClick(props.data.title)}
             href={props.data.route}
             shape="rounded-pill"

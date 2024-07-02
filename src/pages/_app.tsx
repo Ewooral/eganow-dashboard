@@ -11,7 +11,7 @@ import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import { CookiesProvider } from 'react-cookie'
 /* LOAD DEFAULT LOCALE */
-import en from '@/lang/en.json'
+import en from '@/i18n/en.json'
 /* Styles */
 import '@/styles/style.scss'
 /* Global loader */
@@ -38,9 +38,9 @@ type AppPropsWithLayout = AppProps & {
 function loadLocaleData(locale: string) {
   switch (locale) {
     case 'fr':
-      return import('@/lang/fr.json')
+      return import('@/i18n/fr.json')
     default:
-      return import('@/lang/en.json')
+      return import('@/i18n/en.json')
   }
 }
 /*

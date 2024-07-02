@@ -86,7 +86,7 @@ const columns = [
   },
   {
     label: 'Account Number',
-    key: 'paymentaccountnumberormomonumber',
+    key: 'momonumber',
     _style: { minWidth: '180px', width: '10%' },
     sorter: false,
   },
@@ -96,6 +96,46 @@ const columns = [
     _style: { minWidth: '250px'},
   },
 ]
+
+
+const data = [
+  {
+    date: '10/06/2024',
+    membername: 'Jane Doe',
+    amount: '50,000',
+    status: 'active',
+    momonumber: '024586584',
+    paymentname: 'Fiifi',
+  },
+  {
+    date: '10/06/2024',
+    membername: 'Amonba Black',
+    amount: '10',
+    status: 'pending',
+    momonumber: '0251458756',
+    paymentname: 'Fiifi',
+  },
+  {
+    date: '10/06/2024',
+    membername: 'Jane Doe',
+    amount: '6000',
+    status: 'active',
+    momonumber: '024586584',
+    paymentname: 'Fiifi',
+  },
+  {
+    date: '10/06/2024',
+    membername: 'John Doe',
+    amount: '10',
+    status: 'pending',
+    momonumber: '0251458756',
+    paymentname: 'Fiifi',
+  },
+]
+
+
+
+
 
 export const getServerSideProps = async ({ req }) => {
   const cookies = JSON.parse(req.cookies[EGANOW_AUTH_COOKIE])
@@ -109,7 +149,6 @@ export const getServerSideProps = async ({ req }) => {
 
 const BizCollect: NextPageWithLayout = (props) => {
   const isStoreReady = useStoreReady()
-  const data = []
 
   //Server-render loading state
   if (!isStoreReady) {
