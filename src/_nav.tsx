@@ -76,12 +76,17 @@ const _nav = [
       },
       {
         component: CNavItem,
-        name: 'Acct to Acct Transactions',
+        name: 'One-time Payment',
         href: '/components/icons/brands',
       },
       {
         component: CNavItem,
         name: 'Fund Transfer',
+        href: '/components/icons/brands',
+      },
+      {
+        component: CNavItem,
+        name: 'Bulk Transfer',
         href: '/components/icons/brands',
       },
       {
