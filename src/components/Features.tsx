@@ -18,7 +18,7 @@ export default function Features(props: FeaturePropsType) {
   return (
     <CCol sm={6} lg={3}>
       <CCard
-        className={classNames('card1', 'text-center', 'w-100', 'pt-3', 'rounded-4', {
+        className={classNames('card1', 'text-center',  'w-100', 'pt-3', 'rounded-4', {
           'card1-selected': props.data.title === props.highestFeatureValue && !props.isFeatureHovered
         })}
         onMouseOver={props.removeUsedFeatureSelect}
@@ -55,11 +55,11 @@ export default function Features(props: FeaturePropsType) {
           <CCardText >{props.data.content}</CCardText>
 
           <CButton
-          color="info text-white"
+          // color="black text-white"
             onClick={() => handleFeatureClick(props.data.title)}
             href={props.data.route}
             shape="rounded-pill"
-            className="w-50"
+            className="w-50 bg-info"
           >
             Continue
           </CButton>

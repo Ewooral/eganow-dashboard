@@ -122,7 +122,7 @@ const Entry: NextPageWithLayout = (props) => {
   useEffect(() => {
     if (allowToEdit) {
       showSnackbar({
-        type: 'primary font-black',
+        type: 'info font-black',
         title: 'User Management',
         messages: 'Please update your info to complete your registration',
         show: true,
@@ -221,7 +221,7 @@ const Entry: NextPageWithLayout = (props) => {
       <div className="position-relative px-4 px-sm-5" style={{ marginTop: '-4.1rem' }}>
         <CRow className="justify-content-between mb-5 gap-4">
           <CCol>
-            <CCard className="p-2 border me-1 rounded-0" style={{ minHeight: '100vh' }}>
+            <CCard className="p-2  me-1 rounded shadow-none" style={{ minHeight: '79.3vh' }}>
               <CRow className="justify-content-center p-4">
                 <div className="company-logo position-relative">
                   <CIcon icon={cilIndustry} style={{ height: '100px', width: 'auto' }} />
@@ -253,7 +253,7 @@ const Entry: NextPageWithLayout = (props) => {
                       <h6 className="mb-4 fw-normal">{businessInfo?.data?.companyName}</h6>
                     ) : (
                       <CPlaceholder component={CCardTitle} animation="glow">
-                        <CPlaceholder xs={6} className='rounded bg-secondary'/>
+                        <CPlaceholder xs={6} className="rounded bg-secondary" />
                       </CPlaceholder>
                     )}
                   </div>
@@ -266,8 +266,8 @@ const Entry: NextPageWithLayout = (props) => {
                       </h6>
                     ) : (
                       <CPlaceholder component={CCardTitle} animation="glow">
-                      <CPlaceholder xs={6} className='rounded bg-secondary'/>
-                    </CPlaceholder>
+                        <CPlaceholder xs={6} className="rounded bg-secondary" />
+                      </CPlaceholder>
                     )}
                   </div>
 
@@ -279,8 +279,8 @@ const Entry: NextPageWithLayout = (props) => {
                       </h6>
                     ) : (
                       <CPlaceholder component={CCardTitle} animation="glow">
-                      <CPlaceholder xs={6} className='rounded bg-secondary'/>
-                    </CPlaceholder>
+                        <CPlaceholder xs={6} className="rounded bg-secondary" />
+                      </CPlaceholder>
                     )}
                   </div>
 
@@ -295,8 +295,8 @@ const Entry: NextPageWithLayout = (props) => {
                       </h6>
                     ) : (
                       <CPlaceholder component={CCardTitle} animation="glow">
-                      <CPlaceholder xs={6} className='rounded bg-secondary'/>
-                    </CPlaceholder>
+                        <CPlaceholder xs={6} className="rounded bg-secondary" />
+                      </CPlaceholder>
                     )}
                   </div>
 
@@ -316,7 +316,7 @@ const Entry: NextPageWithLayout = (props) => {
           </CCol>
 
           <CCol lg={9} className="">
-            <CCard className="px-0 pt-4 border me-1 rounded-0" style={{ minHeight: '100vh' }}>
+            <CCard className="px-0 pt-4  me-1 rounded shadow-none" style={{ minHeight: '79.3vh' }}>
               <div className="w-100 overflow-y-hidden overflow-x-auto">
                 <CNav variant="underline" className="mb-4 w-100">
                   <CNavItem>

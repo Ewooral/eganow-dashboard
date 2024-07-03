@@ -73,7 +73,7 @@ const AppEntryHeader = (props: UserInfoType): JSX.Element => {
   }, [theme])
 
   return (
-    <CHeader position="sticky" className="mb-4">
+    <CHeader position="sticky" className="mb-4 shadow-sm">
       <CContainer fluid>
         <CRow className="w-100 fluid">
           <CCol>

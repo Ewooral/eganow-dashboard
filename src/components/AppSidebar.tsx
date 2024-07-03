@@ -34,8 +34,8 @@ const AppSidebar = (): JSX.Element => {
         <CIcon className="sidebar-brand-full" icon={logoNegative} height={35} />
         <CIcon className="sidebar-brand-narrow" icon={sygnet} height={35} />
       </CSidebarBrand>
-      <CSidebarNav>
-        <SimpleBar>
+      <CSidebarNav className=''>
+        <SimpleBar className=' ' >
           <AppSidebarNav items={navigation} />
         </SimpleBar>
       </CSidebarNav>

@@ -108,7 +108,7 @@ const Entry: NextPageWithLayout = (props) => {
         <div className="mb-3">
           <CRow className=" align-items-end">
             <CCol md="auto" xs="auto" className="mx-auto mx-lg-0 ">
-              <div className="entry-icon">
+              <div className="entry-icon dark:text-white">
                 <CIcon icon={cilIndustry} size="xl" />
               </div>
             </CCol>
