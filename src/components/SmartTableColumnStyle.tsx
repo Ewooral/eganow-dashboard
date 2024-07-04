@@ -11,8 +11,6 @@ import { ChangeEvent } from 'react'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 
-
-
 export const NameColumn = (name: string) => {
   return (
     <td>
@@ -36,6 +34,23 @@ export const StatusColumn = (status: string) => {
     </td>
   )
 }
+// export const StatusColumn = (status: string) => {
+//   return (
+//     <td>
+//       <div className={`text-${statusType_util(status)} d-flex align-items-center gap-2 `}>
+//         <div
+//           className={`bg-${statusType_util(status)}`}
+//           style={{
+//             width: '10px',
+//             height: '10px',
+//             borderRadius: '50%',
+//           }}
+//         ></div>
+//         <p className="m-0 p-0 text-capitalize">{status}</p>
+//       </div>
+//     </td>
+//   )
+// }
 
 export const AmountColumn = (amount: number) => {
   return (
@@ -57,13 +72,31 @@ export const ActionButtons = (
   }
   return (
     <td className="py-2">
-      <CButton data-type="edit" color="primary" shape="square" onClick={handleClick} title="Edit User">
+      <CButton
+        data-type="edit"
+        color="primary"
+        shape="square"
+        onClick={handleClick}
+        title="Edit User"
+      >
         <CIcon icon={cilPencil} data-type="edit" />
       </CButton>{' '}
-      <CButton data-type="resetPassword" color="secondary" shape="square" onClick={handleClick} title="Reset Password">
+      <CButton
+        data-type="resetPassword"
+        color="secondary"
+        shape="square"
+        onClick={handleClick}
+        title="Reset Password"
+      >
         <CIcon icon={cilLockLocked} data-type="resetPassword" />
       </CButton>{' '}
-      <CButton data-type="viewAgentTransactions" color="success" shape="square" onClick={handleClick} title="View Agent Transactions">
+      <CButton
+        data-type="viewAgentTransactions"
+        color="success"
+        shape="square"
+        onClick={handleClick}
+        title="View Agent Transactions"
+      >
         <FiEye data-type="viewAgentTransactions" />
       </CButton>
     </td>
@@ -105,7 +138,6 @@ export const MemberDetails = (item, state) => {
           </span>
           <span className="ms-5 text-muted d-inline-flex">
             <i className="me-2">Card Type::</i>
-          
           </span>
         </div>
       </CCardBody>
@@ -128,7 +160,15 @@ export const ShowDetails = (item, state, handleAction) => {
       >
         <CIcon icon={cilPencil} data-type="edit" data-id={item.id} />
       </CButton>{' '}
-      <CButton color="primary" shape="square" size="sm" title="View member" data-type="view" data-id={item.id} onClick={(e) => handleAction(e, item)}>
+      <CButton
+        color="primary"
+        shape="square"
+        size="sm"
+        title="View member"
+        data-type="view"
+        data-id={item.id}
+        onClick={(e) => handleAction(e, item)}
+      >
         {state === item.id ? 'Hide' : 'View'}
       </CButton>
     </td>

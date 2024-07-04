@@ -79,12 +79,12 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Internal Transfer',
-        href: '/biz-collect/account-transactions',
+        href: '/components/icons/free',
       },
       {
         component: CNavItem,
         name: 'Internal Transfer History',
-        href: '/biz-collect/account-transactions',
+        href: '/components/icons/free',
       },
       // {
       //   component: CNavItem,
@@ -118,6 +118,26 @@ const _nav = [
       // },
     ],
   },
+  {
+    component: CNavGroup,
+    title: 'Collection-Receipts',
+    href: '/components/icons',
+    icon: (
+      <CIcon icon={cilEnvelopeOpen} customClassName="nav-icon bg-transparent dark:text-white" />
+    ),
+    items: [
+      {
+        component: CNavItem,
+        name: 'initiate Collection',
+        href: '/components/icons/free',
+      },
+      // {
+      //   component: CNavItem,
+      //   name: 'Inititate Bulk Payment',
+      //   href: '/components/icons/flags',
+      // },
+    ],
+  },
 
   {
     component: CNavGroup,
@@ -135,6 +155,37 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Settlement History',
+        href: '/components/icons/flags',
+      },
+    ],
+  },
+
+  {
+    component: CNavGroup,
+    title: 'Payments',
+    href: '/components/icons',
+    icon: (
+      <CIcon icon={cilEnvelopeOpen} customClassName="nav-icon bg-transparent dark:text-white" />
+    ),
+    items: [
+      {
+        component: CNavItem,
+        name: 'Generate Payment Link',
+        href: '/components/icons/free',
+      },
+      {
+        component: CNavItem,
+        name: 'Active Payment Links',
+        href: '/components/icons/flags',
+      },
+      {
+        component: CNavItem,
+        name: 'initiate Single Payment',
+        href: '/components/icons/free',
+      },
+      {
+        component: CNavItem,
+        name: 'Inititate Bulk Payment',
         href: '/components/icons/flags',
       },
     ],
@@ -166,67 +217,10 @@ const _nav = [
     ],
   },
 
-  {
-    component: CNavGroup,
-    title: 'Payment Link',
-    href: '/components/icons',
-    icon: (
-      <CIcon icon={cilEnvelopeOpen} customClassName="nav-icon bg-transparent dark:text-white" />
-    ),
-    items: [
-      {
-        component: CNavItem,
-        name: 'Generate Payment Link',
-        href: '/components/icons/free',
-      },
-      {
-        component: CNavItem,
-        name: 'Active Payment Links',
-        href: '/components/icons/flags',
-      },
-    ],
-  },
+ 
 
-  {
-    component: CNavGroup,
-    title: 'Payments-Disbursement',
-    href: '/components/icons',
-    icon: (
-      <CIcon icon={cilEnvelopeOpen} customClassName="nav-icon bg-transparent dark:text-white" />
-    ),
-    items: [
-      {
-        component: CNavItem,
-        name: 'initiate Single Payment',
-        href: '/components/icons/free',
-      },
-      {
-        component: CNavItem,
-        name: 'Inititate Bulk Payment',
-        href: '/components/icons/flags',
-      },
-    ],
-  },
-  {
-    component: CNavGroup,
-    title: 'Collection-Receipts',
-    href: '/components/icons',
-    icon: (
-      <CIcon icon={cilEnvelopeOpen} customClassName="nav-icon bg-transparent dark:text-white" />
-    ),
-    items: [
-      {
-        component: CNavItem,
-        name: 'initiate Collection',
-        href: '/components/icons/free',
-      },
-      // {
-      //   component: CNavItem,
-      //   name: 'Inititate Bulk Payment',
-      //   href: '/components/icons/flags',
-      // },
-    ],
-  },
+
+
 
   {
     component: CNavGroup,
