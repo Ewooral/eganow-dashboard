@@ -98,7 +98,7 @@ const BizCollect: NextPageWithLayout = (props) => {
       {/* <hr className="mt-0" /> */}
 
       <CRow>
-        <CCol sm={4}>
+        <CCol sm={3}>
           <CWidgetStatsA
             className="mb-4 shadow-none"
             // color="white"
@@ -110,7 +110,7 @@ const BizCollect: NextPageWithLayout = (props) => {
                 </span>
               </div>
             }
-            title="Collection"
+            title="Collection Balance"
             chart={
               <CChartLine
                 className="mt-3 mx-3"
@@ -173,7 +173,7 @@ const BizCollect: NextPageWithLayout = (props) => {
           />
         </CCol>
 
-        <CCol sm={4}>
+        <CCol sm={3}>
           <CWidgetStatsA
             className="mb-4   shadow-none"
             // color="warning"
@@ -185,7 +185,7 @@ const BizCollect: NextPageWithLayout = (props) => {
                 </span>
               </>
             }
-            title="Payout"
+            title="Payout Balance"
             chart={
               <CChartLine
                 className="mt-3"
@@ -234,7 +234,7 @@ const BizCollect: NextPageWithLayout = (props) => {
           />
         </CCol>
 
-        <CCol className="" sm={4}>
+        <CCol className="" sm={3}>
           <CWidgetStatsA
             className="mb-4 shadow-none"
             // color="danger"
@@ -246,7 +246,86 @@ const BizCollect: NextPageWithLayout = (props) => {
                 </span>
               </>
             }
-            title="Commission"
+            title="Commission Balance"
+            chart={
+              <CChartBar
+                className="mt-3 mx-3"
+                style={{ height: '70px' }}
+                data={{
+                  labels: [
+                    'January',
+                    'February',
+                    'March',
+                    'April',
+                    'May',
+                    'June',
+                    'July',
+                    'August',
+                    'September',
+                    'October',
+                    'November',
+                    'December',
+                    'January',
+                    'February',
+                    'March',
+                    'April',
+                  ],
+                  datasets: [
+                    {
+                      label: 'My First dataset',
+                      backgroundColor: '#304767',
+                      borderColor: '#304767',
+                      data: [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
+                      barPercentage: 0.6,
+                    },
+                  ],
+                }}
+                options={{
+                  maintainAspectRatio: false,
+                  plugins: {
+                    legend: {
+                      display: false,
+                    },
+                  },
+                  scales: {
+                    x: {
+                      grid: {
+                        display: false,
+                        drawTicks: false,
+                      },
+                      ticks: {
+                        display: false,
+                      },
+                    },
+                    y: {
+                      grid: {
+                        display: false,
+                        drawBorder: false,
+                        drawTicks: false,
+                      },
+                      ticks: {
+                        display: false,
+                      },
+                    },
+                  },
+                }}
+              />
+            }
+          />
+        </CCol>
+        <CCol className="" sm={3}>
+          <CWidgetStatsA
+            className="mb-4 shadow-none"
+            // color="danger"
+            value={
+              <>
+                $40.000{' '}
+                <span className="fs-6 fw-normal">
+                  (40.9% <CIcon icon={cilArrowTop} />)
+                </span>
+              </>
+            }
+            title="Total Settlements"
             chart={
               <CChartBar
                 className="mt-3 mx-3"
@@ -364,7 +443,7 @@ const BizCollect: NextPageWithLayout = (props) => {
               <CWidgetStatsF
                   style={{ border: '1px solid #304767' }}
                   className="mb-3  shadow-none"
-                  color="black"
+                  color="primary"
                   icon={<CIcon icon={cilChartPie} height={24} />}
                   title="Collection"
                   value="# 20.000"
@@ -372,7 +451,7 @@ const BizCollect: NextPageWithLayout = (props) => {
                 <CWidgetStatsF
                   style={{ border: '1px solid #304767' }}
                   className="mb-3  shadow-none"
-                  color="black"
+                  color="primary"
                   icon={<CIcon icon={cilChartPie} height={24} />}
                   title="Payout"
                   value="# 20,000"

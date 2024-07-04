@@ -5,6 +5,8 @@ import React, { FC, useEffect, useState } from 'react'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 /*  */
+import { FiEdit } from 'react-icons/fi'
+import { MdDeleteOutline } from 'react-icons/md'
 
 import MerchantAccountSvc from '@/api/merchantAccountSvcGRPC'
 
@@ -56,12 +58,12 @@ import Confirm from '@/components/Confirm'
 // ID IMAGE COMPONENT
 export const IDImageColumn = (cardname: string) => {
   return (
-    <td className="text-center">
+    <td className="">
       <Zoom>
         <Image
           src={isEmpty_util(cardname) ? '/images/imageplaceholder.jpg' : cardname}
-          width={70}
-          height={40}
+          width={50}
+          height={30}
           alt={cardname.length}
           className="mx-auto rounded grow-img"
         />
@@ -98,6 +100,7 @@ const DirectorsShareholders = (props) => {
   const positionCol = () => {
     const formatEnum = formatEnum_util(DirectorPosition, 2)
     const flippedEnum = flipObject_util(formatEnum)
+
     setPositionColumn(flippedEnum)
   }
 
@@ -111,35 +114,35 @@ const DirectorsShareholders = (props) => {
     {
       key: 'firstName',
       label: 'First Name',
-      _style: { width: '20%', minWidth: '15rem' },
+      _style: { width: '20%', minWidth: '100px' },
     },
     {
       key: 'lastName',
       label: 'Last Name',
-      _style: { width: '20%', minWidth: '15rem' },
+      _style: { width: '20%', minWidth: '100px' },
     },
     {
       key: 'mobileNumber',
-      _style: { width: '5%', minWidth: '10rem' },
+      _style: { width: '20%', minWidth: '100px' },
     },
     {
       key: 'email',
-      _style: { width: '5%', minWidth: '10rem' },
+      _style: { width: '20%', minWidth: '100px' },
     },
     {
       key: 'position',
       label: 'Position',
-      _style: { width: '5%', minWidth: '10rem' },
+      _style: { width: '20%', minWidth: '100px' },
     },
     {
       key: 'idType',
       label: 'Id Type',
-      _style: { width: '5%', minWidth: '10rem' },
+      _style: { width: '20%', minWidth: '150px' },
     },
 
     {
       key: 'idImage',
-      _style: { width: '2%', minWidth: '6rem' },
+      _style: { width: '20%', minWidth: '100px' },
       filter: false,
       sorter: false,
     },
@@ -313,7 +316,7 @@ const DirectorsShareholders = (props) => {
                 idImage: (items) => IDImageColumn(items.idInfo.idFrontImage),
                 idType: (items) => {
                   return (
-                    <td>
+                    <td className="text-capitalize">
                       {/* <CBadge color={getBadge(idTypeText[items.idInfo.idType])}> */}
                       {idTypeText[items.idInfo.idType]}
                       {/* </CBadge> */}
@@ -324,32 +327,29 @@ const DirectorsShareholders = (props) => {
                   return (
                     <td>
                       {props?.allowToEdit ? (
-                        <div className="d-flex">
-                          <CButton
+                        <div className="d-flex align-items-center">
+                          <FiEdit
                             className="me-1"
-                            color="primary"
                             variant="outline"
+                            color="blue"
                             shape="square"
-                            size="sm"
+                            size={20}
                             data-type="edit"
                             onClick={(e) => {
                               handleClick(e, item)
                             }}
-                          >
-                            Edit
-                          </CButton>
-                          <CButton
-                            color="danger"
+                          />|
+
+                          <MdDeleteOutline
+                            color="red"
                             variant="outline"
                             shape="square"
-                            size="sm"
+                            size={25}
                             data-type="delete"
                             onClick={(e) => {
                               handleClick(e, item)
                             }}
-                          >
-                            Remove
-                          </CButton>
+                          />
                         </div>
                       ) : (
                         'N/A'
@@ -364,8 +364,10 @@ const DirectorsShareholders = (props) => {
               tableProps={{
                 className: 'add-this-class',
                 responsive: true,
-                striped: true,
+                striped: false,
                 hover: true,
+                small: true,
+                borderColor: 'light',
               }}
               tableBodyProps={{
                 className: 'align-middle',

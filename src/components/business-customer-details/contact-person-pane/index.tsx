@@ -21,6 +21,8 @@ import { DirectorPosition } from '@/protos/generated/eganow/api/merchant/onboard
 import { flipObject_util, formatEnum_util } from '@/util'
 import DeleteModal from '@/components/DeleteModal'
 import Confirm from '@/components/Confirm'
+import { FiEdit } from 'react-icons/fi'
+import { MdDeleteOutline } from 'react-icons/md'
 /*
  *
  * Contact Person Component
@@ -48,16 +50,16 @@ const ContactPerson = (props) => {
     {
       key: 'firstName',
       label: 'First Name',
-      _style: { width: '20%', minWidth: '15rem' },
+      _style: { width: '20%', minWidth: '100px' },
     },
     {
       key: 'lastName',
       label: 'Last Name',
-      _style: { width: '20%', minWidth: '15rem' },
+      _style: { width: '20%', minWidth: '100px' },
     },
     {
       key: 'mobileNumber',
-      _style: { width: '20%', minWidth: '10rem' },
+      _style: { width: '20%', minWidth: '100px' },
     },
     {
       key: 'email',
@@ -176,7 +178,6 @@ const ContactPerson = (props) => {
       handleRefresh()
     } catch (error) {
       console.log(error)
-      setIsLoading(false)
 
       showSnackbar({
         type: 'danger',
@@ -242,33 +243,30 @@ const ContactPerson = (props) => {
                   return (
                     <td className="">
                       {props?.allowToEdit ? (
-                        <div className='"py-2 d-flex'>
-                          <CButton
-                            className="me-1"
-                            color="primary"
-                            variant="outline"
-                            shape="square"
-                            size="sm"
-                            data-type="edit"
-                            onClick={(e) => {
-                              handleClick(e, item)
-                            }}
-                          >
-                            Edit
-                          </CButton>
-                          <CButton
-                            color="danger"
-                            variant="outline"
-                            shape="square"
-                            size="sm"
-                            data-type="delete"
-                            onClick={(e) => {
-                              handleClick(e, item)
-                            }}
-                          >
-                            Remove
-                          </CButton>
-                        </div>
+                         <div className="d-flex align-items-center">
+                         <FiEdit
+                           className="me-1"
+                           variant="outline"
+                           color="blue"
+                           shape="square"
+                           size={20}
+                           data-type="edit"
+                           onClick={(e) => {
+                             handleClick(e, item)
+                           }}
+                         />|
+
+                         <MdDeleteOutline
+                           color="red"
+                           variant="outline"
+                           shape="square"
+                           size={25}
+                           data-type="delete"
+                           onClick={(e) => {
+                             handleClick(e, item)
+                           }}
+                         />
+                       </div>
                       ) : (
                         'N/A'
                       )}
@@ -282,8 +280,11 @@ const ContactPerson = (props) => {
               tableProps={{
                 className: 'add-this-class',
                 responsive: true,
-                striped: true,
+                striped: false,
                 hover: true,
+                small: true,
+                borderColor: "light",
+
               }}
               tableBodyProps={{
                 className: 'align-middle',

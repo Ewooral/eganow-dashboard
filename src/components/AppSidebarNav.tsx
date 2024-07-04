@@ -35,7 +35,6 @@ export default function AppSidebarNav({ items }: AppSidebarNavProps) {
           </div>
         ) : (
           <div>{title}</div>
-          
         )}
         {/* {badge && (
           <CBadge color={badge.color} className="ms-auto">
@@ -52,7 +51,7 @@ export default function AppSidebarNav({ items }: AppSidebarNavProps) {
     const Component = component
     return (
       <Component
-        className="rounded"
+        className=""
         {...(rest.href &&
           !rest.items && {
             active: location === rest.href,
@@ -85,10 +84,13 @@ export default function AppSidebarNav({ items }: AppSidebarNavProps) {
   }
 
   return (
-    <div style={{
-      width: '95%',
-      margin: '0 auto',
-    }} className=' '>
+    <div
+      style={{
+        width: '95%',
+        margin: '0 auto',
+      }}
+      className=" "
+    >
       {items &&
         items.map((item: NavItem, index: number) => {
           return item.items ? navGroup(item, index) : navItem(item, index)

@@ -164,7 +164,7 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
 
   return (
     <div className="">
-      {props.businessInfoData.isLoading ? (
+      {props.businessInfoData.isLoading || props.businessInfoData.isError ? (
         <Placeholder />
       ) : (
         <CForm noValidate>
@@ -342,44 +342,6 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                     Type of company is required.
                   </CFormText>
                 </CCol>
-
-                {/* {props.type === 'edit' && (
-                  <CCol xs={12} className="mt-3">
-                    <CFormLabel
-                      htmlFor="typeOfCompany"
-                      className={classNames({
-                        'text-error': !!formState.errors?.registrationType,
-                      })}
-                    >
-                      <strong>Business Sectors</strong>
-                    </CFormLabel>
-                    <CFormSelect
-                      {...register('sectors')}
-                      disabled={props.type === ''}
-                      className={clsx({
-                        'hide-input': props.type === '',
-                      })}
-                      valid={
-                        formState.dirtyFields?.sectors && !!!formState.errors?.sectors
-                          ? true
-                          : false
-                      }
-                      invalid={!!formState.errors?.sectors && true}
-                      options={sectorsOptions}
-                      type="text"
-                      id="sectors"
-                    />
-                    <CFormText
-                      component="span"
-                      className={classNames({
-                        'text-error': true,
-                        'd-none': !!formState.errors?.sectors ? false : true,
-                      })}
-                    >
-                      Type of company is required.
-                    </CFormText>
-                  </CCol>
-                )} */}
 
                 {props.type === '' ? (
                   <CCol xs={12} className="mt-3">
