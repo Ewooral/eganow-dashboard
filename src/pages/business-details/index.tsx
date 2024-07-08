@@ -122,7 +122,7 @@ const Entry: NextPageWithLayout = (props) => {
   useEffect(() => {
     if (allowToEdit) {
       showSnackbar({
-        type: 'info font-black',
+        type: 'danger',
         title: 'User Management',
         messages: 'Please update your info to complete your registration',
         show: true,
@@ -136,6 +136,15 @@ const Entry: NextPageWithLayout = (props) => {
       // results[3]?.data?.allowForEdit
     }
 
+    if (businessInfo?.error?.message) {
+      showSnackbar({
+        type: 'danger',
+        title: 'User Management',
+        messages: businessInfo?.error?.message,
+        show: true,
+      })
+    }
+
     if (businessInfo?.error?.code === 2) {
       showSnackbar({
         type: 'danger',
@@ -145,7 +154,7 @@ const Entry: NextPageWithLayout = (props) => {
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [businessInfo.data])
+  }, [businessInfo.data, businessInfo?.error?.message])
 
   const { control } = useForm({
     mode: 'onChange',
@@ -189,8 +198,8 @@ const Entry: NextPageWithLayout = (props) => {
             className="d-flex justify-content-between ps-5"
           >
             <div className="text-white">
-              <h4 className="mb-0">Business Details</h4>
-              <small>View/ reviewing customer information and business registration details</small>
+              <h4 className="mb-0 text-dark dark:text-white">Business Details</h4>
+              <small className='text-dark dark:text-white'>View/ reviewing customer information and business registration details</small>
             </div>
 
             {allowToEdit && (
@@ -225,7 +234,8 @@ const Entry: NextPageWithLayout = (props) => {
               <CRow className="justify-content-center p-4">
                 <div className="company-logo position-relative">
                   <CIcon icon={cilIndustry} style={{ height: '100px', width: 'auto' }} />
-                  {/* <FaEdit
+                  {/* <FaE
+                  it
                     className="position-absolute bg-white p-1 rounded-circle fs-2 border-2 border-light"
                     style={{
                       bottom: 0,
@@ -344,16 +354,6 @@ const Entry: NextPageWithLayout = (props) => {
                       <strong>Attachments</strong>
                     </CNavLink>
                   </CNavItem>
-                  {/* <CNavItem>
-                    <CNavLink href="#" active={activeKey === 6} onClick={() => setActiveKey(6)}>
-                      <strong>Note</strong>
-                    </CNavLink>
-                  </CNavItem>
-                  <CNavItem>
-                    <CNavLink href="#" active={activeKey === 7} onClick={() => setActiveKey(7)}>
-                      <strong>Message</strong>
-                    </CNavLink>
-                  </CNavItem> */}
                 </CNav>
               </div>
 
