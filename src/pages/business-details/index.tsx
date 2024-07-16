@@ -5,6 +5,7 @@ import type { NextPageWithLayout } from '@/pages/_app'
 import { FaEdit } from 'react-icons/fa'
 import { MdOutlineCancel } from 'react-icons/md'
 import { FaFilePdf, FaRegImages } from 'react-icons/fa6'
+import { LuFactory } from 'react-icons/lu'
 /*  */
 import {
   CCol,
@@ -197,9 +198,14 @@ const Entry: NextPageWithLayout = (props) => {
             style={{ paddingTop: '30px', paddingRight: '50px' }}
             className="d-flex justify-content-between ps-5"
           >
-            <div className="text-white">
-              <h4 className="mb-0 text-dark dark:text-white">Business Details</h4>
-              <small className='text-dark dark:text-white'>View/ reviewing customer information and business registration details</small>
+            <div className="flex-grow-1 pt-2">
+              <h1 className="fs-3 fw-bold text-danger-emphasis" style={{ color: '#CC0229' }}>
+                <LuFactory className="fs-2 fw-bold me-2" />
+                Business Details
+              </h1>
+              <small className="text-secondary">
+                View/ reviewing customer information and business registration details
+              </small>
             </div>
 
             {allowToEdit && (
@@ -227,7 +233,7 @@ const Entry: NextPageWithLayout = (props) => {
         </div>
       </div>
 
-      <div className="position-relative px-4 px-sm-5" style={{ marginTop: '-4.1rem' }}>
+      <div className="position-relative px-4 px-sm-5" style={{ marginTop: '-2.1rem' }}>
         <CRow className="justify-content-between mb-5 gap-4">
           <CCol>
             <CCard className="p-2  me-1 rounded shadow-none" style={{ minHeight: '79.3vh' }}>

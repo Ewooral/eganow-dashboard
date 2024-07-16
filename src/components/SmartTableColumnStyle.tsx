@@ -5,7 +5,10 @@ import { formatMoney_util, statusType_util } from '@/util'
 import { cilLibrary, cilLockLocked, cilPencil } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import { CBadge, CButton, CCardBody, CCollapse } from '@coreui/react-pro'
+
 import { FiEye } from 'react-icons/fi'
+import { GoDotFill } from 'react-icons/go'
+
 import { ChangeEvent } from 'react'
 
 import Zoom from 'react-medium-image-zoom'
@@ -28,29 +31,53 @@ export const PhoneNumberColumn = (number: string) => {
 }
 
 export const StatusColumn = (status: string) => {
+  let bg = null
+  let color = null
+
+  switch (status) {
+    case 'SUCCESSFUL':
+      bg = '#badbcb'
+      color = '#198754'
+      break
+    case 'PENDING':
+      bg = '#fed8b8'
+      color = '#fd7e14'
+      break
+    case 'FAILED':
+      bg = '#f0b3be'
+      color = '#cd0429'
+      break
+
+    case 'PRINTED':
+      bg = '#b8c8de'
+      color = '#304767'
+      break
+    case 'PRINTING':
+      bg = '#ffecb4'
+      color = '#ffc107'
+      break
+    case 'DELIVERED':
+      bg = '#badbcb'
+      color = '#198754'
+      break
+
+    default:
+      bg = '#f0b3be'
+      color = '#cd0429'
+  }
+
   return (
     <td>
-      <CBadge color={statusType_util(status)}>{status}</CBadge>
+      <span
+        className="d-inline-flex flex-nowrap align-items-center rounded-5 px-2"
+        style={{ color: color, backgroundColor: bg }}
+      >
+        <GoDotFill /> <span>{status}</span>
+      </span>
     </td>
   )
 }
-// export const StatusColumn = (status: string) => {
-//   return (
-//     <td>
-//       <div className={`text-${statusType_util(status)} d-flex align-items-center gap-2 `}>
-//         <div
-//           className={`bg-${statusType_util(status)}`}
-//           style={{
-//             width: '10px',
-//             height: '10px',
-//             borderRadius: '50%',
-//           }}
-//         ></div>
-//         <p className="m-0 p-0 text-capitalize">{status}</p>
-//       </div>
-//     </td>
-//   )
-// }
+
 
 export const AmountColumn = (amount: number) => {
   return (
@@ -72,7 +99,7 @@ export const ActionButtons = (
   }
   return (
     <td className="py-2">
-      <CButton
+      {/*  <CButton
         data-type="edit"
         color="primary"
         shape="square"
@@ -89,7 +116,7 @@ export const ActionButtons = (
         title="Reset Password"
       >
         <CIcon icon={cilLockLocked} data-type="resetPassword" />
-      </CButton>{' '}
+      </CButton>{' '} */}
       <CButton
         data-type="viewAgentTransactions"
         color="success"

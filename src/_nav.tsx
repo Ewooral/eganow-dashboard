@@ -18,7 +18,12 @@ import {
   cilStar,
   cilGroup,
   cilHandPointLeft,
+  cilCash,
+  cilCreditCard,
 } from '@coreui/icons'
+
+import { GiTakeMyMoney } from "react-icons/gi";
+
 import CIcon from '@coreui/icons-react'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react-pro'
 
@@ -68,94 +73,52 @@ const _nav = [
   {
     component: CNavGroup,
     title: 'Transactions',
-    href: '/components/icons',
     icon: <CIcon icon={cilNotes} customClassName="nav-icon bg-transparent dark:text-white" />,
     items: [
       {
         component: CNavItem,
-        name: 'View Transactions',
+        name: 'Account Transactions',
         href: '/biz-collect/account-transactions',
       },
       {
         component: CNavItem,
         name: 'Internal Transfer',
-        href: '/components/icons/free',
+        href: '/biz-collect/internal-transfer',
       },
       {
         component: CNavItem,
         name: 'Internal Transfer History',
-        href: '/components/icons/free',
+        href: '/biz-collect/internal-transfer-history',
       },
-      // {
-      //   component: CNavItem,
-      //   name: 'Internal Transfer',
-      //   href: '/biz-collect/account-transactions',
-      // },
-      // {
-      //   component: CNavItem,
-      //   name: 'One-time Payment',
-      //   href: '/components/icons/brands',
-      // },
-      // {
-      //   component: CNavItem,
-      //   name: 'Fund Transfer',
-      //   href: '/components/icons/brands',
-      // },
-      // {
-      //   component: CNavItem,
-      //   name: 'Bulk Transfer',
-      //   href: '/components/icons/brands',
-      // },
-      // {
-      //   component: CNavItem,
-      //   name: 'Fund Transfer History',
-      //   href: '/components/icons/brands',
-      // },
-      // {
-      //   component: CNavItem,
-      //   name: 'Account Statement',
-      //   href: '/components/icons/brands',
-      // },
     ],
   },
   {
     component: CNavGroup,
-    title: 'Collection-Receipts',
-    href: '/components/icons',
-    icon: (
-      <CIcon icon={cilEnvelopeOpen} customClassName="nav-icon bg-transparent dark:text-white" />
-    ),
+    title: 'Collection Receipts',
+    icon: <CIcon icon={cilCash} customClassName="nav-icon bg-transparent dark:text-white" />,
     items: [
       {
         component: CNavItem,
-        name: 'initiate Collection',
-        href: '/components/icons/free',
+        name: 'Collection',
+        href: '/biz-collect/collection',
       },
-      // {
-      //   component: CNavItem,
-      //   name: 'Inititate Bulk Payment',
-      //   href: '/components/icons/flags',
-      // },
     ],
   },
 
   {
     component: CNavGroup,
     title: 'Settlements',
-    href: '/components/icons',
-    icon: (
-      <CIcon icon={cilEnvelopeOpen} customClassName="nav-icon bg-transparent dark:text-white" />
-    ),
+    icon: <CIcon icon={cilCreditCard} customClassName="nav-icon bg-transparent dark:text-white" />,
     items: [
       {
         component: CNavItem,
         name: 'Settlement Request',
-        href: '/components/icons/free',
+        href: '/biz-collect/settlement-request',
       },
       {
         component: CNavItem,
         name: 'Settlement History',
-        href: '/components/icons/flags',
+        href: '/biz-collect/settlement-history',
       },
     ],
   },
@@ -163,31 +126,28 @@ const _nav = [
   {
     component: CNavGroup,
     title: 'Payments',
-    href: '/components/icons',
-    icon: (
-      <CIcon icon={cilEnvelopeOpen} customClassName="nav-icon bg-transparent dark:text-white" />
-    ),
+    icon: <GiTakeMyMoney className="nav-icon bg-transparent dark:text-white"/>,
     items: [
       {
         component: CNavItem,
-        name: 'Generate Payment Link',
-        href: '/components/icons/free',
+        name: 'Payments',
+        href: '/biz-collect/payments',
       },
       {
         component: CNavItem,
-        name: 'Active Payment Links',
-        href: '/components/icons/flags',
+        name: 'Payment Links',
+        href: '/biz-collect/payment-links',
+      },
+      /*  {
+        component: CNavItem,
+        name: 'Initiate Single Payment',
+        href: '/biz-collect/payment-links',
       },
       {
         component: CNavItem,
-        name: 'initiate Single Payment',
-        href: '/components/icons/free',
-      },
-      {
-        component: CNavItem,
-        name: 'Inititate Bulk Payment',
-        href: '/components/icons/flags',
-      },
+        name: 'Initiate Bulk Payment',
+        href: '/biz-collect/payment-links',
+      }, */
     ],
   },
 
@@ -201,26 +161,21 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: 'Direct Debit Trans History',
-        href: '/components/icons/free',
+        name: 'Direct Debit Accounts',
+        href: '/biz-collect/direct-debit-accounts',
       },
-      {
+      /* {
         component: CNavItem,
         name: 'Direct Debit Request',
         href: '/components/icons/free',
-      },
+      }, */
       {
         component: CNavItem,
-        name: 'View Direct Debit Accounts',
-        href: '/components/icons/flags',
+        name: 'Direct Debit Trans History',
+        href: '/biz-collect/direct-debit-history',
       },
     ],
   },
-
- 
-
-
-
 
   {
     component: CNavGroup,

@@ -3,16 +3,33 @@
 
 // 1. Registration Interface
 
+body {
+  font-family: var(--cui-body-font-family);
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
 * {
   padding: 0;
   margin: 0;
 }
+/* Scrollbar Style For All */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #696868 #cccccc;
+}
 
-body{
-  font-family: "Montserrat", sans-serif;
-  font-optical-sizing: auto;
-  // font-weight: <weight>;
-  font-style: normal;
+/* Scrollbar Style For Webkit */
+*::-webkit-scrollbar {
+  width: 11px;
+}
+*::-webkit-scrollbar-track {
+   background-color: #696868;
+}
+*::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background-color: #696868;
+  border: 2px solid #cccccc;
 }
 
 input[type='text'],
@@ -56,7 +73,7 @@ select {
   align-items: center;
   margin-top: 2px;
   background-color: #c4c4c4a3;
-    border-radius: 12px; 
+  border-radius: 12px;
   font-size: 30px;
   color: #304767;
   padding: 25px;
@@ -165,21 +182,16 @@ select {
   border: none !important;
   padding: 0 !important;
   resize: none !important;
- 
-
 }
 
-.hide-input::placeholder{
+.hide-input::placeholder {
   color: transparent !important;
-
 }
-
 
 .hide-input:focus {
   resize: none !important;
   outline: none !important;
 }
-
 
 .card1 {
   display: block;
@@ -350,7 +362,7 @@ select {
 
 .mostusedfeature-star {
   border-radius: 50%;
-color: yellow;
+  color: yellow;
   box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
   transform: scale(1);
   animation: pulse 2s infinite;
@@ -416,14 +428,13 @@ color: yellow;
   border: none;
 }
 
-.imgBox{
-  border: 2px dashed ;
+.imgBox {
+  border: 2px dashed;
   min-height: 200px;
   background-image: url('https://secureservercdn.net/166.62.110.60/h65.3a1.myftpupload.com/wp-content/uploads/2021/09/variable-placeholder-product-31.jpg?time=1644500349');
   background-position: center; /* Center the image */
   background-repeat: no-repeat; /* Do not repeat the image */
   background-size: cover; /* Resize the background image to cover the entire container */
-
 }
 
 .imgOverlay:hover {
@@ -432,32 +443,10 @@ color: yellow;
   z-index: 999;
 }
 
-
-/* width */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f100;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 12px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
 /* skeleton loader shimmer */
 .skeleton-box {
   display: inline-block;
- 
+
   position: relative;
   overflow: hidden;
 
@@ -495,4 +484,6 @@ color: yellow;
   // margin-right: 8px; /* Space between bullet and icon/name */
 }
 
-
+.eganow-red-bg {
+  background: $red !important;
+}
