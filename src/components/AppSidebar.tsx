@@ -10,8 +10,8 @@ import CIcon from '@coreui/icons-react'
 import SimpleBar from 'simplebar-react'
 import 'simplebar-react/dist/simplebar.min.css'
 
-import { logoNegative } from '@/public/brand/logo-negative'
-import { sygnet } from '@/public/brand/sygnet'
+import { full_logo_red, full_logo_white } from '@/public/brand/logo-full'
+import { half_logo_red, half_logo_white } from '@/public/brand/logo-half'
 // sidebar nav config
 import navigation from '../_nav'
 
@@ -20,6 +20,7 @@ const AppSidebar = (): JSX.Element => {
   const sidebarShow = useUI((state) => state.sidebarShow)
   const setSidebarShow = useUI((state) => state.setSidebarShow)
   const setUnfordable = useUI((state) => state.setUnfordable)
+  const theme = useUI((state) => state.theme)
 
   return (
     <CSidebar
@@ -31,11 +32,19 @@ const AppSidebar = (): JSX.Element => {
       }}
     >
       <CSidebarBrand className="d-none d-md-flex">
-        <CIcon className="sidebar-brand-full" icon={logoNegative} height={35} />
-        <CIcon className="sidebar-brand-narrow" icon={sygnet} height={35} />
+        <CIcon
+          className="sidebar-brand-full"
+          icon={theme === 'dark' ? full_logo_red : full_logo_white}
+          height={35}
+        />
+        <CIcon
+          className="sidebar-brand-narrow"
+          icon={theme === 'dark' ? half_logo_red : half_logo_white}
+          height={35}
+        />
       </CSidebarBrand>
-      <CSidebarNav className=''>
-        <SimpleBar className=' ' >
+      <CSidebarNav className="">
+        <SimpleBar className=" ">
           <AppSidebarNav items={navigation} />
         </SimpleBar>
       </CSidebarNav>

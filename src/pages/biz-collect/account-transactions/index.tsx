@@ -33,17 +33,27 @@ import {
   CSmartTable,
   CForm,
   CFormInput,
+  CFormLabel,
+  CInputGroup,
+  CInputGroupText,
 } from '@coreui/react-pro'
 /*CORE UI ICONS */
 import CIcon from '@coreui/icons-react'
 import { cilArrowTop, cilChartPie, cilLoopCircular, cilSearch } from '@coreui/icons'
 /*FONT AWESOME ICONS */
 import { FiEye } from 'react-icons/fi'
+import { IoSearchCircleSharp } from 'react-icons/io5'
+import { FaSearch } from 'react-icons/fa'
+import { MdOutlineAccountBalanceWallet } from 'react-icons/md'
+import { FaFileExport } from 'react-icons/fa6'
+import { MdOutlineFlashAuto } from 'react-icons/md'
+import { SiMicrosoftexcel } from 'react-icons/si'
+import { GrDocumentPdf } from 'react-icons/gr'
 /* COMPONENTS */
 import { CChart, CChartBar, CChartLine } from '@coreui/react-chartjs'
 import { DashboardLayout, GlobalLoader } from '@/components'
 /* CONSTANCE */
-import { EGANOW_AUTH_COOKIE } from '@/constants'
+import { EGANOW_AUTH_COOKIE, DATE_FORMAT } from '@/constants'
 /* HOOKS */
 import useStoreReady from '@/hooks/useStoreReady'
 import NoItemsLabel from '@/components/NoItemsLabel'
@@ -52,6 +62,7 @@ import {
   PhoneNumberColumn,
   AmountColumn,
   StatusColumn,
+  ActionButtons,
 } from '@/components/SmartTableColumnStyle'
 
 /* 
@@ -71,7 +82,12 @@ const columns = [
     sorter: false,
   },
   {
-    label: 'Full Name',
+    label: 'Source Acc. No.',
+    key: 'membername',
+    _style: { minWidth: '300px' },
+  },
+  {
+    label: 'Recipient Acc. No.',
     key: 'membername',
     _style: { minWidth: '300px' },
   },
@@ -82,225 +98,173 @@ const columns = [
     sorter: false,
   },
   {
-    label: 'Status',
-    key: 'status',
-    _style: { minWidth: '100px', width: '10%' },
-  },
-  {
-    label: 'Account Number',
-    key: 'momonumber',
-    _style: { minWidth: '180px', width: '10%' },
+    label: 'Commission',
+    key: 'amount',
+    _style: { minWidth: '150px', width: '15%' },
     sorter: false,
   },
   {
-    label: 'Payment Name',
-    key: 'paymentname',
-    _style: { minWidth: '250px' },
+    label: 'Eganow Status',
+    key: 'status',
+    _style: { minWidth: '180px', width: '10%' },
+  },
+  {
+    label: 'Merchant Status',
+    key: 'merchantstatus',
+    _style: { minWidth: '180px', width: '10%' },
+    sorter: false,
+  },
+
+  {
+    label: 'Transaction Type',
+    key: 'transactiontype',
+    _style: { minWidth: '300px' },
+  },
+  {
+    label: 'Source Acc. Name.',
+    key: 'membername',
+    _style: { minWidth: '300px' },
+  },
+  {
+    label: 'Recipient Acc. Name.',
+    key: 'membername',
+    _style: { minWidth: '300px' },
+  },
+
+  {
+    label: 'Trans. Date/Time',
+    key: 'date',
+    _style: { minWidth: '150px', width: '10%' },
+    sorter: false,
+  },
+  {
+    label: 'Service Name.',
+    key: 'membername',
+    _style: { minWidth: '300px' },
+  },
+  {
+    label: 'Transaction Ref.',
+    key: 'membername',
+    _style: { minWidth: '300px' },
+  },
+  {
+    key: 'actions',
+    label: 'Actions',
+    _style: { minWidth: '50px', width: '50px', height: '20px' },
+    filter: false,
+    sorter: false,
   },
 ]
 
 const data = [
   {
     date: '10/06/2024',
-    membername: 'Jane Doe',
+    membername: 'DRF5656565565565',
+    membername: 'DRF5656565565565',
     amount: '50,000',
     status: 'FAILED',
-    momonumber: '024586584',
+    merchantstatus: 'SUCCESSFUL',
+    transactiontype: 'COLLECTION',
     paymentname: 'Fiifi',
   },
   {
     date: '10/06/2024',
-    membername: 'Amonba Black',
+    membername: 'DRF5656565565565',
+    membername: 'DRF5656565565565',
     amount: '10',
     status: 'PENDING',
-    momonumber: '0251458756',
+    merchantstatus: 'SUCCESSFUL',
+    transactiontype: 'COLLECTION',
     paymentname: 'Fiifi',
   },
   {
     date: '10/06/2024',
-    membername: 'Jane Doe',
+    membername: 'DRF5656565565565',
+    membername: 'DRF5656565565565',
     amount: '6000',
     status: 'SUCCESSFUL',
-    momonumber: '024586584',
+    merchantstatus: 'SUCCESSFUL',
+    transactiontype: 'COLLECTION',
     paymentname: 'Fiifi',
   },
   {
     date: '10/06/2024',
-    membername: 'John Doe',
+    membername: 'DRF5656565565565',
+    membername: 'DRF5656565565565',
     amount: '10',
     status: 'PENDING',
-    momonumber: '0251458756',
+    merchantstatus: 'SUCCESSFUL',
+    transactiontype: 'COLLECTION',
     paymentname: 'Fiifi',
   },
   {
     date: '10/06/2024',
-    membername: 'Amonba Black',
+    membername: 'DRF5656565565565',
+    membername: 'DRF5656565565565',
     amount: '10',
     status: 'PENDING',
-    momonumber: '0251458756',
+    merchantstatus: 'SUCCESSFUL',
+    transactiontype: 'COLLECTION',
     paymentname: 'Fiifi',
   },
   {
     date: '10/06/2024',
-    membername: 'Jane Doe',
+    membername: 'DRF5656565565565',
+    membername: 'DRF5656565565565',
     amount: '6000',
     status: 'SUCCESSFUL',
-    momonumber: '024586584',
+    merchantstatus: 'SUCCESSFUL',
+    transactiontype: 'COLLECTION',
     paymentname: 'Fiifi',
   },
   {
     date: '10/06/2024',
-    membername: 'John Doe',
+    membername: 'DRF5656565565565',
+    membername: 'DRF5656565565565',
     amount: '10',
     status: 'PENDING',
-    momonumber: '0251458756',
+    merchantstatus: 'SUCCESSFUL',
+    transactiontype: 'COLLECTION',
     paymentname: 'Fiifi',
   },
-  ,
   {
     date: '10/06/2024',
-    membername: 'Amonba Black',
+    membername: 'DRF5656565565565',
+    membername: 'DRF5656565565565',
     amount: '10',
     status: 'PENDING',
-    momonumber: '0251458756',
+    merchantstatus: 'SUCCESSFUL',
+    transactiontype: 'COLLECTION',
     paymentname: 'Fiifi',
   },
   {
     date: '10/06/2024',
-    membername: 'Jane Doe',
+    membername: 'DRF5656565565565',
+    membername: 'DRF5656565565565',
+    amount: '10',
+    status: 'PENDING',
+    merchantstatus: 'SUCCESSFUL',
+    transactiontype: 'COLLECTION',
+    paymentname: 'Fiifi',
+  },
+  {
+    date: '10/06/2024',
+    membername: 'DRF5656565565565',
+    membername: 'DRF5656565565565',
     amount: '6000',
     status: 'SUCCESSFUL',
-    momonumber: '024586584',
+    merchantstatus: 'PENDING',
+    transactiontype: 'COLLECTION',
     paymentname: 'Fiifi',
   },
   {
     date: '10/06/2024',
-    membername: 'John Doe',
+    membername: 'DRF5656565565565',
+    membername: 'DRF5656565565565',
     amount: '10',
     status: 'PENDING',
-    momonumber: '0251458756',
-    paymentname: 'Fiifi',
-  },
-  {
-    date: '10/06/2024',
-    membername: 'Amonba Black',
-    amount: '10',
-    status: 'PENDING',
-    momonumber: '0251458756',
-    paymentname: 'Fiifi',
-  },
-  {
-    date: '10/06/2024',
-    membername: 'Jane Doe',
-    amount: '6000',
-    status: 'SUCCESSFUL',
-    momonumber: '024586584',
-    paymentname: 'Fiifi',
-  },
-  {
-    date: '10/06/2024',
-    membername: 'John Doe',
-    amount: '10',
-    status: 'PENDING',
-    momonumber: '0251458756',
-    paymentname: 'Fiifi',
-  },
-  ,
-  {
-    date: '10/06/2024',
-    membername: 'Amonba Black',
-    amount: '10',
-    status: 'PENDING',
-    momonumber: '0251458756',
-    paymentname: 'Fiifi',
-  },
-  {
-    date: '10/06/2024',
-    membername: 'Jane Doe',
-    amount: '6000',
-    status: 'SUCCESSFUL',
-    momonumber: '024586584',
-    paymentname: 'Fiifi',
-  },
-  {
-    date: '10/06/2024',
-    membername: 'John Doe',
-    amount: '10',
-    status: 'PENDING',
-    momonumber: '0251458756',
-    paymentname: 'Fiifi',
-  },
-  {
-    date: '10/06/2024',
-    membername: 'Amonba Black',
-    amount: '10',
-    status: 'PENDING',
-    momonumber: '0251458756',
-    paymentname: 'Fiifi',
-  },
-  {
-    date: '10/06/2024',
-    membername: 'Jane Doe',
-    amount: '6000',
-    status: 'SUCCESSFUL',
-    momonumber: '024586584',
-    paymentname: 'Fiifi',
-  },
-  {
-    date: '10/06/2024',
-    membername: 'John Doe',
-    amount: '10',
-    status: 'PENDING',
-    momonumber: '0251458756',
-    paymentname: 'Fiifi',
-  },
-  ,
-  {
-    date: '10/06/2024',
-    membername: 'Amonba Black',
-    amount: '10',
-    status: 'PENDING',
-    momonumber: '0251458756',
-    paymentname: 'Fiifi',
-  },
-  {
-    date: '10/06/2024',
-    membername: 'Jane Doe',
-    amount: '6000',
-    status: 'SUCCESSFUL',
-    momonumber: '024586584',
-    paymentname: 'Fiifi',
-  },
-  {
-    date: '10/06/2024',
-    membername: 'John Doe',
-    amount: '10',
-    status: 'PENDING',
-    momonumber: '0251458756',
-    paymentname: 'Fiifi',
-  },
-  {
-    date: '10/06/2024',
-    membername: 'Amonba Black',
-    amount: '10',
-    status: 'PENDING',
-    momonumber: '0251458756',
-    paymentname: 'Fiifi',
-  },
-  {
-    date: '10/06/2024',
-    membername: 'Jane Doe',
-    amount: '6000',
-    status: 'SUCCESSFUL',
-    momonumber: '024586584',
-    paymentname: 'Fiifi',
-  },
-  {
-    date: '10/06/2024',
-    membername: 'John Doe',
-    amount: '10',
-    status: 'PENDING',
-    momonumber: '0251458756',
+    merchantstatus: 'SUCCESSFUL',
+    transactiontype: 'COLLECTION',
     paymentname: 'Fiifi',
   },
 ]
@@ -316,7 +280,17 @@ export const getServerSideProps = async ({ req }) => {
 }
 
 const BizCollect: NextPageWithLayout = (props) => {
+  const START_DATE = new Date()
+  const END_DATE = new Date()
+
   const isStoreReady = useStoreReady()
+
+  const [searchFilter, setSearchFilter] = useState({
+    memberType: 'JM',
+    status: 'SUCCESSFUL',
+    startDate: START_DATE,
+    endDate: END_DATE,
+  })
 
   //Server-render loading state
   if (!isStoreReady) {
@@ -325,71 +299,438 @@ const BizCollect: NextPageWithLayout = (props) => {
 
   return (
     <DashboardLayout {...props}>
-      <div className="d-flex justify-content-between align-items-center flex-wrap bg-white rounded p-4">
+      <div className="d-flex justify-content-between align-items-center flex-wrap rounded pt-2">
         <div className="flex-grow-1">
-          <h3>Account Transactions</h3>
+          <h1 className="fs-3 fw-bold text-danger-emphasis" style={{ color: '#CC0229' }}>
+            <MdOutlineAccountBalanceWallet className="fs-1 fw-bold me-2" />
+            Account Transactions
+          </h1>
+          <small className="text-secondary">
+            View biz collect account transactions. Print or export report list.
+          </small>
         </div>
 
-        <CButton color="danger text-white" size="md">
-          Internal transfer
-        </CButton>
+        <div className="flex gap-2">
+          <CDropdown
+            variant="btn-group"
+            title="Export list"
+            style={{ marginTop: '30px', borderColor: '#0A4A25' }}
+          >
+            <CDropdownToggle
+              variant="outline"
+              color="danger"
+              className="mx-1 rounded-50 ndc-white-bg"
+            >
+              <FaFileExport style={{ fontSize: '1.2rem' }} /> Export
+            </CDropdownToggle>
+            <CDropdownMenu onMouseUp={() => {}}>
+              <CDropdownItem href="#" data-name="excel">
+                <SiMicrosoftexcel data-name="excel" style={{ fontSize: '1.2rem' }} /> Export to
+                excel
+              </CDropdownItem>
+              <CDropdownDivider />
+              <CDropdownItem href="#" data-name="pdf">
+                <GrDocumentPdf data-name="pdf" style={{ fontSize: '1.2rem' }} /> Export to PDF
+              </CDropdownItem>
+            </CDropdownMenu>
+          </CDropdown>
+        </div>
       </div>
 
-      <CContainer fluid className="p-3 bg-white mt-5 mb-5 rounded">
-        <CRow>
-          <CForm className="d-flex align-items-center">
-            <CCol xs={12} md={6} className="d-flex gap-4">
-              <CFormInput
-                size="sm"
-                type="email"
-                id="exampleFormControlInput1"
-                placeholder="search transactions"
-                aria-describedby="exampleFormControlInputHelpInline"
+      <hr />
+
+      <CContainer fluid className="p-3 bg-white mb-5 rounded dark:bg-dark">
+        <CForm
+          className="d-flex align-items-center gap-4 mb-2 py-3 px-3 dark:bg-dark"
+          style={{ backgroundColor: '#eee' }}
+        >
+          <CRow className="gap-y-2">
+            <CCol xs={12} md={4} xl={3}>
+              {/*  <CFormLabel htmlFor="status">
+                <strong>Search</strong>
+              </CFormLabel> */}
+              <CInputGroup className="flex-nowrap">
+                <CInputGroupText className="bg-dark dark:bg-light">
+                  <IoSearchCircleSharp className="fs-4 text-white dark:text-black" />
+                </CInputGroupText>
+                <CFormInput
+                  size="sm"
+                  type="text"
+                  id="exampleFormControlInput1"
+                  placeholder="Enter account No."
+                  aria-describedby="exampleFormControlInputHelpInline"
+                />
+              </CInputGroup>
+            </CCol>
+
+            <CCol xl={2}>
+              {/*  <CFormLabel htmlFor="status">
+                <strong>Status</strong>
+              </CFormLabel> */}
+              <CFormSelect
+                id="status"
+                name="status"
+                value={searchFilter.status}
+                onChange={() => {}}
+                options={[
+                  { label: 'COLLECTION', value: 'COLLECTION' },
+                  { label: 'PAYOUT', value: 'PAYOUT' },
+                ]}
               />
-              <CButton color="primary text-white" size="md">
-                Search
+            </CCol>
+
+            <CCol xl={2}>
+              {/*  <CFormLabel htmlFor="status">
+                <strong>Status</strong>
+              </CFormLabel> */}
+              <CFormSelect
+                id="status"
+                name="status"
+                value={searchFilter.status}
+                onChange={() => {}}
+                options={[
+                  { label: 'ALL', value: 'ALL' },
+                  { label: 'JM 2024 CAMPAIGN', value: 'SUCCESSFUL' },
+                ]}
+              />
+            </CCol>
+
+            <CCol xl={4}>
+              {/* <CFormLabel htmlFor="status">
+                <strong>Date</strong>
+              </CFormLabel> */}
+              <CDateRangePicker
+                id="dateRange"
+                startDate={searchFilter.startDate}
+                endDate={searchFilter.endDate}
+                locale="en-US"
+                format={DATE_FORMAT}
+                footer
+                onStartDateChange={() => {}}
+                onEndDateChange={() => {}}
+              />
+            </CCol>
+
+            <CCol xs={12} md={4} xl={1}>
+              <CButton var color="danger" size="md">
+                <FaSearch className="fs-4 text-white" />
               </CButton>
             </CCol>
-          </CForm>
+          </CRow>
+        </CForm>
+
+        <CRow className="pt-4">
+          <CCol sm={3}>
+            <CWidgetStatsB
+              className="mb-4 shadow"
+              // color="white"
+              value={<div className="text-black dark:text-white">GHS 9.000</div>}
+              title="Collection Balance"
+              /*  chart={
+                <CChartLine
+                  className="mt-3 mx-3"
+                  style={{ height: '70px' }}
+                  data={{
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                    datasets: [
+                      {
+                        label: 'My First dataset',
+                        backgroundColor: 'transparent',
+                        borderColor: '#304767',
+                        pointBackgroundColor: '#304767',
+                        data: [65, 59, 84, 84, 51, 55, 40],
+                      },
+                    ],
+                  }}
+                  options={{
+                    plugins: {
+                      legend: {
+                        display: false,
+                      },
+                    },
+                    maintainAspectRatio: false,
+                    scales: {
+                      x: {
+                        grid: {
+                          display: false,
+                          drawBorder: false,
+                        },
+                        ticks: {
+                          display: false,
+                        },
+                      },
+                      y: {
+                        min: 30,
+                        max: 89,
+                        display: false,
+                        grid: {
+                          display: false,
+                        },
+                        ticks: {
+                          display: false,
+                        },
+                      },
+                    },
+                    elements: {
+                      line: {
+                        borderWidth: 1,
+                        tension: 0.4,
+                      },
+                      point: {
+                        radius: 4,
+                        hitRadius: 10,
+                        hoverRadius: 4,
+                      },
+                    },
+                  }}
+                />
+              } */
+            />
+          </CCol>
+
+          <CCol sm={3}>
+            <CWidgetStatsB
+              className="mb-4 shadow"
+              // color="warning"
+              value={<>GHS 9.000</>}
+              title="Payout Balance"
+              /*  chart={
+                <CChartLine
+                  className="mt-3"
+                  style={{ height: '70px' }}
+                  data={{
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                    datasets: [
+                      {
+                        label: 'My First dataset',
+                        borderColor: '#304767',
+                        pointBackgroundColor: '#304767',
+                        data: [78, 81, 80, 45, 34, 12, 40],
+                        fill: true,
+                      },
+                    ],
+                  }}
+                  options={{
+                    plugins: {
+                      legend: {
+                        display: false,
+                      },
+                    },
+                    maintainAspectRatio: false,
+                    scales: {
+                      x: {
+                        display: false,
+                      },
+                      y: {
+                        display: false,
+                      },
+                    },
+                    elements: {
+                      line: {
+                        borderWidth: 2,
+                        tension: 0.4,
+                      },
+                      point: {
+                        radius: 0,
+                        hitRadius: 10,
+                        hoverRadius: 4,
+                      },
+                    },
+                  }}
+                />
+              } */
+            />
+          </CCol>
+
+          <CCol className="" sm={3}>
+            <CWidgetStatsB
+              className="mb-4 shadow"
+              // color="danger"
+              value={<>GHS 9.000</>}
+              title="Commission Balance"
+              /*  chart={
+                <CChartBar
+                  className="mt-3 mx-3"
+                  style={{ height: '70px' }}
+                  data={{
+                    labels: [
+                      'January',
+                      'February',
+                      'March',
+                      'April',
+                      'May',
+                      'June',
+                      'July',
+                      'August',
+                      'September',
+                      'October',
+                      'November',
+                      'December',
+                      'January',
+                      'February',
+                      'March',
+                      'April',
+                    ],
+                    datasets: [
+                      {
+                        label: 'My First dataset',
+                        backgroundColor: '#304767',
+                        borderColor: '#304767',
+                        data: [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
+                        barPercentage: 0.6,
+                      },
+                    ],
+                  }}
+                  options={{
+                    maintainAspectRatio: false,
+                    plugins: {
+                      legend: {
+                        display: false,
+                      },
+                    },
+                    scales: {
+                      x: {
+                        grid: {
+                          display: false,
+                          drawTicks: false,
+                        },
+                        ticks: {
+                          display: false,
+                        },
+                      },
+                      y: {
+                        grid: {
+                          display: false,
+                          drawBorder: false,
+                          drawTicks: false,
+                        },
+                        ticks: {
+                          display: false,
+                        },
+                      },
+                    },
+                  }}
+                />
+              } */
+            />
+          </CCol>
+
+          <CCol className="" sm={3}>
+            <CWidgetStatsB
+              className="mb-4 shadow"
+              // color="danger"
+              value={<>GHS 40.000</>}
+              title="Total Settlements"
+              /* chart={
+                <CChartBar
+                  className="mt-3 mx-3"
+                  style={{ height: '70px' }}
+                  data={{
+                    labels: [
+                      'January',
+                      'February',
+                      'March',
+                      'April',
+                      'May',
+                      'June',
+                      'July',
+                      'August',
+                      'September',
+                      'October',
+                      'November',
+                      'December',
+                      'January',
+                      'February',
+                      'March',
+                      'April',
+                    ],
+                    datasets: [
+                      {
+                        label: 'My First dataset',
+                        backgroundColor: '#304767',
+                        borderColor: '#304767',
+                        data: [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
+                        barPercentage: 0.6,
+                      },
+                    ],
+                  }}
+                  options={{
+                    maintainAspectRatio: false,
+                    plugins: {
+                      legend: {
+                        display: false,
+                      },
+                    },
+                    scales: {
+                      x: {
+                        grid: {
+                          display: false,
+                          drawTicks: false,
+                        },
+                        ticks: {
+                          display: false,
+                        },
+                      },
+                      y: {
+                        grid: {
+                          display: false,
+                          drawBorder: false,
+                          drawTicks: false,
+                        },
+                        ticks: {
+                          display: false,
+                        },
+                      },
+                    },
+                  }}
+                />
+              } */
+            />
+          </CCol>
         </CRow>
 
-        <CCard className="border-0 shadow-none">
-          <CCardBody className="">
-            <CSmartTable
-              sorterValue={{ column: 'fullname', state: 'asc' }}
-              activePage={1}
-              columns={columns}
-              columnFilter
-              columnSorter
-              items={data}
-              itemsPerPageLabel="Transactions per page"
-              itemsPerPageSelect
-              itemsPerPage={10}
-              // tableFilter
-              pagination
-              scopedColumns={{
-                membername: (items) => NameColumn(items.membername),
-                paymentaccountnumberormomonumber: (items) =>
-                  PhoneNumberColumn(items.paymentaccountnumberormomonumber),
-                amount: (items) => AmountColumn(items.amount),
-                status: (items) => StatusColumn(items.status),
-              }}
-              tableProps={{
-                className: 'smart-table',
-                responsive: true,
-                striped: false,
-                hover: true,
-                small: false,
-                borderColor: 'light',
-              }}
-              tableBodyProps={{
-                className: 'align-middle',
-              }}
-              loading={false}
-              noItemsLabel={<NoItemsLabel onMouseUp={() => {}} />}
-              // footer
-            />
-          </CCardBody>
+        <hr className="mb-0" style={{ border: '3px solid #8e011c' }} />
+
+        <CCard className="border-0 shadow-none p-1">
+          <CSmartTable
+            sorterValue={{ column: 'fullname', state: 'asc' }}
+            activePage={1}
+            columns={columns}
+            columnFilter
+            columnSorter
+            items={data}
+            itemsPerPageLabel="Transactions per page"
+            itemsPerPageSelect
+            itemsPerPage={10}
+            // tableFilter
+            columnFilterValue={{
+              date: (date) => <td className="py-2">dffffff</td>,
+            }}
+            pagination
+            scopedColumns={{
+              membername: (items) => NameColumn(items.membername),
+              paymentaccountnumberormomonumber: (items) =>
+                PhoneNumberColumn(items.paymentaccountnumberormomonumber),
+              amount: (items) => AmountColumn(items.amount),
+              status: (items) => StatusColumn(items.status),
+              merchantstatus: (items) => StatusColumn(items.merchantstatus),
+              actions: (items) => ActionButtons(items, () => {}),
+            }}
+            tableProps={{
+              className: 'smart-table',
+              responsive: true,
+              striped: false,
+              hover: true,
+              small: false,
+              borderColor: 'light',
+            }}
+            tableBodyProps={{
+              className: 'align-middle',
+            }}
+            loading={false}
+            noItemsLabel={<NoItemsLabel onMouseUp={() => {}} />}
+            // footer
+          />
         </CCard>
       </CContainer>
     </DashboardLayout>
