@@ -1,21 +1,8 @@
-import { EGANOW_AUTH_COOKIE } from '@/constants'
 import Link from 'next/link'
 import React from 'react'
 import { CgProfile } from 'react-icons/cg'
 
-export const getServerSideProps = async ({ req }) => {
-  const cookies = JSON.parse(req.cookies[EGANOW_AUTH_COOKIE])
-
-  //Response
-  return {
-    props: {
-      cookies,
-    },
-  }
-}
 function CompleteProfileBanner(props) {
-  console.log(props)
-
   return (
     <div>
       {props.status !== 1 && (
