@@ -17,8 +17,8 @@ function EntryLayout({
     <>
       <div className="wrapper d-flex flex-column min-vh-100 bg-light dark:bg-transparent bg-img ">
         <AppEntryHeader {...cookies} features={features} />
-        <CompleteProfileBanner {...cookies} />
-        <div className="body flex-grow-1 px-3 ">{children}</div>
+        {/* <CompleteProfileBanner {...cookies} /> */}
+        <div className="body flex-grow-1 px-3 mt-4">{children}</div>
         <AppFooter />
         <AppAside />
       </div>

@@ -13,7 +13,7 @@ function CompleteProfileBanner(props: any) {
               <CgProfile size={24} className="" /> {props.firstName},your account is not complete
             </div>
             <Link href="/business-details">
-              <button type="button" className="btn btn-danger text-white btn-sm">
+              <button type="button" className="btn btn-danger text-white ">
                 Complete profile
               </button>
             </Link>
