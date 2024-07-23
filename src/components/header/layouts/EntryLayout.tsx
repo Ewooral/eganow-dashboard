@@ -1,4 +1,5 @@
 import { AppAside, AppEntryHeader, AppFooter } from '@/components'
+import CompleteProfileBanner from '@/components/CompleteProfileBanner'
 import { FeaturePropsType } from '@/types/Features'
 import { UserInfoType } from '@/types/Users'
 import React from 'react'
@@ -14,8 +15,9 @@ function EntryLayout({
 }) {
   return (
     <>
-      <div className="wrapper d-flex flex-column min-vh-100 bg-light dark:bg-transparent bg-img">
+      <div className="wrapper d-flex flex-column min-vh-100 bg-light dark:bg-transparent bg-img ">
         <AppEntryHeader {...cookies} features={features} />
+        <CompleteProfileBanner {...cookies} />
         <div className="body flex-grow-1 px-3 ">{children}</div>
         <AppFooter />
         <AppAside />

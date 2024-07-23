@@ -97,9 +97,8 @@ const Entry: NextPageWithLayout = (props) => {
     setHighestFeatureValue(getMaxValueKey(mostUsedFeature?.state?.featureCounts))
   }, [mostUsedFeature])
 
-
-  const removeUsedFeatureSelect = ()=>{
-    setIsFeatureHovered(true);
+  const removeUsedFeatureSelect = () => {
+    setIsFeatureHovered(true)
   }
 
   return (
@@ -123,6 +122,7 @@ const Entry: NextPageWithLayout = (props) => {
                 <h3 className="text-medium-emphasis">{props.cookies.companyName}</h3>
               </div>
             </CCol>
+
             <CCol className="">
               {highestFeatureValue && (
                 <div className="d-flex justify-content-sm-end align-items-center gap-2  mx-auto mx-lg-0">
@@ -141,9 +141,19 @@ const Entry: NextPageWithLayout = (props) => {
         <CRow xs={{ gutterY: 4, gutterX: 4 }}>
           {features?.map((obj, index) => {
             if (!!obj.title) {
-              return <Features key={index} data={obj} highestFeatureValue={highestFeatureValue} isFeatureHovered={isFeatureHovered} removeUsedFeatureSelect={removeUsedFeatureSelect}/>
+              return (
+                <Features
+                  key={index}
+                  data={obj}
+                  highestFeatureValue={highestFeatureValue}
+                  isFeatureHovered={isFeatureHovered}
+                  removeUsedFeatureSelect={removeUsedFeatureSelect}
+                />
+              )
             }
-            return <FeaturesPlaceholder key={index}  removeUsedFeatureSelect={removeUsedFeatureSelect}/>
+            return (
+              <FeaturesPlaceholder key={index} removeUsedFeatureSelect={removeUsedFeatureSelect} />
+            )
           })}
         </CRow>
       </CContainer>
