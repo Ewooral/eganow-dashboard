@@ -345,7 +345,11 @@ const Collection: NextPageWithLayout = (props) => {
             Initiate collection
           </CButton>{' '}
           <CDropdown variant="btn-group" title="Export list" style={{ marginTop: '30px' }}>
-            <CDropdownToggle variant='outline' color="danger" className="rounded-50 dark:text-white">
+            <CDropdownToggle
+              variant="outline"
+              color="danger"
+              className="rounded-50 dark:text-white"
+            >
               <FaFileExport className="me-1" style={{ fontSize: '1.2rem' }} /> Export
             </CDropdownToggle>
             <CDropdownMenu onMouseUp={() => {}}>
@@ -396,8 +400,8 @@ const Collection: NextPageWithLayout = (props) => {
                 value={searchFilter.status}
                 onChange={() => {}}
                 options={[
-                  { label: 'ALL', value: 'ALL' },
-                  { label: 'JM 2024 CAMPAIGN', value: 'SUCCESSFUL' },
+                  { label: 'Account 1', value: 'Account 1' },
+                  { label: 'Account 2', value: 'Account 2' },
                 ]}
               />
             </CCol>

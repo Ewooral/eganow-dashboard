@@ -215,34 +215,34 @@ const InternalTransfer: NextPageWithLayout = (props) => {
     )
   }
 
-  function handleClick(event: React.ChangeEvent<HTMLInputElement>, items: ItemType): void {
-    const { type } = event.target.dataset
+  // function handleClick(event: React.ChangeEvent<HTMLInputElement>, items: ItemType): void {
+  //   const { type } = event.target.dataset
 
-    /*  Editing Users */
-    if (type === 'edit') {
-      //Setting default data
-      const agentData = {
-        type: 'edit',
-        ...items,
-      }
-      //Open modal component
-      setDynamicComponent(
-        <AddEditInternalTransfer
-          modalClose={modalClose}
-          data={agentData}
-          callback={handleRefresh}
-        />,
-      )
-    }
-    /*  Reset agent password */
-    if (type === 'resetPassword') {
-      const message = `You are about to reset ${items.agentname}'s password.`
-      //Setting default data
-      setDynamicComponent(
-        <Confirm modalClose={modalClose} onClick={handleConfirm} message={message} data={items} />,
-      )
-    }
-  }
+  //   /*  Editing Users */
+  //   if (type === 'edit') {
+  //     //Setting default data
+  //     const agentData = {
+  //       type: 'edit',
+  //       ...items,
+  //     }
+  //     //Open modal component
+  //     setDynamicComponent(
+  //       <AddEditInternalTransfer
+  //         modalClose={modalClose}
+  //         data={agentData}
+  //         callback={handleRefresh}
+  //       />,
+  //     )
+  //   }
+  //   /*  Reset agent password */
+  //   if (type === 'resetPassword') {
+  //     const message = `You are about to reset ${items.agentname}'s password.`
+  //     //Setting default data
+  //     setDynamicComponent(
+  //       <Confirm modalClose={modalClose} onClick={handleConfirm} message={message} data={items} />,
+  //     )
+  //   }
+  // }
 
   function callback(state: string, data: any): void {
     //Refreshing the list of agents
@@ -398,8 +398,8 @@ const InternalTransfer: NextPageWithLayout = (props) => {
                 value={searchFilter.status}
                 onChange={() => {}}
                 options={[
-                  { label: 'ALL', value: 'ALL' },
-                  { label: 'JM 2024 CAMPAIGN', value: 'SUCCESSFUL' },
+                  { label: 'Account 1', value: 'Account 1' },
+                  { label: 'Account 2', value: 'Account 2' },
                 ]}
               />
             </CCol>
@@ -471,7 +471,7 @@ const InternalTransfer: NextPageWithLayout = (props) => {
                       data-type="resetPassword"
                       color="secondary"
                       shape="square"
-                      onClick={handleClick}
+                      onClick={() => {}}
                       title="Reset Password"
                       className="text-white"
                     >

@@ -24,7 +24,7 @@ body {
   width: 11px;
 }
 *::-webkit-scrollbar-track {
-   background-color: #696868;
+  background-color: #696868;
 }
 *::-webkit-scrollbar-thumb {
   border-radius: 2px;
@@ -388,6 +388,7 @@ select {
 .eyeIcon {
   position: absolute;
   right: 10px;
+  z-index: 2147483638;
   cursor: pointer;
   top: 12px;
   opacity: 1;

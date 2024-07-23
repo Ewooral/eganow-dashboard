@@ -65,15 +65,6 @@ import {
   ActionButtons,
 } from '@/components/SmartTableColumnStyle'
 
-/* 
-
-
-
-
-
-
-*/
-
 const columns = [
   {
     label: 'Date',
@@ -286,8 +277,6 @@ const BizCollect: NextPageWithLayout = (props) => {
   const isStoreReady = useStoreReady()
 
   const [searchFilter, setSearchFilter] = useState({
-    memberType: 'JM',
-    status: 'SUCCESSFUL',
     startDate: START_DATE,
     endDate: END_DATE,
   })
@@ -316,11 +305,7 @@ const BizCollect: NextPageWithLayout = (props) => {
             title="Export list"
             style={{ marginTop: '30px', borderColor: '#0A4A25' }}
           >
-            <CDropdownToggle
-              variant="outline"
-              color="danger"
-              className="mx-1 rounded-50 ndc-white-bg"
-            >
+            <CDropdownToggle variant="outline" color="danger" className="mx-1 rounded-50 ">
               <FaFileExport style={{ fontSize: '1.2rem' }} /> Export
             </CDropdownToggle>
             <CDropdownMenu onMouseUp={() => {}}>
@@ -341,14 +326,11 @@ const BizCollect: NextPageWithLayout = (props) => {
 
       <CContainer fluid className="p-3 bg-white mb-5 rounded dark:bg-dark">
         <CForm
-          className="d-flex align-items-center gap-4 mb-2 py-3 px-3 dark:bg-dark"
+          className="d-flex align-items-center gap-4 mb-2 py-3 px-3 dark:bg-dark rounded"
           style={{ backgroundColor: '#eee' }}
         >
           <CRow className="gap-y-2">
             <CCol xs={12} md={4} xl={3}>
-              {/*  <CFormLabel htmlFor="status">
-                <strong>Search</strong>
-              </CFormLabel> */}
               <CInputGroup className="flex-nowrap">
                 <CInputGroupText className="bg-dark dark:bg-light">
                   <IoSearchCircleSharp className="fs-4 text-white dark:text-black" />
@@ -364,9 +346,6 @@ const BizCollect: NextPageWithLayout = (props) => {
             </CCol>
 
             <CCol xl={2}>
-              {/*  <CFormLabel htmlFor="status">
-                <strong>Status</strong>
-              </CFormLabel> */}
               <CFormSelect
                 id="status"
                 name="status"
@@ -380,25 +359,19 @@ const BizCollect: NextPageWithLayout = (props) => {
             </CCol>
 
             <CCol xl={2}>
-              {/*  <CFormLabel htmlFor="status">
-                <strong>Status</strong>
-              </CFormLabel> */}
               <CFormSelect
                 id="status"
                 name="status"
                 value={searchFilter.status}
                 onChange={() => {}}
                 options={[
-                  { label: 'ALL', value: 'ALL' },
-                  { label: 'JM 2024 CAMPAIGN', value: 'SUCCESSFUL' },
+                  { label: 'Account 1', value: 'Account 1' },
+                  { label: 'Account 2', value: 'Account 2' },
                 ]}
               />
             </CCol>
 
             <CCol xl={4}>
-              {/* <CFormLabel htmlFor="status">
-                <strong>Date</strong>
-              </CFormLabel> */}
               <CDateRangePicker
                 id="dateRange"
                 startDate={searchFilter.startDate}
@@ -406,8 +379,16 @@ const BizCollect: NextPageWithLayout = (props) => {
                 locale="en-US"
                 format={DATE_FORMAT}
                 footer
-                onStartDateChange={() => {}}
-                onEndDateChange={() => {}}
+                onStartDateChange={(date) => {
+                  setSearchFilter((prev) => {
+                    return { ...prev, startDate: date }
+                  })
+                }}
+                onEndDateChange={(date) => {
+                  setSearchFilter((prev) => {
+                    return { ...prev, endDate: date }
+                  })
+                }}
               />
             </CCol>
 
@@ -426,65 +407,6 @@ const BizCollect: NextPageWithLayout = (props) => {
               // color="white"
               value={<div className="text-black dark:text-white">GHS 9.000</div>}
               title="Collection Balance"
-              /*  chart={
-                <CChartLine
-                  className="mt-3 mx-3"
-                  style={{ height: '70px' }}
-                  data={{
-                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                    datasets: [
-                      {
-                        label: 'My First dataset',
-                        backgroundColor: 'transparent',
-                        borderColor: '#304767',
-                        pointBackgroundColor: '#304767',
-                        data: [65, 59, 84, 84, 51, 55, 40],
-                      },
-                    ],
-                  }}
-                  options={{
-                    plugins: {
-                      legend: {
-                        display: false,
-                      },
-                    },
-                    maintainAspectRatio: false,
-                    scales: {
-                      x: {
-                        grid: {
-                          display: false,
-                          drawBorder: false,
-                        },
-                        ticks: {
-                          display: false,
-                        },
-                      },
-                      y: {
-                        min: 30,
-                        max: 89,
-                        display: false,
-                        grid: {
-                          display: false,
-                        },
-                        ticks: {
-                          display: false,
-                        },
-                      },
-                    },
-                    elements: {
-                      line: {
-                        borderWidth: 1,
-                        tension: 0.4,
-                      },
-                      point: {
-                        radius: 4,
-                        hitRadius: 10,
-                        hoverRadius: 4,
-                      },
-                    },
-                  }}
-                />
-              } */
             />
           </CCol>
 
@@ -494,51 +416,6 @@ const BizCollect: NextPageWithLayout = (props) => {
               // color="warning"
               value={<>GHS 9.000</>}
               title="Payout Balance"
-              /*  chart={
-                <CChartLine
-                  className="mt-3"
-                  style={{ height: '70px' }}
-                  data={{
-                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                    datasets: [
-                      {
-                        label: 'My First dataset',
-                        borderColor: '#304767',
-                        pointBackgroundColor: '#304767',
-                        data: [78, 81, 80, 45, 34, 12, 40],
-                        fill: true,
-                      },
-                    ],
-                  }}
-                  options={{
-                    plugins: {
-                      legend: {
-                        display: false,
-                      },
-                    },
-                    maintainAspectRatio: false,
-                    scales: {
-                      x: {
-                        display: false,
-                      },
-                      y: {
-                        display: false,
-                      },
-                    },
-                    elements: {
-                      line: {
-                        borderWidth: 2,
-                        tension: 0.4,
-                      },
-                      point: {
-                        radius: 0,
-                        hitRadius: 10,
-                        hoverRadius: 4,
-                      },
-                    },
-                  }}
-                />
-              } */
             />
           </CCol>
 
@@ -548,70 +425,6 @@ const BizCollect: NextPageWithLayout = (props) => {
               // color="danger"
               value={<>GHS 9.000</>}
               title="Commission Balance"
-              /*  chart={
-                <CChartBar
-                  className="mt-3 mx-3"
-                  style={{ height: '70px' }}
-                  data={{
-                    labels: [
-                      'January',
-                      'February',
-                      'March',
-                      'April',
-                      'May',
-                      'June',
-                      'July',
-                      'August',
-                      'September',
-                      'October',
-                      'November',
-                      'December',
-                      'January',
-                      'February',
-                      'March',
-                      'April',
-                    ],
-                    datasets: [
-                      {
-                        label: 'My First dataset',
-                        backgroundColor: '#304767',
-                        borderColor: '#304767',
-                        data: [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
-                        barPercentage: 0.6,
-                      },
-                    ],
-                  }}
-                  options={{
-                    maintainAspectRatio: false,
-                    plugins: {
-                      legend: {
-                        display: false,
-                      },
-                    },
-                    scales: {
-                      x: {
-                        grid: {
-                          display: false,
-                          drawTicks: false,
-                        },
-                        ticks: {
-                          display: false,
-                        },
-                      },
-                      y: {
-                        grid: {
-                          display: false,
-                          drawBorder: false,
-                          drawTicks: false,
-                        },
-                        ticks: {
-                          display: false,
-                        },
-                      },
-                    },
-                  }}
-                />
-              } */
             />
           </CCol>
 
@@ -621,70 +434,6 @@ const BizCollect: NextPageWithLayout = (props) => {
               // color="danger"
               value={<>GHS 40.000</>}
               title="Total Settlements"
-              /* chart={
-                <CChartBar
-                  className="mt-3 mx-3"
-                  style={{ height: '70px' }}
-                  data={{
-                    labels: [
-                      'January',
-                      'February',
-                      'March',
-                      'April',
-                      'May',
-                      'June',
-                      'July',
-                      'August',
-                      'September',
-                      'October',
-                      'November',
-                      'December',
-                      'January',
-                      'February',
-                      'March',
-                      'April',
-                    ],
-                    datasets: [
-                      {
-                        label: 'My First dataset',
-                        backgroundColor: '#304767',
-                        borderColor: '#304767',
-                        data: [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
-                        barPercentage: 0.6,
-                      },
-                    ],
-                  }}
-                  options={{
-                    maintainAspectRatio: false,
-                    plugins: {
-                      legend: {
-                        display: false,
-                      },
-                    },
-                    scales: {
-                      x: {
-                        grid: {
-                          display: false,
-                          drawTicks: false,
-                        },
-                        ticks: {
-                          display: false,
-                        },
-                      },
-                      y: {
-                        grid: {
-                          display: false,
-                          drawBorder: false,
-                          drawTicks: false,
-                        },
-                        ticks: {
-                          display: false,
-                        },
-                      },
-                    },
-                  }}
-                />
-              } */
             />
           </CCol>
         </CRow>
