@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import { CBadge } from '@coreui/react-pro'
 import CIcon from '@coreui/icons-react'
 
-import { Badge, NavItem } from '../_nav'
+import { Badge, NavItem } from './Biz-collect/bizcollectNav'
 
 interface AppSidebarNavProps {
   items: NavItem[]

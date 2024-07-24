@@ -117,6 +117,8 @@ const AppEntryHeader = (props: UserInfoType): JSX.Element => {
                     className="bg-white rounded border"
                   >
                     {filteredFeatures?.map((filteredFeature: FeaturePropsType, index) => {
+                      console.log(filteredFeature)
+
                       return (
                         filteredFeature.title && (
                           <div
@@ -133,7 +135,6 @@ const AppEntryHeader = (props: UserInfoType): JSX.Element => {
                               orientation="top"
                               height={200}
                               src={filteredFeature.icon}
-                              style={{ width: '5%', height: 'auto', margin: '0.5em' }}
                               alt=""
                             />
                             <p className="m-0">{filteredFeature.title}</p>

@@ -12,6 +12,7 @@ import { EntryLayout, Features, FeaturesPlaceholder } from '@/components'
 import biz_collect from '@/public/images/features/bixcol2.png'
 // import teamwork from '@/public/images/features/group-meeting.png'
 import teamwork from '@/public/images/features/groups2.png'
+import edupay from '@/public/images/features/edupay.png'
 /* CONSTANCE */
 import { EGANOW_AUTH_COOKIE } from '@/constants'
 import { useEffect, useState } from 'react'
@@ -34,10 +35,11 @@ const features = [
     route: '/groups',
   },
   {
-    icon: '',
-    title: '',
-    content: '',
-    route: '',
+    icon: edupay,
+    title: 'Edupay',
+    content:
+      'Billing platform for schools.Simplified and faster way to manage billing. Easier and transparent way to manage',
+    route: '/edupay',
   },
   {
     icon: '',

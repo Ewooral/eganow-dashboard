@@ -1,28 +1,15 @@
 import React, { ElementType } from 'react'
 import {
-  cilBell,
-  cilCalculator,
-  cilCalendar,
-  cilChartPie,
-  cilCursor,
-  cilDrop,
   cilEnvelopeOpen,
-  cilGrid,
-  cilLayers,
-  cilMap,
   cilNotes,
-  cilPencil,
-  cilPuzzle,
   cilSpeedometer,
   cilSpreadsheet,
-  cilStar,
-  cilGroup,
   cilHandPointLeft,
   cilCash,
   cilCreditCard,
 } from '@coreui/icons'
 
-import { GiTakeMyMoney } from "react-icons/gi";
+import { GiTakeMyMoney } from 'react-icons/gi'
 
 import CIcon from '@coreui/icons-react'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react-pro'
@@ -42,7 +29,7 @@ export type NavItem = {
   items?: NavItem[]
 }
 
-const _nav = [
+const bizcollectNav = [
   {
     component: CNavItem,
     title: 'Back to Features',
@@ -126,7 +113,7 @@ const _nav = [
   {
     component: CNavGroup,
     title: 'Payments',
-    icon: <GiTakeMyMoney className="nav-icon bg-transparent dark:text-white"/>,
+    icon: <GiTakeMyMoney className="nav-icon bg-transparent dark:text-white" />,
     items: [
       {
         component: CNavItem,
@@ -138,16 +125,6 @@ const _nav = [
         name: 'Payment Links',
         href: '/biz-collect/payment-links',
       },
-      /*  {
-        component: CNavItem,
-        name: 'Initiate Single Payment',
-        href: '/biz-collect/payment-links',
-      },
-      {
-        component: CNavItem,
-        name: 'Initiate Bulk Payment',
-        href: '/biz-collect/payment-links',
-      }, */
     ],
   },
 
@@ -164,11 +141,7 @@ const _nav = [
         name: 'Direct Debit Accounts',
         href: '/biz-collect/direct-debit-accounts',
       },
-      /* {
-        component: CNavItem,
-        name: 'Direct Debit Request',
-        href: '/components/icons/free',
-      }, */
+
       {
         component: CNavItem,
         name: 'Direct Debit Trans History',
@@ -206,4 +179,4 @@ const _nav = [
   },
 ]
 
-export default _nav
+export default bizcollectNav

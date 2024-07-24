@@ -3,7 +3,7 @@ import React from 'react'
 import { useUI } from 'src/store'
 import { CSidebar, CSidebarBrand, CSidebarNav, CSidebarToggler } from '@coreui/react-pro'
 
-import AppSidebarNav from './AppSidebarNav'
+import AppSidebarNav from '../AppSidebarNav'
 
 import CIcon from '@coreui/icons-react'
 
@@ -13,9 +13,9 @@ import 'simplebar-react/dist/simplebar.min.css'
 import { full_logo_red, full_logo_white } from '@/public/brand/logo-full'
 import { half_logo_red, half_logo_white } from '@/public/brand/logo-half'
 // sidebar nav config
-import navigation from '../_nav'
+import navigation from './bizcollectNav'
 
-const AppSidebar = (): JSX.Element => {
+const BizCollectSidebar = (): JSX.Element => {
   const sidebarUnfoldable = useUI((state) => state.sidebarUnfoldable)
   const sidebarShow = useUI((state) => state.sidebarShow)
   const setSidebarShow = useUI((state) => state.setSidebarShow)
@@ -56,4 +56,4 @@ const AppSidebar = (): JSX.Element => {
   )
 }
 
-export default React.memo(AppSidebar)
+export default React.memo(BizCollectSidebar)

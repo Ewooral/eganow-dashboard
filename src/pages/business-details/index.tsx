@@ -240,19 +240,6 @@ const Entry: NextPageWithLayout = (props) => {
               <CRow className="justify-content-center p-4">
                 <div className="company-logo position-relative">
                   <CIcon icon={cilIndustry} style={{ height: '100px', width: 'auto' }} />
-                  {/* <FaE
-                  it
-                    className="position-absolute bg-white p-1 rounded-circle fs-2 border-2 border-light"
-                    style={{
-                      bottom: 0,
-                      right: 20,
-                      marginBottom: '-10',
-                      border: '1px solid #ccc',
-                      width: '34px',
-                      height: '34px',
-                    }}
-                    onMouseUp={handleLogoUpload}
-                  /> */}
                 </div>
 
                 <div className="mt-4">
