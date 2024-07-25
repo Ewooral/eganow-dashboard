@@ -6,7 +6,10 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 /* Components */
 const AddEditContactPerson = dynamic(
-  () => import('@/components/business-customer-details/contact-person-pane/AddEditContactPerson'),
+  () =>
+    import(
+      '@/components/Biz-collect/business-customer-details/contact-person-pane/AddEditContactPerson'
+    ),
 )
 import Snackbar from '@/components/Snackbar'
 /* import { validationSchema } from './validationSchema'
@@ -243,30 +246,30 @@ const ContactPerson = (props) => {
                   return (
                     <td className="">
                       {props?.allowToEdit ? (
-                         <div className="d-flex align-items-center">
-                         <FiEdit
-                           className="me-1"
-                           variant="outline"
-                           color="blue"
-                           shape="square"
-                           size={20}
-                           data-type="edit"
-                           onClick={(e) => {
-                             handleClick(e, item)
-                           }}
-                         />|
-
-                         <MdDeleteOutline
-                           color="red"
-                           variant="outline"
-                           shape="square"
-                           size={25}
-                           data-type="delete"
-                           onClick={(e) => {
-                             handleClick(e, item)
-                           }}
-                         />
-                       </div>
+                        <div className="d-flex align-items-center">
+                          <FiEdit
+                            className="me-1"
+                            variant="outline"
+                            color="blue"
+                            shape="square"
+                            size={20}
+                            data-type="edit"
+                            onClick={(e) => {
+                              handleClick(e, item)
+                            }}
+                          />
+                          |
+                          <MdDeleteOutline
+                            color="red"
+                            variant="outline"
+                            shape="square"
+                            size={25}
+                            data-type="delete"
+                            onClick={(e) => {
+                              handleClick(e, item)
+                            }}
+                          />
+                        </div>
                       ) : (
                         'N/A'
                       )}
@@ -283,8 +286,7 @@ const ContactPerson = (props) => {
                 striped: false,
                 hover: true,
                 small: true,
-                borderColor: "light",
-
+                borderColor: 'light',
               }}
               tableBodyProps={{
                 className: 'align-middle',

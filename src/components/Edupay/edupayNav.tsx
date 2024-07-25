@@ -62,20 +62,20 @@ const edupayNav = [
       color: 'info-gradient',
     },
   },
-  {
-    component: CNavGroup,
-    title: 'Schools',
-    icon: (
-      <CIcon icon={cilLibraryBuilding} customClassName="nav-icon bg-transparent dark:text-white" />
-    ),
-    items: [
-      {
-        component: CNavItem,
-        name: 'Add school',
-        href: '/edupay/schools',
-      },
-    ],
-  },
+  // {
+  //   component: CNavGroup,
+  //   title: 'Schools',
+  //   icon: (
+  //     <CIcon icon={cilLibraryBuilding} customClassName="nav-icon bg-transparent dark:text-white" />
+  //   ),
+  //   items: [
+  //     {
+  //       component: CNavItem,
+  //       name: 'Add school',
+  //       href: '/edupay/schools',
+  //     },
+  //   ],
+  // },
 
   {
     component: CNavGroup,
@@ -127,8 +127,8 @@ const edupayNav = [
     items: [
       {
         component: CNavItem,
-        name: 'Add student',
-        href: '/edupay/students',
+        name: 'School set up',
+        href: '/edupay/setup',
       },
     ],
   },

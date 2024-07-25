@@ -18,7 +18,7 @@ import { isEmpty_util } from '@/util'
 const AddEditDirectorsShareholders = dynamic(
   () =>
     import(
-      '@/components/business-customer-details/directors-shareholders-pane/AddEditDirectorsShareholders'
+      '@/components/Biz-collect/business-customer-details/directors-shareholders-pane/AddEditDirectorsShareholders'
     ),
 )
 import Snackbar from '@/components/Snackbar'
@@ -338,8 +338,8 @@ const DirectorsShareholders = (props) => {
                             onClick={(e) => {
                               handleClick(e, item)
                             }}
-                          />|
-
+                          />
+                          |
                           <MdDeleteOutline
                             color="red"
                             variant="outline"

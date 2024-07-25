@@ -35,21 +35,22 @@ import { EGANOW_AUTH_COOKIE } from '@/constants'
 /* COMPONENTS */
 import CountryInput from '@/components/country/CountryInput'
 import { GeneralLayout } from '@/components/'
-import {
-  BusinessInfo,
-  CustomerInfo,
-  ContactPerson,
-  DirectorsShareholders,
-  Attachments,
-  Note,
-  Message,
-} from '@/components/business-customer-details'
+
 /* HOOKS */
 import { useForm } from 'react-hook-form'
 import { useQueries } from '@tanstack/react-query'
 import BusinessAccountSvc from '@/api/merchantAccountSvcGRPC'
 import MerchantCommonSvc from '@/api/merchantCommonSvcGRPC'
 import { useSnackbar } from '@/store'
+import {
+  Attachments,
+  BusinessInfo,
+  ContactPerson,
+  CustomerInfo,
+  DirectorsShareholders,
+  Message,
+  Note,
+} from '@/components/Biz-collect/business-customer-details'
 
 export const getServerSideProps = async ({ req }) => {
   const cookies = req.cookies[EGANOW_AUTH_COOKIE] ? JSON.parse(req.cookies[EGANOW_AUTH_COOKIE]) : {}
