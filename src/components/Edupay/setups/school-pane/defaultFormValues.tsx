@@ -1,7 +1,8 @@
 export const defaultFormValues = {
   schoolName: '',
   description: '',
-  schoolType: '',
+  levelType: '',
+  billingCycleName: '',
   startDate: '',
   endDate: '',
 }

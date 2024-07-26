@@ -3,14 +3,14 @@ import React, { FC, useState } from 'react'
 import { FiEdit } from 'react-icons/fi'
 import { IoAddOutline } from 'react-icons/io5'
 import { MdDeleteOutline } from 'react-icons/md'
-import AddSchool from './AddEditSchool'
+import AddSchool from './AddEditBillingItem'
 import Confirm from '@/components/Confirm'
-import AddEditSchool from './AddEditSchool'
+import AddEditSchool from './AddEditBillingItem'
 
 const columns = [
   {
-    key: 'schoolName',
-    label: 'School name',
+    key: 'Item_name',
+    label: 'Item name',
     _style: { width: '20%', minWidth: '100px' },
   },
   {
@@ -23,11 +23,11 @@ const columns = [
     label: 'Type',
     _style: { width: '15%', minWidth: '50px' },
   },
-  {
-    key: 'billingCycle',
-    label: 'Billing cycle',
-    _style: { width: '15%', minWidth: '100px' },
-  },
+  // {
+  //   key: 'billingCycle',
+  //   label: 'Billing cycle',
+  //   _style: { width: '15%', minWidth: '100px' },
+  // },
 
   {
     key: 'action',
@@ -40,19 +40,22 @@ const columns = [
 
 const data = [
   {
-    schoolName: 'ABC School',
+    Item_name: 'ABC School',
     type: 'Primary',
-    billingCycle: 'Termly',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
   },
   {
-    schoolName: 'cbd School',
-    type: 'Preschool',
-    billingCycle: 'Termly',
+    Item_name: 'ABC School',
+    type: 'Primary',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+  },
+  {
+    Item_name: 'ABC School',
+    type: 'Primary',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
   },
 ]
-function SchoolPane(props: any) {
+function BillingItems(props: any) {
   const [dynamicComponent, setDynamicComponent] = useState<any>()
 
   async function handleClick(e: React.ChangeEvent<HTMLInputElement>, items: any) {
@@ -114,16 +117,12 @@ function SchoolPane(props: any) {
       <CRow>
         <div className="d-flex justify-content-between align-items-center px-4">
           <div>
-            <h5 className="p-0 m-0">School management</h5>
-            <p className="p-0 m-0">Add, edit, and view your schools</p>
+            <h5 className="p-0 m-0">Billing Items</h5>
+            <p className="p-0 m-0">Add, edit, and view your schools billing items</p>
           </div>
-          <CButton
-            color="info text-white"
-            onMouseUp={handleModal}
-            className="d-flex align-items-center gap-2"
-          >
+          <CButton onMouseUp={handleModal} className="d-flex align-items-center  btn-info text-white gap-2">
             <IoAddOutline size={24} />
-            Add School
+            Add Billing Item
           </CButton>
         </div>
         <CRow className="my-5 px-4">
@@ -157,7 +156,7 @@ function SchoolPane(props: any) {
                         />
                         |
                         <MdDeleteOutline
-                          className="text-danger"
+                          color="red"
                           size={25}
                           data-type="delete"
                           onClick={(e: any) => {
@@ -192,4 +191,4 @@ function SchoolPane(props: any) {
   )
 }
 
-export default SchoolPane
+export default BillingItems

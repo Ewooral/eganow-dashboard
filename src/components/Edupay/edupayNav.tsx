@@ -122,12 +122,12 @@ const edupayNav = [
   },
   {
     component: CNavGroup,
-    title: 'Set up',
+    title: 'Setup',
     icon: <CIcon icon={cilNotes} customClassName="nav-icon bg-transparent dark:text-white" />,
     items: [
       {
         component: CNavItem,
-        name: 'School set up',
+        name: 'School setup',
         href: '/edupay/setup',
       },
     ],

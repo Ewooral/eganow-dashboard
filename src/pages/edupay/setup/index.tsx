@@ -1,6 +1,10 @@
 import { GlobalLoader } from '@/components'
 import EdupayLayout from '@/components/Edupay/EdupayLayout'
+
 import ClassTypePane from '@/components/Edupay/setups/class-type-pane'
+
+import BillingItems from '@/components/Edupay/setups/Billing-items'
+
 import SchoolPane from '@/components/Edupay/setups/school-pane'
 import SubTypePane from '@/components/Edupay/setups/sub-type-pane'
 import { EGANOW_AUTH_COOKIE } from '@/constants'
@@ -20,15 +24,15 @@ import React, { useState } from 'react'
 import { FcLibrary } from 'react-icons/fc'
 import { LuFactory } from 'react-icons/lu'
 
-// export const getServerSideProps = async ({ req }: any) => {
-//   const cookies = JSON.parse(req.cookies[EGANOW_AUTH_COOKIE])
-//   //Response
-//   return {
-//     props: {
-//       cookies,
-//     },
-//   }
-// }
+export const getServerSideProps = async ({ req }: any) => {
+  const cookies = JSON.parse(req.cookies[EGANOW_AUTH_COOKIE])
+  //Response
+  return {
+    props: {
+      cookies,
+    },
+  }
+}
 const Setup: NextPageWithLayout = (props) => {
   const [activeKey, setActiveKey] = useState(1)
   const [type, setType] = useState('')
@@ -94,11 +98,31 @@ const Setup: NextPageWithLayout = (props) => {
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="profile-tab" visible={activeKey === 2}>
+
                  <ClassTypePane type={type} setType={setType} />
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 3}>
                 <SubTypePane type={type} setType={setType} />
+
+                  {/* <CustomerInfo
+                  control={control}
+                  type={type}
+                  contactInfo={businessContactInfo}
+                  setType={setType}
+                /> */}
+                
+                </CTabPane>
+
+                <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 3}>
+                  {/* <ContactPerson
+                  control={control}
+                  data={businessContactPersons}
+                  allowToEdit={allowToEdit}
+                  
+                /> */}
+                <BillingItems type={type} setType={setType}/>
+
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 4}>
