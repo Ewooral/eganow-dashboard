@@ -45,6 +45,12 @@ const data = [
     billingCycle: 'Termly',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
   },
+  {
+    schoolName: 'cbd School',
+    type: 'Preschool',
+    billingCycle: 'Termly',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+  },
 ]
 function SchoolPane(props: any) {
   const [dynamicComponent, setDynamicComponent] = useState<any>()
@@ -111,7 +117,11 @@ function SchoolPane(props: any) {
             <h5 className="p-0 m-0">School management</h5>
             <p className="p-0 m-0">Add, edit, and view your schools</p>
           </div>
-          <CButton onMouseUp={handleModal} className="d-flex align-items-center gap-2">
+          <CButton
+            color="info text-white"
+            onMouseUp={handleModal}
+            className="d-flex align-items-center gap-2"
+          >
             <IoAddOutline size={24} />
             Add School
           </CButton>
@@ -137,8 +147,8 @@ function SchoolPane(props: any) {
                     <td className="">
                       <div className="d-flex align-items-center">
                         <FiEdit
-                          className="me-1"
-                          color="blue"
+                          className="me-1 text-info"
+                          color=""
                           size={20}
                           data-type="edit"
                           onClick={(e: any) => {
@@ -147,7 +157,7 @@ function SchoolPane(props: any) {
                         />
                         |
                         <MdDeleteOutline
-                          color="red"
+                          className="text-danger"
                           size={25}
                           data-type="delete"
                           onClick={(e: any) => {

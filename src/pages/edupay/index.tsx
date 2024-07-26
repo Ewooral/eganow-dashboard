@@ -104,7 +104,7 @@ const Edupay = (props: EdupayProps) => {
             />
           </CCol>
         </CRow>
-        <CContainer fluid className="p-3 bg-gradient mb-5 ">
+        <CContainer fluid className="p-3 bg-gradient  ">
           <div className="d-flex justify-content-between mb-4 ">
             <div>
               <small>Select Date Range </small>
@@ -138,7 +138,7 @@ const Edupay = (props: EdupayProps) => {
 
           <CRow>
             <CCol sm={6}>
-              <CCard className="mb-4 shadow-none">
+              <CCard className="mb-4 shadow-none h-100">
                 <div className="pt-4 px-3">
                   <div className="card-title fs-5 fw-semibold ndc-green-text my-0">
                     Most recent payments
@@ -240,8 +240,8 @@ const Edupay = (props: EdupayProps) => {
                 </CCardBody>
               </CCard>
             </CCol>
-            <CCol>
-              <CCard className="mb-4 overflow-auto shadow-none">
+            <CCol sm={6}>
+              <CCard className="mb-4 overflow-auto shadow-none h-100">
                 <div className="pt-3 px-3">
                   <div className="card-title fs-5 fw-semibold ndc-green-text my-0">
                     Your Payment Trends

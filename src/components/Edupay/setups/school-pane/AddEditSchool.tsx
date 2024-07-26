@@ -8,6 +8,7 @@ import {
   CFormLabel,
   CFormSelect,
   CFormText,
+  CFormTextarea,
   CModal,
   CModalBody,
   CModalFooter,
@@ -17,7 +18,7 @@ import {
   CSpinner,
 } from '@coreui/react-pro'
 import { yupResolver } from '@hookform/resolvers/yup'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { validationSchema } from './validationSchema'
 import { defaultFormValues } from './defaultFormValues'
 import { useForm } from 'react-hook-form'
@@ -30,8 +31,9 @@ interface AddEditSchoolProps {
   callback?: () => void
 }
 
-const schoolTypes = ['PRESCHOOL', 'PRIMARY', 'JUNIOR HIGH', 'SENIOR HIGH', 'TERTIARY']
+const levelTypesArray: string[] = ['PRESCHOOL', 'PRIMARY', 'JUNIOR HIGH', 'SENIOR HIGH', 'TERTIARY']
 function AddEditSchool(props: AddEditSchoolProps) {
+  const [levelTypes, setLevelTypes] = useState<any>()
   const showSnackbar = useSnackbar((state: any) => state.showSnackbar)
 
   /* UseForm */
@@ -46,6 +48,10 @@ function AddEditSchool(props: AddEditSchoolProps) {
       console.log(values)
     } catch (error) {}
   }
+
+  useEffect(() => {
+    setLevelTypes(levelTypesArray)
+  }, [levelTypes, setLevelTypes])
 
   return (
     <CModal
@@ -110,7 +116,7 @@ function AddEditSchool(props: AddEditSchoolProps) {
                 >
                   <strong> Description</strong>
                 </CFormLabel>
-                <CFormInput
+                <CFormTextarea
                   id="description"
                   placeholder="Enter your description."
                   {...register('description')}
@@ -133,52 +139,79 @@ function AddEditSchool(props: AddEditSchoolProps) {
               </CCol>
             </CRow>
 
-            <CRow className="g-3">
-              {/** school types */}
+            <CRow>
               <CCol xs={12} sm={6} className="mb-4">
                 <CFormLabel
-                  htmlFor="schoolType"
+                  htmlFor="billingCycleName"
                   className={classNames({
-                    'text-error': !!formState.errors?.schoolType,
+                    'text-error': !!formState.errors?.billingCycleName,
                   })}
                 >
-                  <strong> School type</strong>
+                  <strong> Billing cycle name</strong>
                 </CFormLabel>
-                <CFormSelect
-                  {...register('schoolType')}
+                <CFormInput
+                  id="schoolName"
+                  type="text"
+                  placeholder="Enter your billing cycle name."
+                  {...register('billingCycleName')}
                   valid={
-                    formState.dirtyFields?.schoolType && !!!formState.errors?.schoolType
+                    formState.dirtyFields?.billingCycleName && !!!formState.errors?.billingCycleName
                       ? true
                       : false
                   }
-                  invalid={!!formState.errors?.schoolType && true}
-                  options={schoolTypes}
+                  invalid={!!formState.errors?.billingCycleName && true}
                 />
+                <CFormText
+                  component="span"
+                  className={classNames({
+                    'text-error': true,
+                    'd-none': !!formState.errors?.billingCycleName ? false : true,
+                  })}
+                >
+                  Billing cycle name is required.
+                </CFormText>
               </CCol>
               <CCol xs={12} sm={6} className="mb-4">
-                <CFormLabel
-                  htmlFor="billingCycle"
-                  // className={classNames({
-                  //   'text-error': !!formState.errors?.mobileNumber,
-                  // })}
-                >
-                  <strong> Billing cycle</strong>
+                <CFormLabel htmlFor="billingCycle">
+                  <strong> Billing cycle range</strong>
                 </CFormLabel>
                 <CDateRangePicker
                   locale="en-US"
                   required
                   invalid={!!formState.errors?.startDate && true}
-                  // valid={
-                  //   formState.dirtyFields?.startDate && !!!formState.errors?.startDate
-                  //     ? true
-                  //     : false
-                  // }
                   onStartDateChange={(date: any) => {
                     setValue('startDate', date)
                   }}
                   onEndDateChange={(date: any) => {
                     setValue('endDate', date)
                   }}
+                />
+              </CCol>
+            </CRow>
+
+            <CRow className="g-3">
+              {/** school types */}
+              <CCol xs={12} sm={6} className="mb-4">
+                <CFormLabel
+                  htmlFor="levelType"
+                  className={classNames({
+                    'text-error': !!formState.errors?.levelType,
+                  })}
+                >
+                  <strong> Level type</strong>
+                </CFormLabel>
+                <CFormSelect
+                  // {...register('levelType')}
+                  onChange={(e) => {
+                    setValue('levelType', e.target.value, { shouldValidate: true })
+                  }}
+                  valid={
+                    formState.dirtyFields?.levelType && !!!formState.errors?.levelType
+                      ? true
+                      : false
+                  }
+                  invalid={!!formState.errors?.levelType && true}
+                  options={levelTypes}
                 />
               </CCol>
             </CRow>

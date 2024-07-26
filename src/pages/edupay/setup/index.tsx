@@ -18,15 +18,15 @@ import React, { useState } from 'react'
 import { FcLibrary } from 'react-icons/fc'
 import { LuFactory } from 'react-icons/lu'
 
-// export const getServerSideProps = async ({ req }: any) => {
-//   const cookies = JSON.parse(req.cookies[EGANOW_AUTH_COOKIE])
-//   //Response
-//   return {
-//     props: {
-//       cookies,
-//     },
-//   }
-// }
+export const getServerSideProps = async ({ req }: any) => {
+  const cookies = JSON.parse(req.cookies[EGANOW_AUTH_COOKIE])
+  //Response
+  return {
+    props: {
+      cookies,
+    },
+  }
+}
 const Setup: NextPageWithLayout = (props) => {
   const [activeKey, setActiveKey] = useState(1)
   const [type, setType] = useState('')
