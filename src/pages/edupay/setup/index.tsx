@@ -98,12 +98,11 @@ const Setup: NextPageWithLayout = (props) => {
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="profile-tab" visible={activeKey === 2}>
-
-                 <ClassTypePane type={type} setType={setType} />
+                  <ClassTypePane type={type} setType={setType} />
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 3}>
-                <SubTypePane type={type} setType={setType} />
+                  <SubTypePane type={type} setType={setType} />
 
                   {/* <CustomerInfo
                   control={control}
@@ -111,27 +110,16 @@ const Setup: NextPageWithLayout = (props) => {
                   contactInfo={businessContactInfo}
                   setType={setType}
                 /> */}
-                
                 </CTabPane>
 
-                <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 3}>
+                <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 4}>
                   {/* <ContactPerson
                   control={control}
                   data={businessContactPersons}
                   allowToEdit={allowToEdit}
                   
                 /> */}
-                <BillingItems type={type} setType={setType}/>
-
-                </CTabPane>
-
-                <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 4}>
-                  {/* <DirectorsShareholders
-                  type={type}
-                  directors={directorsList}
-                  setType={setType}
-                  allowToEdit={allowToEdit}
-                /> */}
+                  <BillingItems type={type} setType={setType} />
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 5}>
