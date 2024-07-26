@@ -72,12 +72,12 @@ const Setup: NextPageWithLayout = (props) => {
                   </CNavItem>
                   <CNavItem>
                     <CNavLink href="#2" active={activeKey === 2} onClick={() => setActiveKey(2)}>
-                      <strong>Class Type</strong>
+                      <strong>Classification Type</strong>
                     </CNavLink>
                   </CNavItem>
                   <CNavItem>
                     <CNavLink href="#3" active={activeKey === 3} onClick={() => setActiveKey(3)}>
-                      <strong>Sub Type</strong>
+                      <strong>Sub classification Type</strong>
                     </CNavLink>
                   </CNavItem>
                   <CNavItem>
