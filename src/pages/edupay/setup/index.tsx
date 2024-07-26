@@ -1,5 +1,6 @@
 import { GlobalLoader } from '@/components'
 import EdupayLayout from '@/components/Edupay/EdupayLayout'
+import BillingItems from '@/components/Edupay/setups/Billing-items'
 import SchoolPane from '@/components/Edupay/setups/school-pane'
 import { EGANOW_AUTH_COOKIE } from '@/constants'
 import useStoreReady from '@/hooks/useStoreReady'
@@ -93,6 +94,7 @@ const Setup: NextPageWithLayout = (props) => {
                   contactInfo={businessContactInfo}
                   setType={setType}
                 /> */}
+                
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 3}>
@@ -100,7 +102,9 @@ const Setup: NextPageWithLayout = (props) => {
                   control={control}
                   data={businessContactPersons}
                   allowToEdit={allowToEdit}
+                  
                 /> */}
+                <BillingItems type={type} setType={setType}/>
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 4}>
