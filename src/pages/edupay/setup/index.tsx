@@ -1,7 +1,12 @@
 import { GlobalLoader } from '@/components'
 import EdupayLayout from '@/components/Edupay/EdupayLayout'
+
+import ClassTypePane from '@/components/Edupay/setups/class-type-pane'
+
 import BillingItems from '@/components/Edupay/setups/Billing-items'
+
 import SchoolPane from '@/components/Edupay/setups/school-pane'
+import SubTypePane from '@/components/Edupay/setups/sub-type-pane'
 import { EGANOW_AUTH_COOKIE } from '@/constants'
 import useStoreReady from '@/hooks/useStoreReady'
 import { NextPageWithLayout } from '@/pages/_app'
@@ -67,11 +72,16 @@ const Setup: NextPageWithLayout = (props) => {
                   </CNavItem>
                   <CNavItem>
                     <CNavLink href="#2" active={activeKey === 2} onClick={() => setActiveKey(2)}>
+                      <strong>Class Type</strong>
+                    </CNavLink>
+                  </CNavItem>
+                  <CNavItem>
+                    <CNavLink href="#3" active={activeKey === 3} onClick={() => setActiveKey(3)}>
                       <strong>Sub Type</strong>
                     </CNavLink>
                   </CNavItem>
                   <CNavItem>
-                    <CNavLink href="#" active={activeKey === 3} onClick={() => setActiveKey(3)}>
+                    <CNavLink href="#" active={activeKey === 4} onClick={() => setActiveKey(4)}>
                       <strong>Billing Items</strong>
                     </CNavLink>
                   </CNavItem>
@@ -88,6 +98,13 @@ const Setup: NextPageWithLayout = (props) => {
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="profile-tab" visible={activeKey === 2}>
+
+                 <ClassTypePane type={type} setType={setType} />
+                </CTabPane>
+
+                <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 3}>
+                <SubTypePane type={type} setType={setType} />
+
                   {/* <CustomerInfo
                   control={control}
                   type={type}
@@ -105,6 +122,7 @@ const Setup: NextPageWithLayout = (props) => {
                   
                 /> */}
                 <BillingItems type={type} setType={setType}/>
+
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 4}>

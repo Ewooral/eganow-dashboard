@@ -5,47 +5,22 @@ import { IoAddOutline } from 'react-icons/io5'
 import { MdDeleteOutline } from 'react-icons/md'
 // import AddSchool from './AddEditSchool'
 import Confirm from '@/components/Confirm'
-import AddEditSubType from './AddEditSubType'
+import AddEditClassType from './AddEditClassType'
 // import AddEditSchool from './AddEditSchool'
 
 const columns = [
-  {
-    key: 'name',
-    label: 'Name',
-    _style: { width: '40%', minWidth: '100px' },
-  },
-  {
-    key: 'classType',
-    label: 'Class Type',
-    _style: { width: '40%', minWidth: '100px' },
-  },
-  // {
-  //   key: 'type',
-  //   label: 'Type',
-  //   _style: { width: '15%', minWidth: '50px' },
-  // },
-//   {
-//     key: 'billingCycle',
-//     label: 'Billing cycle',
-//     _style: { width: '15%', minWidth: '100px' },
-//   },
-
-  {
-    key: 'action',
-    label: 'Action',
-    _style: { width: '20%' },
-    filter: false,
-    sorter: false,
-  },
-]
+  { key: 'name', label: 'Name', _style: { width: '30%' }  },
+  { key: 'type', label: 'Type', _style: { width: '30%' }  },
+  { key: 'school', label: 'School', _style: { width: '30%' }  },
+  { key: 'action', label: 'Action', _style: { width: '10%' } },
+];
 
 const data = [
-  {
-    name: 'Semester one',
-    classType: 'Tertiary',  
-  },
-]
-function SubTypePane(props: any) {
+  { id: 1, name: 'YEAR THREE', type: 'TERTIARY', school: 'PENTECOST UNIVERSITY' },
+  { id: 2, name: 'FORM TWO', type: 'SENIOR HIGH', school: 'SAINT PETERS MISSION SCHOOL' },
+  // Add more data as needed
+];
+function ClassTypePane(props: any) {
   const [dynamicComponent, setDynamicComponent] = useState<any>()
 
   async function handleClick(e: React.ChangeEvent<HTMLInputElement>, items: any) {
@@ -60,7 +35,7 @@ function SubTypePane(props: any) {
       }
       //Open the AddEditUser component
       setDynamicComponent(
-        <AddEditSubType modalClose={modalClose} data={userData} callback={handleRefresh} />,
+        <AddEditClassType modalClose={modalClose} data={userData} callback={handleRefresh} />,
       )
     }
     /*  Deleting Users */
@@ -95,7 +70,7 @@ function SubTypePane(props: any) {
       // ...contactPersons,
     }
     //Open the AddEditUser component
-    setDynamicComponent(<AddEditSubType modalClose={modalClose} data={userData} />)
+    setDynamicComponent(<AddEditClassType modalClose={modalClose} data={userData} />)
   }
 
   function modalClose() {
@@ -108,11 +83,11 @@ function SubTypePane(props: any) {
         <div className="d-flex justify-content-between align-items-center px-4">
           <div>
             <h5 className="p-0 m-0">School management</h5>
-            <p className="p-0 m-0">Add, edit, and view your sub type</p>
+            <p className="p-0 m-0">Add, edit, and view your class type</p>
           </div>
           <CButton onMouseUp={handleModal} className="d-flex align-items-center gap-2">
             <IoAddOutline size={24} />
-            Add Sub type
+            Add Class Type
           </CButton>
         </div>
         <CRow className="my-5 px-4">
@@ -181,4 +156,4 @@ function SubTypePane(props: any) {
   )
 }
 
-export default SubTypePane
+export default ClassTypePane
