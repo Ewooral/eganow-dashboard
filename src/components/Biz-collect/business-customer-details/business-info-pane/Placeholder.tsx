@@ -1,4 +1,4 @@
-import { CCardTitle, CCol, CPlaceholder, CRow } from '@coreui/react-pro'
+import { CCard, CCardTitle, CCol, CPlaceholder, CRow } from '@coreui/react-pro'
 import React from 'react'
 
 function Placeholder() {
@@ -6,8 +6,10 @@ function Placeholder() {
     <div>
       <CRow className="mb-4 px-4">
         <CCol xs={12} sm={6}>
-          <fieldset className="p-3 border border-2 dark:border-white">
-            <legend className="fs-6 float-none w-auto px-2 text-primary">Email</legend>
+          <CCard className="p-3 border shadow-none">
+            <strong className="= float-none w-auto  m-0 ">Email</strong>
+            <hr className="my-3" />
+
             <CPlaceholder component={CCardTitle} animation="glow">
               <CPlaceholder xs={4} className="rounded bg-secondary" />
             </CPlaceholder>
@@ -15,11 +17,13 @@ function Placeholder() {
             <CPlaceholder component={CCardTitle} animation="glow">
               <CPlaceholder xs={6} className="rounded bg-secondary m-0 p-0" />
             </CPlaceholder>
-          </fieldset>
+          </CCard>
 
           <br />
-          <fieldset className="p-3 border border-2">
-            <legend className="fs-6 float-none w-auto px-2 text-primary">Business Details</legend>
+          <CCard className="p-3 border shadow-none">
+            <strong className="= float-none w-auto  m-0 ">Business Details</strong>
+            <hr className="my-3" />
+
             <CCol xs={12}>
               <CPlaceholder component={CCardTitle} animation="glow">
                 <CPlaceholder xs={4} className="rounded bg-secondary" />
@@ -79,12 +83,14 @@ function Placeholder() {
                 <CPlaceholder xs={6} className="rounded bg-secondary m-0 p-0" />
               </CPlaceholder>
             </CCol>
-          </fieldset>
+          </CCard>
         </CCol>
 
         <CCol xs={12} sm={6}>
-          <fieldset className="p-3 border border-2">
-            <legend className="fs-6 float-none w-auto px-2 text-primary">Tax Details</legend>
+          <CCard className="p-3 border shadow-none">
+            <strong className="float-none w-auto  m-0">Tax Details</strong>
+            <hr className="my-3" />
+
             <CCol xs={12}>
               <CPlaceholder component={CCardTitle} animation="glow">
                 <CPlaceholder xs={4} className="rounded bg-secondary" />
@@ -104,10 +110,12 @@ function Placeholder() {
                 <CPlaceholder xs={6} className="rounded bg-secondary m-0 p-0" />
               </CPlaceholder>
             </CCol>
-          </fieldset>
+          </CCard>
           <br />
-          <fieldset className="p-3 border border-2">
-            <legend className="fs-6 float-none w-auto px-2 text-primary">License Details</legend>
+          <CCard className="p-3 border shadow-none">
+            <strong className="float-none w-auto  m-0">License Details</strong>
+            <hr className="my-3" />
+
             <CCol xs={12}>
               <CPlaceholder component={CCardTitle} animation="glow">
                 <CPlaceholder xs={4} className="rounded bg-secondary" />
@@ -148,7 +156,7 @@ function Placeholder() {
                 </CPlaceholder>
               </CCol>
             </CRow>
-          </fieldset>
+          </CCard>
         </CCol>
       </CRow>
     </div>
