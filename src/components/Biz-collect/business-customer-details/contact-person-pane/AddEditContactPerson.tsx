@@ -20,6 +20,7 @@ import {
   CSpinner,
   CCol,
   CRow,
+  CCard,
 } from '@coreui/react-pro'
 
 import { useEffect, useState } from 'react'
@@ -90,7 +91,7 @@ const AddEditContactPerson = (props: UserProps) => {
     const generatedOptions = generateOptions(formattedEnum)
 
     setcontactPersonPositionsOptions(generatedOptions)
-  }, [setcontactPersonPositionsOptions,DirectorPosition])
+  }, [setcontactPersonPositionsOptions, DirectorPosition])
 
   const onSubmit = async (values: UserType) => {
     try {
@@ -164,7 +165,7 @@ const AddEditContactPerson = (props: UserProps) => {
       backdrop="static"
       onClose={props.modalClose}
       aria-labelledby="VerticallyCenteredExample"
-      size="lg"
+      size="md"
     >
       <CModalHeader>
         <CModalTitle id="VerticallyCenteredExample">
@@ -177,8 +178,7 @@ const AddEditContactPerson = (props: UserProps) => {
       </CModalHeader>
 
       <CModalBody>
-        <fieldset className="p-3 border border-2">
-          <legend className="fs-6 float-none w-auto px-2 text-primary">Contact Persons Info</legend>
+        <div className="p-3 ">
           <CForm noValidate>
             <CRow className="g-3">
               <CCol xs={12} sm={6} className="mb-4">
@@ -343,13 +343,11 @@ const AddEditContactPerson = (props: UserProps) => {
               </CCol>
             </CRow>
           </CForm>
-        </fieldset>
+        </div>
       </CModalBody>
       <CModalFooter>
         <CButton
-          color="info"
-          shape="rounded-pill"
-          className="text-white"
+          className="eganow-secondary-btn px-4"
           onMouseUp={handleSubmit(onSubmit)}
           disabled={formState.isSubmitting}
         >

@@ -6,7 +6,7 @@ import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 /*  */
 import { FiEdit } from 'react-icons/fi'
-import { MdDeleteOutline } from 'react-icons/md'
+import { MdDeleteOutline, MdOutlineAdd, MdOutlineDelete } from 'react-icons/md'
 
 import MerchantAccountSvc from '@/api/merchantAccountSvcGRPC'
 
@@ -50,10 +50,12 @@ import {
   CDropdownToggle,
   CDropdownMenu,
   CDropdownItem,
+  CCard,
 } from '@coreui/react-pro'
 import { log } from 'console'
 import DeleteModal from '@/components/DeleteModal'
 import Confirm from '@/components/Confirm'
+import { CiEdit } from 'react-icons/ci'
 
 // ID IMAGE COMPONENT
 export const IDImageColumn = (cardname: string) => {
@@ -269,37 +271,28 @@ const DirectorsShareholders = (props) => {
     <>
       <CRow className="mb-4 px-4">
         <CCol sm={12}>
-          <fieldset className="p-3 border border-2">
-            <legend className="fs-6 float-none w-auto px-2 text-primary">
-              List of Directors & Shareholders
-            </legend>
-
+          <div className="d-flex justify-content-end align-items-center mb-5">
             {props?.allowToEdit && (
-              <CButtonGroup
-                role="group"
-                aria-label="Button group with nested dropdown"
-                className="float-end"
+              <CButton
+                className="eganow-primary-btn px-4 d-flex align-items-center gap-1"
+                onMouseUp={handleModal}
               >
-                <CButton onMouseUp={handleModal} color="info" className="text-white rounded-pill">
-                  Add new
-                </CButton>
-                {/* <CDropdown variant="btn-group">
-                <CDropdownToggle color="info"></CDropdownToggle>
-                <CDropdownMenu>
-                  <CDropdownItem href="#">Batch Remove</CDropdownItem>
-                </CDropdownMenu>
-              </CDropdown> */}
-              </CButtonGroup>
+                <MdOutlineAdd size={20} className="" />{' '}
+                <span className="m-0 p-0 ">Add director/shareholder</span>
+              </CButton>
             )}
+          </div>
+          <CCard className="p-3 border shadow-none">
+            <strong className="fs-4">List of Directors & Shareholders</strong>
 
             <CSmartTable
               activePage={1}
               cleaner
               clickableRows
               columns={columns}
-              columnFilter
+              // columnFilter
               columnSorter
-              footer
+              // footer
               items={directorsList}
               loading={props.directors.isFetching}
               itemsPerPageSelect
@@ -328,10 +321,10 @@ const DirectorsShareholders = (props) => {
                     <td>
                       {props?.allowToEdit ? (
                         <div className="d-flex align-items-center">
-                          <FiEdit
-                            className="me-1"
+                          <CiEdit
+                            className="me-1 text-info"
                             variant="outline"
-                            color="blue"
+                            color="info"
                             shape="square"
                             size={20}
                             data-type="edit"
@@ -340,11 +333,11 @@ const DirectorsShareholders = (props) => {
                             }}
                           />
                           |
-                          <MdDeleteOutline
+                          <MdOutlineDelete
                             color="red"
                             variant="outline"
                             shape="square"
-                            size={25}
+                            size={20}
                             data-type="delete"
                             onClick={(e) => {
                               handleClick(e, item)
@@ -358,7 +351,7 @@ const DirectorsShareholders = (props) => {
                   )
                 },
               }}
-              selectable
+              // selectable
               sorterValue={{ column: 'status', state: 'asc' }}
               tableFilter
               tableProps={{
@@ -373,7 +366,7 @@ const DirectorsShareholders = (props) => {
                 className: 'align-middle',
               }}
             />
-          </fieldset>
+          </CCard>
         </CCol>
       </CRow>
       {/* Dynamic Modal Component */}

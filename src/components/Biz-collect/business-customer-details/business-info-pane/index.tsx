@@ -20,6 +20,7 @@ import {
   CFormText,
   CPlaceholder,
   CCardTitle,
+  CCard,
 } from '@coreui/react-pro'
 import classNames from 'classnames'
 import { useEffect, useState } from 'react'
@@ -167,21 +168,22 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
       {props.businessInfoData.isLoading || props.businessInfoData.isError ? (
         <Placeholder />
       ) : (
-        <CForm noValidate>
+        <CForm noValidate className="">
           <CRow className="mb-4 px-4">
             <CCol xs={12} sm={6}>
-              <fieldset className="p-3 border border-2 dark:border-white">
-                <legend className="fs-6 float-none w-auto px-2 text-primary">Email</legend>
+              <CCard className="p-3 border shadow-none">
+                <strong className=" float-none w-auto px-2  m-0">Email</strong>
+                <hr className="my-3" />
                 <CFormLabel
                   htmlFor="registeredEmail"
                   className={classNames({
                     'text-error': !!formState.errors?.registeredEmail,
                   })}
                 >
-                  <strong>Registered Email</strong>
+                  <strong className="text-secondary">Registered Email</strong>
                 </CFormLabel>
                 {props.type === '' ? (
-                  <p className="m-0 pb-1">{props?.businessInfoData?.data?.email}</p>
+                  <strong className="m-0 pb-1">{props?.businessInfoData?.data?.email}</strong>
                 ) : (
                   <CFormInput
                     className={clsx({
@@ -209,12 +211,12 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                 >
                   Email is required.
                 </CFormText>
-              </fieldset>
+              </CCard>
               <br />
-              <fieldset className="p-3 border border-2">
-                <legend className="fs-6 float-none w-auto px-2 text-primary">
-                  Business Details
-                </legend>
+              <CCard className="p-3 border shadow-none">
+                <strong className="= float-none w-auto  m-0 ">Business Details</strong>
+                <hr className="my-3" />
+
                 <CCol xs={12}>
                   <CFormLabel
                     htmlFor="companyName"
@@ -222,10 +224,10 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                       'text-error': !!formState.errors?.businessName,
                     })}
                   >
-                    <strong>Business Name</strong>
+                    <strong className="text-secondary">Business Name</strong>
                   </CFormLabel>
                   {props.type === '' ? (
-                    <p className="m-0 pb-1">{props?.businessInfoData?.data?.companyName}</p>
+                    <p className="m-0 pb-1 fw-bold">{props?.businessInfoData?.data?.companyName}</p>
                   ) : (
                     <CFormInput
                       type="text"
@@ -262,10 +264,10 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                       'text-error': !!formState.errors?.tradingName,
                     })}
                   >
-                    <strong>Trading Name</strong>
+                    <strong className="text-secondary">Trading Name</strong>
                   </CFormLabel>
                   {props.type === '' ? (
-                    <p className="m-0 pb-1">{props?.businessInfoData?.data?.tradingName}</p>
+                    <p className="m-0 pb-1 fw-bold">{props?.businessInfoData?.data?.tradingName}</p>
                   ) : (
                     <CFormInput
                       className={clsx({
@@ -302,11 +304,11 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                       'text-error': !!formState.errors?.registrationType,
                     })}
                   >
-                    <strong>Type Of Company</strong>
+                    <strong className="text-secondary">Type Of Company</strong>
                   </CFormLabel>
 
                   {props.type === '' ? (
-                    <p className="m-0 pb-1">
+                    <p className="m-0 pb-1 fw-bold">
                       {getCompanyRegistrationTypeText(
                         props?.businessInfoData?.data?.companyRegistrationType,
                       )}
@@ -351,9 +353,9 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                         'text-error': !!formState.errors?.industryId,
                       })}
                     >
-                      <strong>Industry</strong>
+                      <strong className="text-secondary">Industry</strong>
                     </CFormLabel>
-                    <p className="m-0 pb-1">
+                    <p className="m-0 pb-1 fw-bold">
                       {' '}
                       {getNameById(props?.businessInfoData?.data?.industryId, props?.industries)
                         ? getNameById(props?.businessInfoData?.data?.industryId, props?.industries)
@@ -370,7 +372,7 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                         'text-error': !!formState.errors?.industryId,
                       })}
                     >
-                      <strong>Industry</strong>
+                      <strong className="text-secondary">Industry</strong>
                     </CFormLabel>
                     <CFormSelect
                       options={industriesListOptions}
@@ -407,10 +409,10 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                       'text-error': !!formState.errors?.registrationNumber,
                     })}
                   >
-                    <strong>Company Registration Number</strong>
+                    <strong className="text-secondary">Company Registration Number</strong>
                   </CFormLabel>
                   {props.type === '' ? (
-                    <p className="m-0 pb-1">
+                    <p className="m-0 pb-1 fw-bold">
                       {props?.businessInfoData?.data?.companyRegistrationNumber}
                     </p>
                   ) : (
@@ -450,10 +452,10 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                       'text-error': !!formState.errors?.dateOfIncorporation,
                     })}
                   >
-                    <strong>Date Of Incorporation</strong>
+                    <strong className="text-secondary">Date Of Incorporation</strong>
                   </CFormLabel>
                   {props.type === '' ? (
-                    <p className="m-0 pb-1">
+                    <p className="m-0 pb-1 fw-bold">
                       {props?.businessInfoData?.data?.dateOfIncorporation === 'N/A'
                         ? props?.businessInfoData?.data?.dateOfIncorporation
                         : props?.businessInfoData?.data?.dateOfIncorporation === undefined
@@ -499,12 +501,13 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                     Date is required.
                   </CFormText>
                 </CCol>
-              </fieldset>
+              </CCard>
             </CCol>
 
             <CCol xs={12} sm={6}>
-              <fieldset className="p-3 border border-2">
-                <legend className="fs-6 float-none w-auto px-2 text-primary">Tax Details</legend>
+              <CCard className="p-3 border shadow-none">
+                <strong className=" float-none w-auto px-2 ">Tax Details</strong>
+                <hr className="my-3" />
                 <CCol xs={12}>
                   <CFormLabel
                     htmlFor="taxIdentificationNumber"
@@ -512,10 +515,10 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                       'text-error': !!formState.errors?.taxIdentificationNumber,
                     })}
                   >
-                    <strong>Tax Identification Number (TIN)</strong>
+                    <strong className="text-secondary">Tax Identification Number (TIN)</strong>
                   </CFormLabel>
                   {props.type === '' ? (
-                    <p className="m-0 pb-1">
+                    <p className="m-0 pb-1 fw-bold">
                       {props?.businessInfoData?.data?.taxIdentificationNumber}
                     </p>
                   ) : (
@@ -555,10 +558,10 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                       'text-error': !!formState.errors?.vatNumber,
                     })}
                   >
-                    <strong>VAT Registration Number</strong>
+                    <strong className="text-secondary">VAT Registration Number</strong>
                   </CFormLabel>
                   {props.type === '' ? (
-                    <p className="m-0 pb-1">{props?.businessInfoData?.data?.vatNumber}</p>
+                    <p className="m-0 pb-1 fw-bold">{props?.businessInfoData?.data?.vatNumber}</p>
                   ) : (
                     <CFormInput
                       type="text"
@@ -587,18 +590,17 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                     VAT is required.
                   </CFormText>
                 </CCol>
-              </fieldset>
+              </CCard>
               <br />
-              <fieldset className="p-3 border border-2">
-                <legend className="fs-6 float-none w-auto px-2 text-primary">
-                  License Details
-                </legend>
+              <CCard className="p-3 border shadow-none">
+                <strong className=" float-none w-auto px-2">License Details</strong>
+                <hr className="my-3" />
                 <CCol xs={12}>
                   <CFormLabel htmlFor="businessRegulator">
-                    <strong>Business Regulator</strong>
+                    <strong className="text-secondary">Business Regulator</strong>
                   </CFormLabel>
                   {props.type === '' ? (
-                    <p className="m-0 pb-1">
+                    <p className="m-0 pb-1 fw-bold">
                       {getNameById(props?.businessInfoData?.data?.regulatorId, props?.regulators)
                         ? getNameById(props?.businessInfoData?.data?.regulatorId, props?.regulators)
                         : props?.businessInfoData?.data?.regulatorId === undefined
@@ -643,10 +645,10 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                       'text-error': !!formState.errors?.licenseNumber,
                     })}
                   >
-                    <strong>License Number</strong>
+                    <strong className="text-secondary">License Number</strong>
                   </CFormLabel>
                   {props.type === '' ? (
-                    <p className=" m-0 ">
+                    <p className=" m-0 fw-bold">
                       {props?.businessInfoData?.data?.licenseInfo.licenseNumber}
                     </p>
                   ) : (
@@ -686,10 +688,10 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                         'text-error': !!formState.errors?.licenseIssueDate,
                       })}
                     >
-                      <strong>License Issued Date</strong>
+                      <strong className="text-secondary">License Issued Date</strong>
                     </CFormLabel>
                     {props.type === '' ? (
-                      <p className="m-0 pb-1">
+                      <p className="m-0 pb-1 fw-bold">
                         {props?.businessInfoData?.data?.licenseInfo.issuedDate === 'N/A'
                           ? props?.businessInfoData?.data?.licenseInfo.issuedDate
                           : props?.businessInfoData?.data?.licenseInfo.issuedDate === undefined
@@ -738,10 +740,10 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                         'text-error': !!formState.errors?.licenseExpiryDate,
                       })}
                     >
-                      <strong>License Expiry Date</strong>
+                      <strong className="text-secondary">License Expiry Date</strong>
                     </CFormLabel>
                     {props.type === '' ? (
-                      <p className="m-0 pb-1">
+                      <p className="m-0 pb-1 fw-bold">
                         {props?.businessInfoData?.data?.licenseInfo.expiryDate === 'N/A'
                           ? props?.businessInfoData?.data?.licenseInfo.expiryDate
                           : props?.businessInfoData?.data?.licenseInfo.expiryDate === undefined
@@ -785,29 +787,44 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                     </CFormText>
                   </CCol>
                 </CRow>
-              </fieldset>
+              </CCard>
             </CCol>
           </CRow>
-          {props.type === 'edit' && (
-            <CFooter className="  w-100 float-right justify-content-end p-4">
-              {props.type === 'edit' && (
-                <CButton
-                  color="info"
-                  type="button"
-                  shape="rounded-pill"
-                  className="text-white"
-                  onClick={handleSubmit(onSubmit)}
-                  disabled={formState.isSubmitting}
-                >
-                  {formState.isSubmitting ? (
-                    <CSpinner component="span" size="sm" aria-hidden="true" className="ms-2" />
-                  ) : (
-                    'save changes'
-                  )}
-                </CButton>
-              )}
-            </CFooter>
-          )}
+          <div
+            className="position-sticky bg-white dark:bg-dark w-100 float-right d-flex justify-content-end p-4"
+            style={{
+              left: '0',
+              bottom: '0',
+            }}
+          >
+            {props.type === 'edit' && (
+              <div className="">
+                {props.type === 'edit' && (
+                  <button
+                    type="button"
+                    className="eganow-secondary-btn px-4"
+                    onClick={handleSubmit(onSubmit)}
+                    disabled={formState.isSubmitting}
+                  >
+                    {formState.isSubmitting ? (
+                      <div className="d-flex gap-2 align-items-center">
+                        <CSpinner
+                          component="span"
+                          size="sm"
+                          role="status"
+                          aria-hidden="true"
+                          className="ms-2"
+                        />
+                        Saving...
+                      </div>
+                    ) : (
+                      'save changes'
+                    )}
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
         </CForm>
       )}
     </div>

@@ -77,12 +77,12 @@ const BizCollect: NextPageWithLayout = (props) => {
       <div className="wrapper d-flex flex-column min-vh-100 bg-light dark:bg-transparent">
         <AppHeader {...props.cookies} />
         <div className="body flex-grow-1 py-4 px-4">
-          <div className="d-flex justify-content-between flex-wrap  mb-4">
+          <div className="d-flex justify-content-between align-items-center    mb-4">
             <div className="flex-grow-1">
-              <h1 className="fs-3 fw-bold text-danger-emphasis" style={{ color: '#CC0229' }}>
+              <h1 className="fs-3 fw-bold text-danger-emphasis " style={{ color: '#CC0229' }}>
                 Biz Collect
               </h1>
-              <span className="text-secondary">ACCOUNT NAME::</span> <small>Account One</small>
+              <span className="text-secondary ">ACCOUNT NAME::</span> <small>Account One</small>
             </div>
 
             {/* <CFormSelect className="mb-3" style={{ maxWidth: '200px' }}>
@@ -664,8 +664,75 @@ const BizCollect: NextPageWithLayout = (props) => {
                   </CCardBody>
                 </CCard>
               </CCol>
-
               <CCol sm={6}>
+                <CCard className="mb-4 overflow-auto shadow-none">
+                  <div className="pt-3 px-3">
+                    <div className="card-title fs-5 fw-semibold ndc-green-text my-0">
+                      Your Payment Trends
+                    </div>
+                    <small className="card-subtitle text-disabled pt-0">
+                      Multiline chart showing collection and payout transaction trends
+                    </small>
+                  </div>
+                  <CCardBody className="text-center">
+                    <CChart
+                      type="line"
+                      data={{
+                        labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+                        datasets: [
+                          {
+                            label: 'Collection Trend',
+                            backgroundColor: 'rgba(100, 149, 237, 0.2)',
+                            borderColor: 'rgba(100, 149, 237, 1)',
+                            pointBackgroundColor: 'rgba(100, 149, 237, 1)',
+                            pointBorderColor: '#fff',
+                            data: [40, 20, 39, 40, 39, 80],
+                          },
+                          {
+                            label: 'Payout Trend',
+                            backgroundColor: 'rgba(220, 20, 60, 0.2)',
+                            borderColor: 'rgba(220, 20, 60, 1)',
+                            pointBackgroundColor: 'rgba(220, 20, 60, 1)',
+                            pointBorderColor: '#fff',
+                            data: [20, 12, 28, 29, 25, 70],
+                          },
+                        ],
+                      }}
+                      options={{
+                        plugins: {
+                          legend: {
+                            labels: {
+                              color: 'rgba(151, 187, 205, 1)',
+                            },
+                          },
+                        },
+                        scales: {
+                          x: {
+                            grid: {
+                              color: 'rgba(220, 220, 220, .8)',
+                            },
+                            ticks: {
+                              color: 'rgba(151, 187, 205, 1)',
+                            },
+                          },
+                          y: {
+                            grid: {
+                              color: 'rgba(220, 220, 220, .8)',
+                            },
+                            ticks: {
+                              color: 'rgba(151, 187, 205, 1)',
+                            },
+                          },
+                        },
+                      }}
+                    />
+                  </CCardBody>
+                </CCard>
+              </CCol>
+            </CRow>
+
+            <CRow>
+              <CCol>
                 <CCard className="mb-4 shadow-none">
                   <div className="pt-4 px-3">
                     <div className="card-title fs-5 fw-semibold ndc-green-text my-0">
@@ -765,74 +832,6 @@ const BizCollect: NextPageWithLayout = (props) => {
                         </CTableRow>
                       </CTableBody>
                     </CTable>
-                  </CCardBody>
-                </CCard>
-              </CCol>
-            </CRow>
-
-            <CRow>
-              <CCol>
-                <CCard className="mb-4 overflow-auto shadow-none">
-                  <div className="pt-3 px-3">
-                    <div className="card-title fs-5 fw-semibold ndc-green-text my-0">
-                      Your Payment Trends
-                    </div>
-                    <small className="card-subtitle text-disabled pt-0">
-                      Multiline chart showing collection and payout transaction trends
-                    </small>
-                  </div>
-                  <CCardBody className="text-center">
-                    <CChart
-                      type="line"
-                      data={{
-                        labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-                        datasets: [
-                          {
-                            label: 'Collection Trend',
-                            backgroundColor: 'rgba(100, 149, 237, 0.2)',
-                            borderColor: 'rgba(100, 149, 237, 1)',
-                            pointBackgroundColor: 'rgba(100, 149, 237, 1)',
-                            pointBorderColor: '#fff',
-                            data: [40, 20, 39, 40, 39, 80],
-                          },
-                          {
-                            label: 'Payout Trend',
-                            backgroundColor: 'rgba(220, 20, 60, 0.2)',
-                            borderColor: 'rgba(220, 20, 60, 1)',
-                            pointBackgroundColor: 'rgba(220, 20, 60, 1)',
-                            pointBorderColor: '#fff',
-                            data: [20, 12, 28, 29, 25, 70],
-                          },
-                        ],
-                      }}
-                      options={{
-                        plugins: {
-                          legend: {
-                            labels: {
-                              color: 'rgba(151, 187, 205, 1)',
-                            },
-                          },
-                        },
-                        scales: {
-                          x: {
-                            grid: {
-                              color: 'rgba(220, 220, 220, .8)',
-                            },
-                            ticks: {
-                              color: 'rgba(151, 187, 205, 1)',
-                            },
-                          },
-                          y: {
-                            grid: {
-                              color: 'rgba(220, 220, 220, .8)',
-                            },
-                            ticks: {
-                              color: 'rgba(151, 187, 205, 1)',
-                            },
-                          },
-                        },
-                      }}
-                    />
                   </CCardBody>
                 </CCard>
               </CCol>

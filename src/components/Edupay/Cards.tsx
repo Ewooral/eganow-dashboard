@@ -9,7 +9,7 @@ interface CardsProps {
 
 const Cards = (props: CardsProps) => {
   return (
-    <div className="bg-white mb-3 pb-3 d-flex justify-content-between align-items-center p-3 rounded">
+    <div className="bg-white dark:bg-dark mb-3 pb-3 d-flex justify-content-between align-items-center p-3 rounded">
       <div className="">
         <h4 className="m-0">
           {props.prefix}

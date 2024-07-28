@@ -15,7 +15,7 @@ import Snackbar from '@/components/Snackbar'
 /* import { validationSchema } from './validationSchema'
 import { defaultFormValues } from './defaultFormValues'
  */
-import { CCol, CRow, CSmartTable, CBadge, CButton } from '@coreui/react-pro'
+import { CCol, CRow, CSmartTable, CBadge, CButton, CCard } from '@coreui/react-pro'
 import { CONTACT_PERSON_POSITION } from '@/constants'
 import { useSnackbar } from '@/store'
 import { SnackbarDataType } from '@/types/UI'
@@ -25,7 +25,8 @@ import { flipObject_util, formatEnum_util } from '@/util'
 import DeleteModal from '@/components/DeleteModal'
 import Confirm from '@/components/Confirm'
 import { FiEdit } from 'react-icons/fi'
-import { MdDeleteOutline } from 'react-icons/md'
+import { MdDeleteOutline, MdOutlineAdd, MdOutlineDelete } from 'react-icons/md'
+import { CiEdit } from 'react-icons/ci'
 /*
  *
  * Contact Person Component
@@ -206,30 +207,29 @@ const ContactPerson = (props) => {
     <>
       <CRow className="mb-4 px-4">
         <CCol sm={12}>
-          <fieldset className="p-3 border border-2">
-            <legend className="fs-6 float-none w-auto px-2 text-primary">
-              List of Contact Persons
-            </legend>
-
+          <div className="d-flex justify-content-end align-items-center mb-5">
             {props?.allowToEdit && (
               <CButton
-                color="info"
-                shape="rounded-pill"
-                className="float-end text-white"
+                className="eganow-primary-btn px-4 d-flex align-items-center gap-1"
                 onMouseUp={handleModal}
               >
-                Add new
+                <MdOutlineAdd size={20} className="" />{' '}
+                <span className="m-0 p-0 ">Add contact person</span>
               </CButton>
             )}
+          </div>
+          <CCard className="p-3 border shadow-none">
+            <strong className="fs-4">List of Contact Persons</strong>
+
             <CSmartTable
               activePage={1}
               cleaner
               clickableRows
               columns={columns}
               loading={props.data.isFetching}
-              columnFilter
+              // columnFilter
               columnSorter
-              footer
+              // footer
               items={contactPersons}
               itemsPerPageSelect
               itemsPerPage={5}
@@ -247,10 +247,10 @@ const ContactPerson = (props) => {
                     <td className="">
                       {props?.allowToEdit ? (
                         <div className="d-flex align-items-center">
-                          <FiEdit
-                            className="me-1"
+                          <CiEdit
+                            className="me-1 text-info"
                             variant="outline"
-                            color="blue"
+                            color="info"
                             shape="square"
                             size={20}
                             data-type="edit"
@@ -259,11 +259,11 @@ const ContactPerson = (props) => {
                             }}
                           />
                           |
-                          <MdDeleteOutline
+                          <MdOutlineDelete
                             color="red"
                             variant="outline"
                             shape="square"
-                            size={25}
+                            size={20}
                             data-type="delete"
                             onClick={(e) => {
                               handleClick(e, item)
@@ -277,7 +277,7 @@ const ContactPerson = (props) => {
                   )
                 },
               }}
-              selectable
+              // selectable
               sorterValue={{ column: 'status', state: 'asc' }}
               tableFilter
               tableProps={{
@@ -292,7 +292,7 @@ const ContactPerson = (props) => {
                 className: 'align-middle',
               }}
             />
-          </fieldset>
+          </CCard>
         </CCol>
       </CRow>
       {/* Dynamic Modal Component */}

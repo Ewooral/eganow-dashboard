@@ -28,11 +28,13 @@ import {
   CSpinner,
   CProgress,
   CProgressBar,
+  CCard,
 } from '@coreui/react-pro'
 import { useSnackbar } from '@/store'
 import DeleteModal from '@/components/DeleteModal'
 import Confirm from '@/components/Confirm'
 import { get } from 'http'
+import { MdOutlineCloudUpload } from 'react-icons/md'
 
 export const FileIconColumn = (ext) => {
   return (
@@ -107,7 +109,7 @@ const Attachments = (props) => {
       //checks to see if correct file type3 is being uploaded
       const fileName = selectedFile.name
       const fileExtension = fileName.split('.').pop()
-      if (!['png', 'jpg', 'jpeg', 'pdf'].includes(fileExtension.toLowerCase())) {      
+      if (!['png', 'jpg', 'jpeg', 'pdf'].includes(fileExtension.toLowerCase())) {
         showSnackbar({
           type: 'danger',
           title: 'User Management',
@@ -169,12 +171,18 @@ const Attachments = (props) => {
     if (type === 'delete') {
       //Open the AddEditUser component
       const message = `Are you sure want to remove ${items.name} ?`
-      setDynamicComponent(<Confirm onClick={handleDelete} data={items.docId} modalClose={modalClose} message={message}/>)
-
+      setDynamicComponent(
+        <Confirm
+          onClick={handleDelete}
+          data={items.docId}
+          modalClose={modalClose}
+          message={message}
+        />,
+      )
     }
   }
 
-  async function handleDelete(event,items) {
+  async function handleDelete(event, items) {
     try {
       const response = await deleteBusinessDocument(items)
       //Show response if error occurs and return error.
@@ -208,7 +216,7 @@ const Attachments = (props) => {
 
   function getExtension(items) {
     if (typeof items.name === 'string' && items.name.includes('.')) {
-     return items.name.split('.').pop();
+      return items.name.split('.').pop()
     } else {
       // If there's an error, do nothing
     }
@@ -218,17 +226,13 @@ const Attachments = (props) => {
     <>
       <CRow className="mb-4 px-4">
         <CCol sm={12}>
-          <fieldset className="p-3 border border-2">
-            <legend className="fs-6 float-none w-auto px-2 text-primary">
-              List of Documents Uploaded
-            </legend>
-
+          <CCard className="p-3 border shadow-none">
             {props?.allowToEdit && (
-              <div className="text-center">
+              <div className="d-flex justify-content-end">
                 {isUploading ? (
                   <div className="d-flex justify-content-center">
                     <CProgress
-                      className="w-25"
+                      className=""
                       height={28}
                       color="info"
                       value={100}
@@ -239,25 +243,28 @@ const Attachments = (props) => {
                     </CProgress>
                   </div>
                 ) : (
-                  <CButton
-                    color="info"
-                    className="fs-5 rounded-5 shadow text-white"
-                    onMouseUp={handleFileUpload}
-                    style={{ outline: '2px dashed #fff' }}
-                  >
-                    <GrCloudUpload className="fs-3  text-white" /> Upload Files
-                  </CButton>
+                  <div>
+                    <CButton
+                      className="eganow-primary-btn px-4 d-flex align-items-center gap-2"
+                      onMouseUp={handleFileUpload}
+                    >
+                      <MdOutlineCloudUpload size={20} />
+                      Upload Files
+                    </CButton>
+                  </div>
                 )}
               </div>
             )}
 
             <div>
+              <strong className="fs-4">List of Documents Uploaded</strong>
+
               <CSmartTable
                 activePage={1}
                 clickableRows
                 columns={columns}
                 columnSorter
-                footer
+                // footer
                 loading={props.data.isFetching}
                 items={props?.data?.data?.documentsList}
                 itemsPerPageSelect
@@ -299,7 +306,7 @@ const Attachments = (props) => {
                 }}
               />
             </div>
-          </fieldset>
+          </CCard>
         </CCol>
       </CRow>
       {/* Dynamic Modal Component */}

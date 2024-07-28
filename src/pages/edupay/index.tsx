@@ -29,7 +29,7 @@ import Cards from '@/components/Edupay/Cards'
 import EdupayLayout from '@/components/Edupay/EdupayLayout'
 
 export const getServerSideProps = async ({ req }: any) => {
-  const cookies = JSON.parse(req.cookies[EGANOW_AUTH_COOKIE])
+  const cookies = JSON?.parse(req.cookies[EGANOW_AUTH_COOKIE])
   //Response
   return {
     props: {
