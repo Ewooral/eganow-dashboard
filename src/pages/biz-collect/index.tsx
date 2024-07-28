@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from 'react'
 /* TYPES */
 import type { NextPageWithLayout } from '@/pages/_app'
-import { EmptyObject } from 'react-hook-form'
+import { EmptyObject, useForm } from 'react-hook-form'
 /*CORE UI ELEMENTS */
 import {
   CCol,
@@ -43,6 +43,8 @@ import { AppAside, AppFooter, AppHeader, DashboardLayout, GlobalLoader } from '@
 import { EGANOW_AUTH_COOKIE } from '@/constants'
 /* HOOKS */
 import useStoreReady from '@/hooks/useStoreReady'
+import CountryInput from '@/components/country/CountryInput'
+
 import { StatusColumn } from '@/components/SmartTableColumnStyle'
 import BizCollectSidebar from '@/components/Biz-collect/BizCollectSidebar'
 /* 
@@ -65,6 +67,17 @@ export const getServerSideProps = async ({ req }) => {
 
 const BizCollect: NextPageWithLayout = (props) => {
   const isStoreReady = useStoreReady()
+
+  const { control } = useForm({
+    mode: 'onChange',
+    defaultValues: {
+      country: {
+        flag: 'https://res.cloudinary.com/eganow/image/upload/v1640022623/Flags/GH0233.png',
+        code: '+233',
+        name: 'Ghana',
+      },
+    },
+  })
 
   //Server-render loading state
   if (!isStoreReady) {
@@ -91,19 +104,28 @@ const BizCollect: NextPageWithLayout = (props) => {
           <option value="3">Account Three</option>
         </CFormSelect> */}
 
-            <CDropdown variant="btn-group">
-              <CDropdownToggle
-                className="bg-white text-black dark:bg-secondary dark:text-white shadow-none"
-                size="md"
-              >
-                Account One
-              </CDropdownToggle>
-              <CDropdownMenu>
-                <CDropdownItem href="#">Account One</CDropdownItem>
-                <CDropdownItem href="#">Account Two</CDropdownItem>
-                <CDropdownItem href="#">Account Three</CDropdownItem>
-              </CDropdownMenu>
-            </CDropdown>
+            <div className="d-flex align-items-center gap-2">
+              <CountryInput
+                className=""
+                name="country"
+                handleForm={{ control }}
+                callback={() => {}}
+                shouldValidate={false}
+              />
+              <CDropdown variant="btn-group">
+                <CDropdownToggle
+                  className="bg-white text-black dark:bg-secondary dark:text-white shadow-none"
+                  size="md"
+                >
+                  Account One
+                </CDropdownToggle>
+                <CDropdownMenu>
+                  <CDropdownItem href="#">Account One</CDropdownItem>
+                  <CDropdownItem href="#">Account Two</CDropdownItem>
+                  <CDropdownItem href="#">Account Three</CDropdownItem>
+                </CDropdownMenu>
+              </CDropdown>
+            </div>
           </div>
           {/* <hr className="mt-0" /> */}
           <CRow>

@@ -177,6 +177,18 @@ const bizcollectNav = [
       },
     ],
   },
+  {
+    component: CNavGroup,
+    title: 'Funding',
+    icon: <CIcon icon={cilSpreadsheet} customClassName="nav-icon bg-transparent dark:text-white" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Add funding',
+        href: '/components/icons/free',
+      },
+    ],
+  },
 ]
 
 export default bizcollectNav

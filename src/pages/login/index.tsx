@@ -294,7 +294,7 @@ const Login = (props) => {
                     </CInputGroup>
 
                     <CInputGroup className="mb-1 ">
-                      <CInputGroupText style={{ width: '50px' }}>
+                      <CInputGroupText className="" style={{ width: '50px' }}>
                         <CIcon icon={cilLockLocked} size="lg" />
                       </CInputGroupText>
                       <CFormInput
