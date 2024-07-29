@@ -2,24 +2,25 @@ import { CButton, CCol, CRow, CSmartTable } from '@coreui/react-pro'
 import React, { FC, useState } from 'react'
 import { FiEdit } from 'react-icons/fi'
 import { IoAddOutline } from 'react-icons/io5'
-import { MdDeleteOutline } from 'react-icons/md'
+import { MdDeleteOutline, MdOutlineDelete } from 'react-icons/md'
 // import AddSchool from './AddEditSchool'
 import Confirm from '@/components/Confirm'
 import AddEditClassType from './AddEditClassType'
+import { CiEdit } from 'react-icons/ci'
 // import AddEditSchool from './AddEditSchool'
 
 const columns = [
-  { key: 'name', label: 'Name', _style: { width: '30%' }  },
-  { key: 'type', label: 'Type', _style: { width: '30%' }  },
-  { key: 'school', label: 'School', _style: { width: '30%' }  },
+  { key: 'name', label: 'Name', _style: { width: '30%' } },
+  { key: 'type', label: 'Type', _style: { width: '30%' } },
+  { key: 'school', label: 'School', _style: { width: '30%' } },
   { key: 'action', label: 'Action', _style: { width: '10%' } },
-];
+]
 
 const data = [
   { id: 1, name: 'YEAR THREE', type: 'TERTIARY', school: 'PENTECOST UNIVERSITY' },
   { id: 2, name: 'FORM TWO', type: 'SENIOR HIGH', school: 'SAINT PETERS MISSION SCHOOL' },
   // Add more data as needed
-];
+]
 function ClassTypePane(props: any) {
   const [dynamicComponent, setDynamicComponent] = useState<any>()
 
@@ -85,7 +86,10 @@ function ClassTypePane(props: any) {
             <h5 className="p-0 m-0">School management</h5>
             <p className="p-0 m-0">Add, edit, and view your class type</p>
           </div>
-          <CButton onMouseUp={handleModal} className="d-flex align-items-center gap-2">
+          <CButton
+            onMouseUp={handleModal}
+            className="d-flex align-items-center gap-2 eganow-primary-btn"
+          >
             <IoAddOutline size={24} />
             Add Class Type
           </CButton>
@@ -110,21 +114,20 @@ function ClassTypePane(props: any) {
                   return (
                     <td className="">
                       <div className="d-flex align-items-center">
-                        <FiEdit
-                          className="me-1"
-                          color="blue"
+                        <CiEdit
+                          className="me-1 text-info"
                           size={20}
                           data-type="edit"
-                          onClick={(e: any) => {
+                          onClick={(e) => {
                             handleClick(e, item)
                           }}
                         />
                         |
-                        <MdDeleteOutline
+                        <MdOutlineDelete
                           color="red"
-                          size={25}
+                          size={20}
                           data-type="delete"
-                          onClick={(e: any) => {
+                          onClick={(e) => {
                             handleClick(e, item)
                           }}
                         />

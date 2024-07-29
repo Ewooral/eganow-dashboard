@@ -226,7 +226,7 @@ const Attachments = (props) => {
     <>
       <CRow className="mb-4 px-4">
         <CCol sm={12}>
-          <CCard className="p-3 border shadow-none">
+          <div className="mb-5">
             {props?.allowToEdit && (
               <div className="d-flex justify-content-end">
                 {isUploading ? (
@@ -255,9 +255,10 @@ const Attachments = (props) => {
                 )}
               </div>
             )}
-
+          </div>
+          <CCard className="p-3 border shadow-none">
             <div>
-              <strong className="fs-4">List of Documents Uploaded</strong>
+              <strong className="fs-5 mb-3">List of Documents Uploaded</strong>
 
               <CSmartTable
                 activePage={1}
@@ -276,8 +277,8 @@ const Attachments = (props) => {
                     return (
                       <td className="py-2 ">
                         {props?.allowToEdit && (
-                          <CButton
-                            color="danger"
+                          <button
+                            className="eganow-outline-btn"
                             variant="outline"
                             shape="square"
                             size="sm"
@@ -287,7 +288,7 @@ const Attachments = (props) => {
                             }}
                           >
                             Remove
-                          </CButton>
+                          </button>
                         )}
                       </td>
                     )

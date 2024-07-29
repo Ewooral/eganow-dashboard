@@ -2,10 +2,11 @@ import { CButton, CCol, CRow, CSmartTable } from '@coreui/react-pro'
 import React, { FC, useState } from 'react'
 import { FiEdit } from 'react-icons/fi'
 import { IoAddOutline } from 'react-icons/io5'
-import { MdDeleteOutline } from 'react-icons/md'
+import { MdDeleteOutline, MdOutlineDelete } from 'react-icons/md'
 // import AddSchool from './AddEditSchool'
 import Confirm from '@/components/Confirm'
 import AddEditSubType from './AddEditSubType'
+import { CiEdit } from 'react-icons/ci'
 // import AddEditSchool from './AddEditSchool'
 
 const columns = [
@@ -24,11 +25,11 @@ const columns = [
   //   label: 'Type',
   //   _style: { width: '15%', minWidth: '50px' },
   // },
-//   {
-//     key: 'billingCycle',
-//     label: 'Billing cycle',
-//     _style: { width: '15%', minWidth: '100px' },
-//   },
+  //   {
+  //     key: 'billingCycle',
+  //     label: 'Billing cycle',
+  //     _style: { width: '15%', minWidth: '100px' },
+  //   },
 
   {
     key: 'action',
@@ -42,7 +43,7 @@ const columns = [
 const data = [
   {
     name: 'Semester one',
-    classType: 'Tertiary',  
+    classType: 'Tertiary',
   },
 ]
 function SubTypePane(props: any) {
@@ -110,7 +111,10 @@ function SubTypePane(props: any) {
             <h5 className="p-0 m-0">School management</h5>
             <p className="p-0 m-0">Add, edit, and view your sub type</p>
           </div>
-          <CButton onMouseUp={handleModal} className="d-flex align-items-center gap-2">
+          <CButton
+            onMouseUp={handleModal}
+            className="d-flex align-items-center gap-2 eganow-primary-btn"
+          >
             <IoAddOutline size={24} />
             Add Sub type
           </CButton>
@@ -135,21 +139,21 @@ function SubTypePane(props: any) {
                   return (
                     <td className="">
                       <div className="d-flex align-items-center">
-                        <FiEdit
-                          className="me-1"
-                          color="blue"
+                        <CiEdit
+                          className="me-1 text-info"
+                          color="info"
                           size={20}
                           data-type="edit"
-                          onClick={(e: any) => {
+                          onClick={(e) => {
                             handleClick(e, item)
                           }}
                         />
                         |
-                        <MdDeleteOutline
+                        <MdOutlineDelete
                           color="red"
-                          size={25}
+                          size={20}
                           data-type="delete"
-                          onClick={(e: any) => {
+                          onClick={(e) => {
                             handleClick(e, item)
                           }}
                         />

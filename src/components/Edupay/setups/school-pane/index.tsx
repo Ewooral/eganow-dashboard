@@ -2,10 +2,11 @@ import { CButton, CCol, CRow, CSmartTable } from '@coreui/react-pro'
 import React, { FC, useState } from 'react'
 import { FiEdit } from 'react-icons/fi'
 import { IoAddOutline } from 'react-icons/io5'
-import { MdDeleteOutline } from 'react-icons/md'
+import { MdDeleteOutline, MdOutlineDelete } from 'react-icons/md'
 import AddSchool from './AddEditSchool'
 import Confirm from '@/components/Confirm'
 import AddEditSchool from './AddEditSchool'
+import { CiEdit } from 'react-icons/ci'
 
 const columns = [
   {
@@ -118,9 +119,9 @@ function SchoolPane(props: any) {
             <p className="p-0 m-0">Add, edit, and view your schools</p>
           </div>
           <CButton
-            color="info text-white"
+            className="eganow-primary-btn"
             onMouseUp={handleModal}
-            className="d-flex align-items-center gap-2"
+            // className="d-flex align-items-center gap-2"
           >
             <IoAddOutline size={24} />
             Add School
@@ -146,21 +147,25 @@ function SchoolPane(props: any) {
                   return (
                     <td className="">
                       <div className="d-flex align-items-center">
-                        <FiEdit
+                        <CiEdit
                           className="me-1 text-info"
-                          color=""
+                          variant="outline"
+                          color="info"
+                          shape="square"
                           size={20}
                           data-type="edit"
-                          onClick={(e: any) => {
+                          onClick={(e) => {
                             handleClick(e, item)
                           }}
                         />
                         |
-                        <MdDeleteOutline
-                          className="text-danger"
-                          size={25}
+                        <MdOutlineDelete
+                          color="red"
+                          variant="outline"
+                          shape="square"
+                          size={20}
                           data-type="delete"
-                          onClick={(e: any) => {
+                          onClick={(e) => {
                             handleClick(e, item)
                           }}
                         />

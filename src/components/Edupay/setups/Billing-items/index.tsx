@@ -2,10 +2,11 @@ import { CButton, CCol, CRow, CSmartTable } from '@coreui/react-pro'
 import React, { FC, useState } from 'react'
 import { FiEdit } from 'react-icons/fi'
 import { IoAddOutline } from 'react-icons/io5'
-import { MdDeleteOutline } from 'react-icons/md'
+import { MdDeleteOutline, MdOutlineDelete } from 'react-icons/md'
 import AddSchool from './AddEditBillingItem'
 import Confirm from '@/components/Confirm'
 import AddEditSchool from './AddEditBillingItem'
+import { CiEdit } from 'react-icons/ci'
 
 const columns = [
   {
@@ -120,7 +121,10 @@ function BillingItems(props: any) {
             <h5 className="p-0 m-0">Billing Items</h5>
             <p className="p-0 m-0">Add, edit, and view your schools billing items</p>
           </div>
-          <CButton onMouseUp={handleModal} className="d-flex align-items-center  btn-info text-white gap-2">
+          <CButton
+            onMouseUp={handleModal}
+            className="d-flex align-items-center eganow-primary-btn  o text-white gap-2"
+          >
             <IoAddOutline size={24} />
             Add Billing Item
           </CButton>
@@ -145,21 +149,21 @@ function BillingItems(props: any) {
                   return (
                     <td className="">
                       <div className="d-flex align-items-center">
-                        <FiEdit
+                        <CiEdit
                           className="me-1 text-info"
-                          color=""
+                          color="info"
                           size={20}
                           data-type="edit"
-                          onClick={(e: any) => {
+                          onClick={(e) => {
                             handleClick(e, item)
                           }}
                         />
                         |
-                        <MdDeleteOutline
+                        <MdOutlineDelete
                           color="red"
-                          size={25}
+                          size={20}
                           data-type="delete"
-                          onClick={(e: any) => {
+                          onClick={(e) => {
                             handleClick(e, item)
                           }}
                         />

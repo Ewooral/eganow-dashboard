@@ -348,9 +348,9 @@ const Login = (props) => {
 
                     <CRow>
                       <CCol xs={12} className="mt-2 w-100">
-                        <CButton
+                        <button
                           type="submit"
-                          className="px-4 w-100"
+                          className="px-4 w-100 eganow-primary-btn"
                           active
                           disabled={isSubmitting}
                           style={vars}
@@ -360,7 +360,7 @@ const Login = (props) => {
                           ) : (
                             <FormattedMessage id="login" defaultMessage="Login" />
                           )}
-                        </CButton>
+                        </button>
                       </CCol>
                     </CRow>
 

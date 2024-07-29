@@ -90,13 +90,13 @@ const AppEntryHeader = (props: UserInfoType): JSX.Element => {
             {/* header Search bar */}
             <CForm style={{ position: 'relative' }} className="container-fluid">
               <CInputGroup className="w-100">
-                <CInputGroupText style={{ borderRadius: '20px 0px 0px 20px' }}>
+                <CInputGroupText style={{ borderRadius: '12px 0px 0px 12px' }}>
                   <CIcon icon={cilSearch} size="lg" color="primary" />
                 </CInputGroupText>
                 <CFormInput
                   aria-label="Text input"
                   placeholder="Enter to search for features."
-                  style={{ borderRadius: '0px 20px 20px 0px' }}
+                  style={{ borderRadius: '0px 12px 12px 0px' }}
                   value={searchValue}
                   onChange={handleSearchBoxChange}
                   onFocus={() => {

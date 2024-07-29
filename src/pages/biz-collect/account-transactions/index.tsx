@@ -428,101 +428,84 @@ const BizCollect: NextPageWithLayout = (props) => {
 
       <div>
         {/* Conditional rendering based on the showFullForm state */}
-        {!showFullForm ? (
-          <CInputGroup
-            className="rounded transition-all"
-            style={{ backgroundColor: '#eee', cursor: 'pointer' }}
-            onClick={handleDefaultInputClick}
-          >
-            <CInputGroupText>
-              <MdOutlineSearch className="fs-4" />
-            </CInputGroupText>
-            <CFormInput
-              size="sm"
-              type="text"
-              placeholder="Search..."
-              aria-describedby="defaultSearchInput"
-            />
-          </CInputGroup>
-        ) : (
-          <CForm className="rounded transition-all" style={{ backgroundColor: '#eee' }}>
-            <CCard className="p-2 rounded shadow-none">
-              <CRow className="gap-y-2">
-                <CCol xs={12} md={4} xl={3}>
-                  <CInputGroup className="flex-nowrap">
-                    <CInputGroupText className="">
-                      <MdOutlineSearch className="fs-4" />
-                    </CInputGroupText>
-                    <CFormInput
-                      size="sm"
-                      type="text"
-                      id="exampleFormControlInput1"
-                      placeholder="Enter account No."
-                      aria-describedby="exampleFormControlInputHelpInline"
-                    />
-                  </CInputGroup>
-                </CCol>
 
-                <CCol xl={2}>
-                  <CFormSelect
-                    id="status"
-                    name="status"
-                    value={searchFilter.status}
-                    onChange={handleStatusChange}
-                    options={[
-                      { label: 'COLLECTION', value: 'COLLECTION' },
-                      { label: 'PAYOUT', value: 'PAYOUT' },
-                    ]}
+        <CForm className="rounded transition-all " style={{ backgroundColor: '#eee' }}>
+          <CCard className="p-2 rounded shadow-none">
+            <CRow className="gap-y-2">
+              <CCol xs={12} md={4} xl={3}>
+                <CInputGroup className="flex-nowrap">
+                  <CInputGroupText className="">
+                    <MdOutlineSearch className="fs-4" />
+                  </CInputGroupText>
+                  <CFormInput
+                    size="sm"
+                    type="text"
+                    id="exampleFormControlInput1"
+                    placeholder="Enter account No."
+                    aria-describedby="exampleFormControlInputHelpInline"
                   />
-                </CCol>
+                </CInputGroup>
+              </CCol>
 
-                <CCol xl={2}>
-                  <CFormSelect
-                    id="account"
-                    name="account"
-                    value={searchFilter.account}
-                    onChange={handleAccountChange}
-                    options={[
-                      { label: 'Account 1', value: 'Account 1' },
-                      { label: 'Account 2', value: 'Account 2' },
-                    ]}
-                  />
-                </CCol>
+              <CCol xl={2}>
+                <CFormSelect
+                  id="status"
+                  name="status"
+                  value={searchFilter.status}
+                  onChange={handleStatusChange}
+                  options={[
+                    { label: 'COLLECTION', value: 'COLLECTION' },
+                    { label: 'PAYOUT', value: 'PAYOUT' },
+                  ]}
+                />
+              </CCol>
 
-                <CCol xl={4}>
-                  <CDateRangePicker
-                    id="dateRange"
-                    startDate={searchFilter.startDate}
-                    endDate={searchFilter.endDate}
-                    locale="en-US"
-                    format="MM/dd/yyyy"
-                    footer
-                    onStartDateChange={(date) => {
-                      setSearchFilter((prev) => {
-                        return { ...prev, startDate: date }
-                      })
-                    }}
-                    onEndDateChange={(date) => {
-                      setSearchFilter((prev) => {
-                        return { ...prev, endDate: date }
-                      })
-                    }}
-                  />
-                </CCol>
+              <CCol xl={2}>
+                <CFormSelect
+                  id="account"
+                  name="account"
+                  value={searchFilter.account}
+                  onChange={handleAccountChange}
+                  options={[
+                    { label: 'Account 1', value: 'Account 1' },
+                    { label: 'Account 2', value: 'Account 2' },
+                  ]}
+                />
+              </CCol>
 
-                <CCol xs={12} md={4} xl={1}>
-                  <CButton
-                    className="eganow-primary-btn d-flex gap-1 px-3 align-items-center"
-                    onClick={handleSearch}
-                  >
-                    <MdOutlineSearch size={20} />
-                    Search
-                  </CButton>
-                </CCol>
-              </CRow>
-            </CCard>
-          </CForm>
-        )}
+              <CCol xl={3}>
+                <CDateRangePicker
+                  id="dateRange"
+                  startDate={searchFilter.startDate}
+                  endDate={searchFilter.endDate}
+                  locale="en-US"
+                  format="MM/dd/yyyy"
+                  footer
+                  onStartDateChange={(date) => {
+                    setSearchFilter((prev) => {
+                      return { ...prev, startDate: date }
+                    })
+                  }}
+                  onEndDateChange={(date) => {
+                    setSearchFilter((prev) => {
+                      return { ...prev, endDate: date }
+                    })
+                  }}
+                />
+              </CCol>
+
+              <CCol xs={12} md={4} xl={1}>
+                <CButton
+                  className="eganow-primary-btn d-flex gap-1 px-3 align-items-center"
+                  onClick={handleSearch}
+                >
+                  <MdOutlineSearch size={20} />
+                  Search
+                </CButton>
+              </CCol>
+            </CRow>
+          </CCard>
+        </CForm>
       </div>
 
       <CRow className="pt-4">

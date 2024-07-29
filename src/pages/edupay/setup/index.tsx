@@ -62,9 +62,9 @@ const Setup: NextPageWithLayout = (props) => {
       <div className=" mt-4 ">
         <CRow>
           <CCol className="">
-            <CCard className="pt-2   rounded shadow-none" style={{ minHeight: '79.3vh' }}>
+            <CCard className="pt   rounded shadow-none" style={{ minHeight: '79.3vh' }}>
               <div className="w-100 overflow-y-hidden overflow-x-auto">
-                <CNav variant="underline" layout="justified" className="mb-4 w-100">
+                <CNav variant="tabs" layout="justified" className="mb-4 w-100">
                   <CNavItem>
                     <CNavLink href="#" active={activeKey === 1} onClick={() => setActiveKey(1)}>
                       <strong>School</strong>

@@ -212,21 +212,21 @@ const Entry: NextPageWithLayout = (props) => {
           {allowToEdit && (
             <div className="">
               {type === '' ? (
-                <CButton
+                <button
                   onClick={toggleEdit}
                   className="eganow-outline-btn d-flex gap-2 align-items-center px-3 justify-content-between"
                 >
                   <CiEdit size={20} className="p-0 m-0" />
                   <p className="m-0 p-0 ">Edit</p>
-                </CButton>
+                </button>
               ) : (
-                <CButton
+                <button
                   onClick={toggleEdit}
                   className="eganow-outline-btn d-flex gap-2 align-items-center px-3 justify-content-between"
                 >
                   <MdOutlineCancel size={20} />
                   <p className="m-0 p-0 ">Cancel</p>
-                </CButton>
+                </button>
               )}
             </div>
           )}

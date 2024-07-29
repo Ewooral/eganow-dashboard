@@ -71,7 +71,6 @@ function AddEditClassType(props: AddEditClassTypeProps) {
       backdrop="static"
       onClose={props.modalClose}
       aria-labelledby="VerticallyCenteredExample"
-      size="lg"
     >
       <CModalHeader>
         <CModalTitle id="VerticallyCenteredExample">
@@ -81,120 +80,115 @@ function AddEditClassType(props: AddEditClassTypeProps) {
       </CModalHeader>
 
       <CModalBody>
-        <fieldset className="p-3 border">
-          <legend className="fs-6 float-none w-auto px-2 text-primary">Class Type Info</legend>
-          <CForm noValidate onSubmit={handleSubmit(onSubmit)}>
-            <CRow className="g-3">
-              {/** Name */}
-              <CCol xs={12} className="mb-4">
-                <CFormLabel
-                  htmlFor="name"
-                  className={classNames({
-                    'text-error': !!formState.errors?.name,
-                  })}
-                >
-                  <strong>Name</strong>
-                </CFormLabel>
-                <CFormInput
-                  id="name"
-                  type="text"
-                  placeholder="Enter the class/level/stage/grade name."
-                  {...register('name')}
-                  valid={formState.dirtyFields?.name && !!!formState.errors?.name ? true : false}
-                  invalid={!!formState.errors?.name && true}
-                />
-                <CFormText
-                  component="span"
-                  className={classNames({
-                    'text-error': true,
-                    'd-none': !!formState.errors?.name ? false : true,
-                  })}
-                >
-                  Name is required.
-                </CFormText>
-              </CCol>
+        <CForm noValidate onSubmit={handleSubmit(onSubmit)}>
+          <CRow className="g-3">
+            {/** Name */}
+            <CCol xs={12} className="mb-3">
+              <CFormLabel
+                htmlFor="name"
+                className={classNames({
+                  'text-error': !!formState.errors?.name,
+                })}
+              >
+                <strong>Name</strong>
+              </CFormLabel>
+              <CFormInput
+                id="name"
+                type="text"
+                placeholder="Enter the class/level/stage/grade name."
+                {...register('name')}
+                valid={formState.dirtyFields?.name && !!!formState.errors?.name ? true : false}
+                invalid={!!formState.errors?.name && true}
+              />
+              <CFormText
+                component="span"
+                className={classNames({
+                  'text-error': true,
+                  'd-none': !!formState.errors?.name ? false : true,
+                })}
+              >
+                Name is required.
+              </CFormText>
+            </CCol>
 
-              {/** Type */}
-              <CCol xs={12} className="mb-4">
-                <CFormLabel
-                  htmlFor="type"
-                  className={classNames({
-                    'text-error': !!formState.errors?.type,
-                  })}
-                >
-                  <strong>Type</strong>
-                </CFormLabel>
+            {/** Type */}
+            <CCol xs={12} className="mb-3">
+              <CFormLabel
+                htmlFor="type"
+                className={classNames({
+                  'text-error': !!formState.errors?.type,
+                })}
+              >
+                <strong>Type</strong>
+              </CFormLabel>
 
-                <CFormSelect
-                  id="type"
-                  {...register('type')}
-                  valid={formState.dirtyFields?.type && !!!formState.errors?.type ? true : false}
-                  invalid={!!formState.errors?.type && true}
-                  aria-label="Default select example"
-                  defaultValue=""
-                >
-                  {schoolTypes.map((type) => (
-                    <option key={type.value} value={type.value} disabled={type.disabled}>
-                      {type.label}
-                    </option>
-                  ))}
-                </CFormSelect>
+              <CFormSelect
+                id="type"
+                {...register('type')}
+                valid={formState.dirtyFields?.type && !!!formState.errors?.type ? true : false}
+                invalid={!!formState.errors?.type && true}
+                aria-label="Default select example"
+                defaultValue=""
+              >
+                {schoolTypes.map((type) => (
+                  <option key={type.value} value={type.value} disabled={type.disabled}>
+                    {type.label}
+                  </option>
+                ))}
+              </CFormSelect>
 
-                <CFormText
-                  component="span"
-                  className={classNames({
-                    'text-error': true,
-                    'd-none': !!formState.errors?.type ? false : true,
-                  })}
-                >
-                  Type is required.
-                </CFormText>
-              </CCol>
+              <CFormText
+                component="span"
+                className={classNames({
+                  'text-error': true,
+                  'd-none': !!formState.errors?.type ? false : true,
+                })}
+              >
+                Type is required.
+              </CFormText>
+            </CCol>
 
-              {/** School */}
-              <CCol xs={12} className="mb-4">
-                <CFormLabel
-                  htmlFor="school"
-                  className={classNames({
-                    'text-error': !!formState.errors?.school,
-                  })}
-                >
-                  <strong>School</strong>
-                </CFormLabel>
+            {/** School */}
+            <CCol xs={12} className="mb-3">
+              <CFormLabel
+                htmlFor="school"
+                className={classNames({
+                  'text-error': !!formState.errors?.school,
+                })}
+              >
+                <strong>School</strong>
+              </CFormLabel>
 
-                <CFormSelect
-                  id="school"
-                  {...register('school')}
-                  valid={formState.dirtyFields?.school && !!!formState.errors?.school ? true : false}
-                  invalid={!!formState.errors?.school && true}
-                  aria-label="Default select example"
-                  defaultValue=""
-                >
-                  {schoolNames.map((type) => (
-                    <option key={type.value} value={type.value} disabled={type.disabled}>
-                      {type.label}
-                    </option>
-                  ))}
-                </CFormSelect>
-                <CFormText
-                  component="span"
-                  className={classNames({
-                    'text-error': true,
-                    'd-none': !!formState.errors?.school ? false : true,
-                  })}
-                >
-                  School is required.
-                </CFormText>
-              </CCol>
-            </CRow>
-          </CForm>
-        </fieldset>
+              <CFormSelect
+                id="school"
+                {...register('school')}
+                valid={formState.dirtyFields?.school && !!!formState.errors?.school ? true : false}
+                invalid={!!formState.errors?.school && true}
+                aria-label="Default select example"
+                defaultValue=""
+              >
+                {schoolNames.map((type) => (
+                  <option key={type.value} value={type.value} disabled={type.disabled}>
+                    {type.label}
+                  </option>
+                ))}
+              </CFormSelect>
+              <CFormText
+                component="span"
+                className={classNames({
+                  'text-error': true,
+                  'd-none': !!formState.errors?.school ? false : true,
+                })}
+              >
+                School is required.
+              </CFormText>
+            </CCol>
+          </CRow>
+        </CForm>
       </CModalBody>
       <CModalFooter>
         <CButton
-          color="info"
-          shape="rounded-pill"
-          className="text-white"
+          className="eganow-secondary-btn px-3"
           onMouseUp={handleSubmit(onSubmit)}
           disabled={formState.isSubmitting}
         >

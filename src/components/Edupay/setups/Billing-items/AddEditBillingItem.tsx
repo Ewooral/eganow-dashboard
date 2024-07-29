@@ -33,7 +33,6 @@ interface AddEditSchoolProps {
 
 const schoolTypes = ['PRESCHOOL', 'PRIMARY', 'JUNIOR HIGH', 'SENIOR HIGH', 'TERTIARY']
 
-
 function AddEditSchool(props: AddEditSchoolProps) {
   const showSnackbar = useSnackbar((state: any) => state.showSnackbar)
 
@@ -44,20 +43,20 @@ function AddEditSchool(props: AddEditSchoolProps) {
     defaultValues: defaultFormValues,
   })
 
-  useEffect(()=>{
+  useEffect(() => {
     const data = props.data
     console.log(data)
-    if(data.type != 'new'){
-      setValue('itemname', data.Item_name);
-      setValue('description', data.description);
-      setValue('level', data.type);
+    if (data.type != 'new') {
+      setValue('itemname', data.Item_name)
+      setValue('description', data.description)
+      setValue('level', data.type)
     }
   })
 
   async function onSubmit(values: any) {
     try {
       console.log(values)
-    } catch (error) { }
+    } catch (error) {}
   }
 
   return (
@@ -77,47 +76,42 @@ function AddEditSchool(props: AddEditSchoolProps) {
       </CModalHeader>
 
       <CModalBody>
-        <fieldset className="p-3 border ">
-          <legend className="fs-6 float-none w-auto px-2 text-primary">Item info</legend>
-          <CForm noValidate>
-            <CRow className="g-3">
-              {/**school name */}
-              <CCol xs={12} sm={12} className="mb-4">
-                <CFormLabel
-                  htmlFor="itemname"
-                  className={classNames({
-                    'text-error': !!formState.errors?.itemname,
-                  })}
-                >
-                  <strong>Item name</strong>
-                </CFormLabel>
-                <CFormInput
-                  id="schoolName"
-                  type="text"
-                  placeholder="Enter your school name."
-                  {...register('itemname')}
-                  valid={
-                    formState.dirtyFields?.itemname && !!!formState.errors?.itemname
-                      ? true
-                      : false
-                  }
-                  invalid={!!formState.errors?.itemname && true}
-                />
-                <CFormText
-                  component="span"
-                  className={classNames({
-                    'text-error': true,
-                    'd-none': !!formState.errors?.itemname ? false : true,
-                  })}
-                >
-                 Item name is required.
-                </CFormText>
-              </CCol>
+        <CForm noValidate>
+          <CRow className="g-3">
+            {/**school name */}
+            <CCol xs={12} sm={12} className="mb-3">
+              <CFormLabel
+                htmlFor="itemname"
+                className={classNames({
+                  'text-error': !!formState.errors?.itemname,
+                })}
+              >
+                <strong>Item name</strong>
+              </CFormLabel>
+              <CFormInput
+                id="schoolName"
+                type="text"
+                placeholder="Enter your school name."
+                {...register('itemname')}
+                valid={
+                  formState.dirtyFields?.itemname && !!!formState.errors?.itemname ? true : false
+                }
+                invalid={!!formState.errors?.itemname && true}
+              />
+              <CFormText
+                component="span"
+                className={classNames({
+                  'text-error': true,
+                  'd-none': !!formState.errors?.itemname ? false : true,
+                })}
+              >
+                Item name is required.
+              </CFormText>
+            </CCol>
 
-
-              {/**description */}
-              <CCol xs={12} sm={12} className="mb-4">
-                <CForm>
+            {/**description */}
+            <CCol xs={12} sm={12} className="mb-3">
+              <CForm>
                 <CFormLabel
                   htmlFor="description"
                   className={classNames({
@@ -126,19 +120,19 @@ function AddEditSchool(props: AddEditSchoolProps) {
                 >
                   <strong>Description</strong>
                 </CFormLabel>
-                  <CFormTextarea
-                   id="description"
-                   placeholder="Enter your description."
-                   {...register('description')}
-                   valid={
-                     formState.dirtyFields?.description && !!!formState.errors?.description
-                       ? true
-                       : false
-                   }
-                   invalid={!!formState.errors?.description && true}
-                    rows={2}
-                  ></CFormTextarea>
-                  <CFormText
+                <CFormTextarea
+                  id="description"
+                  placeholder="Enter your description."
+                  {...register('description')}
+                  valid={
+                    formState.dirtyFields?.description && !!!formState.errors?.description
+                      ? true
+                      : false
+                  }
+                  invalid={!!formState.errors?.description && true}
+                  rows={2}
+                ></CFormTextarea>
+                <CFormText
                   component="span"
                   className={classNames({
                     'text-error': true,
@@ -146,58 +140,49 @@ function AddEditSchool(props: AddEditSchoolProps) {
                   })}
                 >
                   description is required.
-                </CFormText> 
-                </CForm>
-              </CCol>
-            </CRow>
-
-            <CRow className="g-3">
-              {/** school types */}
-              <CCol xs={12} sm={12} className="mb-4">
-                <CFormLabel
-                  htmlFor="level"
-                  className={classNames({
-                    'text-error': !!formState.errors?.level,
-                  })}
-                >
-                  <strong>Level</strong>
-                </CFormLabel>
-                <CFormSelect
-                  // {...register('level')}
-                  // value={schoolTypes[3]}
-                  
-                  valid={
-                    formState.dirtyFields?.level && !!!formState.errors?.level
-                      ? true
-                      : false
-                  }
-                  onChange={(e)=>{
-                    setValue('level', e.target.value,{shouldValidate:true})
-                  }}
-                  invalid={!!formState.errors?.level && true}
-                  options={['Select an option', ...schoolTypes]}
-                />
-                <CFormText
-                  component="span"
-                  className={classNames({
-                    'text-error': true,
-                    'd-none': !!formState.errors?.level ? false : true,
-                  })}
-                >
-                 level is required.
                 </CFormText>
+              </CForm>
+            </CCol>
+          </CRow>
 
-              </CCol>
+          <CRow className="g-3">
+            {/** school types */}
+            <CCol xs={12} sm={12} className="mb-3">
+              <CFormLabel
+                htmlFor="level"
+                className={classNames({
+                  'text-error': !!formState.errors?.level,
+                })}
+              >
+                <strong>Level</strong>
+              </CFormLabel>
+              <CFormSelect
+                // {...register('level')}
+                // value={schoolTypes[3]}
 
-            </CRow>
-          </CForm>
-        </fieldset>
+                valid={formState.dirtyFields?.level && !!!formState.errors?.level ? true : false}
+                onChange={(e) => {
+                  setValue('level', e.target.value, { shouldValidate: true })
+                }}
+                invalid={!!formState.errors?.level && true}
+                options={['Select an option', ...schoolTypes]}
+              />
+              <CFormText
+                component="span"
+                className={classNames({
+                  'text-error': true,
+                  'd-none': !!formState.errors?.level ? false : true,
+                })}
+              >
+                level is required.
+              </CFormText>
+            </CCol>
+          </CRow>
+        </CForm>
       </CModalBody>
       <CModalFooter>
         <CButton
-          color="info"
-          shape="rounded-pill"
-          className="text-white"
+          className="eganow-secondary-btn px-3"
           onMouseUp={handleSubmit(onSubmit)}
           disabled={formState.isSubmitting}
         >

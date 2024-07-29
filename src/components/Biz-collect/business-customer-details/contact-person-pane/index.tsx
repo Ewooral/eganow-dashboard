@@ -209,17 +209,17 @@ const ContactPerson = (props) => {
         <CCol sm={12}>
           <div className="d-flex justify-content-end align-items-center mb-5">
             {props?.allowToEdit && (
-              <CButton
+              <button
                 className="eganow-primary-btn px-4 d-flex align-items-center gap-1"
                 onMouseUp={handleModal}
               >
                 <MdOutlineAdd size={20} className="" />{' '}
                 <span className="m-0 p-0 ">Add contact person</span>
-              </CButton>
+              </button>
             )}
           </div>
           <CCard className="p-3 border shadow-none">
-            <strong className="fs-4">List of Contact Persons</strong>
+            <strong className="fs-5 mb-3">List of Contact Persons</strong>
 
             <CSmartTable
               activePage={1}
