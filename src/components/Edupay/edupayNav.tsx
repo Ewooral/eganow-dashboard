@@ -97,13 +97,8 @@ const edupayNav = [
     items: [
       {
         component: CNavItem,
-        name: 'Billing Cycles',
-        href: '/edupay/billing',
-      },
-      {
-        component: CNavItem,
-        name: 'Billing items',
-        href: '/edupay/billing',
+        name: 'Create a bill',
+        href: '/edupay/billing/create-a-bill',
       },
     ],
   },

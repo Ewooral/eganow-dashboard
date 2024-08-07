@@ -45,7 +45,6 @@ function AddEditSchool(props: AddEditSchoolProps) {
 
   useEffect(() => {
     const data = props.data
-    console.log(data)
     if (data.type != 'new') {
       setValue('itemname', data.Item_name)
       setValue('description', data.description)

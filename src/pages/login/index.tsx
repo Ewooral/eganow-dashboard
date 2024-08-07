@@ -271,7 +271,7 @@ const Login = (props) => {
 
                   <CForm noValidate onSubmit={handleSubmit(onSubmit)}>
                     <CountryInput
-                      className="mb-3"
+                      className="mb-3 "
                       name="country"
                       handleForm={{ control }}
                       callback={handleCallback}
@@ -324,7 +324,7 @@ const Login = (props) => {
                     </CInputGroup>
 
                     <CRow className="align-items-center my-3">
-                      <CCol xs={6} className="text-start text-muted">
+                      <CCol xs={6} className="text-start text-muted fs-6">
                         <CFormCheck
                           label={intl.formatMessage({
                             id: 'remember_me',
@@ -365,7 +365,7 @@ const Login = (props) => {
                     </CRow>
 
                     <CRow>
-                      <CCol xs={12} className="mt-4">
+                      <CCol xs={12} className="mt-4 fs-6">
                         <FormattedMessage
                           id="do_not_have_account_yet"
                           defaultMessage="Don't have account yet?"

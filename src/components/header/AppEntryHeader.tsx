@@ -111,14 +111,13 @@ const AppEntryHeader = (props: UserInfoType): JSX.Element => {
                       maxHeight: '400px',
                       position: 'absolute',
                       width: '100%',
+                      overflow: 'scroll',
                       left: -1,
                       top: 50,
                     }}
                     className="bg-white rounded border"
                   >
                     {filteredFeatures?.map((filteredFeature: FeaturePropsType, index) => {
-                      console.log(filteredFeature)
-
                       return (
                         filteredFeature.title && (
                           <div
@@ -133,7 +132,7 @@ const AppEntryHeader = (props: UserInfoType): JSX.Element => {
                           >
                             <Image
                               orientation="top"
-                              height={200}
+                              height={40}
                               src={filteredFeature.icon}
                               alt=""
                             />

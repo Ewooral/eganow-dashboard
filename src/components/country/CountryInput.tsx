@@ -103,8 +103,8 @@ const Country = (props: countryPropsType) => {
         <CInputGroupText
           color="secondary"
           variant="outline"
-          className={`${props?.className} dark:border-1`}
-          style={{ width: '50px' }}
+          className={`${props?.className} dark:border-1  rounded-right`}
+          style={{ width: '50px', borderTopLeftRadius: '7px', borderBottomLeftRadius: '7px' }}
         >
           {!!field.value?.flag ? (
             // eslint-disable-next-line jsx-a11y/img-redundant-alt, @next/next/no-img-element
