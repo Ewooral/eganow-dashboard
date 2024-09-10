@@ -45,7 +45,7 @@ import { FiEye } from 'react-icons/fi'
 import { IoSearchCircleSharp } from 'react-icons/io5'
 import { FaSearch } from 'react-icons/fa'
 import { FaFileExport } from 'react-icons/fa6'
-import { MdOutlinePayment , MdOutlineFlashAuto } from 'react-icons/md'
+import { MdOutlinePayment, MdOutlineFlashAuto } from 'react-icons/md'
 import { SiMicrosoftexcel } from 'react-icons/si'
 import { GrDocumentPdf } from 'react-icons/gr'
 import { AiFillFileAdd } from 'react-icons/ai'
@@ -67,7 +67,7 @@ import {
 } from '@/components/SmartTableColumnStyle'
 
 import Confirm from '@/components/Confirm'
-import AddEditPaymentLinks from '@/components/payment-links/AddEditPaymentLinks'
+import AddEditPaymentLinks from '@/components/Biz-collect/payment-links/AddEditPaymentLinks'
 /* 
 
 
@@ -214,11 +214,7 @@ const InternalTransfer: NextPageWithLayout = (props) => {
       }
       //Open modal component
       setDynamicComponent(
-        <AddEditPaymentLinks
-          modalClose={modalClose}
-          data={agentData}
-          callback={handleRefresh}
-        />,
+        <AddEditPaymentLinks modalClose={modalClose} data={agentData} callback={handleRefresh} />,
       )
     }
     /*  Reset agent password */
@@ -331,7 +327,11 @@ const InternalTransfer: NextPageWithLayout = (props) => {
             Generate Payment Links
           </CButton>{' '}
           <CDropdown variant="btn-group" title="Export list" style={{ marginTop: '30px' }}>
-            <CDropdownToggle variant='outline' color="danger" className="rounded-50 dark:text-white">
+            <CDropdownToggle
+              variant="outline"
+              color="danger"
+              className="rounded-50 dark:text-white"
+            >
               <FaFileExport className="me-1" style={{ fontSize: '1.2rem' }} /> Export
             </CDropdownToggle>
             <CDropdownMenu onMouseUp={() => {}}>

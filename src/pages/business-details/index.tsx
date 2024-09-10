@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import type { NextPageWithLayout } from '@/pages/_app'
 /* ICONS */
 import { FaEdit } from 'react-icons/fa'
-import { MdOutlineCancel } from 'react-icons/md'
+import { MdOutlineCancel, MdOutlineHomeWork } from 'react-icons/md'
 import { FaFilePdf, FaRegImages } from 'react-icons/fa6'
 import { LuFactory } from 'react-icons/lu'
 /*  */
@@ -35,21 +35,23 @@ import { EGANOW_AUTH_COOKIE } from '@/constants'
 /* COMPONENTS */
 import CountryInput from '@/components/country/CountryInput'
 import { GeneralLayout } from '@/components/'
-import {
-  BusinessInfo,
-  CustomerInfo,
-  ContactPerson,
-  DirectorsShareholders,
-  Attachments,
-  Note,
-  Message,
-} from '@/components/business-customer-details'
+
 /* HOOKS */
 import { useForm } from 'react-hook-form'
 import { useQueries } from '@tanstack/react-query'
 import BusinessAccountSvc from '@/api/merchantAccountSvcGRPC'
 import MerchantCommonSvc from '@/api/merchantCommonSvcGRPC'
 import { useSnackbar } from '@/store'
+import {
+  Attachments,
+  BusinessInfo,
+  ContactPerson,
+  CustomerInfo,
+  DirectorsShareholders,
+  Message,
+  Note,
+} from '@/components/Biz-collect/business-customer-details'
+import { CiEdit } from 'react-icons/ci'
 
 export const getServerSideProps = async ({ req }) => {
   const cookies = req.cookies[EGANOW_AUTH_COOKIE] ? JSON.parse(req.cookies[EGANOW_AUTH_COOKIE]) : {}
@@ -192,81 +194,64 @@ const Entry: NextPageWithLayout = (props) => {
 
   return (
     <GeneralLayout {...props}>
-      <div className="profile-banner-color">
-        <div className="profile-banner-img">
-          <div
-            style={{ paddingTop: '30px', paddingRight: '50px' }}
-            className="d-flex justify-content-between ps-5"
-          >
-            <div className="flex-grow-1 pt-2">
-              <h1 className="fs-3 fw-bold text-danger-emphasis" style={{ color: '#CC0229' }}>
-                <LuFactory className="fs-2 fw-bold me-2" />
-                Business Details
-              </h1>
-              <small className="text-secondary">
-                View/ reviewing customer information and business registration details
-              </small>
-            </div>
-
-            {allowToEdit && (
-              <div>
-                <CButton
-                  onMouseUp={toggleEdit}
-                  color="danger"
-                  className="d-flex justify-content-center align-items-center bg-white text-black  gap-1"
-                >
-                  {type === '' ? (
-                    <div className="d-flex align-items-center gap-2 link-black">
-                      <FaEdit style={{ fontSize: '1.2rem' }} />
-                      Edit
-                    </div>
-                  ) : (
-                    <div className="d-flex align-items-center gap-2">
-                      <MdOutlineCancel style={{ fontSize: '1.2rem' }} />
-                      Cancel
-                    </div>
-                  )}
-                </CButton>
-              </div>
-            )}
+      <div className="">
+        <div
+          style={{ paddingTop: '30px', paddingRight: '50px' }}
+          className="d-flex justify-content-between ps-5 "
+        >
+          <div className="flex-grow-1 pt-2">
+            <h1 className="fs-3 fw-bold text-danger-emphasis" style={{ color: '#CC0229' }}>
+              <LuFactory className="fs-2 fw-bold me-2" />
+              Business Details
+            </h1>
+            <small className="text-secondary">
+              View/ reviewing customer information and business registration details
+            </small>
           </div>
+
+          {allowToEdit && (
+            <div className="">
+              {type === '' ? (
+                <button
+                  onClick={toggleEdit}
+                  className="eganow-outline-btn d-flex gap-2 align-items-center px-3 justify-content-between"
+                >
+                  <CiEdit size={20} className="p-0 m-0" />
+                  <p className="m-0 p-0 ">Edit</p>
+                </button>
+              ) : (
+                <button
+                  onClick={toggleEdit}
+                  className="eganow-outline-btn d-flex gap-2 align-items-center px-3 justify-content-between"
+                >
+                  <MdOutlineCancel size={20} />
+                  <p className="m-0 p-0 ">Cancel</p>
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
-      <div className="position-relative px-4 px-sm-5" style={{ marginTop: '-2.1rem' }}>
+      <div className="position-relative px-4 px-sm-5 mt-2">
         <CRow className="justify-content-between mb-5 gap-4">
           <CCol>
             <CCard className="p-2  me-1 rounded shadow-none" style={{ minHeight: '79.3vh' }}>
               <CRow className="justify-content-center p-4">
                 <div className="company-logo position-relative">
-                  <CIcon icon={cilIndustry} style={{ height: '100px', width: 'auto' }} />
-                  {/* <FaE
-                  it
-                    className="position-absolute bg-white p-1 rounded-circle fs-2 border-2 border-light"
-                    style={{
-                      bottom: 0,
-                      right: 20,
-                      marginBottom: '-10',
-                      border: '1px solid #ccc',
-                      width: '34px',
-                      height: '34px',
-                    }}
-                    onMouseUp={handleLogoUpload}
-                  /> */}
+                  <MdOutlineHomeWork size={50} className="text-white" />
                 </div>
 
-                <div className="mt-4">
+                <div className="mt-4 border rounded p-3">
                   <div>
-                    <h6 className="fw-bold">Current User</h6>
-                    <h6 style={{ color: '#e55353' }} className="mb-4 fw-normal">
-                      {props.cookies.fullName}
-                    </h6>
+                    <strong className="text-secondary">Current User</strong>
+                    <p className=" fw-bold">{props.cookies.fullName}</p>
                   </div>
 
                   <div>
-                    <h6 className="fw-bold">Company Name</h6>
+                    <strong className="text-secondary">Company Name</strong>
                     {businessInfo?.data?.companyName ? (
-                      <h6 className="mb-4 fw-normal">{businessInfo?.data?.companyName}</h6>
+                      <p className="fw-bold">{businessInfo?.data?.companyName}</p>
                     ) : (
                       <CPlaceholder component={CCardTitle} animation="glow">
                         <CPlaceholder xs={6} className="rounded bg-secondary" />
@@ -275,11 +260,9 @@ const Entry: NextPageWithLayout = (props) => {
                   </div>
 
                   <div>
-                    <h6 className="fw-bold">Registration Number</h6>
+                    <strong className="text-secondary">Registration Number</strong>
                     {businessInfo?.data?.companyRegistrationNumber ? (
-                      <h6 className="mb-4 fw-normal">
-                        {businessInfo?.data?.companyRegistrationNumber}
-                      </h6>
+                      <p className=" fw-bold">{businessInfo?.data?.companyRegistrationNumber}</p>
                     ) : (
                       <CPlaceholder component={CCardTitle} animation="glow">
                         <CPlaceholder xs={6} className="rounded bg-secondary" />
@@ -288,11 +271,9 @@ const Entry: NextPageWithLayout = (props) => {
                   </div>
 
                   <div>
-                    <h6 className="fw-bold">TIN</h6>
+                    <strong className="text-secondary">TIN</strong>
                     {businessInfo?.data?.taxIdentificationNumber ? (
-                      <h6 className="mb-4 fw-normal">
-                        {businessInfo?.data?.taxIdentificationNumber}
-                      </h6>
+                      <p className=" fw-bold">{businessInfo?.data?.taxIdentificationNumber}</p>
                     ) : (
                       <CPlaceholder component={CCardTitle} animation="glow">
                         <CPlaceholder xs={6} className="rounded bg-secondary" />
@@ -301,14 +282,14 @@ const Entry: NextPageWithLayout = (props) => {
                   </div>
 
                   <div>
-                    <h6 className="fw-bold">Attachments</h6>
+                    <strong className="text-secondary">Attachments</strong>
                     {businessDocuments?.data?.documentsList?.length ? (
-                      <h6 className="mb-4 fw-normal">
+                      <p className=" fw-bold">
                         Count::{' '}
                         <CBadge color="secondary" shape="rounded-circle">
                           {businessDocuments?.data?.documentsList?.length || 0}
                         </CBadge>
-                      </h6>
+                      </p>
                     ) : (
                       <CPlaceholder component={CCardTitle} animation="glow">
                         <CPlaceholder xs={6} className="rounded bg-secondary" />
@@ -316,8 +297,8 @@ const Entry: NextPageWithLayout = (props) => {
                     )}
                   </div>
 
-                  <div className="mb-4">
-                    <h6 className="fw-bold">Country</h6>
+                  <div className="">
+                    <strong className="text-secondary">Country</strong>
                     <CountryInput
                       className="mb-3"
                       name="country"
@@ -332,9 +313,9 @@ const Entry: NextPageWithLayout = (props) => {
           </CCol>
 
           <CCol lg={9} className="">
-            <CCard className="px-0 pt-4  me-1 rounded shadow-none" style={{ minHeight: '79.3vh' }}>
+            <CCard className="px-0   me-1 rounded shadow-none" style={{ minHeight: '79.3vh' }}>
               <div className="w-100 overflow-y-hidden overflow-x-auto">
-                <CNav variant="underline" className="mb-4 w-100">
+                <CNav variant="tabs" className="mb-4 w-100">
                   <CNavItem>
                     <CNavLink href="#" active={activeKey === 1} onClick={() => setActiveKey(1)}>
                       <strong>Business Info</strong>
@@ -356,7 +337,12 @@ const Entry: NextPageWithLayout = (props) => {
                     </CNavLink>
                   </CNavItem>
                   <CNavItem>
-                    <CNavLink href="#" active={activeKey === 5} onClick={() => setActiveKey(5)}>
+                    <CNavLink
+                      color="danger"
+                      href="#"
+                      active={activeKey === 5}
+                      onClick={() => setActiveKey(5)}
+                    >
                       <strong>Attachments</strong>
                     </CNavLink>
                   </CNavItem>

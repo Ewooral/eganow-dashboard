@@ -55,7 +55,7 @@ export const generateOptions = (params) => {
       value: item.id,
     }))
   }
-  if (options[0].label === 'UNKNOWN') {
+  if (options[0]?.label === 'UNKNOWN') {
     options.shift()
   }
 

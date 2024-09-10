@@ -73,7 +73,7 @@ const AppEntryHeader = (props: UserInfoType): JSX.Element => {
   }, [theme])
 
   return (
-    <CHeader position="sticky" className="mb-4 shadow-sm">
+    <CHeader position="sticky" className="mb-0 shadow-sm">
       <CContainer fluid>
         <CRow className="w-100 fluid">
           <CCol>
@@ -90,13 +90,13 @@ const AppEntryHeader = (props: UserInfoType): JSX.Element => {
             {/* header Search bar */}
             <CForm style={{ position: 'relative' }} className="container-fluid">
               <CInputGroup className="w-100">
-                <CInputGroupText style={{ borderRadius: '20px 0px 0px 20px' }}>
+                <CInputGroupText style={{ borderRadius: '12px 0px 0px 12px' }}>
                   <CIcon icon={cilSearch} size="lg" color="primary" />
                 </CInputGroupText>
                 <CFormInput
                   aria-label="Text input"
                   placeholder="Enter to search for features."
-                  style={{ borderRadius: '0px 20px 20px 0px' }}
+                  style={{ borderRadius: '0px 12px 12px 0px' }}
                   value={searchValue}
                   onChange={handleSearchBoxChange}
                   onFocus={() => {
@@ -111,6 +111,7 @@ const AppEntryHeader = (props: UserInfoType): JSX.Element => {
                       maxHeight: '400px',
                       position: 'absolute',
                       width: '100%',
+                      overflow: 'scroll',
                       left: -1,
                       top: 50,
                     }}
@@ -131,9 +132,8 @@ const AppEntryHeader = (props: UserInfoType): JSX.Element => {
                           >
                             <Image
                               orientation="top"
-                              height={200}
+                              height={40}
                               src={filteredFeature.icon}
-                              style={{ width: '5%', height: 'auto', margin: '0.5em' }}
                               alt=""
                             />
                             <p className="m-0">{filteredFeature.title}</p>

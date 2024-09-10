@@ -271,7 +271,7 @@ const Login = (props) => {
 
                   <CForm noValidate onSubmit={handleSubmit(onSubmit)}>
                     <CountryInput
-                      className="mb-3"
+                      className="mb-3 "
                       name="country"
                       handleForm={{ control }}
                       callback={handleCallback}
@@ -294,7 +294,7 @@ const Login = (props) => {
                     </CInputGroup>
 
                     <CInputGroup className="mb-1 ">
-                      <CInputGroupText style={{ width: '50px' }}>
+                      <CInputGroupText className="" style={{ width: '50px' }}>
                         <CIcon icon={cilLockLocked} size="lg" />
                       </CInputGroupText>
                       <CFormInput
@@ -324,7 +324,7 @@ const Login = (props) => {
                     </CInputGroup>
 
                     <CRow className="align-items-center my-3">
-                      <CCol xs={6} className="text-start text-muted">
+                      <CCol xs={6} className="text-start text-muted fs-6">
                         <CFormCheck
                           label={intl.formatMessage({
                             id: 'remember_me',
@@ -348,9 +348,9 @@ const Login = (props) => {
 
                     <CRow>
                       <CCol xs={12} className="mt-2 w-100">
-                        <CButton
+                        <button
                           type="submit"
-                          className="px-4 w-100"
+                          className="px-4 w-100 eganow-primary-btn"
                           active
                           disabled={isSubmitting}
                           style={vars}
@@ -360,12 +360,12 @@ const Login = (props) => {
                           ) : (
                             <FormattedMessage id="login" defaultMessage="Login" />
                           )}
-                        </CButton>
+                        </button>
                       </CCol>
                     </CRow>
 
                     <CRow>
-                      <CCol xs={12} className="mt-4">
+                      <CCol xs={12} className="mt-4 fs-6">
                         <FormattedMessage
                           id="do_not_have_account_yet"
                           defaultMessage="Don't have account yet?"

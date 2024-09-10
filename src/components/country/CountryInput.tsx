@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useRef } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { useController } from 'react-hook-form'
 import {
   CDropdown,
@@ -22,42 +22,69 @@ import { isEmpty_util } from '@/util'
 import { countryPropsType } from '@/types/CommonDataType'
 
 const Country = (props: countryPropsType) => {
-  //Creating a react hook form controlled component
+  const [toggleDropdown, setToggleDropdown] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('') // State to store the search term
+  const inputRef = useRef(null)
+  const dropdownRef = useRef(null)
+
+  // Creating a react hook form controlled component
   const { field, fieldState } = useController({
     name: props.name,
     control: props.handleForm.control,
   })
-  const inputRef = useRef(null)
-  //Fetching API
+
+  // Fetching API
   const { getCountries } = sharedServiceGRPC()
-  //Fetching countries with useQuery
+
+  // Fetching countries with useQuery
   const { error, data } = useQuery({
     queryKey: ['countryData'],
     queryFn: () => getCountries({ countryFilter: 'COUNTRY_FILTER_SIGNUP' }),
     staleTime: 5000,
   })
 
-  function handleChange(event) {
-    const { id } = event.target
-    const obj = data?.countriesList[id]
+  useEffect(() => {
+    // Close dropdown when clicking outside
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setToggleDropdown(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
-    //Triggering onChange event on the selected country
-    if (!isEmpty_util(obj)) {
+  function handleChange(event, item) {
+    // Triggering onChange event on the selected country
+    if (!isEmpty_util(item)) {
       field.onChange({
-        flag: obj.countryFlagUrl,
-        code: obj.countryCode,
-        name: obj.countryName,
+        flag: item.countryFlagUrl,
+        code: item.countryCode,
+        name: item.countryName,
       })
 
-      //Call props.callback
+      // Call props.callback
       if (typeof props.callback === 'function') {
-        props.callback(event, obj)
+        props.callback(event, item)
       }
     }
 
-    //Setting focus to country input
+    // Setting focus to country input
     if (props.shouldValidate) inputRef.current.focus()
+    setSearchTerm('')
+    setToggleDropdown(false)
   }
+
+  function handleSearchChange(event) {
+    setSearchTerm(event.target.value) // Update search term as user types
+  }
+
+  // Filter countries based on search term
+  const filteredCountries = data?.countriesList?.filter((country) =>
+    country.countryName.toLowerCase().includes(searchTerm.toLowerCase()),
+  )
 
   if (error) {
     console.error(error)
@@ -65,12 +92,19 @@ const Country = (props: countryPropsType) => {
 
   return (
     <CInputGroup>
-      <CDropdown variant="input-group" alignment="end">
+      <CDropdownToggle
+        caret={false}
+        color="secondary"
+        variant="outline"
+        custom={true}
+        className="d-none"
+      ></CDropdownToggle>
+      <CDropdown className="" variant="input-group" alignment="end" visible={toggleDropdown}>
         <CInputGroupText
           color="secondary"
           variant="outline"
-          className={`${props?.className} dark:border-1`}
-          style={{ width: '50px' }}
+          className={`${props?.className} dark:border-1  rounded-right`}
+          style={{ width: '50px', borderTopLeftRadius: '7px', borderBottomLeftRadius: '7px' }}
         >
           {!!field.value?.flag ? (
             // eslint-disable-next-line jsx-a11y/img-redundant-alt, @next/next/no-img-element
@@ -81,40 +115,49 @@ const Country = (props: countryPropsType) => {
         </CInputGroupText>
 
         <CDropdownMenu
-          className="w-100 overflow-auto"
-          onClick={handleChange}
+          ref={dropdownRef}
+          className="w-100 overflow-auto mt-5"
           style={{ maxHeight: '290px' }}
         >
+          <CFormInput
+            className="px-3 border-0  border-bottom rounded-0"
+            placeholder="Search country..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+            autoFocus
+          />
           <Each
-            of={data?.countriesList}
-            render={(item, index) => {
-              return (
-                <CDropdownItem id={`${index}`} data-name="flag" style={{ cursor: 'pointer' }}>
-                  <Image src={item.countryFlagUrl} width={24} height={16} alt={item.countryName} />
-                  <span style={{ marginLeft: '10px' }}>{item.countryName}</span>
-                </CDropdownItem>
-              )
-            }}
+            of={filteredCountries}
+            render={(item, index) => (
+              <CDropdownItem
+                onClick={(e) => handleChange(e, item)}
+                className=""
+                id={`${index}`}
+                data-name="flag"
+                style={{ cursor: 'pointer' }}
+              >
+                <Image src={item.countryFlagUrl} width={24} height={16} alt={item.countryName} />
+                <span style={{ marginLeft: '10px' }}>{item.countryName}</span>
+              </CDropdownItem>
+            )}
           />
         </CDropdownMenu>
-
-        <CDropdownToggle caret={false} color="secondary" variant="outline" custom={true}>
-          <CFormInput
-            className={props?.className}
-            type="text"
-            id={props.name}
-            data-name="name"
-            onBlur={field.onBlur}
-            ref={inputRef}
-            placeholder="Select country."
-            readOnly={true}
-            value={field.value?.name}
-            valid={
-              props.shouldValidate && fieldState.isDirty && !!!fieldState.error?.name ? true : false
-            }
-            invalid={props.shouldValidate && !!fieldState.error?.name && true}
-          />
-        </CDropdownToggle>
+        <CFormInput
+          className={props?.className}
+          type="text"
+          id={props.name}
+          data-name="name"
+          onBlur={field.onBlur}
+          ref={inputRef}
+          onClick={() => setToggleDropdown(!toggleDropdown)}
+          placeholder="Select country."
+          value={field.value?.name}
+          valid={
+            props.shouldValidate && fieldState.isDirty && !!!fieldState.error?.name ? true : false
+          }
+          invalid={props.shouldValidate && !!fieldState.error?.name && true}
+          readOnly
+        />
       </CDropdown>
     </CInputGroup>
   )
