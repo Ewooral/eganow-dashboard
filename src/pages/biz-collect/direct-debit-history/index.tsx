@@ -69,7 +69,8 @@ import {
 } from '@/components/SmartTableColumnStyle'
 
 import Confirm from '@/components/Confirm'
-import AddEditInternalTransfer from '@/components/add-or-edit-internal-transfer/AddEditInternalTransfer'
+import AddEditInternalTransfer from '@/components/Biz-collect/add-or-edit-internal-transfer/AddEditInternalTransfer'
+import Test from './Test'
 /* 
 
 
@@ -366,7 +367,11 @@ const InternalTransferHistory: NextPageWithLayout = (props) => {
 
         <div className="flex gap-2">
           <CDropdown variant="btn-group" title="Export list" style={{ marginTop: '30px' }}>
-            <CDropdownToggle variant='outline' color="danger" className="rounded-50 dark:text-white">
+            <CDropdownToggle
+              variant="outline"
+              color="danger"
+              className="rounded-50 dark:text-white"
+            >
               <FaFileExport className="me-1" style={{ fontSize: '1.2rem' }} /> Export
             </CDropdownToggle>
             <CDropdownMenu onMouseUp={() => {}}>
@@ -382,6 +387,8 @@ const InternalTransferHistory: NextPageWithLayout = (props) => {
           </CDropdown>
         </div>
       </div>
+
+      <Test />
 
       <hr />
 

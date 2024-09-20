@@ -15,7 +15,6 @@ export function middleware(request: NextRequest) {
   try {
     const auth_cookie: RequestCookie | undefined = request.cookies.get(EGANOW_AUTH_COOKIE)
     const auth = typeof auth_cookie === 'object' ? JSON.parse(auth_cookie?.value) : undefined
-
     //Checking if the user is logged in.
     if (auth.accessToken) {
       return NextResponse.next()
@@ -36,9 +35,5 @@ export function middleware(request: NextRequest) {
  */
 
 export const config = {
-  matcher: [
-    '/',
-    '/biz-collect/:path*',
-    '/business-details/:path*',
-  ],
+  matcher: ['/', '/biz-collect/:path*', '/business-details/:path*'],
 }

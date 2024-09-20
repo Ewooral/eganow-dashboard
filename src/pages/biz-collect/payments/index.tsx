@@ -45,7 +45,7 @@ import { FiEye } from 'react-icons/fi'
 import { IoSearchCircleSharp } from 'react-icons/io5'
 import { FaSearch } from 'react-icons/fa'
 import { FaFileExport } from 'react-icons/fa6'
-import { FaMoneyBillAlt  } from 'react-icons/fa'
+import { FaMoneyBillAlt } from 'react-icons/fa'
 import { MdOutlineFlashAuto } from 'react-icons/md'
 import { SiMicrosoftexcel } from 'react-icons/si'
 import { GrDocumentPdf } from 'react-icons/gr'
@@ -68,7 +68,7 @@ import {
 } from '@/components/SmartTableColumnStyle'
 
 import Confirm from '@/components/Confirm'
-import AddEditPayments from '@/components/payments/AddEditPayments'
+import AddEditPayments from '@/components/Biz-collect/payments/AddEditPayments'
 /* 
 
 
@@ -215,11 +215,7 @@ const InternalTransfer: NextPageWithLayout = (props) => {
       }
       //Open modal component
       setDynamicComponent(
-        <AddEditPayments
-          modalClose={modalClose}
-          data={agentData}
-          callback={handleRefresh}
-        />,
+        <AddEditPayments modalClose={modalClose} data={agentData} callback={handleRefresh} />,
       )
     }
     /*  Reset agent password */
@@ -343,7 +339,11 @@ const InternalTransfer: NextPageWithLayout = (props) => {
             Initiate Bulk Payment
           </CButton>{' '}
           <CDropdown variant="btn-group" title="Export list" style={{ marginTop: '30px' }}>
-            <CDropdownToggle variant='outline' color="danger" className="rounded-50 dark:text-white">
+            <CDropdownToggle
+              variant="outline"
+              color="danger"
+              className="rounded-50 dark:text-white"
+            >
               <FaFileExport className="me-1" style={{ fontSize: '1.2rem' }} /> Export
             </CDropdownToggle>
             <CDropdownMenu onMouseUp={() => {}}>

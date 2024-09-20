@@ -2,7 +2,7 @@ import AppAside from './AppAside'
 import AppBreadcrumb from './AppBreadcrumb'
 import AppFooter from './AppFooter'
 import AppHeader from './header/AppHeader'
-import AppSidebar from './AppSidebar'
+import AppSidebar from './Biz-collect/BizCollectSidebar'
 import DashboardLayout from './header/layouts/DashboardLayout'
 /* Added by Maclean */
 import GeneralLayout from './header/layouts/GeneralLayout'
