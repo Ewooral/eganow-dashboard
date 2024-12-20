@@ -93,7 +93,6 @@ const MerchantOnboardingSvc = () => {
           if (err) {
             reject(err)
           }
-          
           //Setting countries to state
           resolve(res?.toObject())
         })
