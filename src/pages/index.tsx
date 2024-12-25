@@ -10,9 +10,8 @@ import { EntryLayout, Features, FeaturesPlaceholder } from '@/components'
 /* import biz_collect from '@/public/images/biz-collect.png' */
 // import biz_collect from '@/public/images/features/budget.png'
 import biz_collect from '@/public/images/features/bixcol2.png'
-// import teamwork from '@/public/images/features/group-meeting.png'
-import teamwork from '@/public/images/features/groups2.png'
 import edupay from '@/public/images/features/edupay.png'
+import teamwork from '@/public/images/features/groups2.png'
 /* CONSTANCE */
 import { EGANOW_AUTH_COOKIE } from '@/constants'
 import { useEffect, useState } from 'react'
@@ -75,7 +74,6 @@ const features = [
 
 export const getServerSideProps = async ({ req }) => {
   const cookies = JSON.parse(req.cookies[EGANOW_AUTH_COOKIE])
-
   //Response
   return {
     props: {
@@ -99,8 +97,9 @@ const Entry: NextPageWithLayout = (props) => {
     setHighestFeatureValue(getMaxValueKey(mostUsedFeature?.state?.featureCounts))
   }, [mostUsedFeature])
 
-  const removeUsedFeatureSelect = () => {
-    setIsFeatureHovered(true)
+
+  const removeUsedFeatureSelect = ()=>{
+    setIsFeatureHovered(true);
   }
 
   return (
@@ -124,7 +123,6 @@ const Entry: NextPageWithLayout = (props) => {
                 <h3 className="text-medium-emphasis">{props.cookies.companyName}</h3>
               </div>
             </CCol>
-
             <CCol className="">
               {highestFeatureValue && (
                 <div className="d-flex justify-content-sm-end align-items-center gap-2  mx-auto mx-lg-0">
@@ -139,23 +137,12 @@ const Entry: NextPageWithLayout = (props) => {
         </div>
 
         {/*  <hr className="mb-5 mt-4" /> */}
-
         <CRow xs={{ gutterY: 4, gutterX: 4 }}>
           {features?.map((obj, index) => {
             if (!!obj.title) {
-              return (
-                <Features
-                  key={index}
-                  data={obj}
-                  highestFeatureValue={highestFeatureValue}
-                  isFeatureHovered={isFeatureHovered}
-                  removeUsedFeatureSelect={removeUsedFeatureSelect}
-                />
-              )
+              return <Features key={index} data={obj} highestFeatureValue={highestFeatureValue} isFeatureHovered={isFeatureHovered} removeUsedFeatureSelect={removeUsedFeatureSelect}/>
             }
-            return (
-              <FeaturesPlaceholder key={index} removeUsedFeatureSelect={removeUsedFeatureSelect} />
-            )
+            return <FeaturesPlaceholder key={index}  removeUsedFeatureSelect={removeUsedFeatureSelect}/>
           })}
         </CRow>
       </CContainer>

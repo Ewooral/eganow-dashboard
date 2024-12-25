@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef } from 'react'
 import { useController } from 'react-hook-form'
 import {
   CDropdown,
@@ -14,7 +14,7 @@ import { cilGlobeAlt } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import Image from 'next/image'
 /* API */
-import sharedServiceGRPC from '@/api/sharedServiceGRPC'
+import commonAPI from '@/api/commonAPI'
 /* USE_QUERY */
 import { useQuery } from '@tanstack/react-query'
 import Each from '@/components/Each'
@@ -22,69 +22,39 @@ import { isEmpty_util } from '@/util'
 import { countryPropsType } from '@/types/CommonDataType'
 
 const Country = (props: countryPropsType) => {
-  const [toggleDropdown, setToggleDropdown] = useState(false)
-  const [searchTerm, setSearchTerm] = useState('') // State to store the search term
-  const inputRef = useRef(null)
-  const dropdownRef = useRef(null)
-
-  // Creating a react hook form controlled component
+  //Fetching API
+  const { getCountries } = commonAPI()
+  //Creating a react hook form controlled component
   const { field, fieldState } = useController({
     name: props.name,
     control: props.handleForm.control,
   })
-
-  // Fetching API
-  const { getCountries } = sharedServiceGRPC()
-
-  // Fetching countries with useQuery
+  const inputRef = useRef(null)
+  //Fetching countries with useQuery
   const { error, data } = useQuery({
-    queryKey: ['countryData'],
-    queryFn: () => getCountries({ countryFilter: 'COUNTRY_FILTER_SIGNUP' }),
+    queryKey: ['getCountries'],
+    queryFn: () => getCountries({ filter: 1 }),
     staleTime: 5000,
   })
 
-  useEffect(() => {
-    // Close dropdown when clicking outside
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setToggleDropdown(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [])
-
-  function handleChange(event, item) {
-    // Triggering onChange event on the selected country
-    if (!isEmpty_util(item)) {
+  function handleChange(event) {
+    const { id } = event.target
+    const obj = data?.data[id]
+    //Triggering onChange event on the selected country
+    if (!isEmpty_util(obj)) {
       field.onChange({
-        flag: item.countryFlagUrl,
-        code: item.countryCode,
-        name: item.countryName,
+        flag: obj.countryFlagUrl,
+        code: obj.countryCode,
+        name: obj.countryName,
       })
-
-      // Call props.callback
+      //Call props.callback
       if (typeof props.callback === 'function') {
-        props.callback(event, item)
+        props.callback(event, obj)
       }
     }
-
-    // Setting focus to country input
+    //Setting focus to country input
     if (props.shouldValidate) inputRef.current.focus()
-    setSearchTerm('')
-    setToggleDropdown(false)
   }
-
-  function handleSearchChange(event) {
-    setSearchTerm(event.target.value) // Update search term as user types
-  }
-
-  // Filter countries based on search term
-  const filteredCountries = data?.countriesList?.filter((country) =>
-    country.countryName.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
 
   if (error) {
     console.error(error)
@@ -92,19 +62,12 @@ const Country = (props: countryPropsType) => {
 
   return (
     <CInputGroup>
-      <CDropdownToggle
-        caret={false}
-        color="secondary"
-        variant="outline"
-        custom={true}
-        className="d-none"
-      ></CDropdownToggle>
-      <CDropdown className="" variant="input-group" alignment="end" visible={toggleDropdown}>
+      <CDropdown variant="input-group" alignment="end">
         <CInputGroupText
           color="secondary"
           variant="outline"
-          className={`${props?.className} dark:border-1  rounded-right`}
-          style={{ width: '50px', borderTopLeftRadius: '7px', borderBottomLeftRadius: '7px' }}
+          className={`${props?.className} dark:border-1`}
+          style={{ width: '50px' }}
         >
           {!!field.value?.flag ? (
             // eslint-disable-next-line jsx-a11y/img-redundant-alt, @next/next/no-img-element
@@ -115,49 +78,40 @@ const Country = (props: countryPropsType) => {
         </CInputGroupText>
 
         <CDropdownMenu
-          ref={dropdownRef}
-          className="w-100 overflow-auto mt-5"
+          className="w-100 overflow-auto"
+          onClick={handleChange}
           style={{ maxHeight: '290px' }}
         >
-          <CFormInput
-            className="px-3 border-0  border-bottom rounded-0"
-            placeholder="Search country..."
-            value={searchTerm}
-            onChange={handleSearchChange}
-            autoFocus
-          />
           <Each
-            of={filteredCountries}
-            render={(item, index) => (
-              <CDropdownItem
-                onClick={(e) => handleChange(e, item)}
-                className=""
-                id={`${index}`}
-                data-name="flag"
-                style={{ cursor: 'pointer' }}
-              >
-                <Image src={item.countryFlagUrl} width={24} height={16} alt={item.countryName} />
-                <span style={{ marginLeft: '10px' }}>{item.countryName}</span>
-              </CDropdownItem>
-            )}
+            of={data?.data}
+            render={(item, index) => {
+              return (
+                <CDropdownItem id={`${index}`} data-name="flag" style={{ cursor: 'pointer' }}>
+                  <Image src={item.countryFlagUrl} width={24} height={16} alt={item.countryName} />
+                  <span style={{ marginLeft: '10px' }}>{item.countryName}</span>
+                </CDropdownItem>
+              )
+            }}
           />
         </CDropdownMenu>
-        <CFormInput
-          className={props?.className}
-          type="text"
-          id={props.name}
-          data-name="name"
-          onBlur={field.onBlur}
-          ref={inputRef}
-          onClick={() => setToggleDropdown(!toggleDropdown)}
-          placeholder="Select country."
-          value={field.value?.name}
-          valid={
-            props.shouldValidate && fieldState.isDirty && !!!fieldState.error?.name ? true : false
-          }
-          invalid={props.shouldValidate && !!fieldState.error?.name && true}
-          readOnly
-        />
+
+        <CDropdownToggle caret={false} color="secondary" variant="outline" custom={true}>
+          <CFormInput
+            className={props?.className}
+            type="text"
+            id={props.name}
+            data-name="name"
+            onBlur={field.onBlur}
+            ref={inputRef}
+            placeholder="Select country."
+            readOnly={true}
+            value={field.value?.name}
+            valid={
+              props.shouldValidate && fieldState.isDirty && !!!fieldState.error?.name ? true : false
+            }
+            invalid={props.shouldValidate && !!fieldState.error?.name && true}
+          />
+        </CDropdownToggle>
       </CDropdown>
     </CInputGroup>
   )

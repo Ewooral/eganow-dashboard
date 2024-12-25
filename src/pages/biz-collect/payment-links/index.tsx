@@ -45,14 +45,14 @@ import { FiEye } from 'react-icons/fi'
 import { IoSearchCircleSharp } from 'react-icons/io5'
 import { FaSearch } from 'react-icons/fa'
 import { FaFileExport } from 'react-icons/fa6'
-import { MdOutlinePayment, MdOutlineFlashAuto } from 'react-icons/md'
+import { MdOutlinePayment , MdOutlineFlashAuto } from 'react-icons/md'
 import { SiMicrosoftexcel } from 'react-icons/si'
 import { GrDocumentPdf } from 'react-icons/gr'
 import { AiFillFileAdd } from 'react-icons/ai'
 import { FaExternalLinkAlt } from 'react-icons/fa'
 /* COMPONENTS */
 import { CChart, CChartBar, CChartLine } from '@coreui/react-chartjs'
-import { DashboardLayout, GlobalLoader } from '@/components'
+import { BizCollectLayout, GlobalLoader } from '@/components'
 /* CONSTANCE */
 import { EGANOW_AUTH_COOKIE, DATE_FORMAT } from '@/constants'
 /* HOOKS */
@@ -67,7 +67,7 @@ import {
 } from '@/components/SmartTableColumnStyle'
 
 import Confirm from '@/components/Confirm'
-import AddEditPaymentLinks from '@/components/Biz-collect/payment-links/AddEditPaymentLinks'
+import AddEditPaymentLinks from '@/components/biz-collect/payment-links/AddEditPaymentLinks'
 /* 
 
 
@@ -214,7 +214,11 @@ const InternalTransfer: NextPageWithLayout = (props) => {
       }
       //Open modal component
       setDynamicComponent(
-        <AddEditPaymentLinks modalClose={modalClose} data={agentData} callback={handleRefresh} />,
+        <AddEditPaymentLinks
+          modalClose={modalClose}
+          data={agentData}
+          callback={handleRefresh}
+        />,
       )
     }
     /*  Reset agent password */
@@ -304,7 +308,7 @@ const InternalTransfer: NextPageWithLayout = (props) => {
   }
 
   return (
-    <DashboardLayout {...props}>
+    <BizCollectLayout {...props}>
       <div className="d-flex justify-content-between align-items-center flex-wrap rounded pt-2">
         <div className="flex-grow-1">
           <h1 className="fs-3 fw-bold text-danger-emphasis" style={{ color: '#CC0229' }}>
@@ -327,11 +331,7 @@ const InternalTransfer: NextPageWithLayout = (props) => {
             Generate Payment Links
           </CButton>{' '}
           <CDropdown variant="btn-group" title="Export list" style={{ marginTop: '30px' }}>
-            <CDropdownToggle
-              variant="outline"
-              color="danger"
-              className="rounded-50 dark:text-white"
-            >
+            <CDropdownToggle variant='outline' color="danger" className="rounded-50 dark:text-white">
               <FaFileExport className="me-1" style={{ fontSize: '1.2rem' }} /> Export
             </CDropdownToggle>
             <CDropdownMenu onMouseUp={() => {}}>
@@ -468,7 +468,7 @@ const InternalTransfer: NextPageWithLayout = (props) => {
       </CContainer>
       {/* Dynamic Modal Component */}
       {dynamicComponent}
-    </DashboardLayout>
+    </BizCollectLayout>
   )
 }
 

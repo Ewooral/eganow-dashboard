@@ -1,13 +1,15 @@
 // @ts-nocheck
 'use client'
 import { useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
+import { useCookies } from 'react-cookie'
+import { useIntl } from 'react-intl'
 import { yupResolver } from '@hookform/resolvers/yup'
-
+/* COMPONENTS */
 import { validationSchema } from '@/components/register/validationSchema'
 import { defaultFormValues } from '@/components/register/defaultFormValues'
-/* COMPONENTS */
 import LeftSide from '@/components/register/LeftSide'
 import RightSide from '@/components/register/RightSide'
 import StepOnePane from '@/components/register/StepOnePane'
@@ -15,27 +17,15 @@ import StepTwoPane from '@/components/register/StepTwoPane'
 import StepThreePane from '@/components/register/StepThreePane'
 import StepFourPane from '@/components/register/StepFourPane'
 import StepFivePane from '@/components/register/StepFivePane'
+import LanguageSelector from '@/components/LanguageSelector'
 /* API */
 import customerAccountGRPC from '@/api/customerAccountGRPC'
-
-import { useQuery } from '@tanstack/react-query'
-import { errorType } from '@/types/Errors'
-import { ProgressBar } from '@/types/CommonDataType'
-import LanguageSelector from '@/components/LanguageSelector'
-
-/* type ResponseMSG = {
-  issuccess: string
-  messagesuccessfulorfailed: string
-} */
-
-import merchantOnboardingSvcGRPC from '@/api/merchantOnboardingSvcGRPC'
-import otpSvcGRPC from '@/api/otpSvcGRPC'
+import authAPI from '@/api/authAPI'
+import merchantAPI from '@/api/merchantOnboardingAPI'
+import otpAPI from '@/api/otpAPI'
 /* TYPES */
 import { errorType } from '@/types/Errors'
 import { ProgressBar } from '@/types/CommonDataType'
-/* HOOKS */
-import { useCookies } from 'react-cookie'
-import { useIntl } from 'react-intl'
 /* CONSTANCE */
 import { EGANOW_AUTH_COOKIE } from '@/constants'
 /* 
@@ -45,15 +35,16 @@ import { EGANOW_AUTH_COOKIE } from '@/constants'
 
 */
 const Register = () => {
-  const { createMerchantAccount, checkIfMerchantAccountExists, loginMerchant } =
-    merchantOnboardingSvcGRPC()
+  const { loginMerchant } = authAPI()
+  const { generateOTP, verifyOTP } = otpAPI()
+  const { createMerchantAccount, checkIfMerchantAccountExists } = merchantAPI()
   const [_, setCookie] = useCookies()
-  const { sendOTP, verifyOTP } = otpSvcGRPC()
+  const { formatMessage } = useIntl()
+  const router = useRouter()
+
   const [stepCount, setStepCount] = useState(0)
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<errorType>({})
-  const router = useRouter()
-  const { formatMessage } = useIntl()
 
   const handleForm = useForm({
     resolver: yupResolver(validationSchema),
@@ -125,7 +116,6 @@ const Register = () => {
           handleSubmitClick={submit_click}
           errors={errors}
           loading={loading}
-
         />
       ),
     },
@@ -162,10 +152,24 @@ const Register = () => {
         //Getting email address
         const values = handleForm.getValues()
         //Checking if merchant account exist by email
-        await checkIfMerchantAccountExists(values)
-        //Throw error on undefined
+        const response = await checkIfMerchantAccountExists({
+          email: values.emailAddress,
+        })
+        //Handle response error if status is true
+        if (response.data.status) {
+          //Stop loading
+          setLoading(false)
+          //Setting the error step key
+          setErrors({
+            [stepKey]: 'Merchant account already exist.',
+          })
+          return
+        }
         //Upon response send an OTP to the new merchant
-        await sendOTP(values)
+        await generateOTP({
+          email: values.emailAddress,
+          purpose: values.purpose,
+        })
         //Stop loading
         setLoading(false)
         //Resetting the error
@@ -185,10 +189,14 @@ const Register = () => {
         if (!state) return
         //Start loading
         setLoading(true)
-        //Getting email address
+        //Getting values
         const values = handleForm.getValues()
-        //Getting email address
-        await verifyOTP(values)
+        //Verifying OTP
+        await verifyOTP({
+          email: values.emailAddress,
+          purpose: values.purpose,
+          otp: values.otpValue,
+        })
         //Stop loading
         setLoading(false)
         //Resetting the error
@@ -220,9 +228,9 @@ const Register = () => {
       //Stop loading
       setLoading(false)
       //Handling GRPC errors
-      if (error.name === 'RpcError') {
+      if (error?.response) {
         setErrors({
-          [stepKey]: error.metadata['grpc-message'],
+          [stepKey]: error?.response.data.message,
         })
         return
       }
@@ -252,8 +260,20 @@ const Register = () => {
       //Start loading
       setLoading(true)
       //Creating the merchant account
-      await createMerchantAccount(values)
-      
+      await createMerchantAccount({
+        personalInformation: {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.emailAddress,
+        },
+        businessInformation: {
+          businessName: values.businessName,
+          tradingName: values.tradingName,
+          mobileNumber: `${values.businessMobileNo.dialCode}${values.businessMobileNo.dialNumber}`,
+        },
+        otp: values.otpValue,
+        password: values.password,
+      })
       //Stop loading
       setLoading(false)
       //Resetting the error if any
@@ -267,10 +287,10 @@ const Register = () => {
     } catch (error) {
       //Stop loading
       setLoading(false)
-      //Handling GRPC errors
-      if (error.name === 'RpcError') {
+      //Handling API errors
+      if (error?.response) {
         setErrors({
-          stepFour: error.metadata['grpc-message'],
+          stepFour: error?.response.data.message,
         })
         return
       }
@@ -287,11 +307,10 @@ const Register = () => {
       setLoading(true)
       //Log merchant in
       const response = await loginMerchant({ email, password })
-      
       //If accessToken exist on success then log user in.
-      if (response.accessToken) {
+      if (response?.data.accessToken) {
         //Storing login authentication in cookie
-        setCookie(EGANOW_AUTH_COOKIE, response, {
+        setCookie(EGANOW_AUTH_COOKIE, response?.data, {
           maxAge: 30 * 60 * 24,
         })
         //Routing to the intermediate page when logged in.
@@ -303,9 +322,9 @@ const Register = () => {
       //Stop loading
       setLoading(false)
       //Handling GRPC errors
-      if (error.name === 'RpcError') {
+      if (error?.response) {
         setErrors({
-          stepFinal: error.metadata['grpc-message'],
+          stepFinal: error?.response.data.message,
         })
         return
       }

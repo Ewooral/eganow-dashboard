@@ -25,15 +25,15 @@ import { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { ForgotPasswordErrors } from '@/types/Errors'
 /* API */
-import merchantOnboardingSvcGRPC from '@/api/merchantOnboardingSvcGRPC'
+import authAPI from '@/api/authAPI'
 
 export const defaultValues = {
-  emailAddress: '',
+  email: '',
 }
 
 export const validationSchema = yup
   .object({
-    emailAddress: yup.string().email().required(),
+    email: yup.string().email().required(),
   })
   .required()
 
@@ -55,7 +55,7 @@ const vars: object = {
 }
 
 const ForgotPassword = () => {
-  const { requestPasswordReset } = merchantOnboardingSvcGRPC()
+  const { requestPasswordReset } = authAPI()
   const [errors, setErrors] = useState<ForgotPasswordErrors>()
   const [showFeedback, setShowFeedback] = useState(false) //state to toggle between feedback component
 
@@ -169,14 +169,14 @@ const ForgotPassword = () => {
                         <CFormInput
                           className=""
                           placeholder="Email Address"
-                          autoComplete="emailAddress"
-                          {...register('emailAddress')}
+                          autoComplete="email"
+                          {...register('email')}
                           valid={
-                            formState.dirtyFields?.emailAddress && !!!formState.errors?.emailAddress
+                            formState.dirtyFields?.email && !!!formState.errors?.email
                               ? true
                               : false
                           }
-                          invalid={!!formState.errors?.emailAddress && true}
+                          invalid={!!formState.errors?.email && true}
                         />
                       </CInputGroup>
 

@@ -1,10 +1,8 @@
 // @ts-nocheck
 import { EmptyObject, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-
 import { validationSchema } from './validationSchema'
 import { defaultFormValues } from './defaultFormValues'
-
 import {
   CButton,
   CModal,
@@ -20,18 +18,14 @@ import {
   CFormTextarea,
   CFormSelect,
 } from '@coreui/react-pro'
-
 import CIcon from '@coreui/icons-react'
 import { cilUserPlus, cilVoiceOverRecord } from '@coreui/icons'
 import { FaMoneyBillTransfer } from 'react-icons/fa6'
-
 import { useEffect, useState } from 'react'
 import classNames from 'classnames'
-
 import { GrSave } from 'react-icons/gr'
 import { useCustomerInfoStore, useSnackbar } from '@/store'
 /* import agentMobileWebSvcGRPC from '@/api/agentMobileWebSvcGRPC' */
-
 import ViewAgentPIN from '@/components/add-or-edit-agents/ViewAgentPIN'
 /*
  *

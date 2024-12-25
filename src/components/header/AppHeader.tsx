@@ -1,10 +1,7 @@
 // @ts-nocheck
 import { useEffect, useState, useRef } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
-
 import { useUI } from 'src/store'
-
 import {
   CButtonGroup,
   CFormCheck,
@@ -23,16 +20,12 @@ import {
 } from '@coreui/react-pro'
 import { cilSearch, cilApplicationsSettings, cilMenu, cilMoon, cilSun } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
-
 import {
   AppHeaderDropdown,
-  AppHeaderDropdownMssg,
   AppHeaderDropdownNotif,
   AppHeaderDropdownTasks,
 } from '.'
-
 import { AppBreadcrumb } from '@/components'
-
 import logo from '@/public/images/eganow-colored-logo.svg'
 
 const AppHeader = (props: UserInfoType): JSX.Element => {
@@ -40,7 +33,6 @@ const AppHeader = (props: UserInfoType): JSX.Element => {
   const sidebarShow = useUI((state) => state.sidebarShow)
   const setAsideShow = useUI((state) => state.setAsideShow)
   const setSidebarShow = useUI((state) => state.setSidebarShow)
-
  
 
   return (
