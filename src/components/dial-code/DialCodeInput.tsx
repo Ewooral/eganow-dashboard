@@ -14,7 +14,7 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilGlobeAlt } from '@coreui/icons'
 /* API */
-import sharedServiceGRPC from '@/api/sharedServiceGRPC'
+import commonAPI from '@/api/commonAPI'
 /* USE_QUERY */
 import { useQuery } from '@tanstack/react-query'
 import Each from '@/components/Each'
@@ -29,11 +29,11 @@ const DialCode = (props: any) => {
     control: props.handleForm.control,
   })
   //Fetching country options
-  const { getCountries } = sharedServiceGRPC()
+  const { getCountries } = commonAPI()
   //Fetching API
   const { error, data } = useQuery({
     queryKey: ['countryData'],
-    queryFn: () => getCountries({ countryFilter: 'COUNTRY_FILTER_SIGNUP' }),
+    queryFn: () => getCountries({ filter: 1 }),
     staleTime: 5000,
   })
 
@@ -42,7 +42,7 @@ const DialCode = (props: any) => {
     const { id, value, dataset } = event.target
 
     if (dataset.name === 'flag') {
-      const obj = data?.countriesList[id]
+      const obj = data?.data[id]
       //Returning event and country obj
       field.onChange({
         ...field.value,
@@ -80,7 +80,7 @@ const DialCode = (props: any) => {
         </CInputGroupText>
         <CDropdownMenu className="w-100" onClick={handleFlagChange}>
           <Each
-            of={data?.countriesList}
+            of={data?.data}
             render={(item: countryOptionType, index) => {
               return (
                 <CDropdownItem id={`${index}`} data-name="flag">

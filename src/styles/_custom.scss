@@ -1,8 +1,11 @@
 // Here you can add other styles
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+// 1. Registration Interface
+
 body {
-  font-family: 'Nunito Sans', sans-serif;
-  font-weight: 400;
+  font-family: var(--cui-body-font-family);
+  font-optical-sizing: auto;
   font-style: normal;
 }
 
@@ -21,7 +24,7 @@ body {
   width: 11px;
 }
 *::-webkit-scrollbar-track {
-  background-color: #696868;
+   background-color: #696868;
 }
 *::-webkit-scrollbar-thumb {
   border-radius: 2px;
@@ -42,29 +45,6 @@ input[type='email'],
   gap: 20px;
   box-sizing: border-box;
   padding: 0px 10px;
-}
-
-textarea:focus,
-select:focus,
-input[type='text']:focus,
-input[type='password']:focus,
-input[type='select']:focus,
-input[type='datetime']:focus,
-input[type='datetime-local']:focus,
-input[type='date']:focus,
-input[type='month']:focus,
-input[type='time']:focus,
-input[type='week']:focus,
-input[type='number']:focus,
-input[type='email']:focus,
-input[type='url']:focus,
-input[type='search']:focus,
-input[type='tel']:focus,
-input[type='color']:focus,
-.uneditable-input:focus {
-  border: 2px solid black !important;
-  box-shadow: none !important;
-  // outline: 2px solid black;
 }
 
 select {
@@ -103,9 +83,10 @@ select {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--eganow-red-dark);
+  background-color: #ccc;
   font-size: 30px;
-  // color: var(--eganow-red);
+  color: var(--eganow-red);
+
   height: 130px;
   width: 130px;
   padding: 30px;
@@ -407,7 +388,6 @@ select {
 .eyeIcon {
   position: absolute;
   right: 10px;
-  z-index: 50;
   cursor: pointer;
   top: 12px;
   opacity: 1;
@@ -506,68 +486,4 @@ select {
 
 .eganow-red-bg {
   background: $red !important;
-}
-
-.alert-banner {
-  background-color: #fdedec;
-  border-bottom: 1px solid #fc736a;
-  color: black;
-}
-
-.eganow-primary-btn {
-  background-color: var(--eganow-red);
-  color: white !important;
-  border: none;
-  border-radius: 6px;
-  padding: 7px 5px;
-  transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
-}
-
-.eganow-outline-btn {
-  background-color: transparent;
-  color: var(--eganow-red);
-  border: 2px solid var(--eganow-red);
-  border-radius: 6px;
-  padding: 4px 5px;
-  cursor: pointer;
-  transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
-}
-
-.eganow-outline-btn:hover {
-  background-color: var(--eganow-red);
-  border: 2px solid var(--eganow-red);
-  color: white;
-  transform: scale(1.02);
-}
-
-.eganow-primary-btn:hover {
-  transform: scale(1.02);
-}
-
-.eganow-primary-btn:disabled,
-.eganow-primary-btn.disabled {
-  background-color: var(--eganow-red-disabled);
-  cursor: not-allowed;
-  transform: none;
-  pointer-events: none;
-}
-.eganow-secondary-btn {
-  background-color: var(--eganow-blue);
-  color: white !important;
-  border: none;
-  border-radius: 6px;
-  padding: 7px 5px;
-  transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
-}
-
-.eganow-secondary-btn:hover {
-  transform: scale(1.02);
-}
-
-.eganow-secondary-btn:disabled,
-.eganow-secondary-btn.disabled {
-  background-color: var(--eganow-blue-disabled);
-  cursor: not-allowed;
-  transform: none;
-  pointer-events: none;
 }

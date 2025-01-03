@@ -52,7 +52,7 @@ import { GrDocumentPdf } from 'react-icons/gr'
 import { AiFillFileAdd } from 'react-icons/ai'
 /* COMPONENTS */
 import { CChart, CChartBar, CChartLine } from '@coreui/react-chartjs'
-import { DashboardLayout, GlobalLoader } from '@/components'
+import { BizCollectLayout, GlobalLoader } from '@/components'
 /* CONSTANCE */
 import { EGANOW_AUTH_COOKIE, DATE_FORMAT } from '@/constants'
 /* HOOKS */
@@ -67,7 +67,7 @@ import {
 } from '@/components/SmartTableColumnStyle'
 
 import Confirm from '@/components/Confirm'
-import AddEditInternalTransfer from '@/components/Biz-collect/add-or-edit-internal-transfer/AddEditInternalTransfer'
+import AddEditInternalTransfer from '@/components/biz-collect/add-or-edit-internal-transfer/AddEditInternalTransfer'
 /* 
 
 
@@ -76,7 +76,6 @@ import AddEditInternalTransfer from '@/components/Biz-collect/add-or-edit-intern
 
 
 */
-
 const columns = [
   {
     label: 'Created Date',
@@ -215,34 +214,34 @@ const InternalTransfer: NextPageWithLayout = (props) => {
     )
   }
 
-  // function handleClick(event: React.ChangeEvent<HTMLInputElement>, items: ItemType): void {
-  //   const { type } = event.target.dataset
+  function handleClick(event: React.ChangeEvent<HTMLInputElement>, items: ItemType): void {
+    const { type } = event.target.dataset
 
-  //   /*  Editing Users */
-  //   if (type === 'edit') {
-  //     //Setting default data
-  //     const agentData = {
-  //       type: 'edit',
-  //       ...items,
-  //     }
-  //     //Open modal component
-  //     setDynamicComponent(
-  //       <AddEditInternalTransfer
-  //         modalClose={modalClose}
-  //         data={agentData}
-  //         callback={handleRefresh}
-  //       />,
-  //     )
-  //   }
-  //   /*  Reset agent password */
-  //   if (type === 'resetPassword') {
-  //     const message = `You are about to reset ${items.agentname}'s password.`
-  //     //Setting default data
-  //     setDynamicComponent(
-  //       <Confirm modalClose={modalClose} onClick={handleConfirm} message={message} data={items} />,
-  //     )
-  //   }
-  // }
+    /*  Editing Users */
+    if (type === 'edit') {
+      //Setting default data
+      const agentData = {
+        type: 'edit',
+        ...items,
+      }
+      //Open modal component
+      setDynamicComponent(
+        <AddEditInternalTransfer
+          modalClose={modalClose}
+          data={agentData}
+          callback={handleRefresh}
+        />,
+      )
+    }
+    /*  Reset agent password */
+    if (type === 'resetPassword') {
+      const message = `You are about to reset ${items.agentname}'s password.`
+      //Setting default data
+      setDynamicComponent(
+        <Confirm modalClose={modalClose} onClick={handleConfirm} message={message} data={items} />,
+      )
+    }
+  }
 
   function callback(state: string, data: any): void {
     //Refreshing the list of agents
@@ -321,7 +320,7 @@ const InternalTransfer: NextPageWithLayout = (props) => {
   }
 
   return (
-    <DashboardLayout {...props}>
+    <BizCollectLayout {...props}>
       <div className="d-flex justify-content-between align-items-center flex-wrap rounded pt-2">
         <div className="flex-grow-1">
           <h1 className="fs-3 fw-bold text-danger-emphasis" style={{ color: '#CC0229' }}>
@@ -398,8 +397,8 @@ const InternalTransfer: NextPageWithLayout = (props) => {
                 value={searchFilter.status}
                 onChange={() => {}}
                 options={[
-                  { label: 'Account 1', value: 'Account 1' },
-                  { label: 'Account 2', value: 'Account 2' },
+                  { label: 'ALL', value: 'ALL' },
+                  { label: 'JM 2024 CAMPAIGN', value: 'SUCCESSFUL' },
                 ]}
               />
             </CCol>
@@ -471,7 +470,7 @@ const InternalTransfer: NextPageWithLayout = (props) => {
                       data-type="resetPassword"
                       color="secondary"
                       shape="square"
-                      onClick={() => {}}
+                      onClick={handleClick}
                       title="Reset Password"
                       className="text-white"
                     >
@@ -500,7 +499,7 @@ const InternalTransfer: NextPageWithLayout = (props) => {
       </CContainer>
       {/* Dynamic Modal Component */}
       {dynamicComponent}
-    </DashboardLayout>
+    </BizCollectLayout>
   )
 }
 

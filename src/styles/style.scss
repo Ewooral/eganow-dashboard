@@ -1,32 +1,30 @@
 :root {
-  --eganow-blue: #3399ff;
-  --eganow-blue-disabled: #b4d9ff;
-  --eganow-blue-dark: #304767;
+  --eganow-blue: #304767;
+  /* --eganow-red: #cc0229; */
   --eganow-red: #dd032b;
-  --eganow-red-disabled: #ffbfcb;
   --eganow-red-dark: #8e011c;
 }
 
 // If you want to override variables do it here
-@import 'variables';
+@import "variables";
 
 $enable-ltr: true; /* stylelint-disable-line scss/dollar-variable-default */
 $enable-rtl: true; /* stylelint-disable-line scss/dollar-variable-default */
 
 // Import styles
-@import '@coreui/coreui-pro/scss/coreui';
-@import '@coreui/coreui-pro/scss/themes/dark';
+@import "@coreui/coreui-pro/scss/coreui";
+@import "@coreui/coreui-pro/scss/themes/dark";
 
 // Import Chart.js custom tooltips styles
-@import '@coreui/chartjs/scss/coreui-chartjs';
+@import "@coreui/chartjs/scss/coreui-chartjs";
 
-@import 'layout';
+@import "layout";
 
 // If you want to add custom CSS you can put it here.
-@import 'custom';
+@import "custom";
 
-@import 'headers';
+@import "headers";
 
-@import 'examples';
+@import "examples";
 
-@import 'registration';
+@import "registration";

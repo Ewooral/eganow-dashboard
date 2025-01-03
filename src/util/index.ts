@@ -79,7 +79,7 @@ export const formatDate_util = (date: string, pattern: string) => {
 
     return format(new Date(date), pattern)
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
 }
 
@@ -300,3 +300,73 @@ export function getInitialsForAvatar_util(number = 2, ...args: string[]): string
   // This is the final result of the function.
   return initials.join('')
 }
+
+/**
+ * Getting value from a data object by path
+ * @param  {Object} The path
+ * @return {Sting} The value
+ */
+export const queryString_util = (obj) => {
+  return Object.keys(obj)
+    .map((key) => {
+      //Getting input variable
+      let param = obj[key]
+      //If the type of data is a string
+      if (typeof param == 'string') {
+        param = param.trim()
+      }
+      //Return
+      return encodeURIComponent(key) + '=' + encodeURIComponent(param)
+    })
+    .join('&')
+}
+
+/**
+ * Getting the value of a select input field
+ * @param  {String} field, The string value
+ * @param  {String} field, The string value
+ * @return {bool}  The value
+ */
+export const getSelected_util = (arr, key = 'value', value) => {
+  return isEmpty_util(value) ? '' : arr.find((element) => element[key] === value)
+}
+
+/**
+ * Getting the value of a select input field
+ * @param  {String} id, The string value
+ * @param  {Array} array, The string value
+ * @return {String}  The value
+ */
+export const getNameById_util = (id: string, array: []): string => {
+  const result: { id: string; name: string } = array?.find((item: { id: string; name: string }) => item.id === id)
+  return result ? result?.name : null
+}
+/**
+ * Getting the value of a select input field
+ * @param  {String} value, The string value
+ * @param  {Array} array, The string value
+ * @return {String}  The value
+ */
+export const getIdByValue_util = (value: string, array: []): string => {
+  const result: { id: string; value: string; label: string} = array?.find(
+    (item: { id: string; value: string; label: string }) => item.value === value,
+  )
+  return result?.id
+}
+
+export const  toDataUrl_util = (url, callback)=> {
+  var xhr = new XMLHttpRequest()
+  xhr.onload = function () {
+    var reader = new FileReader()
+    reader.onloadend = function () {
+      callback(reader.result)
+    }
+    reader.readAsDataURL(xhr.response)
+  }
+  xhr.open('GET', url)
+  xhr.responseType = 'blob'
+  xhr.send()
+}
+
+
+

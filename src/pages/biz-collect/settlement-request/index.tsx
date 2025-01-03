@@ -53,7 +53,7 @@ import { AiFillFileAdd } from 'react-icons/ai'
 import { FaMoneyCheck } from 'react-icons/fa'
 /* COMPONENTS */
 import { CChart, CChartBar, CChartLine } from '@coreui/react-chartjs'
-import { DashboardLayout, GlobalLoader } from '@/components'
+import { BizCollectLayout, GlobalLoader } from '@/components'
 /* CONSTANCE */
 import { EGANOW_AUTH_COOKIE, DATE_FORMAT } from '@/constants'
 /* HOOKS */
@@ -68,7 +68,7 @@ import {
 } from '@/components/SmartTableColumnStyle'
 
 import Confirm from '@/components/Confirm'
-import AddEditSettlements from '@/components/Biz-collect/settlements/AddEditSettlements'
+import AddEditSettlements from '@/components/biz-collect/settlements/AddEditSettlements'
 /* 
 
 
@@ -215,7 +215,11 @@ const InternalTransfer: NextPageWithLayout = (props) => {
       }
       //Open modal component
       setDynamicComponent(
-        <AddEditSettlements modalClose={modalClose} data={agentData} callback={handleRefresh} />,
+        <AddEditSettlements
+          modalClose={modalClose}
+          data={agentData}
+          callback={handleRefresh}
+        />,
       )
     }
     /*  Reset agent password */
@@ -305,7 +309,7 @@ const InternalTransfer: NextPageWithLayout = (props) => {
   }
 
   return (
-    <DashboardLayout {...props}>
+    <BizCollectLayout {...props}>
       <div className="d-flex justify-content-between align-items-center flex-wrap rounded pt-2">
         <div className="flex-grow-1">
           <h1 className="fs-3 fw-bold text-danger-emphasis" style={{ color: '#CC0229' }}>
@@ -330,11 +334,7 @@ const InternalTransfer: NextPageWithLayout = (props) => {
             Request settlement
           </CButton>{' '}
           <CDropdown variant="btn-group" title="Export list" style={{ marginTop: '30px' }}>
-            <CDropdownToggle
-              variant="outline"
-              color="danger"
-              className="rounded-50 dark:text-white"
-            >
+            <CDropdownToggle variant='outline' color="danger" className="rounded-50 dark:text-white">
               <FaFileExport className="me-1" style={{ fontSize: '1.2rem' }} /> Export
             </CDropdownToggle>
             <CDropdownMenu onMouseUp={() => {}}>
@@ -385,8 +385,8 @@ const InternalTransfer: NextPageWithLayout = (props) => {
                 value={searchFilter.status}
                 onChange={() => {}}
                 options={[
-                  { label: 'Account 1', value: 'Account 1' },
-                  { label: 'Account 2', value: 'Account 2' },
+                  { label: 'ALL', value: 'ALL' },
+                  { label: 'JM 2024 CAMPAIGN', value: 'SUCCESSFUL' },
                 ]}
               />
             </CCol>
@@ -471,7 +471,7 @@ const InternalTransfer: NextPageWithLayout = (props) => {
       </CContainer>
       {/* Dynamic Modal Component */}
       {dynamicComponent}
-    </DashboardLayout>
+    </BizCollectLayout>
   )
 }
 

@@ -19,11 +19,10 @@ function Confirm(props: Confirm) {
   return (
     <CModal alignment="center" visible={true} onClose={props.modalClose}>
       <CModalHeader>
-        <CModalTitle>Confirm</CModalTitle>
+        <CModalTitle>{props.title ? props.title : "Confirm"}</CModalTitle>
       </CModalHeader>
       <CModalBody className="d-flex justify-content-left align-items-center gap-2 ">
         <ImWarning className="text-danger" size={30} />
-
         <p className="m-0 p-2">{props.message}</p>
       </CModalBody>
       <CModalFooter>

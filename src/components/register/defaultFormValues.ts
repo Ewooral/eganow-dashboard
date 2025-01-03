@@ -25,5 +25,5 @@ export const defaultFormValues = {
   businessName: '',
   tradingName: '',
 
-  purpose: 'OTP_GEN_SIGNUP',
+  purpose: 1,
 }

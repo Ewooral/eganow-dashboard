@@ -53,7 +53,7 @@ import { AiFillFileAdd } from 'react-icons/ai'
 import { MdAccountTree } from 'react-icons/md'
 /* COMPONENTS */
 import { CChart, CChartBar, CChartLine } from '@coreui/react-chartjs'
-import { DashboardLayout, GlobalLoader } from '@/components'
+import { BizCollectLayout, GlobalLoader } from '@/components'
 /* CONSTANCE */
 import { EGANOW_AUTH_COOKIE, DATE_FORMAT } from '@/constants'
 /* HOOKS */
@@ -68,7 +68,7 @@ import {
 } from '@/components/SmartTableColumnStyle'
 
 import Confirm from '@/components/Confirm'
-import AddEditDirectDebit from '@/components/Biz-collect/direct-debit-accounts/AddEditDirectDebit'
+import AddEditDirectDebit from '@/components/biz-collect/direct-debit-accounts/AddEditDirectDebit'
 /* 
 
 
@@ -228,7 +228,11 @@ const InternalTransfer: NextPageWithLayout = (props) => {
       }
       //Open modal component
       setDynamicComponent(
-        <AddEditDirectDebit modalClose={modalClose} data={agentData} callback={handleRefresh} />,
+        <AddEditDirectDebit
+          modalClose={modalClose}
+          data={agentData}
+          callback={handleRefresh}
+        />,
       )
     }
     /*  Reset agent password */
@@ -318,7 +322,7 @@ const InternalTransfer: NextPageWithLayout = (props) => {
   }
 
   return (
-    <DashboardLayout {...props}>
+    <BizCollectLayout {...props}>
       <div className="d-flex justify-content-between align-items-center flex-wrap rounded pt-2">
         <div className="flex-grow-1">
           <h1 className="fs-3 fw-bold text-danger-emphasis" style={{ color: '#CC0229' }}>
@@ -341,11 +345,7 @@ const InternalTransfer: NextPageWithLayout = (props) => {
             Direct Debit Request
           </CButton>{' '}
           <CDropdown variant="btn-group" title="Export list" style={{ marginTop: '30px' }}>
-            <CDropdownToggle
-              variant="outline"
-              color="danger"
-              className="rounded-50 dark:text-white"
-            >
+            <CDropdownToggle variant='outline' color="danger" className="rounded-50 dark:text-white">
               <FaFileExport className="me-1" style={{ fontSize: '1.2rem' }} /> Export
             </CDropdownToggle>
             <CDropdownMenu onMouseUp={() => {}}>
@@ -498,7 +498,7 @@ const InternalTransfer: NextPageWithLayout = (props) => {
       </CContainer>
       {/* Dynamic Modal Component */}
       {dynamicComponent}
-    </DashboardLayout>
+    </BizCollectLayout>
   )
 }
 

@@ -14,20 +14,9 @@ import { GiTakeMyMoney } from 'react-icons/gi'
 import CIcon from '@coreui/icons-react'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react-pro'
 
-export type Badge = {
-  color: string
-  text: string
-}
 
-export type NavItem = {
-  component: string | ElementType
-  name: string | JSX.Element
-  title?: string | JSX.Element | undefined
-  icon?: string | JSX.Element
-  badge?: Badge
-  href?: string
-  items?: NavItem[]
-}
+
+
 
 const bizcollectNav = [
   {

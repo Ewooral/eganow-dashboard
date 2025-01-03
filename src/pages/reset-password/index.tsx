@@ -17,7 +17,7 @@ import {
 } from '@coreui/react-pro'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { FormattedMessage } from 'react-intl'
 import * as yup from 'yup'
@@ -27,7 +27,7 @@ import CryptoJS from 'crypto-js'
 import { ForgotPasswordErrors } from '@/types/Errors'
 import { useRouter } from 'next/router'
 /* API */
-import merchantOnboardingSvcGRPC from '@/api/merchantOnboardingSvcGRPC'
+import authAPI from '@/api/authAPI'
 /* CONSTANT */
 import { EGANOW_AUTH_COOKIE, EGANOW_REMEMBER_ME_COOKIE } from '@/constants'
 import { useCookies } from 'react-cookie'
@@ -67,20 +67,18 @@ const validationSchema = yup.object({
     .oneOf([yup.ref('password')]),
 })
 
+const defaultValues = {
+  password: '',
+  confirmPassword: '',
+}
+
 export default function ResetPassword(props) {
-  const { resetPassword } = merchantOnboardingSvcGRPC()
-  const [errors, setErrors] = useState<ForgotPasswordErrors>()
-  const [emailValue, setEmailValue] = useState('')
+  const { resetPassword } = authAPI()
   const [cookie, setCookie, removeCookie] = useCookies()
   const router = useRouter()
-
+  const [errors, setErrors] = useState<ForgotPasswordErrors>()
   //getting encrypted email address from url query
   const encryptedEmail = router.query.email
-
-  const defaultValues = {
-    password: '',
-    confirmPassword: '',
-  }
 
   const { register, handleSubmit, formState, reset } = useForm({
     resolver: yupResolver(validationSchema),
@@ -88,13 +86,24 @@ export default function ResetPassword(props) {
     defaultValues,
   })
 
+  const emailValue = useMemo(() => {
+    try {
+      //Decrypt email address
+      const decryptedEmail = CryptoJS.DES.decrypt(encryptedEmail, props.secret_key)
+      //Convert Decrypted email To Object
+      return JSON.parse(decryptedEmail.toString(CryptoJS.enc.Utf8))
+    } catch (error) {
+      console.error(error)
+    }
+  }, [props.secret_key, encryptedEmail])
+
   const onSubmit = async (data: object) => {
     try {
-      const response: any = await resetPassword({ emailAddress: emailValue, ...data })
+      const response: any = await resetPassword({ email: emailValue, ...data })
       //If accessToken exist on success then log user in.
-      if (response.accessToken) {
+      if (response.data.accessToken) {
         //Storing login authentication in cookie
-        setCookie(EGANOW_AUTH_COOKIE, response, {
+        setCookie(EGANOW_AUTH_COOKIE, response.data, {
           maxAge: 30 * 60 * 24,
         })
         //Routing to the intermediate page when logged in.
@@ -116,19 +125,6 @@ export default function ResetPassword(props) {
       console.error(error)
     }
   }
-
-  useEffect(() => {
-    try {
-      //Decrypt email address
-      const decryptedEmail = CryptoJS.DES.decrypt(encryptedEmail, props.secret_key)
-      //Convert Decrypted email To Object
-      const email = JSON.parse(decryptedEmail.toString(CryptoJS.enc.Utf8))
-      //set email address to the decrypted email
-      setEmailValue(email)
-    } catch (error) {
-      console.error(error)
-    }
-  }, [props.secret_key, encryptedEmail])
 
   return (
     <div className="login-bg d-flex justify-content-center align-items-center">

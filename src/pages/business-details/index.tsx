@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react'
 import type { NextPageWithLayout } from '@/pages/_app'
 /* ICONS */
 import { FaEdit } from 'react-icons/fa'
-import { MdOutlineCancel, MdOutlineHomeWork } from 'react-icons/md'
+import { MdOutlineCancel } from 'react-icons/md'
 import { FaFilePdf, FaRegImages } from 'react-icons/fa6'
 import { LuFactory } from 'react-icons/lu'
-/*  */
+/* UI */
 import {
   CCol,
   CRow,
@@ -26,32 +26,34 @@ import {
   CCard,
   CPlaceholder,
   CCardTitle,
+  CAlert,
 } from '@coreui/react-pro'
 import CIcon from '@coreui/icons-react'
-
+import { cilBurn } from '@coreui/icons'
 import { cilIndustry } from '@coreui/icons'
 /* CONSTANCE */
 import { EGANOW_AUTH_COOKIE } from '@/constants'
 /* COMPONENTS */
 import CountryInput from '@/components/country/CountryInput'
-import { GeneralLayout } from '@/components/'
-
+import { EntryLayout, AppBreadcrumb } from '@/components'
+import {
+  BusinessInfo,
+  CustomerInfo,
+  ContactPerson,
+  DirectorsShareholders,
+  Attachments,
+  Note,
+  Message,
+} from '@/components/business-details'
 /* HOOKS */
 import { useForm } from 'react-hook-form'
 import { useQueries } from '@tanstack/react-query'
-import BusinessAccountSvc from '@/api/merchantAccountSvcGRPC'
-import MerchantCommonSvc from '@/api/merchantCommonSvcGRPC'
 import { useSnackbar } from '@/store'
-import {
-  Attachments,
-  BusinessInfo,
-  ContactPerson,
-  CustomerInfo,
-  DirectorsShareholders,
-  Message,
-  Note,
-} from '@/components/Biz-collect/business-customer-details'
-import { CiEdit } from 'react-icons/ci'
+/* APIs */
+import merchantDocumentsAPI from '@/api/merchantDocumentsAPI'
+import merchantDirectorShareholderAPI from '@/api/merchantDirectorShareholderAPI'
+import merchantContactPersonAPI from '@/api/merchantContactPersonAPI'
+import merchantBusinessInfoAPI from '@/api/merchantBusinessInfoAPI'
 
 export const getServerSideProps = async ({ req }) => {
   const cookies = req.cookies[EGANOW_AUTH_COOKIE] ? JSON.parse(req.cookies[EGANOW_AUTH_COOKIE]) : {}
@@ -65,23 +67,17 @@ export const getServerSideProps = async ({ req }) => {
 
 const Entry: NextPageWithLayout = (props) => {
   const [activeKey, setActiveKey] = useState(1)
-  const [type, setType] = useState('')
-  const [allowToEdit, setAllowToEdit] = useState(null)
-
-  //snackbar from zustand store
+  const [isEditable, setIsEditable] = useState(false)
+  const [allowToEdit, setAllowToEdit] = useState(false)
+  //STORE
   const showSnackbar = useSnackbar((state: any) => state.showSnackbar)
-
-  //business info apis
-  const {
-    listBusinessContactPersons,
-    getBusinessInfo,
-    getBusinessContactInfo,
-    getDirectorList,
-    listBusinessDocuments,
-  } = BusinessAccountSvc()
-  const { getBusinessRegulators, getBusinessIndustries } = MerchantCommonSvc()
-
-  //handles multiple queries
+  //APIs
+  const { listBusinessDocuments } = merchantDocumentsAPI()
+  const { getBusinessInfo, getBusinessContactInfo, getBusinessRegulators, getBusinessIndustries } =
+    merchantBusinessInfoAPI()
+  const { getDirectorList } = merchantDirectorShareholderAPI()
+  const { listBusinessContactPersons } = merchantContactPersonAPI()
+  //QUERIES
   const [
     businessContactPersons,
     businessIndustries,
@@ -93,52 +89,51 @@ const Entry: NextPageWithLayout = (props) => {
   ] = useQueries({
     queries: [
       {
-        queryKey: ['listbusinesscontactpersons', 1],
+        queryKey: ['listBusinessContactPersons', 1],
         queryFn: () => listBusinessContactPersons(),
         staleTime: 5000,
+        refetchOnWindowFocus: false,
       },
       {
         queryKey: ['getBusinessIndustries', 2],
         queryFn: () => getBusinessIndustries(),
         staleTime: 5000,
+        refetchOnWindowFocus: false,
       },
       {
         queryKey: ['getBusinessRegulators', 3],
         queryFn: () => getBusinessRegulators(),
         staleTime: 5000,
+        refetchOnWindowFocus: false,
       },
-      { queryKey: ['getBusinessInfo', 4], queryFn: () => getBusinessInfo(), staleTime: 5000 },
+      {
+        queryKey: ['getBusinessInfo', 4],
+        queryFn: () => getBusinessInfo(),
+        staleTime: 5000,
+        refetchOnWindowFocus: false,
+      },
       {
         queryKey: ['getBusinessContactInfo', 5],
         queryFn: () => getBusinessContactInfo(),
         staleTime: 5000,
+        refetchOnWindowFocus: false,
       },
-      { queryKey: ['getDirectorList', 6], queryFn: () => getDirectorList(), staleTime: 5000 },
+      {
+        queryKey: ['getDirectorList', 6],
+        queryFn: () => getDirectorList(),
+        staleTime: 5000,
+        refetchOnWindowFocus: false,
+      },
       {
         queryKey: ['getBusinessDocuments', 7],
         queryFn: () => listBusinessDocuments(),
         staleTime: 5000,
+        refetchOnWindowFocus: false,
       },
     ],
   })
 
   useEffect(() => {
-    if (allowToEdit) {
-      showSnackbar({
-        type: 'danger',
-        title: 'User Management',
-        messages: 'Please update your info to complete your registration',
-        show: true,
-      })
-    }
-  }, [allowToEdit, showSnackbar])
-
-  useEffect(() => {
-    if (businessInfo.data) {
-      setAllowToEdit(true)
-      // results[3]?.data?.allowForEdit
-    }
-
     if (businessInfo?.error?.message) {
       showSnackbar({
         type: 'danger',
@@ -187,118 +182,150 @@ const Entry: NextPageWithLayout = (props) => {
     fileInputType.addEventListener('change', () => {}, false)
   }
 
-  //function to toggle edit mode
-  function toggleEdit() {
-    type === '' ? setType('edit') : setType('')
-  }
-
   return (
-    <GeneralLayout {...props}>
-      <div className="">
-        <div
-          style={{ paddingTop: '30px', paddingRight: '50px' }}
-          className="d-flex justify-content-between ps-5 "
-        >
-          <div className="flex-grow-1 pt-2">
-            <h1 className="fs-3 fw-bold text-danger-emphasis" style={{ color: '#CC0229' }}>
-              <LuFactory className="fs-2 fw-bold me-2" />
-              Business Details
-            </h1>
-            <small className="text-secondary">
-              View/ reviewing customer information and business registration details
-            </small>
-          </div>
+    <EntryLayout {...props}>
+      <div className="profile-banner-color">
+        <div className="profile-banner-img">
+          <div className="d-flex justify-content-between align-items-center px-4 px-sm-5 pt-10">
 
-          {allowToEdit && (
-            <div className="">
-              {type === '' ? (
-                <button
-                  onClick={toggleEdit}
-                  className="eganow-outline-btn d-flex gap-2 align-items-center px-3 justify-content-between"
-                >
-                  <CiEdit size={20} className="p-0 m-0" />
-                  <p className="m-0 p-0 ">Edit</p>
-                </button>
-              ) : (
-                <button
-                  onClick={toggleEdit}
-                  className="eganow-outline-btn d-flex gap-2 align-items-center px-3 justify-content-between"
-                >
-                  <MdOutlineCancel size={20} />
-                  <p className="m-0 p-0 ">Cancel</p>
-                </button>
-              )}
+            <div className="flex-grow-1 pt-2">
+              <h1 className="fs-3 fw-bold text-danger-emphasis" style={{ color: '#CC0229' }}>
+                <LuFactory className="fs-2 fw-bold me-2" />
+                Business Details
+              </h1>
+              <small className="text-secondary">
+                View/ reviewing customer information and business registration details
+              </small>
+              <AppBreadcrumb name="Ffsggg" />
             </div>
-          )}
+
+            <div>
+              <CButton
+                color="danger"
+                className="bg-white text-black"
+                onMouseUp={() => setIsEditable((prev) => !prev)}
+              >
+                {isEditable ? (
+                  <div className="d-flex align-items-center gap-2">
+                    <MdOutlineCancel style={{ fontSize: '1.2rem' }} />
+                    Cancel Edit Mode
+                  </div>
+                ) : (
+                  <div className="d-flex align-items-center gap-2">
+                    <FaEdit style={{ fontSize: '1.2rem' }} />
+                    Edit
+                  </div>
+                )}
+              </CButton>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="position-relative px-4 px-sm-5 mt-2">
+      <div className="position-relative px-4 px-sm-5" style={{ marginTop: '-2.1rem' }}>
+        {allowToEdit && (
+          <CAlert
+            color="danger"
+            variant="outlined"
+            className="d-flex align-items-center"
+            dismissible
+          >
+            <CIcon icon={cilBurn} className="flex-shrink-0 me-2" width={24} height={24} />
+            <div>Please update your info to complete your registration.</div>
+          </CAlert>
+        )}
+
         <CRow className="justify-content-between mb-5 gap-4">
           <CCol>
-            <CCard className="p-2  me-1 rounded shadow-none" style={{ minHeight: '79.3vh' }}>
+            <CCard className="p-2 me-1 rounded shadow-none" style={{ minHeight: '79.3vh' }}>
               <CRow className="justify-content-center p-4">
                 <div className="company-logo position-relative">
-                  <MdOutlineHomeWork size={50} className="text-white" />
+                  <CIcon icon={cilIndustry} style={{ height: '100%', width: 'auto' }} />
+                  {isEditable && (
+                    <span title="Change logo" className="cursor-pointer">
+                      <FaEdit
+                        className="
+                          position-absolute 
+                          bottom-0 start-90
+                          bg-white 
+                          p-2 
+                          rounded-circle 
+                          border
+                          border-2
+                        "
+                        style={{
+                          width: '34px',
+                          height: '34px',
+                        }}
+                        onMouseUp={handleLogoUpload}
+                      />
+                    </span>
+                  )}
                 </div>
 
-                <div className="mt-4 border rounded p-3">
+                <div className="mt-4">
                   <div>
-                    <strong className="text-secondary">Current User</strong>
-                    <p className=" fw-bold">{props.cookies.fullName}</p>
+                    <h6 className="fw-bold">Current User</h6>
+                    <h6 style={{ color: '#e55353' }} className="mb-4 fw-normal">
+                      {props.cookies.fullName}
+                    </h6>
                   </div>
 
                   <div>
-                    <strong className="text-secondary">Company Name</strong>
-                    {businessInfo?.data?.companyName ? (
-                      <p className="fw-bold">{businessInfo?.data?.companyName}</p>
-                    ) : (
+                    <h6 className="fw-bold">Company Name</h6>
+                    {businessInfo.isLoading ? (
                       <CPlaceholder component={CCardTitle} animation="glow">
                         <CPlaceholder xs={6} className="rounded bg-secondary" />
                       </CPlaceholder>
+                    ) : (
+                      <h6 className="mb-4 fw-normal">{businessInfo?.data?.data.companyName}</h6>
                     )}
                   </div>
 
                   <div>
-                    <strong className="text-secondary">Registration Number</strong>
-                    {businessInfo?.data?.companyRegistrationNumber ? (
-                      <p className=" fw-bold">{businessInfo?.data?.companyRegistrationNumber}</p>
-                    ) : (
+                    <h6 className="fw-bold">Registration Number</h6>
+                    {businessInfo.isLoading ? (
                       <CPlaceholder component={CCardTitle} animation="glow">
                         <CPlaceholder xs={6} className="rounded bg-secondary" />
                       </CPlaceholder>
+                    ) : (
+                      <h6 className="mb-4 fw-normal">
+                        {businessInfo?.data?.data.companyRegistrationNo}
+                      </h6>
                     )}
                   </div>
 
                   <div>
-                    <strong className="text-secondary">TIN</strong>
-                    {businessInfo?.data?.taxIdentificationNumber ? (
-                      <p className=" fw-bold">{businessInfo?.data?.taxIdentificationNumber}</p>
-                    ) : (
+                    <h6 className="fw-bold">TIN</h6>
+                    {businessInfo.isLoading ? (
                       <CPlaceholder component={CCardTitle} animation="glow">
                         <CPlaceholder xs={6} className="rounded bg-secondary" />
                       </CPlaceholder>
+                    ) : (
+                      <h6 className="mb-4 fw-normal">
+                        {businessInfo.data?.data.taxIdentificationNumber}
+                      </h6>
                     )}
                   </div>
 
                   <div>
-                    <strong className="text-secondary">Attachments</strong>
-                    {businessDocuments?.data?.documentsList?.length ? (
-                      <p className=" fw-bold">
+                    <h6 className="fw-bold">Attachments</h6>
+                    {businessDocuments.isLoading ? (
+                      <CPlaceholder component={CCardTitle} animation="glow">
+                        <CPlaceholder xs={6} className="rounded bg-secondary" />
+                      </CPlaceholder>
+                    ) : (
+                      <h6 className="mb-4 fw-normal">
                         Count::{' '}
                         <CBadge color="secondary" shape="rounded-circle">
-                          {businessDocuments?.data?.documentsList?.length || 0}
+                          {businessDocuments.data?.data?.length || 0}
                         </CBadge>
-                      </p>
-                    ) : (
-                      <CPlaceholder component={CCardTitle} animation="glow">
-                        <CPlaceholder xs={6} className="rounded bg-secondary" />
-                      </CPlaceholder>
+                      </h6>
                     )}
                   </div>
 
-                  <div className="">
-                    <strong className="text-secondary">Country</strong>
+                  <div className="mb-4">
+                    <h6 className="fw-bold">Country</h6>
                     <CountryInput
                       className="mb-3"
                       name="country"
@@ -312,10 +339,10 @@ const Entry: NextPageWithLayout = (props) => {
             </CCard>
           </CCol>
 
-          <CCol lg={9} className="">
-            <CCard className="px-0   me-1 rounded shadow-none" style={{ minHeight: '79.3vh' }}>
+          <CCol lg={9}>
+            <CCard className="px-0 pt-4 me-1 rounded shadow-none" style={{ minHeight: '79.3vh' }}>
               <div className="w-100 overflow-y-hidden overflow-x-auto">
-                <CNav variant="tabs" className="mb-4 w-100">
+                <CNav variant="underline" className="mb-4 w-100">
                   <CNavItem>
                     <CNavLink href="#" active={activeKey === 1} onClick={() => setActiveKey(1)}>
                       <strong>Business Info</strong>
@@ -337,12 +364,7 @@ const Entry: NextPageWithLayout = (props) => {
                     </CNavLink>
                   </CNavItem>
                   <CNavItem>
-                    <CNavLink
-                      color="danger"
-                      href="#"
-                      active={activeKey === 5}
-                      onClick={() => setActiveKey(5)}
-                    >
+                    <CNavLink href="#" active={activeKey === 5} onClick={() => setActiveKey(5)}>
                       <strong>Attachments</strong>
                     </CNavLink>
                   </CNavItem>
@@ -357,60 +379,64 @@ const Entry: NextPageWithLayout = (props) => {
                 >
                   <BusinessInfo
                     businessInfoData={businessInfo}
-                    industries={businessIndustries?.data?.industriesList}
-                    regulators={businessRegulators?.data?.regulatorsList}
-                    type={type}
-                    setType={setType}
+                    industries={businessIndustries.data?.data}
+                    regulators={businessRegulators.data?.data}
+                    isEditable={isEditable}
+                    setIsEditable={setIsEditable}
+                    allowToEdit={allowToEdit}
                   />
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="profile-tab" visible={activeKey === 2}>
                   <CustomerInfo
                     control={control}
-                    type={type}
                     contactInfo={businessContactInfo}
-                    setType={setType}
+                    isEditable={isEditable}
+                    setIsEditable={setIsEditable}
+                    allowToEdit={allowToEdit}
                   />
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 3}>
                   <ContactPerson
-                    control={control}
-                    data={businessContactPersons}
+                    contactPersons={businessContactPersons}
+                    isEditable={isEditable}
+                    setIsEditable={setIsEditable}
                     allowToEdit={allowToEdit}
                   />
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 4}>
                   <DirectorsShareholders
-                    type={type}
                     directors={directorsList}
-                    setType={setType}
+                    isEditable={isEditable}
+                    setIsEditable={setIsEditable}
                     allowToEdit={allowToEdit}
                   />
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 5}>
                   <Attachments
-                    control={control}
-                    data={businessDocuments}
+                    businessDocuments={businessDocuments}
+                    isEditable={isEditable}
+                    setIsEditable={setIsEditable}
                     allowToEdit={allowToEdit}
                   />
                 </CTabPane>
 
-                <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 6}>
+                {/* <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 6}>
                   <Note control={control} />
                 </CTabPane>
 
                 <CTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 7}>
                   <Message control={control} />
-                </CTabPane>
+                </CTabPane> */}
               </CTabContent>
             </CCard>
           </CCol>
         </CRow>
       </div>
-    </GeneralLayout>
+    </EntryLayout>
   )
 }
 

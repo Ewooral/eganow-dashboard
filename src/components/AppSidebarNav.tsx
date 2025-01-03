@@ -1,11 +1,9 @@
 import React, { ReactNode } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-
 import { CBadge } from '@coreui/react-pro'
 import CIcon from '@coreui/icons-react'
-
-import { Badge, NavItem } from './Biz-collect/bizcollectNav'
+import { Badge, NavItem } from '../types/NavItemType'
 
 interface AppSidebarNavProps {
   items: NavItem[]
@@ -64,6 +62,7 @@ export default function AppSidebarNav({ items }: AppSidebarNavProps) {
       </Component>
     )
   }
+
   const navGroup = (item: NavItem, index: number) => {
     const { component, name, icon, href, title, ...rest } = item
     const Component = component
@@ -89,7 +88,6 @@ export default function AppSidebarNav({ items }: AppSidebarNavProps) {
         width: '95%',
         margin: '0 auto',
       }}
-      className=" "
     >
       {items &&
         items.map((item: NavItem, index: number) => {
