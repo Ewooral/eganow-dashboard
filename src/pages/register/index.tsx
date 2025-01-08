@@ -230,7 +230,7 @@ const Register = () => {
       //Handling GRPC errors
       if (error?.response) {
         setErrors({
-          [stepKey]: error?.response.data.message,
+          [stepKey]: error?.response?.message,
         })
         return
       }

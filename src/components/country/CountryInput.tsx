@@ -33,7 +33,7 @@ const Country = (props: countryPropsType) => {
   //Fetching countries with useQuery
   const { error, data } = useQuery({
     queryKey: ['getCountries'],
-    queryFn: () => getCountries({ filter: 1 }),
+    queryFn: () => getCountries({ filter: "OPERATING" }),
     staleTime: 5000,
   })
 
