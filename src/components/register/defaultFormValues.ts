@@ -25,5 +25,5 @@ export const defaultFormValues = {
   businessName: '',
   tradingName: '',
 
-  purpose: 1,
+  purpose: 'SIGNUP',
 }
