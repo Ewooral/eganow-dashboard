@@ -66,6 +66,7 @@ export default function App({ Component, pageProps: { ...pageProps } }: AppProps
   }, [locale])
 
   return (
+    
     <IntlProvider messages={messages} locale={locale} defaultLocale="en">
       <CookiesProvider defaultSetOptions={{ path: '/' }}>
         <QueryClientProvider client={queryClient}>
