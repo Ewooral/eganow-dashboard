@@ -1,6 +1,6 @@
 import { AppAside, AppFooter, AppHeader } from '@/components'
 import { UserInfoType } from '@/types/Users'
-import BizCollectSidebar from '../biz-collect/BizCollectSidebar'
+import BizCollectSidebar from '../Biz-collect/BizCollectSidebar'
 
 function BizCollectLayout({
   children,
