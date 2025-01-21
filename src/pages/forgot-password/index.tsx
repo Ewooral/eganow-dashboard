@@ -64,7 +64,7 @@ const ForgotPassword = () => {
     defaultValues,
   })
 
-  const onSubmit = async (data: object) => {
+  const onSubmit = async (data: any) => {
     try {
       const response = await requestPasswordReset(data)
 

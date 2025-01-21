@@ -42,7 +42,7 @@ export default function AxiosInstance() {
       return response?.data // Return the response data
     },
     async (error) => {
-      if (error.response.status === HTTP_ERROR_CODES.UNAUTHORIZED) {
+      if (error?.response?.status === HTTP_ERROR_CODES.UNAUTHORIZED) {
         //console.log(error.response.status)
         await router.push('/login')//TODO::must be worked on later.
       }

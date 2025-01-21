@@ -5,8 +5,8 @@ export default function otpAPI() {
 
   return {
     generateOTP: (param: { email: string; purpose: string }) =>
-      axiosInstance.post(`/api/v1/otp/generate`, param),
+      axiosInstance.post(`/api/v1/onboarding/otp/generate`, param),
     verifyOTP: (param: { email: string; purpose: string; otp: string }) =>
-      axiosInstance.post('/api/v1/otp/verify', param),
+      axiosInstance.post('/api/v1/onboarding/otp/verify', param),
   }
 }

@@ -33,7 +33,8 @@ import {
 } from '@coreui/react-pro'
 /*CORE UI ICONS */
 import CIcon from '@coreui/icons-react'
-import { cilArrowTop, cilChartPie, cilLoopCircular, cilSearch } from '@coreui/icons'
+import { Loader2 } from 'lucide-react';
+import { cilArrowBottom, cilArrowTop, cilChartPie, cilLoopCircular, cilSearch } from '@coreui/icons'
 /*FONT AWESOME ICONS */
 import { FiEye } from 'react-icons/fi'
 /* COMPONENTS */
@@ -47,14 +48,12 @@ import CountryInput from '@/components/country/CountryInput'
 
 import { StatusColumn } from '@/components/SmartTableColumnStyle'
 import BizCollectSidebar from '@/components/Biz-collect/BizCollectSidebar'
-/* 
 
+import { useQuery } from '@tanstack/react-query'
+import dashboardAnalytics from '@/api/dashboardAnalytics'
+import { formatMoney_util, RoundValue } from '@/util'
+import { ApiResponseBizCollectData } from '@/types/BizCollectDataTypes'
 
-
-
-
-
-*/
 export const getServerSideProps = async ({ req }) => {
   const cookies = JSON.parse(req.cookies[EGANOW_AUTH_COOKIE])
   //Response
@@ -67,6 +66,30 @@ export const getServerSideProps = async ({ req }) => {
 
 const BizCollect: NextPageWithLayout = (props) => {
   const isStoreReady = useStoreReady()
+  const [selectedType, setSelectedType] = useState<'collection' | 'payout'>('collection')
+
+  // GETTING API CALL
+  const { getDashboard } = dashboardAnalytics()
+
+  const { data, error, isPending } = useQuery({
+    queryKey: ['dashboard'],
+    queryFn: async () => await getDashboard(),
+    staleTime: 5000,
+  })
+
+  const analytics = data?.data
+
+  /**
+   * Represents the payment methods data retrieved from the API response.
+   *
+   * @type {ApiResponseBizCollectData}
+   */
+  const paymentMethodsObj: ApiResponseBizCollectData = data
+  const paymentMethod = paymentMethodsObj?.data.paymentMethods[selectedType] || []
+
+  const handleDropdownChange = (type: 'collection' | 'payout') => {
+    setSelectedType(type)
+  }
 
   const { control } = useForm({
     mode: 'onChange',
@@ -99,7 +122,7 @@ const BizCollect: NextPageWithLayout = (props) => {
             className=""
             name="country"
             handleForm={{ control }}
-            callback={() => {}}
+            callback={() => { }}
             shouldValidate={false}
           />
           <CDropdown variant="btn-group">
@@ -119,15 +142,28 @@ const BizCollect: NextPageWithLayout = (props) => {
       </div>
 
       <CRow>
-        <CCol sm={3}>
+        <CCol sm={6} md={3}>
           <CWidgetStatsA
             className="mb-4 shadow-none"
             // color="white"
             value={
               <div className="text-black dark:text-white">
-                GHS 9.000{' '}
+                GHS {analytics?.monthlyBalance.collection.availableBalance || 0}{' '}
+
                 <span className="fs-6 fw-normal text-black dark:text-white">
-                  (40.9% <CIcon icon={cilArrowTop} />)
+                  (
+                  {RoundValue(analytics?.monthlyBalance?.collection?.percentageProgress) || 0} %{' '}
+
+                  {analytics?.monthlyBalance.collection.progressType == 'INCREASE' ? (
+                    <span>
+                      <CIcon icon={cilArrowTop} className="text-success" />
+                    </span>
+                  ) : (
+                    <span>
+                      <CIcon icon={cilArrowBottom} className="text-danger" />
+                    </span>
+                  )}
+                  )
                 </span>
               </div>
             }
@@ -144,7 +180,7 @@ const BizCollect: NextPageWithLayout = (props) => {
                       backgroundColor: 'transparent',
                       borderColor: '#304767',
                       pointBackgroundColor: '#304767',
-                      data: [65, 59, 84, 84, 51, 55, 40],
+                      data: analytics?.monthlyBalance.collection.monthlyValues.slice(0, 8), // [65, 59, 84, 84, 51, 55, 40],
                     },
                   ],
                 }}
@@ -166,8 +202,8 @@ const BizCollect: NextPageWithLayout = (props) => {
                       },
                     },
                     y: {
-                      min: 30,
-                      max: 89,
+                      min: 0,
+                      max: 110,
                       display: false,
                       grid: {
                         display: false,
@@ -194,17 +230,29 @@ const BizCollect: NextPageWithLayout = (props) => {
           />
         </CCol>
 
-        <CCol sm={3}>
+        {/* PAYOUTS */}
+        <CCol sm={6} md={3}>
           <CWidgetStatsA
             className="mb-4   shadow-none"
             // color="warning"
             value={
-              <>
-                GHS 9.000{' '}
-                <span className="fs-6 fw-normal">
-                  (40.9% <CIcon icon={cilArrowTop} />)
+              <div className="text-black dark:text-white">
+                GHS {analytics?.monthlyBalance.payout.availableBalance || 0}{' '}
+                <span className="fs-6 fw-normal text-black dark:text-white">
+                  (
+                  {RoundValue(analytics?.monthlyBalance?.payout?.percentageProgress) || 0} %{' '}
+                    {analytics?.monthlyBalance.payout.progressType == 'INCREASE' ? (
+                      <span>
+                        <CIcon icon={cilArrowTop} className="text-success" />
+                      </span>
+                    ) : (
+                      <span>
+                        <CIcon icon={cilArrowBottom} className="text-danger" />
+                      </span>
+                    )}
+                  )
                 </span>
-              </>
+              </div>
             }
             title="Payout Balance"
             chart={
@@ -215,10 +263,10 @@ const BizCollect: NextPageWithLayout = (props) => {
                   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
                   datasets: [
                     {
-                      label: 'My First dataset',
+                      label: 'Payouts',
                       borderColor: '#304767',
                       pointBackgroundColor: '#304767',
-                      data: [78, 81, 80, 45, 34, 12, 40],
+                      data: analytics?.monthlyBalance.payout.monthlyValues.slice(0, 8), // [78, 81, 80, 45, 34, 12, 40],
                       fill: true,
                     },
                   ],
@@ -254,18 +302,31 @@ const BizCollect: NextPageWithLayout = (props) => {
             }
           />
         </CCol>
+        {/* END OF PAYOUTS */}
 
-        <CCol className="" sm={3}>
+        {/* COMMISIONS */}
+        <CCol className="" sm={6} md={3}>
           <CWidgetStatsA
             className="mb-4 shadow-none"
             // color="danger"
             value={
-              <>
-                GHS 9.000{' '}
-                <span className="fs-6 fw-normal">
-                  (40.9% <CIcon icon={cilArrowTop} />)
+              <div className="text-black dark:text-white">
+                GHS {analytics?.monthlyBalance.commission.availableBalance || 0}{' '}
+                <span className="fs-6 fw-normal text-black dark:text-white">
+                  (
+                  {RoundValue(analytics?.monthlyBalance?.commission?.percentageProgress) || 0} %{' '}
+                    {analytics?.monthlyBalance.commission.progressType == 'INCREASE' ? (
+                      <span>
+                        <CIcon icon={cilArrowTop} className="text-success" />
+                      </span>
+                    ) : (
+                      <span>
+                        <CIcon icon={cilArrowBottom} className="text-danger" />
+                      </span>
+                    )}
+                  )
                 </span>
-              </>
+              </div>
             }
             title="Commission Balance"
             chart={
@@ -286,17 +347,13 @@ const BizCollect: NextPageWithLayout = (props) => {
                     'October',
                     'November',
                     'December',
-                    'January',
-                    'February',
-                    'March',
-                    'April',
                   ],
                   datasets: [
                     {
                       label: 'My First dataset',
                       backgroundColor: '#304767',
                       borderColor: '#304767',
-                      data: [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
+                      data: analytics?.monthlyBalance.commission.monthlyValues, // [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
                       barPercentage: 0.6,
                     },
                   ],
@@ -334,18 +391,31 @@ const BizCollect: NextPageWithLayout = (props) => {
             }
           />
         </CCol>
+        {/* END OF COMISSIONS */}
 
-        <CCol className="" sm={3}>
+        {/* TOTAL SETTLEMENTS */}
+        <CCol className="" sm={6} md={3}>
           <CWidgetStatsA
             className="mb-4 shadow-none"
             // color="danger"
             value={
-              <>
-                GHS 40.000{' '}
-                <span className="fs-6 fw-normal">
-                  (40.9% <CIcon icon={cilArrowTop} />)
+              <div className="text-black dark:text-white">
+                GHS {analytics?.monthlyBalance.totalSettlements.availableBalance || 0}{' '}
+                <span className="fs-6 fw-normal text-black dark:text-white">
+                  (
+                  {RoundValue(analytics?.monthlyBalance?.totalSettlements?.percentageProgress) || 0} %{' '}
+                    {analytics?.monthlyBalance.totalSettlements.progressType == 'INCREASE' ? (
+                      <span>
+                        <CIcon icon={cilArrowTop} className="text-success" />
+                      </span>
+                    ) : (
+                      <span>
+                        <CIcon icon={cilArrowBottom} className="text-danger" />
+                      </span>
+                    )}
+                  )
                 </span>
-              </>
+              </div>
             }
             title="Total Settlements"
             chart={
@@ -366,17 +436,13 @@ const BizCollect: NextPageWithLayout = (props) => {
                     'October',
                     'November',
                     'December',
-                    'January',
-                    'February',
-                    'March',
-                    'April',
                   ],
                   datasets: [
                     {
                       label: 'My First dataset',
                       backgroundColor: '#304767',
                       borderColor: '#304767',
-                      data: [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
+                      data: analytics?.monthlyBalance.totalSettlements.monthlyValues, // [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
                       barPercentage: 0.6,
                     },
                   ],
@@ -414,6 +480,7 @@ const BizCollect: NextPageWithLayout = (props) => {
             }
           />
         </CCol>
+        {/* END OF TOTAL SETTLEMENTS */}
       </CRow>
 
       <CContainer fluid className="p-3 bg-gradient mb-5 ">
@@ -421,7 +488,13 @@ const BizCollect: NextPageWithLayout = (props) => {
           <div>
             <small>Select Date Range </small>
             <div className="d-flex justify-content-between shadow-none">
-              <CDateRangePicker footer locale="en-US" className="shadow-none border-none" />
+              <CDateRangePicker
+                footer
+                locale="en-US"
+                className="shadow-none border-none"
+                onStartDateChange={(date) => console.log(date)}
+                onEndDateChange={(date) => console.log(date)}
+              />
               <CButton
                 // color="black"
                 title="Search"
@@ -429,7 +502,7 @@ const BizCollect: NextPageWithLayout = (props) => {
                 style={{
                   backgroundColor: '#304767',
                 }}
-                onMouseUp={() => {}}
+                onMouseUp={() => { }}
               >
                 <CIcon icon={cilSearch} id="new" />
               </CButton>
@@ -441,48 +514,49 @@ const BizCollect: NextPageWithLayout = (props) => {
             title="Refresh list"
             variant="outline"
             className="mx-1 rounded-50"
-            onMouseUp={() => {}}
+            onMouseUp={() => { }}
             style={{ marginTop: '24px', backgroundColor: '#304767', color: 'white' }}
           >
             <CIcon
               icon={cilLoopCircular}
               id="new"
-              /* className={classNames({
-                rotate: isLoading,
-              })} */
+            /* className={classNames({
+            rotate: isLoading,
+          })} */
             />
           </CButton>
         </div>
 
         <CRow>
-          <CCol sm={6}>
+          {/* COUNTS */}
+          <CCol md={12} lg={6} >
             <CCard className="mb-4 shadow-none" style={{ overflow: 'auto' }}>
               <div className="pt-3 px-3">
                 <div className="card-title fs-5 fw-semibold ndc-green-text my-0">Total Counts</div>
               </div>
 
               <CCardBody>
-                <CWidgetStatsF
-                  style={{ border: '1px solid #304767' }}
-                  className="mb-3  shadow-none"
-                  color="secondary"
-                  icon={<CIcon icon={cilChartPie} height={24} />}
-                  title="Collection"
-                  value="# 20.000"
-                />
-                <CWidgetStatsF
-                  style={{ border: '1px solid #304767' }}
-                  className="mb-3  shadow-none"
-                  color="secondary"
-                  icon={<CIcon icon={cilChartPie} height={24} />}
-                  title="Payout"
-                  value="# 20,000"
-                />
+                {analytics?.transTypeTotalCounts &&
+                  analytics?.transTypeTotalCounts.map((count, index) => {
+                    return (
+                      <CWidgetStatsF
+                        key={index}
+                        style={{ border: '1px solid #304767' }}
+                        className="mb-3  shadow-none"
+                        color="secondary"
+                        icon={<CIcon icon={cilChartPie} height={24} />}
+                        title={count.name}
+                        value={count?.value}
+                      />
+                    )
+                  })}
               </CCardBody>
             </CCard>
           </CCol>
+          {/* END OF COUNTS */}
 
-          <CCol sm={3}>
+          {/* COLLECTION STATISTICS */}
+          <CCol md={6} lg={3}>
             <CCard className="mb-4 shadow-none" style={{ overflow: 'auto', height: '295px' }}>
               <div className="pt-3 px-3">
                 <div className="card-title fs-5 fw-semibold ndc-green-text my-0">
@@ -492,31 +566,25 @@ const BizCollect: NextPageWithLayout = (props) => {
               <CCardBody style={{ gap: '10px' }}>
                 <CTable className="h-100">
                   <CTableBody>
-                    <CTableRow>
-                      <CTableDataCell className="text-start align-middle">
-                        {StatusColumn('SUCCESSFUL')}
-                      </CTableDataCell>
-                      <CTableDataCell className="text-end align-middle">GHS 20,565</CTableDataCell>
-                    </CTableRow>
-                    <CTableRow>
-                      <CTableDataCell className="text-start align-middle">
-                        {StatusColumn('FAILED')}
-                      </CTableDataCell>
-                      <CTableDataCell className="text-end align-middle">GHS 20,565</CTableDataCell>
-                    </CTableRow>
-                    <CTableRow>
-                      <CTableDataCell className="text-start align-middle">
-                        {StatusColumn('PENDING')}
-                      </CTableDataCell>
-                      <CTableDataCell className="text-end align-middle">GHS 20,565</CTableDataCell>
-                    </CTableRow>
+                    {analytics?.collectionStatistics &&
+                      analytics.collectionStatistics.map((collections, index) => (
+                        <CTableRow key={index}>
+                          <CTableDataCell className="text-start align-middle">
+                            {StatusColumn(collections.name)}
+                          </CTableDataCell>
+                          <CTableDataCell className="text-end align-middle">
+                            GHS {formatMoney_util(collections.value)}
+                          </CTableDataCell>
+                        </CTableRow>
+                      ))}
                   </CTableBody>
                 </CTable>
               </CCardBody>
             </CCard>
           </CCol>
 
-          <CCol sm={3}>
+          {/* PAYOUTS STATISTICS */}
+          <CCol md={6} lg={3}>
             <CCard className="mb-4 shadow-none" style={{ overflow: 'auto', height: '295px' }}>
               <div className="pt-3 px-3">
                 <div className="card-title fs-5 fw-semibold ndc-green-text my-0">
@@ -526,24 +594,17 @@ const BizCollect: NextPageWithLayout = (props) => {
               <CCardBody style={{ gap: '10px' }}>
                 <CTable className="h-100">
                   <CTableBody>
-                    <CTableRow>
-                      <CTableDataCell className="text-start align-middle">
-                        {StatusColumn('SUCCESSFUL')}
-                      </CTableDataCell>
-                      <CTableDataCell className="text-end align-middle">GHS 20,565</CTableDataCell>
-                    </CTableRow>
-                    <CTableRow>
-                      <CTableDataCell className="text-start align-middle">
-                        {StatusColumn('FAILED')}
-                      </CTableDataCell>
-                      <CTableDataCell className="text-end align-middle">GHS 20,565</CTableDataCell>
-                    </CTableRow>
-                    <CTableRow>
-                      <CTableDataCell className="text-start align-middle">
-                        {StatusColumn('PENDING')}
-                      </CTableDataCell>
-                      <CTableDataCell className="text-end align-middle">GHS 20,565</CTableDataCell>
-                    </CTableRow>
+                    {analytics?.payoutStatistics &&
+                      analytics.payoutStatistics.map((payout, index) => (
+                        <CTableRow key={index}>
+                          <CTableDataCell className="text-start align-middle">
+                            {StatusColumn(payout.name)}
+                          </CTableDataCell>
+                          <CTableDataCell className="text-end align-middle">
+                            GHS {formatMoney_util(payout.value)}
+                          </CTableDataCell>
+                        </CTableRow>
+                      ))}
                   </CTableBody>
                 </CTable>
               </CCardBody>
@@ -552,7 +613,8 @@ const BizCollect: NextPageWithLayout = (props) => {
         </CRow>
 
         <CRow>
-          <CCol sm={6}>
+          {/* PAYMENT METHOD ANALYTICS */}
+          <CCol lg={6}>
             <CCard className="mb-4 h-auto shadow-none">
               <div className="pt-3 px-3 d-flex justify-content-between">
                 <div className="card-title fs-5 fw-semibold ndc-green-text my-0">
@@ -564,22 +626,29 @@ const BizCollect: NextPageWithLayout = (props) => {
                     className="k dark:bg-secondary dark:text-white"
                     size="sm"
                   >
-                    Collection
+                    {selectedType.charAt(0).toUpperCase() + selectedType.slice(1)}
                   </CDropdownToggle>
                   <CDropdownMenu>
-                    <CDropdownItem href="#">Collection</CDropdownItem>
-                    <CDropdownItem href="#">Payout</CDropdownItem>
+                    <CDropdownItem onClick={() => handleDropdownChange('collection')}>
+                      Collection
+                    </CDropdownItem>
+                    <CDropdownItem onClick={() => handleDropdownChange('payout')}>
+                      Payout
+                    </CDropdownItem>
                   </CDropdownMenu>
                 </CDropdown>
               </div>
 
-              <CCardBody className="row pt-1">
-                <div className="h-100 p-1 col-12 col-lg-6">
+              <CCardBody className="row pt-1 ">
+                <div className="h-50  p-1 col-md-6">
                   <CChart
                     style={{ height: '400px' }}
-                    className="py-2 w-auto d-flex align-items-center"
+                    className="py-2 w-auto h-auto d-flex align-items-center"
                     type="pie"
                     data={{
+                      labels: paymentMethod.map(
+                        (method) => method.name,
+                      ),
                       datasets: [
                         {
                           backgroundColor: ['#b8c8de', '#badbcb', '#f0b3be', '#fed8b8'],
@@ -592,7 +661,7 @@ const BizCollect: NextPageWithLayout = (props) => {
                     options={{ maintainAspectRatio: true }}
                   />
                 </div>
-                <div className="col-12 col-lg-6 p-1">
+                <div className="col-md-6 p-1">
                   <CTable className="w-100  h-100">
                     <CTableHead>
                       <CTableRow>
@@ -605,65 +674,28 @@ const BizCollect: NextPageWithLayout = (props) => {
                       </CTableRow>
                     </CTableHead>
                     <CTableBody>
-                      <CTableRow>
-                        <CTableDataCell className="text-start align-middle">
-                          <CBadge
-                            shape="rounded-pill"
-                            style={{ backgroundColor: '#b8c8de', color: '#304767' }}
-                          >
-                            MOMO
-                          </CBadge>
-                        </CTableDataCell>
-                        <CTableDataCell className="text-end align-middle">
-                          GHS 20,565
-                        </CTableDataCell>
-                      </CTableRow>
-                      <CTableRow>
-                        <CTableDataCell className="text-start align-middle">
-                          <CBadge
-                            shape="rounded-pill"
-                            style={{ backgroundColor: '#badbcb', color: '#198754' }}
-                          >
-                            CARD
-                          </CBadge>
-                        </CTableDataCell>
-                        <CTableDataCell className="text-end align-middle">
-                          GHS 20,565
-                        </CTableDataCell>
-                      </CTableRow>
-                      <CTableRow>
-                        <CTableDataCell className="text-start align-middle">
-                          <CBadge
-                            shape="rounded-pill"
-                            style={{ backgroundColor: '#f0b3be', color: '#cd0429' }}
-                          >
-                            BANK
-                          </CBadge>
-                        </CTableDataCell>
-                        <CTableDataCell className="text-end align-middle">
-                          GHS 20,565
-                        </CTableDataCell>
-                      </CTableRow>
-                      <CTableRow>
-                        <CTableDataCell className="text-start align-middle">
-                          <CBadge
-                            shape="rounded-pill"
-                            style={{ backgroundColor: '#fed8b8', color: '#fd7e14' }}
-                          >
-                            MERCHANT
-                          </CBadge>
-                        </CTableDataCell>
-                        <CTableDataCell className="text-end align-middle">
-                          GHS 20,565
-                        </CTableDataCell>
-                      </CTableRow>
+                      {paymentMethod.map((method, index) => (
+                        <CTableRow key={index}>
+                          <CTableDataCell className="text-start align-middle">
+                            <CBadge
+                              shape="rounded-pill"
+                              style={{ backgroundColor: '#b8c8de', color: '#304767' }}
+                            >
+                              {method.name}
+                            </CBadge>
+                          </CTableDataCell>
+                          <CTableDataCell className="text-end align-middle">
+                            GHS {isPending ? <Loader2 size={14} className="h-2 w-2 animate-spin loader text-muted-foreground" /> : formatMoney_util(method.value)}
+                          </CTableDataCell>
+                        </CTableRow>
+                      ))}
                     </CTableBody>
                   </CTable>
                 </div>
               </CCardBody>
             </CCard>
           </CCol>
-          <CCol sm={6}>
+          <CCol lg={6}>
             <CCard className="mb-4 overflow-auto shadow-none">
               <div className="pt-3 px-3">
                 <div className="card-title fs-5 fw-semibold ndc-green-text my-0">
@@ -762,7 +794,7 @@ const BizCollect: NextPageWithLayout = (props) => {
                           className=" dark:text-white dark:bg-secondary"
                           shape="square"
                           style={{ backgroundColor: '#304767' }}
-                          onClick={() => {}}
+                          onClick={() => { }}
                           title="View Transactions"
                         >
                           <FiEye data-type="viewTransactions" />
@@ -780,7 +812,7 @@ const BizCollect: NextPageWithLayout = (props) => {
                           data-type="viewTransactions"
                           // color="black -text-white"
                           shape="square"
-                          onClick={() => {}}
+                          onClick={() => { }}
                           style={{ backgroundColor: '#304767' }}
                           className=" dark:text-white dark:bg-secondary"
                           title="View Transactions"
@@ -801,7 +833,7 @@ const BizCollect: NextPageWithLayout = (props) => {
                           style={{ backgroundColor: '#304767' }}
                           className=" dark:text-white dark:bg-secondary"
                           shape="square"
-                          onClick={() => {}}
+                          onClick={() => { }}
                           title="View Transactions"
                         >
                           <FiEye data-type="viewTransactions" />
@@ -820,7 +852,7 @@ const BizCollect: NextPageWithLayout = (props) => {
                           style={{ backgroundColor: '#304767' }}
                           className=" dark:text-white dark:bg-secondary"
                           shape="square"
-                          onClick={() => {}}
+                          onClick={() => { }}
                           title="View Transactions"
                         >
                           <FiEye data-type="viewTransactions" />
@@ -839,3 +871,8 @@ const BizCollect: NextPageWithLayout = (props) => {
 }
 
 export default BizCollect
+
+
+const Loader = () => {
+  return <div className="loader"></div>;
+};

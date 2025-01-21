@@ -1,4 +1,4 @@
-import { AppAside, AppSidebar, AppFooter, AppHeader } from '@/components'
+import { AppAside, AppFooter, AppHeader } from '@/components'
 import { UserInfoType } from '@/types/Users'
 
 function DashboardLayout({
@@ -10,7 +10,7 @@ function DashboardLayout({
 }) {
   return (
     <>
-      <AppSidebar />
+      {/* <AppSidebar /> */}
       <div className="wrapper d-flex flex-column min-vh-100 bg-light dark:bg-transparent">
         <AppHeader {...cookies} />
         <div className="body flex-grow-1">{children}</div>

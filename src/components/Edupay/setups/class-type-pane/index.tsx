@@ -119,6 +119,7 @@ function ClassTypePane(props: any) {
                           size={20}
                           data-type="edit"
                           onClick={(e) => {
+                             //@ts-ignore
                             handleClick(e, item)
                           }}
                         />
@@ -128,6 +129,7 @@ function ClassTypePane(props: any) {
                           size={20}
                           data-type="delete"
                           onClick={(e) => {
+                             //@ts-ignore
                             handleClick(e, item)
                           }}
                         />

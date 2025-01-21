@@ -370,3 +370,6 @@ export const  toDataUrl_util = (url, callback)=> {
 
 
 
+export function RoundValue(value: number){
+  return Math.round(value * 100) / 100
+}

@@ -144,7 +144,7 @@ function SubTypePane(props: any) {
                           color="info"
                           size={20}
                           data-type="edit"
-                          onClick={(e) => {
+                          onClick={(e:any) => {
                             handleClick(e, item)
                           }}
                         />
@@ -153,7 +153,7 @@ function SubTypePane(props: any) {
                           color="red"
                           size={20}
                           data-type="delete"
-                          onClick={(e) => {
+                          onClick={(e:any) => {
                             handleClick(e, item)
                           }}
                         />

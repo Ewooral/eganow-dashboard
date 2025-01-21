@@ -6,7 +6,7 @@ import Snackbar from '@/components/Snackbar'
 import { EGANOW_AUTH_COOKIE } from '@/constants'
 import { useSnackbar } from '@/store'
 import { CCard, CSmartTable } from '@coreui/react-pro'
-import React, { useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { CiEdit } from 'react-icons/ci'
 import { MdOutlineAdd, MdOutlineDelete } from 'react-icons/md'
 import { RiBillLine } from 'react-icons/ri'
@@ -21,10 +21,10 @@ export const getServerSideProps = async ({ req }: any) => {
   }
 }
 function CreateBill(props: any) {
-  const [dynamicComponent, setDynamicComponent] = useState<FC | null>(null)
+  const [dynamicComponent, setDynamicComponent] = useState<any | null>(null)
 
   //snackbar component from zustand store
-  const { showSnackbar } = useSnackbar()
+  // const { showSnackbar } = useSnackbar()
 
   const columns = [
     {
@@ -62,7 +62,7 @@ function CreateBill(props: any) {
     },
   ]
 
-  const getBadge = (status) => {
+  const getBadge = (status: any) => {
     switch (status) {
       case 'SHAREHOLDER':
         return 'success'
@@ -85,11 +85,12 @@ function CreateBill(props: any) {
     }
     //Open the addbill component
     setDynamicComponent(
+      //@ts-ignore
       <AddEditBill modalClose={modalClose} data={userData} callback={handleRefresh} />,
     )
   }
 
-  async function handleClick(e: React.ChangeEvent<HTMLInputElement>, items): void {
+  async function handleClick(e: React.ChangeEvent<HTMLInputElement>, items: any):  Promise<void>  {
     const { type } = e.currentTarget.dataset
 
     /*  Editing Users */
@@ -101,6 +102,7 @@ function CreateBill(props: any) {
       }
       //Open the AddEditUser component
       setDynamicComponent(
+        //@ts-ignore
         <AddEditBill modalClose={modalClose} data={userData} callback={handleRefresh} />,
       )
     }
@@ -215,7 +217,7 @@ function CreateBill(props: any) {
               position: (item: any) => (
                 <td>
                   {/* <CBadge color={getBadge(showDirectorPositionsText[item.position])}> */}
-                  {showDirectorPositionsText[item.position]}
+                  {/* {showDirectorPositionsText[item.position]} */}
                   {/* </CBadge> */}
                 </td>
               ),
@@ -229,7 +231,7 @@ function CreateBill(props: any) {
                           color="info"
                           size={20}
                           data-type="edit"
-                          onClick={(e) => {
+                          onClick={(e:any) => {
                             handleClick(e, item)
                           }}
                         />
@@ -238,7 +240,7 @@ function CreateBill(props: any) {
                           color="red"
                           size={20}
                           data-type="delete"
-                          onClick={(e) => {
+                          onClick={(e:any) => {
                             handleClick(e, item)
                           }}
                         />
@@ -267,6 +269,7 @@ function CreateBill(props: any) {
           />
         </CCard>
       </EdupayLayout>
+     
       {dynamicComponent}
     </div>
   )

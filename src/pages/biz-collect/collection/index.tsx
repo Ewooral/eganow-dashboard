@@ -68,7 +68,7 @@ import {
 } from '@/components/SmartTableColumnStyle'
 
 import Confirm from '@/components/Confirm'
-import AddEditInternalTransfer from '@/components/biz-collect/collection/AddEditCollection'
+import AddEditInternalTransfer from '@/components/Biz-collect/collection/AddEditCollection'
 /* 
 
 

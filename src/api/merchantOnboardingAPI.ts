@@ -21,8 +21,8 @@ export default function merchantOnboardingAPI() {
 
   return {
     checkIfMerchantAccountExists: (param: { email: string }) =>
-      axios.post('/api/v1/merchants/check-account', param),
+      axios.post('/api/v1/onboarding/merchants/check-account', param),
     createMerchantAccount: (param: CreateMerchantAccountType) =>
-      axios.post('/api/v1/merchants/register', param),
+      axios.post('/api/v1/onboarding/merchants/register', param),
   }
 }
