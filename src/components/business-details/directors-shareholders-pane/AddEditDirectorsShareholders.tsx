@@ -81,6 +81,8 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
   const portraitImageWatch = watch('portraitImage')
   const idTypeWatch = watch('idType')
 
+  const twoImagesIdType = ["PASSPORT","DRIVERS_LICENSE","BANKID"]
+
   // FUNCTION TO HANDLE CHANGES IN THE DATE PICKER
   const handleDateChange = (date) => {
     const dateValue = date?.toISOString() //CONVERT DATE OBJECT TO STRING
@@ -100,6 +102,8 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
         position,
         directorOrShareholderOrOtherType,
       } = props?.data
+
+      console.log(identification)
 
       //Assigning user data to useForm values
       setValue('directorId', directorId)
@@ -132,6 +136,7 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
 
   // HANDLE FORM SUBMIT ( ADDING NEW RECORD OR UPDATING EXISTING RECORD)
   const onSubmit = async (values) => {
+
     try {
       const param = {
           directorId: values.directorId,
@@ -145,8 +150,8 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
             expiryDate: values.expiryDate,
             placeOfIssue: values.placeOfIssue,
             type: values.idType,
-            frontImage: values.frontImage,
-            backImage: values.backImage,
+            frontImage:  values.frontImage,
+            backImage: twoImagesIdType.includes(values.idType) ?null : values.backImage,
             portraitImage: values.portraitImage,
           },
         }
@@ -171,6 +176,8 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
 
       // IF THE EDIT BUTTON IS CLICKED
       if (props.data?.type === 'edit') {
+      
+        console.log(param)
         //PASSING VALUES TO API
         const response = await updateDirectorOrShareholder(param)
         //Show response on success.
@@ -607,7 +614,7 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
                     >
                       Back image is required.
                     </CFormText>
-                  </CCol>,
+                  </CCol>
                 ) : null}
 
                 {/* PORTRAIT IMAGE */}

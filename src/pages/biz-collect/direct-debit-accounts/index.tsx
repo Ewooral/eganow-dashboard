@@ -68,7 +68,7 @@ import {
 } from '@/components/SmartTableColumnStyle'
 
 import Confirm from '@/components/Confirm'
-import AddEditDirectDebit from '@/components/biz-collect/direct-debit-accounts/AddEditDirectDebit'
+import AddEditDirectDebit from '@/components/Biz-collect/direct-debit-accounts/AddEditDirectDebit'
 /* 
 
 

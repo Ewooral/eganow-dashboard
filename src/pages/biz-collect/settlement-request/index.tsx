@@ -68,7 +68,7 @@ import {
 } from '@/components/SmartTableColumnStyle'
 
 import Confirm from '@/components/Confirm'
-import AddEditSettlements from '@/components/biz-collect/settlements/AddEditSettlements'
+import AddEditSettlements from '@/components/Biz-collect/settlements/AddEditSettlements'
 /* 
 
 

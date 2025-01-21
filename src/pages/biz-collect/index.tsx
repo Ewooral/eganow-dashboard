@@ -84,7 +84,7 @@ const BizCollect: NextPageWithLayout = (props) => {
    *
    * @type {ApiResponseBizCollectData}
    */
-  const paymentMethodsObj: ApiResponseBizCollectData = data 
+  const paymentMethodsObj: ApiResponseBizCollectData = data
   const paymentMethod = paymentMethodsObj?.data.paymentMethods[selectedType] || []
 
   const handleDropdownChange = (type: 'collection' | 'payout') => {
@@ -122,7 +122,7 @@ const BizCollect: NextPageWithLayout = (props) => {
             className=""
             name="country"
             handleForm={{ control }}
-            callback={() => {}}
+            callback={() => { }}
             shouldValidate={false}
           />
           <CDropdown variant="btn-group">
@@ -149,17 +149,21 @@ const BizCollect: NextPageWithLayout = (props) => {
             value={
               <div className="text-black dark:text-white">
                 GHS {analytics?.monthlyBalance.collection.availableBalance || 0}{' '}
+
                 <span className="fs-6 fw-normal text-black dark:text-white">
+                  (
+                  {RoundValue(analytics?.monthlyBalance?.collection?.percentageProgress) || 0} %{' '}
+
                   {analytics?.monthlyBalance.collection.progressType == 'INCREASE' ? (
                     <span>
-                      ({RoundValue(analytics?.monthlyBalance?.collection?.percentageProgress)} %{' '}
-                      <CIcon icon={cilArrowTop} className="text-success" />)
+                      <CIcon icon={cilArrowTop} className="text-success" />
                     </span>
                   ) : (
                     <span>
-                      40.9% <CIcon icon={cilArrowBottom} className="text-danger" />
+                      <CIcon icon={cilArrowBottom} className="text-danger" />
                     </span>
                   )}
+                  )
                 </span>
               </div>
             }
@@ -235,16 +239,18 @@ const BizCollect: NextPageWithLayout = (props) => {
               <div className="text-black dark:text-white">
                 GHS {analytics?.monthlyBalance.payout.availableBalance || 0}{' '}
                 <span className="fs-6 fw-normal text-black dark:text-white">
-                  {analytics?.monthlyBalance.payout.progressType == 'INCREASE' ? (
-                    <span>
-                      ({RoundValue(analytics?.monthlyBalance?.payout?.percentageProgress)} %{' '}
-                      <CIcon icon={cilArrowTop} className="text-success" />)
-                    </span>
-                  ) : (
-                    <span>
-                      40.9% <CIcon icon={cilArrowBottom} className="text-danger" />
-                    </span>
-                  )}
+                  (
+                  {RoundValue(analytics?.monthlyBalance?.payout?.percentageProgress) || 0} %{' '}
+                    {analytics?.monthlyBalance.payout.progressType == 'INCREASE' ? (
+                      <span>
+                        <CIcon icon={cilArrowTop} className="text-success" />
+                      </span>
+                    ) : (
+                      <span>
+                        <CIcon icon={cilArrowBottom} className="text-danger" />
+                      </span>
+                    )}
+                  )
                 </span>
               </div>
             }
@@ -307,16 +313,18 @@ const BizCollect: NextPageWithLayout = (props) => {
               <div className="text-black dark:text-white">
                 GHS {analytics?.monthlyBalance.commission.availableBalance || 0}{' '}
                 <span className="fs-6 fw-normal text-black dark:text-white">
-                  {analytics?.monthlyBalance.commission.progressType == 'INCREASE' ? (
-                    <span>
-                      ({RoundValue(analytics?.monthlyBalance?.commission?.percentageProgress)} %{' '}
-                      <CIcon icon={cilArrowTop} className="text-success" />)
-                    </span>
-                  ) : (
-                    <span>
-                      40.9% <CIcon icon={cilArrowBottom} className="text-danger" />
-                    </span>
-                  )}
+                  (
+                  {RoundValue(analytics?.monthlyBalance?.commission?.percentageProgress) || 0} %{' '}
+                    {analytics?.monthlyBalance.commission.progressType == 'INCREASE' ? (
+                      <span>
+                        <CIcon icon={cilArrowTop} className="text-success" />
+                      </span>
+                    ) : (
+                      <span>
+                        <CIcon icon={cilArrowBottom} className="text-danger" />
+                      </span>
+                    )}
+                  )
                 </span>
               </div>
             }
@@ -394,16 +402,18 @@ const BizCollect: NextPageWithLayout = (props) => {
               <div className="text-black dark:text-white">
                 GHS {analytics?.monthlyBalance.totalSettlements.availableBalance || 0}{' '}
                 <span className="fs-6 fw-normal text-black dark:text-white">
-                  {analytics?.monthlyBalance.totalSettlements.progressType == 'INCREASE' ? (
-                    <span>
-                      ({RoundValue(analytics?.monthlyBalance?.totalSettlements?.percentageProgress)}{' '}
-                      % <CIcon icon={cilArrowTop} className="text-success" />)
-                    </span>
-                  ) : (
-                    <span>
-                      40.9% <CIcon icon={cilArrowBottom} className="text-danger" />
-                    </span>
-                  )}
+                  (
+                  {RoundValue(analytics?.monthlyBalance?.totalSettlements?.percentageProgress) || 0} %{' '}
+                    {analytics?.monthlyBalance.totalSettlements.progressType == 'INCREASE' ? (
+                      <span>
+                        <CIcon icon={cilArrowTop} className="text-success" />
+                      </span>
+                    ) : (
+                      <span>
+                        <CIcon icon={cilArrowBottom} className="text-danger" />
+                      </span>
+                    )}
+                  )
                 </span>
               </div>
             }
@@ -492,7 +502,7 @@ const BizCollect: NextPageWithLayout = (props) => {
                 style={{
                   backgroundColor: '#304767',
                 }}
-                onMouseUp={() => {}}
+                onMouseUp={() => { }}
               >
                 <CIcon icon={cilSearch} id="new" />
               </CButton>
@@ -504,22 +514,22 @@ const BizCollect: NextPageWithLayout = (props) => {
             title="Refresh list"
             variant="outline"
             className="mx-1 rounded-50"
-            onMouseUp={() => {}}
+            onMouseUp={() => { }}
             style={{ marginTop: '24px', backgroundColor: '#304767', color: 'white' }}
           >
             <CIcon
               icon={cilLoopCircular}
               id="new"
-              /* className={classNames({
-              rotate: isLoading,
-            })} */
+            /* className={classNames({
+            rotate: isLoading,
+          })} */
             />
           </CButton>
         </div>
 
         <CRow>
           {/* COUNTS */}
-          <CCol md={12} lg={6}>
+          <CCol md={12} lg={6} >
             <CCard className="mb-4 shadow-none" style={{ overflow: 'auto' }}>
               <div className="pt-3 px-3">
                 <div className="card-title fs-5 fw-semibold ndc-green-text my-0">Total Counts</div>
@@ -784,7 +794,7 @@ const BizCollect: NextPageWithLayout = (props) => {
                           className=" dark:text-white dark:bg-secondary"
                           shape="square"
                           style={{ backgroundColor: '#304767' }}
-                          onClick={() => {}}
+                          onClick={() => { }}
                           title="View Transactions"
                         >
                           <FiEye data-type="viewTransactions" />
@@ -802,7 +812,7 @@ const BizCollect: NextPageWithLayout = (props) => {
                           data-type="viewTransactions"
                           // color="black -text-white"
                           shape="square"
-                          onClick={() => {}}
+                          onClick={() => { }}
                           style={{ backgroundColor: '#304767' }}
                           className=" dark:text-white dark:bg-secondary"
                           title="View Transactions"
@@ -823,7 +833,7 @@ const BizCollect: NextPageWithLayout = (props) => {
                           style={{ backgroundColor: '#304767' }}
                           className=" dark:text-white dark:bg-secondary"
                           shape="square"
-                          onClick={() => {}}
+                          onClick={() => { }}
                           title="View Transactions"
                         >
                           <FiEye data-type="viewTransactions" />
@@ -842,7 +852,7 @@ const BizCollect: NextPageWithLayout = (props) => {
                           style={{ backgroundColor: '#304767' }}
                           className=" dark:text-white dark:bg-secondary"
                           shape="square"
-                          onClick={() => {}}
+                          onClick={() => { }}
                           title="View Transactions"
                         >
                           <FiEye data-type="viewTransactions" />

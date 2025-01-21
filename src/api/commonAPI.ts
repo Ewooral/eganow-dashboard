@@ -6,6 +6,6 @@ export default function CommonAPI() {
 
   return {
     getCountries: (param: { filter: string }) =>
-      axiosInstance.get(`/api/v1/countries?${queryString_util(param)}`),
+      axiosInstance.get(`/api/v1/onboarding/countries?${queryString_util(param)}`),
   }
 }

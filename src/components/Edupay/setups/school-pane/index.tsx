@@ -149,23 +149,26 @@ function SchoolPane(props: any) {
                       <div className="d-flex align-items-center">
                         <CiEdit
                           className="me-1 text-info"
+                           //@ts-ignore
                           variant="outline"
                           color="info"
                           shape="square"
                           size={20}
                           data-type="edit"
-                          onClick={(e) => {
+                          onClick={(e:any) => {
+                            
                             handleClick(e, item)
                           }}
                         />
                         |
                         <MdOutlineDelete
                           color="red"
+                           //@ts-ignore
                           variant="outline"
                           shape="square"
                           size={20}
                           data-type="delete"
-                          onClick={(e) => {
+                          onClick={(e:any) => {
                             handleClick(e, item)
                           }}
                         />

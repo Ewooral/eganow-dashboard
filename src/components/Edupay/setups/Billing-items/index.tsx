@@ -59,7 +59,7 @@ const data = [
 function BillingItems(props: any) {
   const [dynamicComponent, setDynamicComponent] = useState<any>()
 
-  async function handleClick(e: React.ChangeEvent<HTMLInputElement>, items: any) {
+  async function handleClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>, items: any) {
     const { type } = e.currentTarget.dataset
 
     /*  Editing Users */
@@ -155,6 +155,7 @@ function BillingItems(props: any) {
                           size={20}
                           data-type="edit"
                           onClick={(e) => {
+                            //@ts-ignore
                             handleClick(e, item)
                           }}
                         />
@@ -164,6 +165,7 @@ function BillingItems(props: any) {
                           size={20}
                           data-type="delete"
                           onClick={(e) => {
+                             //@ts-ignore
                             handleClick(e, item)
                           }}
                         />
@@ -194,5 +196,6 @@ function BillingItems(props: any) {
     </div>
   )
 }
+
 
 export default BillingItems

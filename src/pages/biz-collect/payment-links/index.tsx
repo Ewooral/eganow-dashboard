@@ -67,7 +67,7 @@ import {
 } from '@/components/SmartTableColumnStyle'
 
 import Confirm from '@/components/Confirm'
-import AddEditPaymentLinks from '@/components/biz-collect/payment-links/AddEditPaymentLinks'
+import AddEditPaymentLinks from '@/components/Biz-collect/payment-links/AddEditPaymentLinks'
 /* 
 
 

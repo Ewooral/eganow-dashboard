@@ -4,6 +4,6 @@ import { CredentialsType } from '@/types/CredentialsType'
 export default function dashboardAnalytics (){
     const axios = AxiosInstance()
     return {
-        getDashboard : ()=>axios.get('/api/dashboard')
+        getDashboard : ()=>axios.get('/api/v1/merchant-transactions/dashboard')
     }
 }

@@ -1,3 +1,4 @@
+
 import { useSnackbar } from '@/store'
 import {
   CButton,
@@ -37,7 +38,7 @@ function AddEditBill(props: any) {
   const [items, setItems] = useState<any>([])
 
   // Calculate total amount of billing items
-  const totalAmount = items.reduce((total, item) => total + Number(item.amount), 0)
+  const totalAmount = items.reduce((total: number, item: { amount: any }) => total + Number(item.amount), 0)
 
   console.log(totalAmount)
 
@@ -51,8 +52,11 @@ function AddEditBill(props: any) {
   useEffect(() => {
     const data = props.data
     if (data.type !== 'new') {
+      //@ts-ignore
       setValue('itemname', data.Item_name)
+      //@ts-ignore
       setValue('description', data.description)
+      //@ts-ignore
       setValue('level', data.type)
     }
   }, [props.data, setValue]) // Add dependencies to avoid infinite re-renders
@@ -61,7 +65,7 @@ function AddEditBill(props: any) {
     try {
       const data = {
         ...values,
-        items: items.map((item) => ({ ...item, amount: Number(item.amount) })),
+        items: items.map((item: { amount: number }) => ({ ...item, amount: Number(item.amount) })),
       }
       console.log(data)
       props.modalClose()
@@ -84,7 +88,7 @@ function AddEditBill(props: any) {
   }
 
   function removeItem(id: number) {
-    setItems(items.filter((item) => item.id !== id))
+    setItems(items.filter((item: { id: number }) => item.id !== id))
   }
 
   return (
@@ -383,7 +387,7 @@ function AddEditBill(props: any) {
                     </CTableRow>
                   </CTableHead>
                   <CTableBody>
-                    {items?.map((item) => (
+                    {items?.map((item:any) => (
                       <CTableRow color="success" key={item.id}>
                         <CTableHeaderCell>{item.itemName}</CTableHeaderCell>
                         <CTableDataCell>{item.amount}</CTableDataCell>
