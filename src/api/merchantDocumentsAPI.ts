@@ -1,4 +1,4 @@
-import AxiosInstance from '@/axios-instance'
+import AxiosInstance from '@/apiInstances/auth-instance'
 /* import { queryString_util } from '@/util' */
 
 export default function merchantDocumentsAPI() {

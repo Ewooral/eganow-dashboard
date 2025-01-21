@@ -16,19 +16,20 @@ export default function AxiosInstance() {
     `${process.env.NEXT_PUBLIC_API_USERNAME}:${process.env.NEXT_PUBLIC_API_PASSWORD}`,
   )
 
+
   //Creating axios instance
-  const axiosInstance = axios.create({
+  const authInstance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
     headers: {
       'content-type': 'application/json',
       'x-country-code': country?.code,
       'x-language-id': locale,
       'x-ega-user-access-token': token,
-      authorization: `Basic ${credential}`,
+      authorization: `Basic ${credential}` ,
     },
   })
   //Request interceptors
-  axiosInstance.interceptors.request.use(
+  authInstance.interceptors.request.use(
     (config) => {
       return config
     },
@@ -37,7 +38,7 @@ export default function AxiosInstance() {
     },
   )
   //Response interceptors
-  axiosInstance.interceptors.response.use(
+  authInstance.interceptors.response.use(
     (response) => {
       return response?.data // Return the response data
     },
@@ -50,5 +51,5 @@ export default function AxiosInstance() {
     },
   )
   //Returning instance
-  return axiosInstance
+  return authInstance
 }

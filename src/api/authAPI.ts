@@ -1,7 +1,7 @@
-import AxiosInstance from '@/axios-instance'
+import AuthInstance from '@/apiInstances/auth-instance'
 
 export default function authAPI() {
-  const axiosInstance = AxiosInstance()
+  const axiosInstance = AuthInstance()
 
   return {
     loginMerchant: (param: { email: string; password: string }) =>
