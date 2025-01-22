@@ -19,6 +19,9 @@ import { getMaxValueKey } from '@/util'
 import MostUsedFeature from '@/components/MostUsedFeature'
 /*  */
 
+
+import 'react-loading-skeleton/dist/skeleton.css'
+
 const features = [
   {
     icon: biz_collect,
