@@ -54,6 +54,7 @@
     "next-auth": "^4.24.5",
     "next-i18next": "^15.2.0",
     "numeral": "^2.0.6",
+    "js-cookie": "^3.0.5",
     "react": "18.2.0",
     "react-cookie": "^7.0.2",
     "react-dom": "18.2.0",
