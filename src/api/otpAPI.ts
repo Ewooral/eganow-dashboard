@@ -1,4 +1,4 @@
-import AxiosInstance from '@/axios-instance'
+import AxiosInstance from '@/apiInstances/auth-instance'
 
 export default function otpAPI() {
   const axiosInstance = AxiosInstance()

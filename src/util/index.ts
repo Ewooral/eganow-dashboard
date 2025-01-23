@@ -43,7 +43,7 @@ export const camelCaseSplit_util = (string: string) => {
  * @return {int}  The converted strings
  */
 export const removeUnderscores_util = (string: string) => {
-  return string.replace(/_/g, ' ')
+  return string?.replace(/_/g, ' ')
 }
 
 /**

@@ -68,20 +68,69 @@ export const EMPTY_DEFAULT_OPTION = [
 export const COMPANY_REGISTRATION_TYPE_OPTIONS = [
   {
     id: 1,
-    label: 'Business',
-    value: 'BUSINESS',
+    label: 'Limited Liability',
+    value: 'Limited_Liability',
   },
   {
     id: 2,
-    label: 'Personal',
-    value: 'PERSONAL',
+    label: 'Public Liability',
+    value: 'Public_Liability',
   },
   {
     id: 3,
-    label: 'Limited Liability',
-    value: 'LIMITED_LIABILITY',
+    label: 'Sole Proprietorship',
+    value: 'Sole_Proprietorship',
+  },
+  {
+    id: 4,
+    label: 'Partnership',
+    value: 'Partnership',
+  },
+  {
+    id: 5,
+    label: 'Corporation',
+    value: 'Corporation',
+  },
+  {
+    id: 6,
+    label: 'C Corporation',
+    value: 'C_Corporation',
+  },
+  {
+    id: 7,
+    label: 'S Corporation',
+    value: 'S_Corporation',
+  },
+  {
+    id: 8,
+    label: 'Joint Venture',
+    value: 'Joint_Venture',
+  },
+  {
+    id: 9,
+    label: 'Non Profit',
+    value: 'NonProfit',
   },
 ]
+
+
+// export const COMPANY_REGISTRATION_TYPE_OPTIONS = [
+//   {
+//     id: 1,
+//     label: 'Business',
+//     value: 'BUSINESS',
+//   },
+//   {
+//     id: 2,
+//     label: 'Personal',
+//     value: 'PERSONAL',
+//   },
+//   {
+//     id: 3,
+//     label: 'Limited Liability',
+//     value: 'LIMITED_LIABILITY',
+//   },
+// ]
 
 export const DIRECTOR_POSITION_OPTIONS = [
   {

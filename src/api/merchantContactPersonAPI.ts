@@ -1,4 +1,4 @@
-import AxiosInstance from '@/axios-instance'
+import AxiosInstance from '@/apiInstances/auth-instance'
 import { BusinessContactPersonType } from '@/types/BusinessInfoType'
 //import { queryString_util } from '@/util'
 
