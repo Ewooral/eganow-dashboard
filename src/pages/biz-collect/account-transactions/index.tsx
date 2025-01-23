@@ -65,7 +65,7 @@ import {
   ActionButtons,
 } from '@/components/SmartTableColumnStyle'
 
-/* 
+/*
 
 
 
@@ -74,88 +74,148 @@ import {
 
 */
 
+// const columns = [
+//   {
+//     label: 'Date',
+//     key: 'date',
+//     _style: { minWidth: '110px', width: '10%' },
+//     sorter: false,
+//   },
+//   {
+//     label: 'Source Acc. No.',
+//     key: 'membername',
+//     _style: { minWidth: '300px' },
+//   },
+//   {
+//     label: 'Recipient Acc. No.',
+//     key: 'membername',
+//     _style: { minWidth: '300px' },
+//   },
+//   {
+//     label: 'Amount',
+//     key: 'amount',
+//     _style: { minWidth: '150px', width: '15%' },
+//     sorter: false,
+//   },
+//   {
+//     label: 'Commission',
+//     key: 'amount',
+//     _style: { minWidth: '150px', width: '15%' },
+//     sorter: false,
+//   },
+//   {
+//     label: 'Eganow Status',
+//     key: 'status',
+//     _style: { minWidth: '180px', width: '10%' },
+//   },
+//   {
+//     label: 'Merchant Status',
+//     key: 'merchantstatus',
+//     _style: { minWidth: '180px', width: '10%' },
+//     sorter: false,
+//   },
+//
+//   {
+//     label: 'Transaction Type',
+//     key: 'transactiontype',
+//     _style: { minWidth: '300px' },
+//   },
+//   {
+//     label: 'Source Acc. Name.',
+//     key: 'membername',
+//     _style: { minWidth: '300px' },
+//   },
+//   {
+//     label: 'Recipient Acc. Name.',
+//     key: 'membername',
+//     _style: { minWidth: '300px' },
+//   },
+//
+//   {
+//     label: 'Trans. Date/Time',
+//     key: 'date',
+//     _style: { minWidth: '150px', width: '10%' },
+//     sorter: false,
+//   },
+//   {
+//     label: 'Service Name.',
+//     key: 'membername',
+//     _style: { minWidth: '300px' },
+//   },
+//   {
+//     label: 'Transaction Ref.',
+//     key: 'membername',
+//     _style: { minWidth: '300px' },
+//   },
+//   {
+//     key: 'actions',
+//     label: 'Actions',
+//     _style: { minWidth: '50px', width: '50px', height: '20px' },
+//     filter: false,
+//     sorter: false,
+//   },
+// ]
+
 const columns = [
   {
-    label: 'Date',
-    key: 'date',
-    _style: { minWidth: '110px', width: '10%' },
-    sorter: false,
+    label: "Date",
+    key: "transactionDate",
+    _style: { minWidth: "110px", width: "10%" },
+    sorter: true,
   },
   {
-    label: 'Source Acc. No.',
-    key: 'membername',
-    _style: { minWidth: '300px' },
+    label: "Source Acc. No.",
+    key: "sourceAccountNumber",
+    _style: { minWidth: "150px" },
   },
   {
-    label: 'Recipient Acc. No.',
-    key: 'membername',
-    _style: { minWidth: '300px' },
+    label: "Recipient Acc. No.",
+    key: "beneficiaryAccountNumber",
+    _style: { minWidth: "150px" },
   },
   {
-    label: 'Amount',
-    key: 'amount',
-    _style: { minWidth: '150px', width: '15%' },
-    sorter: false,
+    label: "Amount",
+    key: "amount",
+    _style: { minWidth: "100px", width: "10%" },
+    sorter: true,
   },
   {
-    label: 'Commission',
-    key: 'amount',
-    _style: { minWidth: '150px', width: '15%' },
-    sorter: false,
+    label: "Commission",
+    key: "commission",
+    _style: { minWidth: "100px", width: "10%" },
+    sorter: true,
   },
   {
-    label: 'Eganow Status',
-    key: 'status',
-    _style: { minWidth: '180px', width: '10%' },
+    label: "Eganow Status",
+    key: "eganowStatus",
+    _style: { minWidth: "120px", width: "10%" },
   },
   {
-    label: 'Merchant Status',
-    key: 'merchantstatus',
-    _style: { minWidth: '180px', width: '10%' },
-    sorter: false,
-  },
-
-  {
-    label: 'Transaction Type',
-    key: 'transactiontype',
-    _style: { minWidth: '300px' },
+    label: "Merchant Status",
+    key: "merchantStatus",
+    _style: { minWidth: "120px", width: "10%" },
   },
   {
-    label: 'Source Acc. Name.',
-    key: 'membername',
-    _style: { minWidth: '300px' },
+    label: "Transaction Type",
+    key: "transactionType",
+    _style: { minWidth: "150px" },
   },
   {
-    label: 'Recipient Acc. Name.',
-    key: 'membername',
-    _style: { minWidth: '300px' },
-  },
-
-  {
-    label: 'Trans. Date/Time',
-    key: 'date',
-    _style: { minWidth: '150px', width: '10%' },
-    sorter: false,
+    label: "Source Acc. Name",
+    key: "sourceAccountName",
+    _style: { minWidth: "150px" },
   },
   {
-    label: 'Service Name.',
-    key: 'membername',
-    _style: { minWidth: '300px' },
+    label: "Recipient Acc. Name",
+    key: "beneficiaryAccountName",
+    _style: { minWidth: "150px" },
   },
   {
-    label: 'Transaction Ref.',
-    key: 'membername',
-    _style: { minWidth: '300px' },
-  },
-  {
-    key: 'actions',
-    label: 'Actions',
-    _style: { minWidth: '50px', width: '50px', height: '20px' },
-    filter: false,
-    sorter: false,
+    label: "Transaction Ref.",
+    key: "merchantTransRefNumber",
+    _style: { minWidth: "150px" },
   },
 ]
-
 const data = [
   {
     date: '10/06/2024',
@@ -269,6 +329,26 @@ const data = [
   },
 ]
 
+interface Transaction {
+  transactionDate: string
+  merchantTransRefNumber: string
+  sourceAccountName: string
+  sourceAccountNumber: string
+  beneficiaryAccountName: string
+  beneficiaryAccountNumber: string
+  amount: number
+  commission: number
+  eganowStatus: string
+  merchantStatus: string
+  transactionType: string
+}
+
+interface ApiResponse {
+  code: number
+  message: string
+  data: Transaction[]
+}
+
 export const getServerSideProps = async ({ req }) => {
   const cookies = JSON.parse(req.cookies[EGANOW_AUTH_COOKIE])
   //Response
@@ -285,17 +365,75 @@ const BizCollect: NextPageWithLayout = (props) => {
 
   const isStoreReady = useStoreReady()
 
+  const [transactions, setTransactions] = useState<Transaction[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
   const [searchFilter, setSearchFilter] = useState({
-    memberType: 'JM',
-    status: 'SUCCESSFUL',
+    transactionType: "COLLECTION",
     startDate: START_DATE,
     endDate: END_DATE,
+    payPartnerServiceId: "",
   })
+
+  const fetchTransactions = async () => {
+    setIsLoading(true)
+    setError(null)
+    try {
+      const response = await fetch(API_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // Add any necessary authentication headers here
+        },
+        body: JSON.stringify({
+          transactionType: searchFilter.transactionType,
+          startDate: searchFilter.startDate.toISOString().split("T")[0],
+          endDate: searchFilter.endDate.toISOString().split("T")[0],
+          payPartnerServiceId: searchFilter.payPartnerServiceId,
+        }),
+      })
+      if (!response.ok) {
+        throw new Error("Failed to fetch transactions")
+      }
+      const data: ApiResponse = await response.json()
+      setTransactions(data.data)
+    } catch (err) {
+      setError("An error occurred while fetching transactions")
+      console.error(err)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchTransactions()
+  }, [searchFilter])
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target
+    setSearchFilter((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleDateChange = (startDate: Date, endDate: Date) => {
+    setSearchFilter((prev) => ({ ...prev, startDate, endDate }))
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    fetchTransactions()
+  }
 
   //Server-render loading state
   if (!isStoreReady) {
     return <GlobalLoader />
   }
+
+  const totalCollection = transactions.reduce((sum, t) => sum + (t.transactionType === "COLLECTION" ? t.amount : 0), 0)
+  const totalPayout = transactions.reduce((sum, t) => sum + (t.transactionType === "PAYOUT" ? t.amount : 0), 0)
+  const totalCommission = transactions.reduce((sum, t) => sum + t.commission, 0)
+  const totalSettlements = transactions.reduce((sum, t) => sum + t.amount, 0)
+
 
   return (
     <BizCollectLayout {...props}>

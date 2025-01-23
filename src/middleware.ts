@@ -3,7 +3,7 @@ import { NextResponse, NextRequest } from 'next/server'
 import { EGANOW_AUTH_COOKIE } from '@/constants'
 import { RequestCookie } from 'next/dist/server/web/spec-extension/cookies'
 
-/* 
+/*
 *
 *
   MIDDLEWARE
@@ -15,7 +15,7 @@ export function middleware(request: NextRequest) {
   try {
     const auth_cookie: RequestCookie | undefined = request.cookies.get(EGANOW_AUTH_COOKIE)
     const auth = typeof auth_cookie === 'object' ? JSON.parse(auth_cookie?.value) : undefined
-
+   console.log(auth)
     //Checking if the user is logged in.
     if (auth.accessToken) {
       return NextResponse.next()
