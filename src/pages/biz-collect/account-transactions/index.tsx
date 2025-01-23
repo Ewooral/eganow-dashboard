@@ -66,97 +66,12 @@ import {
 } from '@/components/SmartTableColumnStyle'
 import axiosInstance from "@/apiInstances/axiosInstance";
 import axios from "axios";
+import {useQuery} from "@tanstack/react-query"
+import {fetchTransactions} from "@/api/merchantAccountTransactionsAPI";
+import {Transaction} from "@/types/BizCollectDataTypes";
 
 /*
-
-
-
-
-
-
 */
-
-// const columns = [
-//   {
-//     label: 'Date',
-//     key: 'date',
-//     _style: { minWidth: '110px', width: '10%' },
-//     sorter: false,
-//   },
-//   {
-//     label: 'Source Acc. No.',
-//     key: 'membername',
-//     _style: { minWidth: '300px' },
-//   },
-//   {
-//     label: 'Recipient Acc. No.',
-//     key: 'membername',
-//     _style: { minWidth: '300px' },
-//   },
-//   {
-//     label: 'Amount',
-//     key: 'amount',
-//     _style: { minWidth: '150px', width: '15%' },
-//     sorter: false,
-//   },
-//   {
-//     label: 'Commission',
-//     key: 'amount',
-//     _style: { minWidth: '150px', width: '15%' },
-//     sorter: false,
-//   },
-//   {
-//     label: 'Eganow Status',
-//     key: 'status',
-//     _style: { minWidth: '180px', width: '10%' },
-//   },
-//   {
-//     label: 'Merchant Status',
-//     key: 'merchantstatus',
-//     _style: { minWidth: '180px', width: '10%' },
-//     sorter: false,
-//   },
-//
-//   {
-//     label: 'Transaction Type',
-//     key: 'transactiontype',
-//     _style: { minWidth: '300px' },
-//   },
-//   {
-//     label: 'Source Acc. Name.',
-//     key: 'membername',
-//     _style: { minWidth: '300px' },
-//   },
-//   {
-//     label: 'Recipient Acc. Name.',
-//     key: 'membername',
-//     _style: { minWidth: '300px' },
-//   },
-//
-//   {
-//     label: 'Trans. Date/Time',
-//     key: 'date',
-//     _style: { minWidth: '150px', width: '10%' },
-//     sorter: false,
-//   },
-//   {
-//     label: 'Service Name.',
-//     key: 'membername',
-//     _style: { minWidth: '300px' },
-//   },
-//   {
-//     label: 'Transaction Ref.',
-//     key: 'membername',
-//     _style: { minWidth: '300px' },
-//   },
-//   {
-//     key: 'actions',
-//     label: 'Actions',
-//     _style: { minWidth: '50px', width: '50px', height: '20px' },
-//     filter: false,
-//     sorter: false,
-//   },
-// ]
 
 const columns = [
   {
@@ -218,138 +133,7 @@ const columns = [
     _style: { minWidth: "150px" },
   },
 ]
-// const data = [
-//   {
-//     date: '10/06/2024',
-//     membername: 'DRF5656565565565',
-//     membername: 'DRF5656565565565',
-//     amount: '50,000',
-//     status: 'FAILED',
-//     merchantstatus: 'SUCCESSFUL',
-//     transactiontype: 'COLLECTION',
-//     paymentname: 'Fiifi',
-//   },
-//   {
-//     date: '10/06/2024',
-//     membername: 'DRF5656565565565',
-//     membername: 'DRF5656565565565',
-//     amount: '10',
-//     status: 'PENDING',
-//     merchantstatus: 'SUCCESSFUL',
-//     transactiontype: 'COLLECTION',
-//     paymentname: 'Fiifi',
-//   },
-//   {
-//     date: '10/06/2024',
-//     membername: 'DRF5656565565565',
-//     membername: 'DRF5656565565565',
-//     amount: '6000',
-//     status: 'SUCCESSFUL',
-//     merchantstatus: 'SUCCESSFUL',
-//     transactiontype: 'COLLECTION',
-//     paymentname: 'Fiifi',
-//   },
-//   {
-//     date: '10/06/2024',
-//     membername: 'DRF5656565565565',
-//     membername: 'DRF5656565565565',
-//     amount: '10',
-//     status: 'PENDING',
-//     merchantstatus: 'SUCCESSFUL',
-//     transactiontype: 'COLLECTION',
-//     paymentname: 'Fiifi',
-//   },
-//   {
-//     date: '10/06/2024',
-//     membername: 'DRF5656565565565',
-//     membername: 'DRF5656565565565',
-//     amount: '10',
-//     status: 'PENDING',
-//     merchantstatus: 'SUCCESSFUL',
-//     transactiontype: 'COLLECTION',
-//     paymentname: 'Fiifi',
-//   },
-//   {
-//     date: '10/06/2024',
-//     membername: 'DRF5656565565565',
-//     membername: 'DRF5656565565565',
-//     amount: '6000',
-//     status: 'SUCCESSFUL',
-//     merchantstatus: 'SUCCESSFUL',
-//     transactiontype: 'COLLECTION',
-//     paymentname: 'Fiifi',
-//   },
-//   {
-//     date: '10/06/2024',
-//     membername: 'DRF5656565565565',
-//     membername: 'DRF5656565565565',
-//     amount: '10',
-//     status: 'PENDING',
-//     merchantstatus: 'SUCCESSFUL',
-//     transactiontype: 'COLLECTION',
-//     paymentname: 'Fiifi',
-//   },
-//   {
-//     date: '10/06/2024',
-//     membername: 'DRF5656565565565',
-//     membername: 'DRF5656565565565',
-//     amount: '10',
-//     status: 'PENDING',
-//     merchantstatus: 'SUCCESSFUL',
-//     transactiontype: 'COLLECTION',
-//     paymentname: 'Fiifi',
-//   },
-//   {
-//     date: '10/06/2024',
-//     membername: 'DRF5656565565565',
-//     membername: 'DRF5656565565565',
-//     amount: '10',
-//     status: 'PENDING',
-//     merchantstatus: 'SUCCESSFUL',
-//     transactiontype: 'COLLECTION',
-//     paymentname: 'Fiifi',
-//   },
-//   {
-//     date: '10/06/2024',
-//     membername: 'DRF5656565565565',
-//     membername: 'DRF5656565565565',
-//     amount: '6000',
-//     status: 'SUCCESSFUL',
-//     merchantstatus: 'PENDING',
-//     transactiontype: 'COLLECTION',
-//     paymentname: 'Fiifi',
-//   },
-//   {
-//     date: '10/06/2024',
-//     membername: 'DRF5656565565565',
-//     membername: 'DRF5656565565565',
-//     amount: '10',
-//     status: 'PENDING',
-//     merchantstatus: 'SUCCESSFUL',
-//     transactiontype: 'COLLECTION',
-//     paymentname: 'Fiifi',
-//   },
-// ]
 
-interface Transaction {
-  transactionDate: string
-  merchantTransRefNumber: string
-  sourceAccountName: string
-  sourceAccountNumber: string
-  beneficiaryAccountName: string
-  beneficiaryAccountNumber: string
-  amount: number
-  commission: number
-  eganowStatus: string
-  merchantStatus: string
-  transactionType: string
-}
-
-interface ApiResponse {
-  code: number
-  message: string
-  data: Transaction[]
-}
 
 export const getServerSideProps = async ({ req }) => {
   const cookies = JSON.parse(req.cookies[EGANOW_AUTH_COOKIE])
@@ -360,7 +144,6 @@ export const getServerSideProps = async ({ req }) => {
     },
   }
 }
-const API_ENDPOINT = "/api/v1/merchant-transactions/account"
 
 const BizCollect: NextPageWithLayout = (props) => {
   const START_DATE = new Date()
@@ -368,9 +151,6 @@ const BizCollect: NextPageWithLayout = (props) => {
 
   const isStoreReady = useStoreReady()
 
-  const [transactions, setTransactions] = useState<Transaction[]>([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
 
   const [searchFilter, setSearchFilter] = useState({
     transactionType: "COLLECTION",
@@ -379,32 +159,13 @@ const BizCollect: NextPageWithLayout = (props) => {
     payPartnerServiceId: "MTNMOMGH0233SC1001000101"
   })
 
-  const fetchTransactions = async () => {
-    setIsLoading(true)
-    setError(null)
-    try {
-      const response = await axiosInstance.post<ApiResponse>(API_ENDPOINT, {
-        ...searchFilter
-      })
-      console.log("response", response)
-      setTransactions(response.data.data)
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
-        setError(`An error occurred while fetching transactions: ${err.message}`)
-        console.error("Axios error:", err.response?.data)
-      } else {
-        setError("An unexpected error occurred while fetching transactions")
-        console.error("Unexpected error:", err)
-      }
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    fetchTransactions()
-    console.log("transaction", transactions)
-  }, [searchFilter])
+ const {data, isLoading, error, refetch} = useQuery({
+   queryKey: ['transactions', searchFilter],
+    queryFn: () =>  fetchTransactions(searchFilter),
+   enabled: !!searchFilter,
+   staleTime: 600000,
+ })
+  const transactions:Transaction = data?.data || []
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
