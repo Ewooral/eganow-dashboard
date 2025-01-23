@@ -54,6 +54,7 @@
     "next-auth": "^4.24.5",
     "next-i18next": "^15.2.0",
     "numeral": "^2.0.6",
+    "js-cookie": "^3.0.5",
     "react": "18.2.0",
     "react-cookie": "^7.0.2",
     "react-dom": "18.2.0",
@@ -70,7 +71,6 @@
     "@babel/preset-react": "^7.22.15",
     "@formatjs/cli": "^6.2.7",
     "@tanstack/eslint-plugin-query": "^5.0.5",
-    "js-cookie": "^3.0.5",
     "next-transpile-modules": "^10.0.1",
     "sass": "^1.69.4",
     "typescript": "^5.3.3"

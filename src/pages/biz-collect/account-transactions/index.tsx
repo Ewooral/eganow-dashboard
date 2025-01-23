@@ -64,6 +64,8 @@ import {
   StatusColumn,
   ActionButtons,
 } from '@/components/SmartTableColumnStyle'
+import axiosInstance from "@/apiInstances/axiosInstance";
+import axios from "axios";
 
 /*
 
@@ -358,6 +360,7 @@ export const getServerSideProps = async ({ req }) => {
     },
   }
 }
+const API_ENDPOINT = "/api/v1/merchant-transactions/account"
 
 const BizCollect: NextPageWithLayout = (props) => {
   const START_DATE = new Date()
@@ -371,36 +374,28 @@ const BizCollect: NextPageWithLayout = (props) => {
 
   const [searchFilter, setSearchFilter] = useState({
     transactionType: "COLLECTION",
-    startDate: START_DATE,
-    endDate: END_DATE,
-    payPartnerServiceId: "",
+    startDate: "2024-01-01",
+    endDate: "2025-01-01",
+    payPartnerServiceId: "MTNMOMGH0233SC1001000101"
   })
 
   const fetchTransactions = async () => {
     setIsLoading(true)
     setError(null)
     try {
-      const response = await fetch(API_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          // Add any necessary authentication headers here
-        },
-        body: JSON.stringify({
-          transactionType: searchFilter.transactionType,
-          startDate: searchFilter.startDate.toISOString().split("T")[0],
-          endDate: searchFilter.endDate.toISOString().split("T")[0],
-          payPartnerServiceId: searchFilter.payPartnerServiceId,
-        }),
+      const response = await axiosInstance.post<ApiResponse>(API_ENDPOINT, {
+        ...searchFilter
       })
-      if (!response.ok) {
-        throw new Error("Failed to fetch transactions")
-      }
-      const data: ApiResponse = await response.json()
-      setTransactions(data.data)
+      console.log("response", response)
+      setTransactions(response.data.data)
     } catch (err) {
-      setError("An error occurred while fetching transactions")
-      console.error(err)
+      if (axios.isAxiosError(err)) {
+        setError(`An error occurred while fetching transactions: ${err.message}`)
+        console.error("Axios error:", err.response?.data)
+      } else {
+        setError("An unexpected error occurred while fetching transactions")
+        console.error("Unexpected error:", err)
+      }
     } finally {
       setIsLoading(false)
     }
@@ -408,6 +403,7 @@ const BizCollect: NextPageWithLayout = (props) => {
 
   useEffect(() => {
     fetchTransactions()
+    console.log("transaction", transactions)
   }, [searchFilter])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -436,39 +432,464 @@ const BizCollect: NextPageWithLayout = (props) => {
 
 
   return (
+    // <BizCollectLayout {...props}>
+    //   <div className="d-flex justify-content-between align-items-center flex-wrap rounded pt-2">
+    //     <div className="flex-grow-1">
+    //       <h1 className="fs-3 fw-bold text-danger-emphasis" style={{ color: '#CC0229' }}>
+    //         <MdOutlineAccountBalanceWallet className="fs-1 fw-bold me-2" />
+    //         Account Transactions
+    //       </h1>
+    //       <small className="text-secondary">
+    //         View biz collect account transactions. Print or export report list.
+    //       </small>
+    //     </div>
+    //
+    //     <div className="flex gap-2">
+    //       <CDropdown
+    //         variant="btn-group"
+    //         title="Export list"
+    //         style={{ marginTop: '30px', borderColor: '#0A4A25' }}
+    //       >
+    //         <CDropdownToggle
+    //           variant="outline"
+    //           color="danger"
+    //           className="mx-1 rounded-50 ndc-white-bg"
+    //         >
+    //           <FaFileExport style={{ fontSize: '1.2rem' }} /> Export
+    //         </CDropdownToggle>
+    //         <CDropdownMenu onMouseUp={() => {}}>
+    //           <CDropdownItem href="#" data-name="excel">
+    //             <SiMicrosoftexcel data-name="excel" style={{ fontSize: '1.2rem' }} /> Export to
+    //             excel
+    //           </CDropdownItem>
+    //           <CDropdownDivider />
+    //           <CDropdownItem href="#" data-name="pdf">
+    //             <GrDocumentPdf data-name="pdf" style={{ fontSize: '1.2rem' }} /> Export to PDF
+    //           </CDropdownItem>
+    //         </CDropdownMenu>
+    //       </CDropdown>
+    //     </div>
+    //   </div>
+    //
+    //   <hr />
+    //
+    //   <CContainer fluid className="p-3 bg-white mb-5 rounded dark:bg-dark">
+    //     <CForm
+    //       className="d-flex align-items-center gap-4 mb-2 py-3 px-3 dark:bg-dark"
+    //       style={{ backgroundColor: '#eee' }}
+    //     >
+    //       <CRow className="gap-y-2">
+    //         <CCol xs={12} md={4} xl={3}>
+    //           {/*  <CFormLabel htmlFor="status">
+    //             <strong>Search</strong>
+    //           </CFormLabel> */}
+    //           <CInputGroup className="flex-nowrap">
+    //             <CInputGroupText className="bg-dark dark:bg-light">
+    //               <IoSearchCircleSharp className="fs-4 text-white dark:text-black" />
+    //             </CInputGroupText>
+    //             <CFormInput
+    //               size="sm"
+    //               type="text"
+    //               id="exampleFormControlInput1"
+    //               placeholder="Enter account No."
+    //               aria-describedby="exampleFormControlInputHelpInline"
+    //             />
+    //           </CInputGroup>
+    //         </CCol>
+    //
+    //         <CCol xl={2}>
+    //           {/*  <CFormLabel htmlFor="status">
+    //             <strong>Status</strong>
+    //           </CFormLabel> */}
+    //           <CFormSelect
+    //             id="status"
+    //             name="status"
+    //             value={searchFilter.status}
+    //             onChange={() => {}}
+    //             options={[
+    //               { label: 'COLLECTION', value: 'COLLECTION' },
+    //               { label: 'PAYOUT', value: 'PAYOUT' },
+    //             ]}
+    //           />
+    //         </CCol>
+    //
+    //         <CCol xl={2}>
+    //           {/*  <CFormLabel htmlFor="status">
+    //             <strong>Status</strong>
+    //           </CFormLabel> */}
+    //           <CFormSelect
+    //             id="status"
+    //             name="status"
+    //             value={searchFilter.status}
+    //             onChange={() => {}}
+    //             options={[
+    //               { label: 'ALL', value: 'ALL' },
+    //               { label: 'JM 2024 CAMPAIGN', value: 'SUCCESSFUL' },
+    //             ]}
+    //           />
+    //         </CCol>
+    //
+    //         <CCol xl={4}>
+    //           {/* <CFormLabel htmlFor="status">
+    //             <strong>Date</strong>
+    //           </CFormLabel> */}
+    //           <CDateRangePicker
+    //             id="dateRange"
+    //             startDate={searchFilter.startDate}
+    //             endDate={searchFilter.endDate}
+    //             locale="en-US"
+    //             format={DATE_FORMAT}
+    //             footer
+    //             onStartDateChange={() => {}}
+    //             onEndDateChange={() => {}}
+    //           />
+    //         </CCol>
+    //
+    //         <CCol xs={12} md={4} xl={1}>
+    //           <CButton var color="danger" size="md">
+    //             <FaSearch className="fs-4 text-white" />
+    //           </CButton>
+    //         </CCol>
+    //       </CRow>
+    //     </CForm>
+    //
+    //     <CRow className="pt-4">
+    //       <CCol sm={3}>
+    //         <CWidgetStatsB
+    //           className="mb-4 shadow"
+    //           // color="white"
+    //           value={<div className="text-black dark:text-white">GHS 9.000</div>}
+    //           title="Collection Balance"
+    //           /*  chart={
+    //             <CChartLine
+    //               className="mt-3 mx-3"
+    //               style={{ height: '70px' }}
+    //               data={{
+    //                 labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    //                 datasets: [
+    //                   {
+    //                     label: 'My First dataset',
+    //                     backgroundColor: 'transparent',
+    //                     borderColor: '#304767',
+    //                     pointBackgroundColor: '#304767',
+    //                     data: [65, 59, 84, 84, 51, 55, 40],
+    //                   },
+    //                 ],
+    //               }}
+    //               options={{
+    //                 plugins: {
+    //                   legend: {
+    //                     display: false,
+    //                   },
+    //                 },
+    //                 maintainAspectRatio: false,
+    //                 scales: {
+    //                   x: {
+    //                     grid: {
+    //                       display: false,
+    //                       drawBorder: false,
+    //                     },
+    //                     ticks: {
+    //                       display: false,
+    //                     },
+    //                   },
+    //                   y: {
+    //                     min: 30,
+    //                     max: 89,
+    //                     display: false,
+    //                     grid: {
+    //                       display: false,
+    //                     },
+    //                     ticks: {
+    //                       display: false,
+    //                     },
+    //                   },
+    //                 },
+    //                 elements: {
+    //                   line: {
+    //                     borderWidth: 1,
+    //                     tension: 0.4,
+    //                   },
+    //                   point: {
+    //                     radius: 4,
+    //                     hitRadius: 10,
+    //                     hoverRadius: 4,
+    //                   },
+    //                 },
+    //               }}
+    //             />
+    //           } */
+    //         />
+    //       </CCol>
+    //
+    //       <CCol sm={3}>
+    //         <CWidgetStatsB
+    //           className="mb-4 shadow"
+    //           // color="warning"
+    //           value={<>GHS 9.000</>}
+    //           title="Payout Balance"
+    //           /*  chart={
+    //             <CChartLine
+    //               className="mt-3"
+    //               style={{ height: '70px' }}
+    //               data={{
+    //                 labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    //                 datasets: [
+    //                   {
+    //                     label: 'My First dataset',
+    //                     borderColor: '#304767',
+    //                     pointBackgroundColor: '#304767',
+    //                     data: [78, 81, 80, 45, 34, 12, 40],
+    //                     fill: true,
+    //                   },
+    //                 ],
+    //               }}
+    //               options={{
+    //                 plugins: {
+    //                   legend: {
+    //                     display: false,
+    //                   },
+    //                 },
+    //                 maintainAspectRatio: false,
+    //                 scales: {
+    //                   x: {
+    //                     display: false,
+    //                   },
+    //                   y: {
+    //                     display: false,
+    //                   },
+    //                 },
+    //                 elements: {
+    //                   line: {
+    //                     borderWidth: 2,
+    //                     tension: 0.4,
+    //                   },
+    //                   point: {
+    //                     radius: 0,
+    //                     hitRadius: 10,
+    //                     hoverRadius: 4,
+    //                   },
+    //                 },
+    //               }}
+    //             />
+    //           } */
+    //         />
+    //       </CCol>
+    //
+    //       <CCol className="" sm={3}>
+    //         <CWidgetStatsB
+    //           className="mb-4 shadow"
+    //           // color="danger"
+    //           value={<>GHS 9.000</>}
+    //           title="Commission Balance"
+    //           /*  chart={
+    //             <CChartBar
+    //               className="mt-3 mx-3"
+    //               style={{ height: '70px' }}
+    //               data={{
+    //                 labels: [
+    //                   'January',
+    //                   'February',
+    //                   'March',
+    //                   'April',
+    //                   'May',
+    //                   'June',
+    //                   'July',
+    //                   'August',
+    //                   'September',
+    //                   'October',
+    //                   'November',
+    //                   'December',
+    //                   'January',
+    //                   'February',
+    //                   'March',
+    //                   'April',
+    //                 ],
+    //                 datasets: [
+    //                   {
+    //                     label: 'My First dataset',
+    //                     backgroundColor: '#304767',
+    //                     borderColor: '#304767',
+    //                     data: [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
+    //                     barPercentage: 0.6,
+    //                   },
+    //                 ],
+    //               }}
+    //               options={{
+    //                 maintainAspectRatio: false,
+    //                 plugins: {
+    //                   legend: {
+    //                     display: false,
+    //                   },
+    //                 },
+    //                 scales: {
+    //                   x: {
+    //                     grid: {
+    //                       display: false,
+    //                       drawTicks: false,
+    //                     },
+    //                     ticks: {
+    //                       display: false,
+    //                     },
+    //                   },
+    //                   y: {
+    //                     grid: {
+    //                       display: false,
+    //                       drawBorder: false,
+    //                       drawTicks: false,
+    //                     },
+    //                     ticks: {
+    //                       display: false,
+    //                     },
+    //                   },
+    //                 },
+    //               }}
+    //             />
+    //           } */
+    //         />
+    //       </CCol>
+    //
+    //       <CCol className="" sm={3}>
+    //         <CWidgetStatsB
+    //           className="mb-4 shadow"
+    //           // color="danger"
+    //           value={<>GHS 40.000</>}
+    //           title="Total Settlements"
+    //           /* chart={
+    //             <CChartBar
+    //               className="mt-3 mx-3"
+    //               style={{ height: '70px' }}
+    //               data={{
+    //                 labels: [
+    //                   'January',
+    //                   'February',
+    //                   'March',
+    //                   'April',
+    //                   'May',
+    //                   'June',
+    //                   'July',
+    //                   'August',
+    //                   'September',
+    //                   'October',
+    //                   'November',
+    //                   'December',
+    //                   'January',
+    //                   'February',
+    //                   'March',
+    //                   'April',
+    //                 ],
+    //                 datasets: [
+    //                   {
+    //                     label: 'My First dataset',
+    //                     backgroundColor: '#304767',
+    //                     borderColor: '#304767',
+    //                     data: [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
+    //                     barPercentage: 0.6,
+    //                   },
+    //                 ],
+    //               }}
+    //               options={{
+    //                 maintainAspectRatio: false,
+    //                 plugins: {
+    //                   legend: {
+    //                     display: false,
+    //                   },
+    //                 },
+    //                 scales: {
+    //                   x: {
+    //                     grid: {
+    //                       display: false,
+    //                       drawTicks: false,
+    //                     },
+    //                     ticks: {
+    //                       display: false,
+    //                     },
+    //                   },
+    //                   y: {
+    //                     grid: {
+    //                       display: false,
+    //                       drawBorder: false,
+    //                       drawTicks: false,
+    //                     },
+    //                     ticks: {
+    //                       display: false,
+    //                     },
+    //                   },
+    //                 },
+    //               }}
+    //             />
+    //           } */
+    //         />
+    //       </CCol>
+    //     </CRow>
+    //
+    //     <hr className="mb-0" style={{ border: '3px solid #8e011c' }} />
+    //
+    //     <CCard className="border-0 shadow-none p-1">
+    //       <CSmartTable
+    //         sorterValue={{ column: 'fullname', state: 'asc' }}
+    //         activePage={1}
+    //         columns={columns}
+    //         columnFilter
+    //         columnSorter
+    //         items={data}
+    //         itemsPerPageLabel="Transactions per page"
+    //         itemsPerPageSelect
+    //         itemsPerPage={10}
+    //         // tableFilter
+    //         columnFilterValue={{
+    //           date: (date) => <td className="py-2">dffffff</td>,
+    //         }}
+    //         pagination
+    //         scopedColumns={{
+    //           membername: (items) => NameColumn(items.membername),
+    //           paymentaccountnumberormomonumber: (items) =>
+    //             PhoneNumberColumn(items.paymentaccountnumberormomonumber),
+    //           amount: (items) => AmountColumn(items.amount),
+    //           status: (items) => StatusColumn(items.status),
+    //           merchantstatus: (items) => StatusColumn(items.merchantstatus),
+    //           actions: (items) => ActionButtons(items, () => {}),
+    //         }}
+    //         tableProps={{
+    //           className: 'smart-table',
+    //           responsive: true,
+    //           striped: false,
+    //           hover: true,
+    //           small: false,
+    //           borderColor: 'light',
+    //         }}
+    //         tableBodyProps={{
+    //           className: 'align-middle',
+    //         }}
+    //         loading={false}
+    //         noItemsLabel={<NoItemsLabel onMouseUp={() => {}} />}
+    //         // footer
+    //       />
+    //     </CCard>
+    //   </CContainer>
+    // </BizCollectLayout>
     <BizCollectLayout {...props}>
       <div className="d-flex justify-content-between align-items-center flex-wrap rounded pt-2">
         <div className="flex-grow-1">
-          <h1 className="fs-3 fw-bold text-danger-emphasis" style={{ color: '#CC0229' }}>
+          <h1 className="fs-3 fw-bold text-danger-emphasis" style={{ color: "#CC0229" }}>
             <MdOutlineAccountBalanceWallet className="fs-1 fw-bold me-2" />
             Account Transactions
           </h1>
-          <small className="text-secondary">
-            View biz collect account transactions. Print or export report list.
-          </small>
+          <small className="text-secondary">View biz collect account transactions. Print or export report list.</small>
         </div>
 
         <div className="flex gap-2">
-          <CDropdown
-            variant="btn-group"
-            title="Export list"
-            style={{ marginTop: '30px', borderColor: '#0A4A25' }}
-          >
-            <CDropdownToggle
-              variant="outline"
-              color="danger"
-              className="mx-1 rounded-50 ndc-white-bg"
-            >
-              <FaFileExport style={{ fontSize: '1.2rem' }} /> Export
+          <CDropdown variant="btn-group" title="Export list" style={{ marginTop: "30px", borderColor: "#0A4A25" }}>
+            <CDropdownToggle variant="outline" color="danger" className="mx-1 rounded-50 ndc-white-bg">
+              <FaFileExport style={{ fontSize: "1.2rem" }} /> Export
             </CDropdownToggle>
-            <CDropdownMenu onMouseUp={() => {}}>
+            <CDropdownMenu>
               <CDropdownItem href="#" data-name="excel">
-                <SiMicrosoftexcel data-name="excel" style={{ fontSize: '1.2rem' }} /> Export to
-                excel
+                <SiMicrosoftexcel data-name="excel" style={{ fontSize: "1.2rem" }} /> Export to excel
               </CDropdownItem>
               <CDropdownDivider />
               <CDropdownItem href="#" data-name="pdf">
-                <GrDocumentPdf data-name="pdf" style={{ fontSize: '1.2rem' }} /> Export to PDF
+                <GrDocumentPdf data-name="pdf" style={{ fontSize: "1.2rem" }} /> Export to PDF
               </CDropdownItem>
             </CDropdownMenu>
           </CDropdown>
@@ -480,13 +901,11 @@ const BizCollect: NextPageWithLayout = (props) => {
       <CContainer fluid className="p-3 bg-white mb-5 rounded dark:bg-dark">
         <CForm
           className="d-flex align-items-center gap-4 mb-2 py-3 px-3 dark:bg-dark"
-          style={{ backgroundColor: '#eee' }}
+          style={{ backgroundColor: "#eee" }}
+          onSubmit={handleSubmit}
         >
           <CRow className="gap-y-2">
             <CCol xs={12} md={4} xl={3}>
-              {/*  <CFormLabel htmlFor="status">
-                <strong>Search</strong>
-              </CFormLabel> */}
               <CInputGroup className="flex-nowrap">
                 <CInputGroupText className="bg-dark dark:bg-light">
                   <IoSearchCircleSharp className="fs-4 text-white dark:text-black" />
@@ -494,49 +913,29 @@ const BizCollect: NextPageWithLayout = (props) => {
                 <CFormInput
                   size="sm"
                   type="text"
-                  id="exampleFormControlInput1"
+                  id="payPartnerServiceId"
+                  name="payPartnerServiceId"
                   placeholder="Enter account No."
-                  aria-describedby="exampleFormControlInputHelpInline"
+                  value={searchFilter.payPartnerServiceId}
+                  onChange={handleInputChange}
                 />
               </CInputGroup>
             </CCol>
 
             <CCol xl={2}>
-              {/*  <CFormLabel htmlFor="status">
-                <strong>Status</strong>
-              </CFormLabel> */}
               <CFormSelect
-                id="status"
-                name="status"
-                value={searchFilter.status}
-                onChange={() => {}}
+                id="transactionType"
+                name="transactionType"
+                value={searchFilter.transactionType}
+                onChange={handleInputChange}
                 options={[
-                  { label: 'COLLECTION', value: 'COLLECTION' },
-                  { label: 'PAYOUT', value: 'PAYOUT' },
-                ]}
-              />
-            </CCol>
-
-            <CCol xl={2}>
-              {/*  <CFormLabel htmlFor="status">
-                <strong>Status</strong>
-              </CFormLabel> */}
-              <CFormSelect
-                id="status"
-                name="status"
-                value={searchFilter.status}
-                onChange={() => {}}
-                options={[
-                  { label: 'ALL', value: 'ALL' },
-                  { label: 'JM 2024 CAMPAIGN', value: 'SUCCESSFUL' },
+                  { label: "COLLECTION", value: "COLLECTION" },
+                  { label: "PAYOUT", value: "PAYOUT" },
                 ]}
               />
             </CCol>
 
             <CCol xl={4}>
-              {/* <CFormLabel htmlFor="status">
-                <strong>Date</strong>
-              </CFormLabel> */}
               <CDateRangePicker
                 id="dateRange"
                 startDate={searchFilter.startDate}
@@ -544,13 +943,13 @@ const BizCollect: NextPageWithLayout = (props) => {
                 locale="en-US"
                 format={DATE_FORMAT}
                 footer
-                onStartDateChange={() => {}}
-                onEndDateChange={() => {}}
+                onStartDateChange={(date) => handleDateChange(date, searchFilter.endDate)}
+                onEndDateChange={(date) => handleDateChange(searchFilter.startDate, date)}
               />
             </CCol>
 
             <CCol xs={12} md={4} xl={1}>
-              <CButton var color="danger" size="md">
+              <CButton type="submit" color="danger" size="md">
                 <FaSearch className="fs-4 text-white" />
               </CButton>
             </CCol>
@@ -561,313 +960,67 @@ const BizCollect: NextPageWithLayout = (props) => {
           <CCol sm={3}>
             <CWidgetStatsB
               className="mb-4 shadow"
-              // color="white"
-              value={<div className="text-black dark:text-white">GHS 9.000</div>}
+              value={<div className="text-black dark:text-white">GHS {totalCollection.toFixed(2)}</div>}
               title="Collection Balance"
-              /*  chart={
-                <CChartLine
-                  className="mt-3 mx-3"
-                  style={{ height: '70px' }}
-                  data={{
-                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                    datasets: [
-                      {
-                        label: 'My First dataset',
-                        backgroundColor: 'transparent',
-                        borderColor: '#304767',
-                        pointBackgroundColor: '#304767',
-                        data: [65, 59, 84, 84, 51, 55, 40],
-                      },
-                    ],
-                  }}
-                  options={{
-                    plugins: {
-                      legend: {
-                        display: false,
-                      },
-                    },
-                    maintainAspectRatio: false,
-                    scales: {
-                      x: {
-                        grid: {
-                          display: false,
-                          drawBorder: false,
-                        },
-                        ticks: {
-                          display: false,
-                        },
-                      },
-                      y: {
-                        min: 30,
-                        max: 89,
-                        display: false,
-                        grid: {
-                          display: false,
-                        },
-                        ticks: {
-                          display: false,
-                        },
-                      },
-                    },
-                    elements: {
-                      line: {
-                        borderWidth: 1,
-                        tension: 0.4,
-                      },
-                      point: {
-                        radius: 4,
-                        hitRadius: 10,
-                        hoverRadius: 4,
-                      },
-                    },
-                  }}
-                />
-              } */
             />
           </CCol>
 
           <CCol sm={3}>
-            <CWidgetStatsB
-              className="mb-4 shadow"
-              // color="warning"
-              value={<>GHS 9.000</>}
-              title="Payout Balance"
-              /*  chart={
-                <CChartLine
-                  className="mt-3"
-                  style={{ height: '70px' }}
-                  data={{
-                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                    datasets: [
-                      {
-                        label: 'My First dataset',
-                        borderColor: '#304767',
-                        pointBackgroundColor: '#304767',
-                        data: [78, 81, 80, 45, 34, 12, 40],
-                        fill: true,
-                      },
-                    ],
-                  }}
-                  options={{
-                    plugins: {
-                      legend: {
-                        display: false,
-                      },
-                    },
-                    maintainAspectRatio: false,
-                    scales: {
-                      x: {
-                        display: false,
-                      },
-                      y: {
-                        display: false,
-                      },
-                    },
-                    elements: {
-                      line: {
-                        borderWidth: 2,
-                        tension: 0.4,
-                      },
-                      point: {
-                        radius: 0,
-                        hitRadius: 10,
-                        hoverRadius: 4,
-                      },
-                    },
-                  }}
-                />
-              } */
-            />
+            <CWidgetStatsB className="mb-4 shadow" value={<>GHS {totalPayout.toFixed(2)}</>} title="Payout Balance" />
           </CCol>
 
           <CCol className="" sm={3}>
             <CWidgetStatsB
               className="mb-4 shadow"
-              // color="danger"
-              value={<>GHS 9.000</>}
+              value={<>GHS {totalCommission.toFixed(2)}</>}
               title="Commission Balance"
-              /*  chart={
-                <CChartBar
-                  className="mt-3 mx-3"
-                  style={{ height: '70px' }}
-                  data={{
-                    labels: [
-                      'January',
-                      'February',
-                      'March',
-                      'April',
-                      'May',
-                      'June',
-                      'July',
-                      'August',
-                      'September',
-                      'October',
-                      'November',
-                      'December',
-                      'January',
-                      'February',
-                      'March',
-                      'April',
-                    ],
-                    datasets: [
-                      {
-                        label: 'My First dataset',
-                        backgroundColor: '#304767',
-                        borderColor: '#304767',
-                        data: [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
-                        barPercentage: 0.6,
-                      },
-                    ],
-                  }}
-                  options={{
-                    maintainAspectRatio: false,
-                    plugins: {
-                      legend: {
-                        display: false,
-                      },
-                    },
-                    scales: {
-                      x: {
-                        grid: {
-                          display: false,
-                          drawTicks: false,
-                        },
-                        ticks: {
-                          display: false,
-                        },
-                      },
-                      y: {
-                        grid: {
-                          display: false,
-                          drawBorder: false,
-                          drawTicks: false,
-                        },
-                        ticks: {
-                          display: false,
-                        },
-                      },
-                    },
-                  }}
-                />
-              } */
             />
           </CCol>
 
           <CCol className="" sm={3}>
             <CWidgetStatsB
               className="mb-4 shadow"
-              // color="danger"
-              value={<>GHS 40.000</>}
+              value={<>GHS {totalSettlements.toFixed(2)}</>}
               title="Total Settlements"
-              /* chart={
-                <CChartBar
-                  className="mt-3 mx-3"
-                  style={{ height: '70px' }}
-                  data={{
-                    labels: [
-                      'January',
-                      'February',
-                      'March',
-                      'April',
-                      'May',
-                      'June',
-                      'July',
-                      'August',
-                      'September',
-                      'October',
-                      'November',
-                      'December',
-                      'January',
-                      'February',
-                      'March',
-                      'April',
-                    ],
-                    datasets: [
-                      {
-                        label: 'My First dataset',
-                        backgroundColor: '#304767',
-                        borderColor: '#304767',
-                        data: [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
-                        barPercentage: 0.6,
-                      },
-                    ],
-                  }}
-                  options={{
-                    maintainAspectRatio: false,
-                    plugins: {
-                      legend: {
-                        display: false,
-                      },
-                    },
-                    scales: {
-                      x: {
-                        grid: {
-                          display: false,
-                          drawTicks: false,
-                        },
-                        ticks: {
-                          display: false,
-                        },
-                      },
-                      y: {
-                        grid: {
-                          display: false,
-                          drawBorder: false,
-                          drawTicks: false,
-                        },
-                        ticks: {
-                          display: false,
-                        },
-                      },
-                    },
-                  }}
-                />
-              } */
             />
           </CCol>
         </CRow>
 
-        <hr className="mb-0" style={{ border: '3px solid #8e011c' }} />
+        <hr className="mb-0" style={{ border: "3px solid #8e011c" }} />
 
         <CCard className="border-0 shadow-none p-1">
+          {error && <div className="alert alert-danger">{error}</div>}
           <CSmartTable
-            sorterValue={{ column: 'fullname', state: 'asc' }}
+            sorterValue={{ column: "transactionDate", state: "desc" }}
             activePage={1}
             columns={columns}
             columnFilter
             columnSorter
-            items={data}
+            items={transactions}
             itemsPerPageLabel="Transactions per page"
             itemsPerPageSelect
             itemsPerPage={10}
-            // tableFilter
-            columnFilterValue={{
-              date: (date) => <td className="py-2">dffffff</td>,
-            }}
             pagination
             scopedColumns={{
-              membername: (items) => NameColumn(items.membername),
-              paymentaccountnumberormomonumber: (items) =>
-                PhoneNumberColumn(items.paymentaccountnumberormomonumber),
-              amount: (items) => AmountColumn(items.amount),
-              status: (items) => StatusColumn(items.status),
-              merchantstatus: (items) => StatusColumn(items.merchantstatus),
-              actions: (items) => ActionButtons(items, () => {}),
+              transactionDate: (item: Transaction) => <td>{new Date(item.transactionDate).toLocaleDateString()}</td>,
+              amount: (item: Transaction) => AmountColumn(item.amount),
+              commission: (item: Transaction) => AmountColumn(item.commission),
+              eganowStatus: (item: Transaction) => StatusColumn(item.eganowStatus),
+              merchantStatus: (item: Transaction) => StatusColumn(item.merchantStatus),
             }}
             tableProps={{
-              className: 'smart-table',
+              className: "smart-table",
               responsive: true,
               striped: false,
               hover: true,
               small: false,
-              borderColor: 'light',
+              borderColor: "light",
             }}
             tableBodyProps={{
-              className: 'align-middle',
+              className: "align-middle",
             }}
-            loading={false}
+            loading={isLoading}
             noItemsLabel={<NoItemsLabel onMouseUp={() => {}} />}
-            // footer
           />
         </CCard>
       </CContainer>
