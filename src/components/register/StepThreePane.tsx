@@ -24,6 +24,8 @@ import DialCode from '../dial-code/DialCodeInput'
 /* HOOKS */
 import { FormattedMessage, useIntl } from 'react-intl'
 import { RiEyeCloseFill } from 'react-icons/ri'
+import { TbEyeClosed } from "react-icons/tb";
+
 import { ImEye } from 'react-icons/im'
 import { useState } from 'react'
 /* 
@@ -163,7 +165,7 @@ const StepThreePane = (props: any) => {
           <CFormLabel
             htmlFor="customerMobileNo"
             className={classNames({
-              'text-error': !!formState.errors?.customerMobileNo,
+              'text-error': !!formState.errors?.dialNumber,
             })}
           >
             <FormattedMessage id="mobile_number" defaultMessage="Mobile Number" />
@@ -173,7 +175,7 @@ const StepThreePane = (props: any) => {
             component="span"
             className={classNames({
               'text-error': true,
-              'd-none': !!formState.errors?.customerMobileNo ? false : true,
+              'd-none': !!formState.errors?.dialNumber ? false : true,
             })}
           >
             <FormattedMessage
@@ -253,7 +255,7 @@ const StepThreePane = (props: any) => {
             invalid={!!formState.errors?.password && true}
             />
             <CInputGroupText style={{ width: '40px' }}>
-              <RiEyeCloseFill
+              <TbEyeClosed
                 onClick={togglePasswordVisibility}
                 className={`eyeIcon position-absolute ${showPassword ? 'hiddenEyeIcon' : ''
                   }`}
