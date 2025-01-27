@@ -113,12 +113,12 @@ const columns = [
   },
   {
     label: 'Initiated By',
-    key: 'narration',
+    key: 'initiatedBy',
     _style: { minWidth: '200px', width: '20%' },
   },
   {
     label: 'Authorized By',
-    key: 'narration',
+    key: 'authorizedBy',
     _style: { minWidth: '200px', width: '20%' },
   },
   {
@@ -143,7 +143,9 @@ const data = [
     servicetype: 'JM 2024 CAMPAIGN',
     membername: 'TRANSFER PAYOUT TO COLLECTION',
     amount: '50,000',
-    narration: 'fgf',
+    initiatedBy: 'John Doe',
+    authorizedBy: 'Jane Doe',
+    narration: 'Payment for services',
   },
   {
     date: '10/06/2024',
@@ -152,7 +154,9 @@ const data = [
     servicetype: 'JM 2024 CAMPAIGN',
     membername: 'TRANSFER PAYOUT TO COLLECTION',
     amount: '10',
-    narration: 'ffgfg ghghgh ',
+    initiatedBy: 'John Doe',
+    authorizedBy: 'Jane Doe',
+    narration: 'Payment for services',
   },
   {
     date: '10/06/2024',
@@ -161,7 +165,9 @@ const data = [
     servicetype: 'JM 2024 CAMPAIGN',
     membername: 'TRANSFER PAYOUT TO COLLECTION',
     amount: '6000',
-    narration: 'fdsfdfdfdfd dfdfdfdfdf dfd',
+    initiatedBy: 'John Doe',
+    authorizedBy: 'Jane Doe',
+    narration: 'Payment for services',
   },
   {
     date: '10/06/2024',
@@ -170,7 +176,9 @@ const data = [
     servicetype: 'JM 2024 CAMPAIGN',
     membername: 'TRANSFER PAYOUT TO COLLECTION',
     amount: '10',
-    narration: 'fddfdfd fgfgfg ghghh',
+    initiatedBy: 'John Doe',
+    authorizedBy: 'Jane Doe',
+    narration: 'Payment for services',
   },
   {
     date: '10/06/2024',
@@ -179,7 +187,9 @@ const data = [
     servicetype: 'JM 2024 CAMPAIGN',
     membername: 'TRANSFER PAYOUT TO COLLECTION',
     amount: '6000',
-    narration: 'fdsfdfdfdfd dfdfdfdfdf dfd',
+    initiatedBy: 'John Doe',
+    authorizedBy: 'Jane Doe',
+    narration: 'Payment for services',
   },
   {
     date: '10/06/2024',
@@ -188,7 +198,9 @@ const data = [
     servicetype: 'JM 2024 CAMPAIGN',
     membername: 'TRANSFER PAYOUT TO COLLECTION',
     amount: '10',
-    narration: 'fddfdfd fgfgfg ghghh',
+    initiatedBy: 'John Doe',
+    authorizedBy: 'Jane Doe',
+    narration: 'Payment for services',
   },
   {
     date: '10/06/2024',
@@ -197,7 +209,9 @@ const data = [
     servicetype: 'JM 2024 CAMPAIGN',
     membername: 'TRANSFER PAYOUT TO COLLECTION',
     amount: '6000',
-    narration: 'fdsfdfdfdfd dfdfdfdfdf dfd',
+    initiatedBy: 'John Doe',
+    authorizedBy: 'Jane Doe',
+    narration: 'Payment for services',
   },
   {
     date: '10/06/2024',
@@ -206,7 +220,9 @@ const data = [
     servicetype: 'JM 2024 CAMPAIGN',
     membername: 'TRANSFER PAYOUT TO COLLECTION',
     amount: '10',
-    narration: 'fddfdfd fgfgfg ghghh',
+    initiatedBy: 'John Doe',
+    authorizedBy: 'Jane Doe',
+    narration: 'Payment for services',
   },
 ]
 
@@ -268,7 +284,7 @@ const InternalTransferHistory: NextPageWithLayout = (props) => {
     }
     /*  Reset agent password */
     if (type === 'resetPassword') {
-      const message = `You are about to reset ${items.agentname}'s password.`
+      const message = `You are about to view transaction.`
       //Setting default data
       setDynamicComponent(
         <Confirm modalClose={modalClose} onClick={handleConfirm} message={message} data={items} />,

@@ -66,9 +66,9 @@ import {
 } from '@/components/SmartTableColumnStyle'
 import axiosInstance from "@/apiInstances/axiosInstance";
 import axios from "axios";
-import {useQuery} from "@tanstack/react-query"
-import {fetchTransactions} from "@/api/merchantAccountTransactionsAPI";
-import {Transaction} from "@/types/BizCollectDataTypes";
+import { useMutation, useQuery } from "@tanstack/react-query"
+import fetchTransactions from "@/api/merchantAccountTransactionsAPI";
+import { Transaction } from "@/types/BizCollectDataTypes";
 
 /*
 */
@@ -151,6 +151,8 @@ const BizCollect: NextPageWithLayout = (props) => {
 
   const isStoreReady = useStoreReady()
 
+  const { getTransactions,getMerchantServices } = fetchTransactions();
+
 
   const [searchFilter, setSearchFilter] = useState({
     transactionType: "COLLECTION",
@@ -159,13 +161,16 @@ const BizCollect: NextPageWithLayout = (props) => {
     payPartnerServiceId: "MTNMOMGH0233SC1001000101"
   })
 
- const {data, isLoading, error, refetch} = useQuery({
-   queryKey: ['transactions', searchFilter],
-    queryFn: () =>  fetchTransactions(searchFilter),
-   enabled: !!searchFilter,
-   staleTime: 600000,
- })
-  const transactions:Transaction = data?.data || []
+  const { mutate, isLoading, error, data,isPending } = useMutation({
+    mutationFn: (searchFilter) => getTransactions(searchFilter),
+  });
+
+  useEffect(()=>{
+    mutate(searchFilter)
+  },[])
+
+
+  const transactions: Transaction = data?.data || []
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
@@ -178,13 +183,17 @@ const BizCollect: NextPageWithLayout = (props) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    fetchTransactions()
+    if (searchFilter) {
+      mutate(searchFilter);
+    }
   }
 
   //Server-render loading state
   if (!isStoreReady) {
     return <GlobalLoader />
   }
+
+
 
   const totalCollection = transactions.reduce((sum, t) => sum + (t.transactionType === "COLLECTION" ? t.amount : 0), 0)
   const totalPayout = transactions.reduce((sum, t) => sum + (t.transactionType === "PAYOUT" ? t.amount : 0), 0)
@@ -230,7 +239,7 @@ const BizCollect: NextPageWithLayout = (props) => {
           onSubmit={handleSubmit}
         >
           <CRow className="gap-y-2">
-            <CCol xs={12} md={4} xl={3}>
+            {/* <CCol xs={12} md={4} xl={3}>
               <CInputGroup className="flex-nowrap">
                 <CInputGroupText className="bg-dark dark:bg-light">
                   <IoSearchCircleSharp className="fs-4 text-white dark:text-black" />
@@ -245,9 +254,21 @@ const BizCollect: NextPageWithLayout = (props) => {
                   onChange={handleInputChange}
                 />
               </CInputGroup>
-            </CCol>
+            </CCol> */}
 
             <CCol xl={2}>
+              <CFormSelect
+                id="payPartnerServiceId"
+                name="payPartnerServiceId"
+                value={searchFilter.payPartnerServiceId}
+                onChange={handleInputChange}
+                options={[
+                  { label: "SERVICE 1", value: "MTNMOMGH0233SC1001000101" },
+                ]}
+              />
+            </CCol>
+
+            <CCol xl={3}>
               <CFormSelect
                 id="transactionType"
                 name="transactionType"
@@ -260,7 +281,7 @@ const BizCollect: NextPageWithLayout = (props) => {
               />
             </CCol>
 
-            <CCol xl={4}>
+            <CCol xl={5}>
               <CDateRangePicker
                 id="dateRange"
                 startDate={searchFilter.startDate}
@@ -336,7 +357,7 @@ const BizCollect: NextPageWithLayout = (props) => {
             tableProps={{
               className: "smart-table",
               responsive: true,
-              striped: false,
+              striped: true,
               hover: true,
               small: false,
               borderColor: "light",
@@ -345,7 +366,7 @@ const BizCollect: NextPageWithLayout = (props) => {
               className: "align-middle",
             }}
             loading={isLoading}
-            noItemsLabel={<NoItemsLabel onMouseUp={() => {}} />}
+            noItemsLabel={isPending ? "Loading...." : <NoItemsLabel onMouseUp={() => { }} />}
           />
         </CCard>
       </CContainer>

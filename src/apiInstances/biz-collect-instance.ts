@@ -5,9 +5,8 @@ import { EGANOW_AUTH_COOKIE, HTTP_ERROR_CODES } from '@/constants'
 import { useLocale } from '@/store'
 import { useRouter } from 'next/router'
 
-export default function AxiosInstance() {
+export default function BizCollectInstance() {
   const router = useRouter()
-  const { locale, country } = useLocale((state) => state)
   const [cookie] = useCookies([EGANOW_AUTH_COOKIE])
   const token = isEmpty_util(cookie?.eganow_customer_auth)
     ? ''
@@ -20,9 +19,6 @@ export default function AxiosInstance() {
     baseURL: process.env.NEXT_PUBLIC_API_URL,
     headers: {
       'content-type': 'application/json',
-      'x-country-code': country?.code,
-      'x-language-id': locale,
-      'x-ega-user-access-token': token,
       authorization: `Bearer ${token}` ,
     },
   })

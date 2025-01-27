@@ -106,7 +106,7 @@ const columns = [
   },
   {
     label: 'Created By',
-    key: 'narration',
+    key: 'createdBy',
     _style: { minWidth: '200px', width: '20%' },
   },
   {
@@ -124,56 +124,64 @@ const data = [
     membername: 'DRF5656565565565',
     membername: 'DRF5656565565565',
     amount: '50,000',
-    narration: 'fgf',
+    narration: 'Grocery shopping',
+    createdBy: 'James',
   },
   {
     date: '10/06/2024',
     membername: 'DRF5656565565565',
     membername: 'DRF5656565565565',
     amount: '10',
-    narration: 'ffgfg ghghgh ',
+    narration: 'Fuel purchase ',
+    createdBy: 'Kudus Baari',
   },
   {
     date: '10/06/2024',
     membername: 'DRF5656565565565',
     membername: 'DRF5656565565565',
     amount: '6000',
-    narration: 'fdsfdfdfdfd dfdfdfdfdf dfd',
+    narration: 'Grocery shopping',
+    createdBy: 'Emmanuel',
   },
   {
     date: '10/06/2024',
     membername: 'DRF5656565565565',
     membername: 'DRF5656565565565',
     amount: '10',
-    narration: 'fddfdfd fgfgfg ghghh',
+    narration: 'Payment for insurance',
+    createdBy: 'John Doe',
   },
   {
     date: '10/06/2024',
     membername: 'DRF5656565565565',
     membername: 'DRF5656565565565',
     amount: '6000',
-    narration: 'fdsfdfdfdfd dfdfdfdfdf dfd',
+    narration: 'Fuel purchase',
+    createdBy: 'Fredy brown',
   },
   {
     date: '10/06/2024',
     membername: 'DRF5656565565565',
     membername: 'DRF5656565565565',
     amount: '10',
-    narration: 'fddfdfd fgfgfg ghghh',
+    narration: 'Paying of fees',
+    createdBy: 'James',
   },
   {
     date: '10/06/2024',
     membername: 'DRF5656565565565',
     membername: 'DRF5656565565565',
     amount: '6000',
-    narration: 'fdsfdfdfdfd dfdfdfdfdf dfd',
+    narration: 'Dental appointment',
+    createdBy: 'James',
   },
   {
     date: '10/06/2024',
     membername: 'DRF5656565565565',
     membername: 'DRF5656565565565',
     amount: '10',
-    narration: 'fddfdfd fgfgfg ghghh',
+    narration: 'Payment for papaye',
+    createdBy: 'James',
   },
 ]
 
@@ -235,7 +243,7 @@ const InternalTransfer: NextPageWithLayout = (props) => {
     }
     /*  Reset agent password */
     if (type === 'resetPassword') {
-      const message = `You are about to reset ${items.agentname}'s password.`
+      const message = `You are about to approve transaction`
       //Setting default data
       setDynamicComponent(
         <Confirm modalClose={modalClose} onClick={handleConfirm} message={message} data={items} />,

@@ -38,25 +38,22 @@ const DialCode = (props: any) => {
   })
 
  
-  function handleFlagChange(event) {
+  function handleFlagChange(country:countryOptionType) {
     const { id, value, dataset } = event.target
 
-    if (dataset.name === 'flag') {
-      const obj = data?.data[id]
-      //Returning event and country obj
-      field.onChange({
-        ...field.value,
-        dialFlag: obj.countryFlagUrl,
-        dialCode: obj.dialCode,
-      })
-    }
+    field.onChange({
+      ...field.value,
+      dialFlag: country.countryFlagUrl,
+      dialCode: country.dialCode,
+    })
+  }
 
-    if (dataset.name === 'number') {
-      field.onChange({
-        ...field.value,
-        dialNumber: value,
-      })
-    }
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target
+    field.onChange({
+      ...field.value,
+      dialNumber: value,
+    })
   }
 
   if (error) {
@@ -78,12 +75,12 @@ const DialCode = (props: any) => {
             <CIcon icon={cilGlobeAlt} />
           )}
         </CInputGroupText>
-        <CDropdownMenu className="w-100" onClick={handleFlagChange}>
+        <CDropdownMenu className="w-100">
           <Each
             of={data?.data}
             render={(item: countryOptionType, index) => {
               return (
-                <CDropdownItem id={`${index}`} data-name="flag">
+                <CDropdownItem id={`${index}`} onClick={() => handleFlagChange(item)} data-name="flag">
                   <Image src={item.countryFlagUrl} width={24} height={16} alt={item.countryName} />
                   <span style={{ marginLeft: '10px' }}>{item.countryName}</span>
                 </CDropdownItem>
@@ -97,7 +94,7 @@ const DialCode = (props: any) => {
         id={props.name}
         data-name="number"
         placeholder="e.g 245456897"
-        onChange={handleFlagChange}
+        onChange={handleInputChange}
         onBlur={field.onBlur}
         ref={field.ref}
         value={field.value.dialNumber}
