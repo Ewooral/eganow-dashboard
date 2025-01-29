@@ -21,6 +21,10 @@ export interface PaymentMethod {
 
 
 export interface Transaction {
+  collectionBalance: number;
+  payoutBalance: number;
+  commissionBalance: number;
+  totalSettlements:number;
   transactionDate: string
   merchantTransRefNumber: string
   sourceAccountName: string

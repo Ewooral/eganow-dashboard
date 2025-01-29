@@ -69,47 +69,47 @@ export const COMPANY_REGISTRATION_TYPE_OPTIONS = [
   {
     id: 1,
     label: 'Limited Liability',
-    value: 'Limited_Liability',
+    value: 'LIMITED_LIABILITY',
   },
   {
     id: 2,
     label: 'Public Liability',
-    value: 'Public_Liability',
+    value: 'PUBLIC_LIABILITY',
   },
   {
     id: 3,
     label: 'Sole Proprietorship',
-    value: 'Sole_Proprietorship',
+    value: 'SOLE_PROPRIETORSHIP',
   },
   {
     id: 4,
     label: 'Partnership',
-    value: 'Partnership',
+    value: 'PARTNERSHIP',
   },
   {
     id: 5,
     label: 'Corporation',
-    value: 'Corporation',
+    value: 'CORPORATION',
   },
   {
     id: 6,
     label: 'C Corporation',
-    value: 'C_Corporation',
+    value: 'C_CORPORATION',
   },
   {
     id: 7,
     label: 'S Corporation',
-    value: 'S_Corporation',
+    value: 'S_CORPORATION',
   },
   {
     id: 8,
     label: 'Joint Venture',
-    value: 'Joint_Venture',
+    value: 'JOINT_VENTURE',
   },
   {
     id: 9,
     label: 'Non Profit',
-    value: 'NonProfit',
+    value: 'NONPROFIT',
   },
 ]
 

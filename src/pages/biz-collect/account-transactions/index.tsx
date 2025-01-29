@@ -69,6 +69,8 @@ import axios from "axios";
 import { useMutation, useQuery } from "@tanstack/react-query"
 import fetchTransactions from "@/api/merchantAccountTransactionsAPI";
 import { Transaction } from "@/types/BizCollectDataTypes";
+import { formatMoney_util } from '@/util'
+
 
 /*
 */
@@ -151,7 +153,7 @@ const BizCollect: NextPageWithLayout = (props) => {
 
   const isStoreReady = useStoreReady()
 
-  const { getTransactions,getMerchantServices } = fetchTransactions();
+  const { getTransactions, getMerchantServices } = fetchTransactions();
 
 
   const [searchFilter, setSearchFilter] = useState({
@@ -161,16 +163,28 @@ const BizCollect: NextPageWithLayout = (props) => {
     payPartnerServiceId: "MTNMOMGH0233SC1001000101"
   })
 
-  const { mutate, isLoading, error, data,isPending } = useMutation({
-    mutationFn: (searchFilter) => getTransactions(searchFilter),
+  // Fetch data on page load
+  const { data, isLoading: isQueryLoading, error: queryError } = useQuery({
+    queryKey: ["transactions", searchFilter],
+    queryFn: () => getTransactions(searchFilter),
+    enabled: !!searchFilter, // Ensures the query runs only if `searchFilter` is not null/undefined
   });
 
-  useEffect(()=>{
-    mutate(searchFilter)
-  },[])
+    // Fetch merchant services
+    const {
+      data: merchantServicesData,
+      isLoading: isMerchantServicesLoading,
+      error: merchantServicesError,
+    } = useQuery({
+      queryKey: ["merchantServices"],
+      queryFn: getMerchantServices, // No arguments passed if none are needed
+    });
 
+  // Mutate data when user submits a form
+  const { mutate, isLoading: isMutationLoading, error: mutationError } = useMutation({
+    mutationFn: (filter) => getTransactions(filter),
+  });
 
-  const transactions: Transaction = data?.data || []
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
@@ -182,23 +196,17 @@ const BizCollect: NextPageWithLayout = (props) => {
   }
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (searchFilter) {
-      mutate(searchFilter);
-    }
-  }
+    e.preventDefault();
+    mutate(searchFilter); // Manually trigger mutation with the current filter
+  };
 
   //Server-render loading state
   if (!isStoreReady) {
     return <GlobalLoader />
   }
 
-
-
-  const totalCollection = transactions.reduce((sum, t) => sum + (t.transactionType === "COLLECTION" ? t.amount : 0), 0)
-  const totalPayout = transactions.reduce((sum, t) => sum + (t.transactionType === "PAYOUT" ? t.amount : 0), 0)
-  const totalCommission = transactions.reduce((sum, t) => sum + t.commission, 0)
-  const totalSettlements = transactions.reduce((sum, t) => sum + t.amount, 0)
+  const transactions: Transaction = data?.data || [];
+  const merchantServices = data?.merchantServices || [];
 
 
   return (
@@ -306,19 +314,19 @@ const BizCollect: NextPageWithLayout = (props) => {
           <CCol sm={3}>
             <CWidgetStatsB
               className="mb-4 shadow"
-              value={<div className="text-black dark:text-white">GHS {totalCollection.toFixed(2)}</div>}
+              value={<div className="text-black dark:text-white">GHS {formatMoney_util(transactions?.collectionBalance) || 0}</div>}
               title="Collection Balance"
             />
           </CCol>
 
           <CCol sm={3}>
-            <CWidgetStatsB className="mb-4 shadow" value={<>GHS {totalPayout.toFixed(2)}</>} title="Payout Balance" />
+            <CWidgetStatsB className="mb-4 shadow" value={<>GHS {transactions?.payoutBalance}</>} title="Payout Balance" />
           </CCol>
 
           <CCol className="" sm={3}>
             <CWidgetStatsB
               className="mb-4 shadow"
-              value={<>GHS {totalCommission.toFixed(2)}</>}
+              value={<>GHS {transactions?.commissionBalance}</>}
               title="Commission Balance"
             />
           </CCol>
@@ -326,7 +334,7 @@ const BizCollect: NextPageWithLayout = (props) => {
           <CCol className="" sm={3}>
             <CWidgetStatsB
               className="mb-4 shadow"
-              value={<>GHS {totalSettlements.toFixed(2)}</>}
+              value={<>GHS {transactions?.totalSettlements}</>}
               title="Total Settlements"
             />
           </CCol>
@@ -335,14 +343,14 @@ const BizCollect: NextPageWithLayout = (props) => {
         <hr className="mb-0" style={{ border: "3px solid #8e011c" }} />
 
         <CCard className="border-0 shadow-none p-1">
-          {error && <div className="alert alert-danger">{error}</div>}
+          {queryError && <div className="alert alert-danger">{queryError}</div>}
           <CSmartTable
             sorterValue={{ column: "transactionDate", state: "desc" }}
             activePage={1}
             columns={columns}
             columnFilter
             columnSorter
-            items={transactions}
+            items={transactions.accountTransactions}
             itemsPerPageLabel="Transactions per page"
             itemsPerPageSelect
             itemsPerPage={10}
@@ -365,8 +373,8 @@ const BizCollect: NextPageWithLayout = (props) => {
             tableBodyProps={{
               className: "align-middle",
             }}
-            loading={isLoading}
-            noItemsLabel={isPending ? "Loading...." : <NoItemsLabel onMouseUp={() => { }} />}
+            loading={isQueryLoading}
+            noItemsLabel={isQueryLoading ? "Loading...." : <NoItemsLabel onMouseUp={() => { }} />}
           />
         </CCard>
       </CContainer>
