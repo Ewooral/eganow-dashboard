@@ -7,6 +7,7 @@ export default function fetchTransactions (){
     return {
         getTransactions : (data:any)=>axios.post('/api/v1/merchant-transactions/account',data),
         
+        
         getMerchantServices : ()=>axios.get('/api/v1/merchant-transactions/services'),
 
     }
