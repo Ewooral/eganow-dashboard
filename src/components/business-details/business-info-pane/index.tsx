@@ -43,6 +43,7 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
   const { updateBusinessInfo } = merchantBusinessInfoAPI()
   const [industriesListOptions, setIndustriesListOptions] = useState([])
   const [regulatorsOptions, setRegulatorsOptions] = useState([])
+  
   //Snackbar from zustand store
   const showSnackbar = useSnackbar((state: any) => state.showSnackbar)
   //UseForm
@@ -82,6 +83,7 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
   }, [props?.regulators, props?.industries])
   //This  populates the business info
   useEffect(() => {
+    
     if (props.businessInfoData?.data?.data) {
       const {
         companyName,

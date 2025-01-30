@@ -89,7 +89,7 @@ export default function ResetPassword(props) {
   const emailValue = useMemo(() => {
     try {
       //Decrypt email address
-      const decryptedEmail = CryptoJS.DES.decrypt(encryptedEmail, props.secret_key)
+      const decryptedEmail = CryptoJS.DES.decrypt(encryptedEmail, props?.secret_key)
       //Convert Decrypted email To Object
       return JSON.parse(decryptedEmail.toString(CryptoJS.enc.Utf8))
     } catch (error) {
