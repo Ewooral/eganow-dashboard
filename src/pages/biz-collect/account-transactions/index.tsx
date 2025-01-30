@@ -69,7 +69,7 @@ import axios from "axios";
 import { useMutation, useQuery } from "@tanstack/react-query"
 import fetchTransactions from "@/api/merchantAccountTransactionsAPI";
 import { Transaction } from "@/types/BizCollectDataTypes";
-import { formatMoney_util } from '@/util'
+import { formatDate_util, formatMoney_util } from '@/util'
 
 
 /*
@@ -148,42 +148,49 @@ export const getServerSideProps = async ({ req }) => {
 }
 
 const BizCollect: NextPageWithLayout = (props) => {
-  const START_DATE = new Date()
-  const END_DATE = new Date()
+  const today = new Date();
+  const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+  const START_DATE = formatDate_util(lastMonth, 'yyyy-MM-dd')
+  const END_DATE = formatDate_util(today, 'yyyy-MM-dd')
+  console.log(START_DATE)
+  console.log(END_DATE)
 
   const isStoreReady = useStoreReady()
 
   const { getTransactions, getMerchantServices } = fetchTransactions();
-
+  const [submittedFilter, setSubmittedFilter] = useState({
+    transactionType: "COLLECTION",
+    startDate: START_DATE,
+    endDate: END_DATE,
+    payPartnerServiceId: "MTNMOMGH0233SC1001000101"
+  });
 
   const [searchFilter, setSearchFilter] = useState({
     transactionType: "COLLECTION",
-    startDate: "2024-01-01",
-    endDate: "2025-01-01",
+    startDate: START_DATE,
+    endDate: END_DATE,
     payPartnerServiceId: "MTNMOMGH0233SC1001000101"
   })
 
-  // Fetch data on page load
+
+
+  // Fetch data only when submitted
   const { data, isLoading: isQueryLoading, error: queryError } = useQuery({
-    queryKey: ["transactions", searchFilter],
-    queryFn: () => getTransactions(searchFilter),
-    enabled: !!searchFilter, // Ensures the query runs only if `searchFilter` is not null/undefined
+    queryKey: ["transactions", submittedFilter], // Use submittedFilter instead of searchFilter
+    queryFn: () => getTransactions(submittedFilter),
+     // enabled: !!submittedFilter, // Run only when submittedFilter is set
   });
 
     // Fetch merchant services
     const {
       data: merchantServicesData,
-      isLoading: isMerchantServicesLoading,
+      isLoading: isMerchantServicesLoading, 
       error: merchantServicesError,
     } = useQuery({
       queryKey: ["merchantServices"],
       queryFn: getMerchantServices, // No arguments passed if none are needed
     });
 
-  // Mutate data when user submits a form
-  const { mutate, isLoading: isMutationLoading, error: mutationError } = useMutation({
-    mutationFn: (filter) => getTransactions(filter),
-  });
 
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -197,13 +204,15 @@ const BizCollect: NextPageWithLayout = (props) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    mutate(searchFilter); // Manually trigger mutation with the current filter
+    setSubmittedFilter(searchFilter);
+    // mutate(searchFilter); // Manually trigger mutation with the current filter
   };
 
   //Server-render loading state
   if (!isStoreReady) {
     return <GlobalLoader />
   }
+
 
   const transactions: Transaction = data?.data || [];
   const merchantServices = data?.merchantServices || [];
@@ -374,7 +383,7 @@ const BizCollect: NextPageWithLayout = (props) => {
               className: "align-middle",
             }}
             loading={isQueryLoading}
-            noItemsLabel={isQueryLoading ? "Loading...." : <NoItemsLabel onMouseUp={() => { }} />}
+            noItemsLabel={(transactions?.accountTransactions?.length <= 0 && !isQueryLoading ) && <NoItemsLabel onMouseUp={() => { }} />}
           />
         </CCard>
       </CContainer>

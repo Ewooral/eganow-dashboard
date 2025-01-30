@@ -7,11 +7,11 @@ const NoItemsLabel = (props: { onMouseUp: React.MouseEvent<HTMLButtonElement> })
     <CAlert color="danger" className="d-flex align-items-center m-0 rounded-0">
       <CIcon icon={cilBurn} className="flex-shrink-0 me-2" width={24} height={24} />
       <div className="me-3">No record found.</div>
-      {typeof props.onMouseUp === 'function' ? (
+      {/* {typeof props.onMouseUp === 'function' ? (
         <CButton id="new" variant="outline" color="danger" onMouseUp={props.onMouseUp}>
           Add new
         </CButton>
-      ) : null}
+      ) : null} */}
     </CAlert>
   )
 }

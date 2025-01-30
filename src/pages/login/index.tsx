@@ -154,6 +154,9 @@ const Login = (props) => {
         password: data.password,
       })
 
+      // SETTING ITS APPROVED VALUE
+      localStorage.setItem('isApproved',response.data.isApproved)
+
       if (response.data.passwordStatus === 'TEMPORAL') {
         //Encrypting the email address.
         const encryptedEmail = await CryptoJS.DES.encrypt(

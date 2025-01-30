@@ -69,6 +69,7 @@ const Entry: NextPageWithLayout = (props) => {
   const [activeKey, setActiveKey] = useState(1)
   const [isEditable, setIsEditable] = useState(false)
   const [allowToEdit, setAllowToEdit] = useState(false)
+  const [isUserApproved, setIsUserApproved] = useState(null)
   //STORE
   const showSnackbar = useSnackbar((state: any) => state.showSnackbar)
   //APIs
@@ -134,6 +135,9 @@ const Entry: NextPageWithLayout = (props) => {
   })
 
   useEffect(() => {
+    let getIsApproved = localStorage.getItem('isApproved')
+    console.log(getIsApproved)
+    setIsUserApproved(getIsApproved)
     if (businessInfo?.error?.message) {
       showSnackbar({
         type: 'danger',
@@ -179,7 +183,7 @@ const Entry: NextPageWithLayout = (props) => {
       fileInputType.click()
     }
 
-    fileInputType.addEventListener('change', () => {}, false)
+    fileInputType.addEventListener('change', () => { }, false)
   }
 
   return (
@@ -200,7 +204,8 @@ const Entry: NextPageWithLayout = (props) => {
             </div>
 
             <div>
-              <CButton
+
+              {isUserApproved == 'true' ? "" : <CButton
                 color="danger"
                 className="bg-white text-black"
                 onMouseUp={() => setIsEditable((prev) => !prev)}
@@ -216,14 +221,14 @@ const Entry: NextPageWithLayout = (props) => {
                     Edit
                   </div>
                 )}
-              </CButton>
+              </CButton>}
             </div>
           </div>
         </div>
       </div>
 
       <div className="position-relative px-4 px-sm-5" style={{ marginTop: '-2.1rem' }}>
-        {allowToEdit && (
+        {isUserApproved == "false" && (
           <CAlert
             color="danger"
             variant="outlined"
@@ -231,7 +236,7 @@ const Entry: NextPageWithLayout = (props) => {
             dismissible
           >
             <CIcon icon={cilBurn} className="flex-shrink-0 me-2" width={24} height={24} />
-            <div>Please update your info to complete your registration.</div>
+            <div>Please update all your info to complete your registration.</div>
           </CAlert>
         )}
 
@@ -330,7 +335,7 @@ const Entry: NextPageWithLayout = (props) => {
                       className="mb-3"
                       name="country"
                       handleForm={{ control }}
-                      callback={() => {}}
+                      callback={() => { }}
                       shouldValidate={false}
                     />
                   </div>
