@@ -250,3 +250,8 @@ export enum CustomerStatus {
   CUSTOMER_STATUS_ACTIVE = 1,
   CUSTOMER_STATUS_PENDING = 2,
 }
+
+
+export const REGULATOR_ID = [
+  "GH0233RG0001"
+]
