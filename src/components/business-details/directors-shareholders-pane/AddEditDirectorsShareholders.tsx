@@ -103,8 +103,6 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
         directorOrShareholderOrOtherType,
       } = props?.data
 
-      console.log(identification)
-
       //Assigning user data to useForm values
       setValue('directorId', directorId)
       setValue('firstName', firstName)

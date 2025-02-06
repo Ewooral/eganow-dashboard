@@ -136,7 +136,6 @@ const Entry: NextPageWithLayout = (props) => {
 
   useEffect(() => {
     let getIsApproved = localStorage.getItem('isApproved')
-    console.log(getIsApproved)
     setIsUserApproved(getIsApproved)
     if (businessInfo?.error?.message) {
       showSnackbar({

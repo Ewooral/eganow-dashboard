@@ -33,7 +33,7 @@ import { generateOptions } from '@/helpers'
 import { BusinessInfoFormData, BusinessInfoPaneProps } from '@/types/BusinessInfoType'
 import Placeholder from './Placeholder'
 import merchantBusinessInfoAPI from '@/api/merchantBusinessInfoAPI'
-import { COMPANY_REGISTRATION_TYPE_OPTIONS, DATE_FORMAT, NOT_APPLICABLE } from '@/constants'
+import { COMPANY_REGISTRATION_TYPE_OPTIONS, DATE_FORMAT, NOT_APPLICABLE , REGULATOR_ID} from '@/constants'
 /*
  *
  * Business Info Component
@@ -47,7 +47,7 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
   //Snackbar from zustand store
   const showSnackbar = useSnackbar((state: any) => state.showSnackbar)
   //UseForm
-  const { register, reset, getValues, handleSubmit, setValue, clearErrors, formState } = useForm({
+  const { register, reset, getValues,watch, handleSubmit, setValue, clearErrors, formState } = useForm({
     resolver: yupResolver(validationSchema),
     mode: 'onChange',
     defaultValues: defaultFormValues,
@@ -124,6 +124,11 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
     const formattedDate = dateValue?.split('T')[0]
     setValue(name, formattedDate, { shouldValidate: true })
   }
+
+  // CHECKING AND SETTING NOT-REGULATED BUSINESS 
+  const regulatorId = watch("regulatorId");
+  const notRegulated:boolean = regulatorId === REGULATOR_ID[0]
+
 
   async function onSubmit(values: BusinessInfoFormData) {
     try {
@@ -555,121 +560,129 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                   )}
                 </CCol>
 
-                <CCol xs={12} className="mt-3">
-                  <CFormLabel
-                    htmlFor="licenseNumber"
-                    className={clsx({
-                      'text-error': !!formState.errors?.licenseNumber,
-                    })}
-                  >
-                    <strong>License Number</strong>
-                  </CFormLabel>
-                  {props.isEditable ? (
-                    <>
-                      <CFormInput
-                        type="text"
-                        id="licenseNumber"
-                        placeholder="Enter license number."
-                        {...register('licenseNumber')}
-                        invalid={!!formState.errors?.licenseNumber && true}
-                      />
-                      <CFormText
-                        component="span"
+                {
+                  notRegulated ?"" :
+
+                  <>
+                  {/* license number */}
+                  <CCol xs={12} className="mt-3">
+                    <CFormLabel
+                      htmlFor="licenseNumber"
+                      className={clsx({
+                        'text-error': !!formState.errors?.licenseNumber,
+                      })}
+                    >
+                      <strong>License Number</strong>
+                    </CFormLabel>
+                    {props.isEditable ? (
+                      <>
+                        <CFormInput
+                          type="text"
+                          id="licenseNumber"
+                          placeholder="Enter license number."
+                          {...register('licenseNumber')}
+                          invalid={!!formState.errors?.licenseNumber && true}
+                        />
+                        <CFormText
+                          component="span"
+                          className={clsx({
+                            'text-error': true,
+                            'd-none': !!formState.errors?.licenseNumber ? false : true,
+                          })}
+                        >
+                          License number is required.
+                        </CFormText>
+                      </>
+                    ) : (
+                      <p className=" m-0 ">
+                        {props?.businessInfoData?.data?.data.licenseInfo?.number}
+                      </p>
+                    )}
+                  </CCol>
+
+
+                  <CRow className=" mt-3">
+                    <CCol xs={12} sm={6}>
+                      <CFormLabel
+                        htmlFor="licenseIssueDate"
                         className={clsx({
-                          'text-error': true,
-                          'd-none': !!formState.errors?.licenseNumber ? false : true,
+                          'text-error': !!formState.errors?.licenseIssueDate,
                         })}
                       >
-                        License number is required.
-                      </CFormText>
-                    </>
-                  ) : (
-                    <p className=" m-0 ">
-                      {props?.businessInfoData?.data?.data.licenseInfo?.number}
-                    </p>
-                  )}
-                </CCol>
+                        <strong>License Issued Date</strong>
+                      </CFormLabel>
+                      {props.isEditable ? (
+                        <>
+                          <CDatePicker
+                            inputReadOnly
+                            id="licenseIssueDate"
+                            locale="en-US"
+                            date={
+                              getValues('licenseIssueDate') === 'N/A'
+                                ? new Date()
+                                : getValues('licenseIssueDate')
+                            }
+                            onDateChange={(date) => handleDateChange('licenseIssueDate', date)}
+                            {...register('licenseIssueDate')}
+                            invalid={!!formState.errors?.licenseIssueDate && true}
+                          />
+                          <CFormText
+                            component="span"
+                            className={clsx({
+                              'text-error': true,
+                              'd-none': !!formState.errors?.licenseIssueDate ? false : true,
+                            })}
+                          >
+                            License issued date is required.
+                          </CFormText>
+                        </>
+                      ) : (
+                        <p className="m-0 pb-1">{licenseIssueDate}</p>
+                      )}
+                    </CCol>
+                    <CCol xs={12} sm={6}>
+                      <CFormLabel
+                        htmlFor="licenseExpiryDate"
+                        className={clsx({
+                          'text-error': !!formState.errors?.licenseExpiryDate,
+                        })}
+                      >
+                        <strong>License Expiry Date</strong>
+                      </CFormLabel>
+                      {props.isEditable ? (
+                        <>
+                          <CDatePicker
+                            inputReadOnly
+                            id="licenseExpiryDate"
+                            locale="en-US"
+                            minDate={new Date()}
+                            date={
+                              getValues('licenseExpiryDate') === 'N/A'
+                                ? new Date()
+                                : getValues('licenseExpiryDate')
+                            }
+                            {...register('licenseExpiryDate')}
+                            onDateChange={(date) => handleDateChange('licenseExpiryDate', date)}
+                            invalid={!!formState.errors?.licenseExpiryDate && true}
+                          />
 
-                <CRow className=" mt-3">
-                  <CCol xs={12} sm={6}>
-                    <CFormLabel
-                      htmlFor="licenseIssueDate"
-                      className={clsx({
-                        'text-error': !!formState.errors?.licenseIssueDate,
-                      })}
-                    >
-                      <strong>License Issued Date</strong>
-                    </CFormLabel>
-                    {props.isEditable ? (
-                      <>
-                        <CDatePicker
-                          inputReadOnly
-                          id="licenseIssueDate"
-                          locale="en-US"
-                          date={
-                            getValues('licenseIssueDate') === 'N/A'
-                              ? new Date()
-                              : getValues('licenseIssueDate')
-                          }
-                          onDateChange={(date) => handleDateChange('licenseIssueDate', date)}
-                          {...register('licenseIssueDate')}
-                          invalid={!!formState.errors?.licenseIssueDate && true}
-                        />
-                        <CFormText
-                          component="span"
-                          className={clsx({
-                            'text-error': true,
-                            'd-none': !!formState.errors?.licenseIssueDate ? false : true,
-                          })}
-                        >
-                          License issued date is required.
-                        </CFormText>
-                      </>
-                    ) : (
-                      <p className="m-0 pb-1">{licenseIssueDate}</p>
-                    )}
-                  </CCol>
-                  <CCol xs={12} sm={6}>
-                    <CFormLabel
-                      htmlFor="licenseExpiryDate"
-                      className={clsx({
-                        'text-error': !!formState.errors?.licenseExpiryDate,
-                      })}
-                    >
-                      <strong>License Expiry Date</strong>
-                    </CFormLabel>
-                    {props.isEditable ? (
-                      <>
-                        <CDatePicker
-                          inputReadOnly
-                          id="licenseExpiryDate"
-                          locale="en-US"
-                          minDate={new Date()}
-                          date={
-                            getValues('licenseExpiryDate') === 'N/A'
-                              ? new Date()
-                              : getValues('licenseExpiryDate')
-                          }
-                          {...register('licenseExpiryDate')}
-                          onDateChange={(date) => handleDateChange('licenseExpiryDate', date)}
-                          invalid={!!formState.errors?.licenseExpiryDate && true}
-                        />
-
-                        <CFormText
-                          component="span"
-                          className={clsx({
-                            'text-error': true,
-                            'd-none': !!formState.errors?.licenseExpiryDate ? false : true,
-                          })}
-                        >
-                          License expiry date is required.
-                        </CFormText>
-                      </>
-                    ) : (
-                      <p className="m-0 pb-1">{licenseExpiryDate}</p>
-                    )}
-                  </CCol>
-                </CRow>
+                          <CFormText
+                            component="span"
+                            className={clsx({
+                              'text-error': true,
+                              'd-none': !!formState.errors?.licenseExpiryDate ? false : true,
+                            })}
+                          >
+                            License expiry date is required.
+                          </CFormText>
+                        </>
+                      ) : (
+                        <p className="m-0 pb-1">{licenseExpiryDate}</p>
+                      )}
+                    </CCol>
+                  </CRow>
+                  </>
+                }
               </fieldset>
             </CCol>
           </CRow>

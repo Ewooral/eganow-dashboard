@@ -307,6 +307,8 @@ const Register = () => {
       setLoading(true)
       //Log merchant in
       const response = await loginMerchant({ email, password })
+
+      localStorage.setItem('isApproved',response.data.isApproved)
       //If accessToken exist on success then log user in.
       if (response?.data.accessToken) {
         //Storing login authentication in cookie
