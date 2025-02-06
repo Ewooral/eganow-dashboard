@@ -155,6 +155,7 @@ const Attachments = (props) => {
 
         const response = await addBusinessDocument({
           document: selectedFile,
+        name : selectedFile.name
         })
 
         showSnackbar({

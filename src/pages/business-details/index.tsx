@@ -202,7 +202,7 @@ const Entry: NextPageWithLayout = (props) => {
               <AppBreadcrumb name="Ffsggg" />
             </div>
 
-            <div>
+            <div className='align-self-end'>
 
               {isUserApproved == 'true' ? "" : <CButton
                 color="danger"
@@ -217,7 +217,7 @@ const Entry: NextPageWithLayout = (props) => {
                 ) : (
                   <div className="d-flex align-items-center gap-2">
                     <FaEdit style={{ fontSize: '1.2rem' }} />
-                    Edit
+                    Edit Details
                   </div>
                 )}
               </CButton>}
@@ -229,7 +229,7 @@ const Entry: NextPageWithLayout = (props) => {
       <div className="position-relative px-4 px-sm-5" style={{ marginTop: '-2.1rem' }}>
         {isUserApproved == "false" && (
           <CAlert
-            color="danger"
+            color="info"
             variant="outlined"
             className="d-flex align-items-center"
             dismissible
@@ -240,8 +240,9 @@ const Entry: NextPageWithLayout = (props) => {
         )}
 
         <CRow className="justify-content-between mb-5 gap-4">
+        {/* style={{ minHeight: '79.3vh' }} */}
           <CCol>
-            <CCard className="p-2 me-1 rounded shadow-none" style={{ minHeight: '79.3vh' }}>
+            <CCard className="p-2 me-1 rounded shadow-none" >
               <CRow className="justify-content-center p-4">
                 <div className="company-logo position-relative">
                   <CIcon icon={cilIndustry} style={{ height: '100%', width: 'auto' }} />
@@ -344,7 +345,8 @@ const Entry: NextPageWithLayout = (props) => {
           </CCol>
 
           <CCol lg={9}>
-            <CCard className="px-0 pt-4 me-1 rounded shadow-none" style={{ minHeight: '79.3vh' }}>
+          {/* style={{ minHeight: '79.3vh' }} */}
+            <CCard className="px-0 pt-4 me-1 rounded shadow-none" >
               <div className="w-100 overflow-y-hidden overflow-x-auto">
                 <CNav variant="underline" className="mb-4 w-100">
                   <CNavItem>
