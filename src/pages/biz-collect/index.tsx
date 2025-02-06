@@ -87,8 +87,8 @@ const BizCollect: NextPageWithLayout = (props) => {
    *
    * @type {ApiResponseBizCollectData}
    */
-  const paymentMethodsObj: ApiResponseBizCollectData = data
-  const paymentMethod = paymentMethodsObj?.data.paymentMethods[selectedType] || []
+  // const paymentMethodsObj: ApiResponseBizCollectData = data
+  const paymentMethod = analytics?.paymentMethods[selectedType] || []
 
   const handleDropdownChange = (type: 'collection' | 'payout') => {
     setSelectedType(type)
