@@ -152,8 +152,8 @@ const BizCollect: NextPageWithLayout = (props) => {
   const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
   const START_DATE = formatDate_util(lastMonth, 'yyyy-MM-dd')
   const END_DATE = formatDate_util(today, 'yyyy-MM-dd')
-  console.log(START_DATE)
-  console.log(END_DATE)
+  // console.log(START_DATE)
+  // console.log(END_DATE)
 
   const isStoreReady = useStoreReady()
 
@@ -184,7 +184,7 @@ const BizCollect: NextPageWithLayout = (props) => {
     // Fetch merchant services
     const {
       data: merchantServicesData,
-      isLoading: isMerchantServicesLoading, 
+      isLoading: isMerchantServicesLoading,
       error: merchantServicesError,
     } = useQuery({
       queryKey: ["merchantServices"],

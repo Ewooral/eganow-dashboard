@@ -1,23 +1,43 @@
-import axios from "axios";
-// @ts-ignore
-import Cookies from "js-cookie";
-import { EGANOW_AUTH_COOKIE } from "@/constants";
+import axios from 'axios'
+//@ts-ignore
+import Cookies from 'js-cookie'
+import { isEmpty_util } from '@/util'
+import { EGANOW_AUTH_COOKIE, HTTP_ERROR_CODES } from '@/constants'
+import Router from 'next/router' // ✅ Use Router directly
 
-const baseURL = process.env.NEXT_PUBLIC_API_URL ;
-const tokenString = Cookies.get(EGANOW_AUTH_COOKIE);
-
-let token = "";
-if (tokenString) {
-  const tokenObject = JSON.parse(tokenString);
-  token = tokenObject.accessToken;
+// ✅ Function to get the token
+const getAuthToken = () => {
+  const token = Cookies.get(EGANOW_AUTH_COOKIE) // ✅ Get token from js-cookie
+  return isEmpty_util(token) ? '' : JSON.parse(token)?.accessToken // ✅ Ensure correct parsing
 }
 
-const axiosInstance = axios.create({
-  baseURL,
+// ✅ Create the Axios instance
+const axiosBizCollectInstance = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
+    'Content-Type': 'application/json',
   },
-});
+})
 
-export default axiosInstance;
+// ✅ Attach token dynamically before every request
+axiosBizCollectInstance.interceptors.request.use((config) => {
+  const token = getAuthToken()
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+})
+
+// ✅ Handle unauthorized response
+axiosBizCollectInstance.interceptors.response.use(
+  (response) => response?.data,
+  async (error) => {
+    if (error?.response?.status === HTTP_ERROR_CODES.UNAUTHORIZED) {
+      await Router.push('/login') // ✅ Redirect on unauthorized access
+    }
+    return Promise.reject(error)
+  }
+)
+
+// ✅ Export the instance
+export default axiosBizCollectInstance

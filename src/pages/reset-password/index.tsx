@@ -24,13 +24,14 @@ import * as yup from 'yup'
 import logo_compact from '@/public/brand/eganow-colored-logo.svg'
 import { PASSWORD_REGEX } from '@/constants'
 import CryptoJS from 'crypto-js'
-import { ForgotPasswordErrors } from '@/types/Errors'
+import {AxiosErrorType, ForgotPasswordErrors} from '@/types/Errors'
 import { useRouter } from 'next/router'
 /* API */
 import authAPI from '@/api/authAPI'
 /* CONSTANT */
 import { EGANOW_AUTH_COOKIE, EGANOW_REMEMBER_ME_COOKIE } from '@/constants'
 import { useCookies } from 'react-cookie'
+import {handleAxiosError} from "@/util";
 
 const vars: object = {
   '--cui-btn-color': 'white',
@@ -114,13 +115,8 @@ export default function ResetPassword(props) {
       //Resetting form with same data to stop its isSubmitting state
       reset(data)
     } catch (error: any) {
-      if (error.name === 'RpcError') {
-        //setting rpc errors
-        setErrors({
-          message: error.metadata['grpc-message'],
-        })
-        return
-      }
+      const errorMessage = handleAxiosError(error as AxiosErrorType)
+      setErrors({ message: errorMessage })
       //Logging general error
       console.error(error)
     }

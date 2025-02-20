@@ -2,6 +2,7 @@
 import Numeral from 'numeral'
 import { format } from 'date-fns'
 import { Children } from 'react'
+import {AxiosErrorType} from "@/types/Errors";
 
 /**
  * Capitalize first letter
@@ -373,3 +374,39 @@ export const  toDataUrl_util = (url, callback)=> {
 export function RoundValue(value: number){
   return Math.round(value * 100) / 100
 }
+
+
+
+
+/**
+ * Extracts a meaningful error message from AxiosError.
+ * - Handles different response formats.
+ * - Catches network errors when no response is received.
+ */
+export const handleAxiosError = (error: AxiosErrorType): string => {
+  if (error.response) {
+    const { data, status, statusText } = error.response;
+
+    // Case 1: API provides a direct error message
+    if (data?.message) return `Error ${status}: ${data.message}`;
+
+    // Case 2: API returns multiple errors in an `errors` object
+    if (data?.errors) {
+      return Object.entries(data.errors)
+        .map(([field, messages]) => `${field}: ${messages.join(", ")}`)
+        .join("\n");
+    }
+
+    // Case 3: API does not provide a message but has a status
+    return `Error ${status}: ${statusText || "Something went wrong."}`;
+  }
+
+  // Case 4: Network error (no response)
+  if (error.request) {
+    return "Network error: Unable to reach the server. Please check your connection.";
+  }
+
+  // Case 5: Unknown error
+  return error.message || "An unexpected error occurred.";
+};
+

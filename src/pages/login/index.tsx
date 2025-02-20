@@ -50,10 +50,10 @@ import logoIcon from '@/public/images/EganowLogo.png'
 import logoIconwhite from '@/public/images/eganowlogowhite.png'
 import CryptoJS from 'crypto-js'
 /* UTILITY */
-import { capitalizeFirstLetter_util } from '@/util'
+import {capitalizeFirstLetter_util, handleAxiosError} from '@/util'
 
 import { LoginInputType } from '@/types/Users'
-import { LoginInputErrors } from '@/types/Errors'
+import {AxiosErrorType, LoginInputErrors} from '@/types/Errors'
 import { Icon } from '@/components/IconsView'
 import ResetPassword from '@/components/forgotPassword/ResetPassword'
 
@@ -186,7 +186,7 @@ const Login = (props) => {
           maxAge: 30 * 60 * 24,
         })
         //Routing to the intermediate page when logged in.
-        await router.push('/')
+        await router.push('/business-details')
         //Exit onSubmit function.
         return
       }
@@ -194,14 +194,19 @@ const Login = (props) => {
       reset(data)
     } catch (error) {
       //Handling errors.
-      if (error?.response) {
-        setErrors({
-          message: error?.response.data.message,
-        })
-        return
-      }
+      // if (error?.response) {
+      //   // console.log("errors bebreee", error)
+      //   setErrors({
+      //     message: error?.response.data.message,
+      //   })
+      //   return
+      // }
+      const errorMessage = handleAxiosError(error as AxiosErrorType);
+      setErrors({ message: errorMessage });
+
+
       //Logging general error.
-      console.error(error)
+      console.error("Error Details:", error);
     }
   }
 

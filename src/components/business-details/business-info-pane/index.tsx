@@ -129,7 +129,7 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
   const regulatorId = watch("regulatorId");
   const notRegulated: boolean = regulatorId === REGULATOR_ID[0]
 
-
+  
   async function onSubmit(values: BusinessInfoFormData) {
     try {
       //Getting all the param
