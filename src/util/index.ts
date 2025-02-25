@@ -388,7 +388,7 @@ export const handleAxiosError = (error: AxiosErrorType): string => {
     const { data, status, statusText } = error.response;
 
     // Case 1: API provides a direct error message
-    if (data?.message) return `Error ${status}: ${data.message}`;
+    if (data?.message) return `${data.message}`;
 
     // Case 2: API returns multiple errors in an `errors` object
     if (data?.errors) {

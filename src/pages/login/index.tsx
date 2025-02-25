@@ -186,7 +186,7 @@ const Login = (props) => {
           maxAge: 30 * 60 * 24,
         })
         //Routing to the intermediate page when logged in.
-        await router.push('/business-details')
+        await router.push('/')
         //Exit onSubmit function.
         return
       }

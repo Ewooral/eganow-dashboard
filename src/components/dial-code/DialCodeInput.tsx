@@ -37,7 +37,7 @@ const DialCode = (props: any) => {
     staleTime: 5000,
   })
 
- 
+
   function handleFlagChange(country:countryOptionType) {
     const { id, value, dataset } = event.target
 
@@ -50,9 +50,11 @@ const DialCode = (props: any) => {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
+    let newValue = value.replace(/\D/g, '');
+    if (newValue.length > 10) return;
     field.onChange({
       ...field.value,
-      dialNumber: value,
+      dialNumber: newValue,
     })
   }
 
@@ -93,6 +95,8 @@ const DialCode = (props: any) => {
         type="text"
         id={props.name}
         data-name="number"
+        minLength={8}
+        maxLength={10}
         placeholder="e.g 245456897"
         onChange={handleInputChange}
         onBlur={field.onBlur}
@@ -101,6 +105,9 @@ const DialCode = (props: any) => {
         valid={fieldState.isDirty && !!!fieldState.error?.dialNumber ? true : false}
         invalid={!!fieldState.error?.dialNumber && true}
       />
+      {fieldState.error?.dialNumber && (
+        <p className="invalid-feedback text-error d-block smallerFontSize">{fieldState.error.dialNumber.message}</p>
+      )}
     </CInputGroup>
   )
 }

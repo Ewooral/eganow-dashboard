@@ -28,7 +28,7 @@ import { TbEyeClosed } from "react-icons/tb";
 
 import { ImEye } from 'react-icons/im'
 import { useState } from 'react'
-/* 
+/*
 
 
 
@@ -88,10 +88,10 @@ const StepThreePane = (props: any) => {
       </CRow>
 
       <div className="text">
-        <FormattedMessage id="personal_information" defaultMessage={'Personal Information'} />
+        <strong><FormattedMessage id="personal_information" defaultMessage={'Personal Information'} /></strong> <br />
         <FormattedMessage
           id="personal_information_description"
-          defaultMessage={'Enter your personal details in the fields below'}
+          defaultMessage={'\nEnter your personal details in the fields below'}
         />
       </div>
 
@@ -276,8 +276,8 @@ const StepThreePane = (props: any) => {
             })}
 
           >
-            {/* <FormattedMessage 
-            id="password_is_required" 
+            {/* <FormattedMessage
+            id="password_is_required"
             defaultMessage='You have to enter a password' /> */}
             <p style={{fontSize:'12px',marginTop:'2px'}}>{formState?.errors?.password?.message}</p>
           </CFormText>
@@ -342,7 +342,7 @@ const StepThreePane = (props: any) => {
            <FormattedMessage id="next_step" defaultMessage="Next" />
            <FaChevronRight className="ms-2 mb-1" />
          </CButton>
-       </CCol> 
+       </CCol>
       </CRow>
     </>
   )

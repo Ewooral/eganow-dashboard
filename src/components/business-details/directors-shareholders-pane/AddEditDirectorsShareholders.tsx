@@ -174,7 +174,7 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
 
       // IF THE EDIT BUTTON IS CLICKED
       if (props.data?.type === 'edit') {
-      
+
         console.log(param)
         //PASSING VALUES TO API
         const response = await updateDirectorOrShareholder(param)
@@ -355,7 +355,7 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
                   </CFormLabel>
                   <CFormInput
                     id="mobileNumber"
-                    placeholder="Enter your full name."
+                    placeholder="Enter your mobile number."
                     {...register('mobileNumber')}
                     invalid={!!formState.errors?.mobileNumber && true}
                   />
@@ -470,7 +470,7 @@ const AddEditDirectorsShareholders = (props: UserProps) => {
                   </CFormLabel>
                   <CFormInput
                     id="placeOfIssue"
-                    placeholder="Enter your full name."
+                    placeholder="Enter your id's place of issue."
                     {...register('placeOfIssue')}
                     invalid={!!formState.errors?.placeOfIssue && true}
                   />

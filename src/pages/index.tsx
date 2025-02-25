@@ -1,7 +1,10 @@
 // @ts-nocheck
 import type { NextPageWithLayout } from '@/pages/_app'
 /*  */
-import { CCol, CRow, CContainer } from '@coreui/react-pro'
+import {CCol, CRow, CContainer, CFormCheck, CFormSwitch} from '@coreui/react-pro'
+import { CButton, CPopover } from '@coreui/react-pro'
+import { IoIosCloseCircleOutline } from "react-icons/io";
+
 import CIcon from '@coreui/icons-react'
 import { cilIndustry } from '@coreui/icons'
 /* Components */
@@ -21,6 +24,12 @@ import MostUsedFeature from '@/components/MostUsedFeature'
 
 
 import 'react-loading-skeleton/dist/skeleton.css'
+import {usePopoverStore} from "@/store";
+import Hydration from "@/components/Hydration";
+import {
+  stylesPopover, switchBaseStyles,
+  switchCheckedStyles, switchUncheckedStyles
+} from "@/components/GlobalCssObjects";
 
 const features = [
   {
@@ -115,6 +124,11 @@ const Entry: NextPageWithLayout = (props) => {
                 <CIcon icon={cilIndustry} size="xl" />
               </div>
             </CCol>
+            <CCol md="auto" xs="auto" className="mx-auto mx-lg-0 ">
+             <Hydration>
+               <OnboardingPopover />
+             </Hydration>
+            </CCol>
             <CCol md={8}>
               <div className="mt-2">
                 <p className="text-medium-emphasis small m-0">
@@ -154,3 +168,64 @@ const Entry: NextPageWithLayout = (props) => {
 }
 
 export default Entry
+
+
+
+
+
+
+
+const OnboardingPopover = () => {
+  const { dontShowAgain, setDontShowAgain } = usePopoverStore()
+  const [isVisible, setIsVisible] = useState(!dontShowAgain)
+
+  useEffect(() => {
+    if (!dontShowAgain) {
+      setIsVisible(true) // Show on mount if not disabled
+    }
+  }, [dontShowAgain])
+
+  if (!isVisible) return null // Remove from DOM when closed
+
+  return (
+    <div
+      style={stylesPopover.popoverContainer}
+    >
+      {/* Arrow on top */}
+      <div
+        style={stylesPopover.popoverArrow}
+      />
+      {/* Header with Close Button */}
+      <div
+        style={stylesPopover.popoverHeader}
+      >
+        <span>Onboarding Reminder</span>
+        <button
+          onClick={() => setIsVisible(false)}
+          style={stylesPopover.closeButton}
+        >
+          <IoIosCloseCircleOutline className={"f6"} />
+        </button>
+      </div>
+      <div style={{ padding: "10px" }}>
+        <p>
+          Complete your onboarding: Click your profile image and select &apos;Business
+          Details&apos; from the dropdown.
+        </p>
+
+        {/* CoreUI Radio Button */}
+        <CFormSwitch
+          size="xl"
+          label="Don't show again"
+          id="formSwitchCheckDefaultXL"
+          style={{
+            ...switchBaseStyles,
+            ...(dontShowAgain ? switchCheckedStyles : switchUncheckedStyles),
+          }}
+          checked={dontShowAgain}
+          onChange={(e) => setDontShowAgain(e.target.checked)}
+        />
+      </div>
+    </div>
+  );
+};

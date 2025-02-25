@@ -40,6 +40,7 @@
   "first_name": "Prénom",
   "first_name_placeholder": "Entrez votre prénom ici",
   "last_name": "Nom de famille",
+  "mobile_atleast_8_digits": "",
   "last_name_placeholder": "Entrez votre nom de famille ici",
   "mobile_number": "Numéro de téléphone portable",
   "confirm_password": "Confirmer le mot de passe",
