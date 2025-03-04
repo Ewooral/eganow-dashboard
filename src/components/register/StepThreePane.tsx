@@ -160,8 +160,10 @@ const StepThreePane = (props: any) => {
         </CCol>
       </CRow>
 
-      <CRow className="mb-3" xs={{ gutterY: 3, cols: 1 }} md={{ gutterY: 3, cols: 2 }}>
-        <CCol>
+      <CRow className="mb-3" 
+      // xs={{ gutterY: 3, cols: 1 }} md={{ gutterY: 3, cols: 2 }}
+      >
+        {/* <CCol>
           <CFormLabel
             htmlFor="customerMobileNo"
             className={classNames({
@@ -183,7 +185,7 @@ const StepThreePane = (props: any) => {
               defaultMessage="Mobile number is required"
             />
           </CFormText>
-        </CCol>
+        </CCol> */}
         <CCol>
           <CFormLabel
             htmlFor="emailAddress"

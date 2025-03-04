@@ -25,7 +25,7 @@ import { useEffect, useState } from 'react'
 import classNames from 'classnames'
 
 import { GrSave } from 'react-icons/gr'
-import { useSnackbar } from '@/store'
+import { useSnackbar} from '@/store'
 import merchantContactPersonAPI from '@/api/merchantContactPersonAPI'
 import { EMPTY_DEFAULT_OPTION, DIRECTOR_POSITION_OPTIONS } from '@/constants'
 import { generateOptions } from '@/helpers'
@@ -43,6 +43,7 @@ const AddEditContactPerson = (props: UserProps) => {
     defaultValues: defaultFormValues,
   })
   const { addBusinessContactPerson, updateBusinessContactPerson } = merchantContactPersonAPI()
+
 
   useEffect(() => {
     if (props?.data?.type === 'edit') {
@@ -106,7 +107,7 @@ const AddEditContactPerson = (props: UserProps) => {
       } as SnackbarDataType)
     }
   }
-  
+
 
   return (
     <CModal

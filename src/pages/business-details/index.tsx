@@ -2,7 +2,9 @@
 import { useEffect, useState } from 'react'
 import type { NextPageWithLayout } from '@/pages/_app'
 /* ICONS */
+import { IoIosCheckmark } from "react-icons/io";
 import { FaEdit } from 'react-icons/fa'
+import { GoDotFill } from "react-icons/go";
 import { MdOutlineCancel } from 'react-icons/md'
 import { FaFilePdf, FaRegImages } from 'react-icons/fa6'
 import { LuFactory } from 'react-icons/lu'
@@ -27,6 +29,9 @@ import {
   CPlaceholder,
   CCardTitle,
   CAlert,
+  CCardBody
+
+
 } from '@coreui/react-pro'
 import CIcon from '@coreui/icons-react'
 import { cilBurn } from '@coreui/icons'
@@ -48,12 +53,17 @@ import {
 /* HOOKS */
 import { useForm } from 'react-hook-form'
 import { useQueries } from '@tanstack/react-query'
-import { useSnackbar } from '@/store'
+import { usePopoverStore, useSnackbar } from '@/store'
 /* APIs */
 import merchantDocumentsAPI from '@/api/merchantDocumentsAPI'
 import merchantDirectorShareholderAPI from '@/api/merchantDirectorShareholderAPI'
 import merchantContactPersonAPI from '@/api/merchantContactPersonAPI'
 import merchantBusinessInfoAPI from '@/api/merchantBusinessInfoAPI'
+import Hydration from "@/components/Hydration";
+import ClearStorageToggle from '@/components/ClearStorageToggle';
+import useSectionStatus from '@/hooks';
+import { useRouter } from 'next/navigation';
+
 
 export const getServerSideProps = async ({ req }) => {
   const cookies = req.cookies[EGANOW_AUTH_COOKIE] ? JSON.parse(req.cookies[EGANOW_AUTH_COOKIE]) : {}
@@ -72,6 +82,12 @@ const Entry: NextPageWithLayout = (props) => {
   const [isUserApproved, setIsUserApproved] = useState(null)
   //STORE
   const showSnackbar = useSnackbar((state: any) => state.showSnackbar)
+  const updateSectionStatus = usePopoverStore((state) => state.updateSectionStatus)
+  const sections = usePopoverStore((state) => state.sections)
+  const [tabsCompleted, setTabsCompleted] = useState()
+  const completedSections = sections.filter((section) => section.status === "COMPLETED").length;
+
+
   //APIs
   const { listBusinessDocuments } = merchantDocumentsAPI()
   const { getBusinessInfo, getBusinessContactInfo, getBusinessRegulators, getBusinessIndustries } =
@@ -134,6 +150,22 @@ const Entry: NextPageWithLayout = (props) => {
     ],
   })
 
+  useSectionStatus(businessContactPersons.data?.data, "contact-person");
+  useSectionStatus(directorsList.data?.data, "directors");
+  useSectionStatus(businessDocuments.data?.data, "attachments");
+
+  useEffect(() => {
+    if (completedSections) {
+      setTabsCompleted(completedSections)
+    }
+  }, [completedSections, tabsCompleted])
+
+  useEffect(() => {
+    console.log("TABS COMPLETED::: ", tabsCompleted)
+  }, [completedSections, tabsCompleted])
+
+
+
   useEffect(() => {
     let getIsApproved = localStorage.getItem('isApproved')
     setIsUserApproved(getIsApproved)
@@ -183,6 +215,12 @@ const Entry: NextPageWithLayout = (props) => {
     }
 
     fileInputType.addEventListener('change', () => { }, false)
+
+
+    // Get the current count of completed sections
+    // This will return the number of "COMPLETED" sections
+    const completedSections = sections.filter((section) => section.status === "COMPLETED").length;
+
   }
 
   return (
@@ -226,7 +264,7 @@ const Entry: NextPageWithLayout = (props) => {
         </div>
       </div>
 
-      <div className="position-relative px-4 px-sm-5" style={{ marginTop: '-2.1rem' }}>
+      <div className="position-relative px-2 px-sm-5" style={{ marginTop: '-2.1rem' }}>
         {isUserApproved == "false" && (
           <CAlert
             color="info"
@@ -239,10 +277,13 @@ const Entry: NextPageWithLayout = (props) => {
           </CAlert>
         )}
 
-        <CRow className="justify-content-between mb-5 gap-4">
-        {/* style={{ minHeight: '79.3vh' }} */}
+        <CRow className="justify-content-between mb-5 gap-6">
+          {/* style={{ minHeight: '79.3vh' }} */}
           <CCol>
-            <CCard className="p-2 me-1 rounded shadow-none" >
+            <CCard
+              className="p-2 me-1 rounded shadow-none"
+            // style={{ maxHeight: "658px", overflow: "auto" }}
+            >
               <CRow className="justify-content-center p-4">
                 <div className="company-logo position-relative">
                   <CIcon icon={cilIndustry} style={{ height: '100%', width: 'auto' }} />
@@ -250,11 +291,11 @@ const Entry: NextPageWithLayout = (props) => {
                     <span title="Change logo" className="cursor-pointer">
                       <FaEdit
                         className="
-                          position-absolute 
+                          position-absolute
                           bottom-0 start-90
-                          bg-white 
-                          p-2 
-                          rounded-circle 
+                          bg-white
+                          p-2
+                          rounded-circle
                           border
                           border-2
                         "
@@ -339,13 +380,18 @@ const Entry: NextPageWithLayout = (props) => {
                       shouldValidate={false}
                     />
                   </div>
+                  <Separator />
+                  <div className="mb-4 border-top-2">
+                    <TrackTabProgress />
+                  </div>
+                  {/* <ClearStorageToggle /> */}
                 </div>
               </CRow>
             </CCard>
           </CCol>
 
           <CCol lg={9}>
-          {/* style={{ minHeight: '79.3vh' }} */}
+            {/* style={{ minHeight: '79.3vh' }} */}
             <CCard className="px-0 pt-4 me-1 rounded shadow-none" >
               <div className="w-100 overflow-y-hidden overflow-x-auto">
                 <CNav variant="underline" className="mb-4 w-100">
@@ -356,7 +402,7 @@ const Entry: NextPageWithLayout = (props) => {
                   </CNavItem>
                   <CNavItem>
                     <CNavLink href="#2" active={activeKey === 2} onClick={() => setActiveKey(2)}>
-                      <strong>Contact Info</strong>
+                      <strong>Business Contact</strong>
                     </CNavLink>
                   </CNavItem>
                   <CNavItem>
@@ -439,11 +485,114 @@ const Entry: NextPageWithLayout = (props) => {
                 </CTabPane> */}
               </CTabContent>
             </CCard>
+            {
+              tabsCompleted === 5 && (
+                <CRow className="justify-content-center mt-5">
+                  <CCol md={8}>
+                    <CCard className="text-center">
+                      <CCardBody>
+                        <h2 className="mb-3">Welcome Aboard!</h2>
+                        <p className="text-muted">
+                          Congratulations on completing your onboarding! 🎉 <br />
+                          You're now ready to explore all the features we offer.
+                        </p>
+                        <CButton color="primary" onClick={() => navigate('/features')}>
+                          Go to Features Page
+                        </CButton>
+                      </CCardBody>
+                    </CCard>
+                  </CCol>
+                </CRow>
+              )
+            }
           </CCol>
         </CRow>
       </div>
     </EntryLayout>
+
   )
 }
 
 export default Entry
+
+
+
+const StatusColumnForProgressTab = (status: string) => {
+  let bg, color;
+
+  switch (status) {
+    case "COMPLETED":
+      bg = "#badbcb";
+      color = "#198754";
+      break;
+    case "PENDING":
+      bg = "#fed8b8";
+      color = "#fd7e14";
+      break;
+    default:
+      bg = "#f0b3be";
+      color = "#cd0429";
+  }
+
+  return (
+    <span
+      className="d-inline-flex align-items-center rounded-5 px-2 py-1"
+      style={{ color, backgroundColor: bg, fontSize: "12px", fontWeight: "bold" }}
+    >
+      <GoDotFill className="me-1" />
+      {status}
+    </span>
+  );
+};
+
+const TrackTabProgress = () => {
+  const sections = usePopoverStore((state) => state.sections);
+
+  return (
+    <Hydration>
+      <CCol lg={9}>
+        {/* Beautifully Styled Heading */}
+        <div className="mb-4 text-center">
+          <h2 style={{ fontSize: "18px", fontWeight: "bold", color: "#333" }}>
+            Track Tab Progress
+          </h2>
+          <p style={{ fontSize: "12px", color: "#666", marginTop: "-5px" }}>
+            Progress for each info tab is displayed here
+          </p>
+        </div>
+
+        <CNav className="w-100 d-flex flex-column gap-2">
+          {sections.map((section) => (
+            <CNavItem key={section.id}>
+              <CNavLink
+                href="#"
+                className="d-flex justify-content-between align-items-center p-2"
+                style={{
+                  fontSize: "12px",
+                  fontWeight: section.status === "COMPLETED" ? "bold" : "normal",
+                  color: section.status === "COMPLETED" ? "#000" : "#666",
+                  borderBottom: "1px solid #ddd",
+                }}
+              >
+                <span>{section.title}</span>
+                <span>{StatusColumnForProgressTab(section.status)}</span>
+              </CNavLink>
+            </CNavItem>
+          ))}
+        </CNav>
+      </CCol>
+    </Hydration>
+  );
+};
+
+
+const Separator = () => {
+  return (
+    <CRow className="my-4">
+      <CCol>
+        <div className="w-100 border-bottom border-2 border-dark" />
+      </CCol>
+    </CRow>
+  );
+};
+

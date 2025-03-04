@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { defaultFormValues } from './defaultFormValues'
 import { customerInfoSchema } from './validationSchema'
-import { useSnackbar } from '@/store'
+import {usePopoverStore, useSnackbar} from '@/store'
 import { generateOptions } from '@/helpers'
 // IMPORTING API
 import merchantBusinessInfoAPI from '@/api/merchantBusinessInfoAPI'
@@ -43,6 +43,8 @@ const CustomerInfo = (props) => {
     resolver: yupResolver(customerInfoSchema),
     defaultValues: defaultFormValues,
   })
+  const updateSectionStatus = usePopoverStore((state) => state.updateSectionStatus)
+
   // SET FORM FIELD VALUE WHEN COMPONENTS MOUNTS
   useEffect(() => {
     if (props?.contactInfo?.data) {
@@ -85,14 +87,18 @@ const CustomerInfo = (props) => {
         messages: response?.message,
         show: true,
       })
+      updateSectionStatus("business-contact-info", "COMPLETED")
     } catch (err) {
       //Show response on error.
+
       showSnackbar({
         type: 'danger',
         title: 'User Management',
         messages: 'Problem updating contact information.',
         show: true,
       })
+      updateSectionStatus("business-contact-info", "PENDING")
+
     }
   }
 
@@ -338,6 +344,7 @@ const CustomerInfo = (props) => {
                         placeholder={props?.contactInfo?.data?.data.firstOccupancyDate}
                         {...register('firstOccupancyDate')}
                         invalid={!!formState.errors?.firstOccupancyDate}
+                        maxDate={new Date()}
                       />
                       <CFormText
                         component="span"

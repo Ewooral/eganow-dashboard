@@ -410,3 +410,18 @@ export const handleAxiosError = (error: AxiosErrorType): string => {
   return error.message || "An unexpected error occurred.";
 };
 
+
+// Functions to Clear LocalStorage & Cookies
+export const clearLocalStorage = () => {
+  localStorage.clear();
+  console.log("✅ LocalStorage cleared!");
+};
+
+export const clearCookies = () => {
+  document.cookie.split(";").forEach((cookie) => {
+    document.cookie = cookie
+      .replace(/^ +/, "")
+      .replace(/=.*/, `=;expires=${new Date(0).toUTCString()};path=/`);
+  });
+  console.log("✅ Cookies cleared!");
+};

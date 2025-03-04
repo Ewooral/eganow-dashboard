@@ -10,11 +10,11 @@ export const defaultFormValues = {
 
   firstName: '',
   lastName: '',
-  customerMobileNo: {
-    dialFlag: 'https://res.cloudinary.com/eganow/image/upload/v1640022623/Flags/GH0233.png',
-    dialCode: '+233',
-    dialNumber: '',
-  },
+  // customerMobileNo: {
+  //   dialFlag: 'https://res.cloudinary.com/eganow/image/upload/v1640022623/Flags/GH0233.png',
+  //   dialCode: '+233',
+  //   dialNumber: '',
+  // },
   password: '',
 
   businessMobileNo: {
