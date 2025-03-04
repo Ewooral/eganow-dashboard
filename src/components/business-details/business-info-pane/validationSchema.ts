@@ -20,12 +20,14 @@ export const validationSchema = yup.object({
       is: (value:string) => value !== REGULATOR_ID[0],
       then: (schema) => schema.required(),
     }),
-  licenseNumber: yup
-    .string()
-    .when("regulatorId", {
-      is: (value:string) => value !== REGULATOR_ID[0],
-      then: (schema) => schema.required(),
-    }),
+    licenseNumber: yup
+      .string()
+      .nullable()
+      .when("regulatorId", {
+        is: (value: string) => value !== REGULATOR_ID[0],
+        then: (schema) => schema.required("License number is required."),
+        otherwise: (schema) => schema.notRequired().nullable(),
+      }),
   businessName: yup.string().required(),
   taxIdentificationNumber: yup.string().required(),
   tradingName: yup.string().required(),

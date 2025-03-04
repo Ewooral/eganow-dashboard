@@ -28,7 +28,7 @@ import {
   removeUnderscores_util,
   getNameById_util,
 } from '@/util'
-import { useSnackbar } from '@/store'
+import {usePopoverStore, useSnackbar} from '@/store'
 import { generateOptions } from '@/helpers'
 import { BusinessInfoFormData, BusinessInfoPaneProps } from '@/types/BusinessInfoType'
 import Placeholder from './Placeholder'
@@ -43,7 +43,8 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
   const { updateBusinessInfo } = merchantBusinessInfoAPI()
   const [industriesListOptions, setIndustriesListOptions] = useState([])
   const [regulatorsOptions, setRegulatorsOptions] = useState([])
-
+  const updateSectionStatus = usePopoverStore((state) => state.updateSectionStatus)
+  
   //Snackbar from zustand store
   const showSnackbar = useSnackbar((state: any) => state.showSnackbar)
   //UseForm
@@ -125,11 +126,22 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
     setValue(name, formattedDate, { shouldValidate: true })
   }
 
-  // CHECKING AND SETTING NOT-REGULATED BUSINESS 
+  // CHECKING AND SETTING NOT-REGULATED BUSINESS
   const regulatorId = watch("regulatorId");
   const notRegulated: boolean = regulatorId === REGULATOR_ID[0]
 
-  
+
+
+  useEffect(() => {
+    if (notRegulated) {
+      setValue('licenseNumber', null);
+      clearErrors('licenseNumber');
+    }
+  }, [notRegulated, setValue, clearErrors]);
+
+
+
+
   async function onSubmit(values: BusinessInfoFormData) {
     try {
       //Getting all the param
@@ -142,7 +154,7 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
         companyRegistrationType: values.registrationType,
         email: values.registeredEmail,
         licenseInfo: {
-          number: notRegulated ? null : values.licenseNumber,
+          licenseNumber: notRegulated ? null : values.licenseNumber,
           issuedDate: notRegulated ? null : values.licenseIssueDate,
           expiryDate: notRegulated ? null : values.licenseExpiryDate,
         },
@@ -150,11 +162,13 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
         taxIdentificationNumber: values.taxIdentificationNumber,
         vatNumber: values.vatNumber,
       })
-      //Cancel edit mode 
+      //Cancel edit mode
       props.setIsEditable(false)
       //Refetching new data
       props.businessInfoData.refetch()
       //Show response on success.
+      updateSectionStatus("business-info", "COMPLETED")
+
       showSnackbar({
         type: 'success',
         title: 'Business Details',
@@ -163,6 +177,7 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
       })
     } catch (err) {
       //Show response on error.
+      updateSectionStatus("business-info", "PENDING")
       showSnackbar({
         type: 'danger',
         title: 'Business Details',
@@ -428,6 +443,7 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                         onDateChange={(date) => handleDateChange('dateOfIncorporation', date)}
                         {...register('dateOfIncorporation')}
                         invalid={!!formState.errors?.dateOfIncorporation && true}
+                        maxDate={new Date()}
                       />
 
                       <CFormText
@@ -625,6 +641,7 @@ const BusinessInfo = (props: BusinessInfoPaneProps) => {
                                 onDateChange={(date) => handleDateChange('licenseIssueDate', date)}
                                 {...register('licenseIssueDate')}
                                 invalid={!!formState.errors?.licenseIssueDate && true}
+                                maxDate={new Date()}
                               />
                               <CFormText
                                 component="span"

@@ -10,7 +10,7 @@ const AddEditContactPerson = dynamic(
 import Snackbar from '@/components/Snackbar'
 import { CCol, CRow, CSmartTable, CBadge, CButton } from '@coreui/react-pro'
 import { CONTACT_PERSON_POSITION } from '@/constants'
-import { useSnackbar } from '@/store'
+import { useSnackbar, usePopoverStore } from '@/store'
 import { SnackbarDataType } from '@/types/UI'
 import DeleteModal from '@/components/DeleteModal'
 import Confirm from '@/components/Confirm'
@@ -62,6 +62,8 @@ const ContactPerson = (props) => {
   const { showSnackbar } = useSnackbar()
   const { deleteBusinessContactPerson } = merchantContactPersonAPI()
   const contactPersons = props?.contactPersons?.data?.data
+  const updateSectionStatus = usePopoverStore((state) => state.updateSectionStatus)
+
 
   function handleModal(e: React.ChangeEvent<HTMLInputElement>, items): void {
     const { type } = e.currentTarget.dataset
@@ -128,6 +130,7 @@ const ContactPerson = (props) => {
       handleRefresh()
       //Closing modal
       modalClose()
+      updateSectionStatus("contact-person", "PENDING")
     } catch (error) {
       showSnackbar({
         type: 'danger',
