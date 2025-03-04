@@ -28,7 +28,7 @@ import { errorType } from '@/types/Errors'
 import { ProgressBar } from '@/types/CommonDataType'
 /* CONSTANCE */
 import { EGANOW_AUTH_COOKIE } from '@/constants'
-/* 
+/*
 
 
 

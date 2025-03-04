@@ -23,9 +23,10 @@ import * as yup from 'yup'
 import Link from 'next/link'
 import { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { ForgotPasswordErrors } from '@/types/Errors'
+import {AxiosErrorType, ForgotPasswordErrors} from '@/types/Errors'
 /* API */
 import authAPI from '@/api/authAPI'
+import {handleAxiosError} from "@/util";
 
 export const defaultValues = {
   email: '',
@@ -73,7 +74,9 @@ const ForgotPassword = () => {
         setShowFeedback(true)
       }
     } catch (error: any) {
-      setErrors(error)
+      // setErrors(error)
+      const errorMesage = handleAxiosError(error as AxiosErrorType)
+      setErrors({ message: errorMesage })
     }
   }
 
