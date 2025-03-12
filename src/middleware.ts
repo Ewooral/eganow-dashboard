@@ -13,7 +13,7 @@ import { RequestCookie } from 'next/dist/server/web/spec-extension/cookies'
 
 export function middleware(request: NextRequest) {
 
-  const accessToken = request.cookies.get("accessToken")?.name  ;
+  const accessToken = request.cookies.get("accessToken")?.value;
   console.log('token', accessToken)
 
   try {
