@@ -23,9 +23,9 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  /* typescript: {
+   typescript: {
     ignoreBuildErrors: true,
-  }, */
+  },
 
   /* pageExtensions: ['defaultFormValues.ts', 'validationSchema.ts', 'page.ts', 'page.ts'], */
 }
