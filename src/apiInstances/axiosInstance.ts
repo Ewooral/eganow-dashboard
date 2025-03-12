@@ -7,9 +7,16 @@ import Router from 'next/router' // ✅ Use Router directly
 
 // ✅ Function to get the token
 const getAuthToken = () => {
-  const token = Cookies.get(EGANOW_AUTH_COOKIE) // ✅ Get token from js-cookie
-  return isEmpty_util(token) ? '' : JSON.parse(token)?.accessToken // ✅ Ensure correct parsing
+  const token = Cookies.get(EGANOW_AUTH_COOKIE)
+  if (!token) return '' // Return empty string if token is missing
+  try {
+    return JSON.parse(token)?.accessToken || ''
+  } catch (error) {
+    console.error('Invalid token format:', error)
+    return ''
+  }
 }
+
 
 // ✅ Create the Axios instance
 const axiosBizCollectInstance = axios.create({
