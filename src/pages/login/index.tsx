@@ -56,6 +56,7 @@ import { LoginInputType } from '@/types/Users'
 import {AxiosErrorType, LoginInputErrors} from '@/types/Errors'
 import { Icon } from '@/components/IconsView'
 import ResetPassword from '@/components/forgotPassword/ResetPassword'
+import Cookies from "js-cookie";
 
 const vars = {
   '--cui-btn-color': 'white',
@@ -156,6 +157,7 @@ const Login = (props) => {
 
       // SETTING ITS APPROVED VALUE
       localStorage.setItem('isApproved',response.data.isApproved)
+      Cookies.set("accessToken", response.data.accessToken)
 
       if (response.data.passwordStatus === 'TEMPORAL') {
         //Encrypting the email address.

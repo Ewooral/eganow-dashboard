@@ -54,11 +54,9 @@ import { spans } from "next/dist/build/webpack/plugins/profiling-plugin";
 import classNames from "classnames";
 import { Flame } from "lucide-react";
 import NoItemsLabel from "@/components/NoItemsLabel";
-import axiosBizCollectInstance from '@/apiInstances/axiosInstance'
 import {BizCollectDashboardData, FetchDashboardDataParams, Service} from '@/types/BizCollectDataTypes'
 import fetchTransactions from '@/api/merchantAccountTransactionsAPI'
 import { useQuery } from '@tanstack/react-query'
-import { log } from 'console'
 import {fetchDashboardData, fetchServices, normalizeData} from "@/api/dashboardAnalytics";
 
 
