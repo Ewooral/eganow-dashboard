@@ -90,3 +90,48 @@ export interface BizCollectDashboardData {
   }
   settlementTransactions: any[]
 }
+
+
+
+
+export interface BizCollectDashboardData {
+  monthlyBalance: {
+    collection: {
+      availableBalance: number
+      monthlyValues: number[]
+      percentageProgress: number
+      progressType: string
+    }
+    payout: {
+      availableBalance: number
+      monthlyValues: number[]
+      percentageProgress: number
+      progressType: string
+    }
+    commission: {
+      availableBalance: number
+      monthlyValues: number[]
+      percentageProgress: number
+      progressType: string
+    }
+    totalSettlements: {
+      availableBalance: number
+      monthlyValues: number[]
+      percentageProgress: number
+      progressType: string
+    }
+  }
+  transTypeTotalCounts: { name: string; value: number }[]
+  collectionStatistics: { name: string; value: number }[]
+  payoutStatistics: { name: string; value: number }[]
+  paymentMethods: {
+    collection: { name: string; value: number }[]
+    payout: { name: string; value: number }[]
+  }
+  paymentTrends: {
+    collection: number[]
+    payout: number[]
+  }
+  settlementTransactions: any[]
+}
+

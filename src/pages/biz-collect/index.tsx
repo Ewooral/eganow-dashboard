@@ -59,7 +59,7 @@ import {BizCollectDashboardData, FetchDashboardDataParams, Service} from '@/type
 import fetchTransactions from '@/api/merchantAccountTransactionsAPI'
 import { useQuery } from '@tanstack/react-query'
 import { log } from 'console'
-import {fetchDashboardData} from "@/api/dashboardAnalytics";
+import {fetchDashboardData, fetchServices, normalizeData} from "@/api/dashboardAnalytics";
 
 
 export const getServerSideProps = async ({ req }) => {
@@ -94,37 +94,52 @@ const BizCollect: NextPageWithLayout = (props) => {
     endDate: "",
   });
 
-  // Fetch merchant services
-  const { data: merchantService, isSuccess } = useQuery({
-    queryKey: ["merchantService"],
-    queryFn: fetchTransactions().getMerchantServices,
-  });
+  // Fetch services using React Query
+  const {
+    data: servicesResponse,
+    isLoading: isLoadingServices,
+    error: servicesError,
+  } = useQuery({
+    queryKey: ["services"],
+    queryFn: fetchServices,
+  })
 
-  // Set the default selected service when data loads
+  // Extract services array from response
+  const services = servicesResponse?.data || []
+
+  // Auto-select first service when services are loaded
   useEffect(() => {
-    if (merchantService?.data?.length) {
-      setSelectedService(merchantService.data[0]); // Set first service as default
+    if (services.length > 0 && !filters.service) {
+      const firstService = services[0]
+      console.log("Auto-selecting first service:", firstService)
+      setSelectedService(firstService)
+      setFilters((prev) => ({ ...prev, service: firstService.id }))
     }
-  }, [merchantService]);
+  }, [services, filters.service])
 
-  // Ensure filters update when service changes
-  useEffect(() => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      service: selectedService?.id || null,
-    }));
-  }, [selectedService]);
-
-  // Fetch dashboard data based on selected filters
-  const { data: bizCollectDBData, isPending } = useQuery({
-    queryKey: ["dashboardData", filters],
+  // Fetch dashboard data using React Query
+  const {
+    data: bizCollectDBData,
+    isLoading: isLoadingDashboard,
+    error: dashboardError,
+    isPending
+  } = useQuery({
+    queryKey: ["dashboard", filters.service, filters.startDate, filters.endDate],
     queryFn: () => fetchDashboardData(filters),
-    enabled: !!selectedService?.id, // Enable only when selectedService.id is available
-  });
+    enabled: !!filters.service, // Only run query if service is selected
+    select: normalizeData, // Transform the response data
+  })
 
-  const handleServiceChange = useCallback((service: Service) => {
-    setSelectedService(service);
-  }, []);
+  useEffect(() => {
+    console.log("biz collect data", bizCollectDBData)
+  }, [bizCollectDBData]);
+  // Handle service change
+  const handleServiceChange = (service) => {
+
+    setSelectedService(service)
+    setFilters((prev) => ({ ...prev, service: service.id }))
+  }
+
 
 
   // Dynamically select the payment method based on `selectedType`
@@ -211,7 +226,7 @@ const BizCollect: NextPageWithLayout = (props) => {
             </CDropdownToggle>
             <CDropdownMenu>
               {
-                merchantService?.data?.map((service, index) => (
+                servicesResponse?.data?.map((service, index) => (
                   <CDropdownItem key={index} onClick={() => handleServiceChange(service)}>
                     {service.name}
                   </CDropdownItem>
